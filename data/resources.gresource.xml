@@ -6,5 +6,8 @@
     <file compressed="true" preprocess="xml-stripblanks">window.ui</file>
 
     <file compressed="true" alias="style.css">resources/style.css</file>
+
+    <file preprocess="xml-stripblanks">icons/size-horizontally-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/focus-legacy-systray-symbolic.svg</file>
   </gresource>
 </gresources>
