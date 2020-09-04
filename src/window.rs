@@ -5,7 +5,7 @@ use crate::config::{APP_ID, LOG_DOMAIN, PROFILE};
 use crate::window_state;
 
 pub struct Window {
-    pub widget: hdy::ApplicationWindow,
+    pub window: hdy::ApplicationWindow,
 }
 
 impl Window {
@@ -31,6 +31,6 @@ impl Window {
             Inhibit(false)
         });
 
-        Window { widget: window }
+        Window { window }
     }
 }

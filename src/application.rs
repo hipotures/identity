@@ -29,7 +29,7 @@ impl Application {
     fn setup_widgets(&self) {
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/shortcuts.ui");
         let shortcuts: gtk::ShortcutsWindow = builder.get_object("shortcuts").unwrap();
-        self.window.widget.set_help_overlay(Some(&shortcuts));
+        self.window.window.set_help_overlay(Some(&shortcuts));
     }
 
     fn setup_gactions(&self) {
@@ -48,7 +48,7 @@ impl Application {
         // About
         let action = gio::SimpleAction::new("about", None);
         action.connect_activate({
-            let window = self.window.widget.downgrade();
+            let window = self.window.window.downgrade();
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 let builder = gtk::Builder::from_resource(
@@ -69,7 +69,7 @@ impl Application {
     fn setup_signals(&self) {
         self.app.connect_startup(|_| hdy::init());
         self.app.connect_activate({
-            let window = self.window.widget.downgrade();
+            let window = self.window.window.downgrade();
             move |app| {
                 let window = window.upgrade().unwrap();
                 window.set_application(Some(app));
