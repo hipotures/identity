@@ -1,10 +1,11 @@
 use gtk::prelude::*;
+use libhandy as hdy;
 
 use crate::config::{APP_ID, LOG_DOMAIN, PROFILE};
 use crate::window_state;
 
 pub struct Window {
-    pub widget: gtk::ApplicationWindow,
+    pub widget: hdy::ApplicationWindow,
     settings: gio::Settings,
 }
 
@@ -13,7 +14,7 @@ impl Window {
         let settings = gio::Settings::new(APP_ID);
 
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/window.ui");
-        get_widget!(builder, gtk::ApplicationWindow, window);
+        get_widget!(builder, hdy::ApplicationWindow, window);
 
         let window_widget = Window {
             widget: window,

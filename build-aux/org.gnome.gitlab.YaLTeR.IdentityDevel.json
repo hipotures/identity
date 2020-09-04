@@ -29,6 +29,20 @@
     },
     "modules" : [
         {
+            "name" : "libhandy",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dglade_catalog=disabled"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/libhandy.git",
+                    "commit" : "ee49957ab8ff70e547989a53f166b0085c127e6e"
+                }
+            ]
+        },
+        {
             "name" : "identity",
             "buildsystem" : "meson",
             "config-opts" : [

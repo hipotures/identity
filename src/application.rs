@@ -1,5 +1,6 @@
 use gio::prelude::*;
 use gtk::prelude::*;
+use libhandy as hdy;
 use std::env;
 
 use crate::config;
@@ -61,6 +62,7 @@ impl Application {
     }
 
     fn setup_signals(&self) {
+        self.app.connect_startup(|_| hdy::init());
         self.app
             .connect_activate(clone!(@weak self.window.widget as window => move |app| {
                 window.set_application(Some(app));

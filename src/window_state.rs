@@ -1,7 +1,8 @@
 use gio::prelude::SettingsExt;
 use gtk::prelude::GtkWindowExt;
+use libhandy as hdy;
 
-pub fn load(window: &gtk::ApplicationWindow, settings: &gio::Settings) {
+pub fn load(window: &hdy::ApplicationWindow, settings: &gio::Settings) {
     let width = settings.get_int("window-width");
     let height = settings.get_int("window-height");
 
@@ -21,7 +22,7 @@ pub fn load(window: &gtk::ApplicationWindow, settings: &gio::Settings) {
 }
 
 pub fn save(
-    window: &gtk::ApplicationWindow,
+    window: &hdy::ApplicationWindow,
     settings: &gio::Settings,
 ) -> Result<(), glib::BoolError> {
     let size = window.get_size();
