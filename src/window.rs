@@ -14,7 +14,7 @@ impl Window {
         let settings = gio::Settings::new(APP_ID);
 
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/window.ui");
-        get_widget!(builder, hdy::ApplicationWindow, window);
+        let window: hdy::ApplicationWindow = builder.get_object("window").unwrap();
 
         let window_widget = Window {
             widget: window,
@@ -35,13 +35,14 @@ impl Window {
         window_state::load(&self.widget, &self.settings);
 
         // save window state on delete event
-        self.widget.connect_delete_event(
-            clone!(@strong self.settings as settings => move |window, _| {
+        self.widget.connect_delete_event({
+            let settings = self.settings.clone();
+            move |window, _| {
                 if let Err(err) = window_state::save(&window, &settings) {
                     g_warning!(LOG_DOMAIN, "Failed to save window state, {}", err);
                 }
                 Inhibit(false)
-            }),
-        );
+            }
+        });
     }
 }

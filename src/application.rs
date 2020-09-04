@@ -28,47 +28,55 @@ impl Application {
 
     fn setup_widgets(&self) {
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/shortcuts.ui");
-        get_widget!(builder, gtk::ShortcutsWindow, shortcuts);
+        let shortcuts: gtk::ShortcutsWindow = builder.get_object("shortcuts").unwrap();
         self.window.widget.set_help_overlay(Some(&shortcuts));
     }
 
     fn setup_gactions(&self) {
         // Quit
-        action!(
-            self.app,
-            "quit",
-            clone!(@strong self.app as app => move |_, _| {
+        let action = gio::SimpleAction::new("quit", None);
+        action.connect_activate({
+            let app = self.app.downgrade();
+            move |_, _| {
+                let app = app.upgrade().unwrap();
                 app.quit();
-            })
-        );
+            }
+        });
+        self.app.add_action(&action);
         self.app.set_accels_for_action("app.quit", &["<primary>q"]);
 
         // About
-        action!(
-            self.app,
-            "about",
-            clone!(@weak self.window.widget as window => move |_, _| {
-                let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/about_dialog.ui");
-                get_widget!(builder, gtk::AboutDialog, about_dialog);
+        let action = gio::SimpleAction::new("about", None);
+        action.connect_activate({
+            let window = self.window.widget.downgrade();
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+                let builder = gtk::Builder::from_resource(
+                    "/org/gnome/gitlab/YaLTeR/Identity/about_dialog.ui",
+                );
+                let about_dialog: gtk::AboutDialog = builder.get_object("about_dialog").unwrap();
                 about_dialog.set_transient_for(Some(&window));
 
                 about_dialog.connect_response(|dialog, _| dialog.close());
                 about_dialog.show();
-
-            })
-        );
+            }
+        });
+        self.app.add_action(&action);
         self.app
             .set_accels_for_action("win.show-help-overlay", &["<primary>question"]);
     }
 
     fn setup_signals(&self) {
         self.app.connect_startup(|_| hdy::init());
-        self.app
-            .connect_activate(clone!(@weak self.window.widget as window => move |app| {
+        self.app.connect_activate({
+            let window = self.window.widget.downgrade();
+            move |app| {
+                let window = window.upgrade().unwrap();
                 window.set_application(Some(app));
                 app.add_window(&window);
                 window.show_all();
-            }));
+            }
+        });
     }
 
     fn setup_css(&self) {

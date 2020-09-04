@@ -3,9 +3,6 @@ extern crate glib;
 
 use gettextrs::*;
 
-#[macro_use]
-mod utils;
-
 mod application;
 #[rustfmt::skip]
 mod config;
