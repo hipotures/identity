@@ -82,13 +82,19 @@ impl Application {
     }
 
     pub fn run(&self) {
-        info!(
+        g_debug!(
+            config::LOG_DOMAIN,
             "Identity{} ({})",
             config::NAME_SUFFIX,
             config::APP_ID
         );
-        info!("Version: {} ({})", config::VERSION, config::PROFILE);
-        info!("Datadir: {}", config::PKGDATADIR);
+        g_debug!(
+            config::LOG_DOMAIN,
+            "Version: {} ({})",
+            config::VERSION,
+            config::PROFILE
+        );
+        g_debug!(config::LOG_DOMAIN, "Datadir: {}", config::PKGDATADIR);
 
         let args: Vec<String> = env::args().collect();
         self.app.run(&args);

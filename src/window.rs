@@ -1,6 +1,6 @@
 use gtk::prelude::*;
 
-use crate::config::{APP_ID, PROFILE};
+use crate::config::{APP_ID, LOG_DOMAIN, PROFILE};
 use crate::window_state;
 
 pub struct Window {
@@ -37,7 +37,7 @@ impl Window {
         self.widget.connect_delete_event(
             clone!(@strong self.settings as settings => move |window, _| {
                 if let Err(err) = window_state::save(&window, &settings) {
-                    warn!("Failed to save window state, {}", err);
+                    g_warning!(LOG_DOMAIN, "Failed to save window state, {}", err);
                 }
                 Inhibit(false)
             }),
