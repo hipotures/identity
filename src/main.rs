@@ -2,6 +2,7 @@
 extern crate glib;
 
 use gettextrs::*;
+use gstreamer as gst;
 
 mod application;
 #[rustfmt::skip]
@@ -23,6 +24,7 @@ fn main() {
     glib::set_application_name(&format!("Identity{}", config::NAME_SUFFIX));
     glib::set_prgname(Some("identity"));
 
+    gst::init().expect("Unable to start GStreamer");
     gtk::init().expect("Unable to start GTK3");
 
     static_resources::init().expect("Failed to initialize the resource file.");
