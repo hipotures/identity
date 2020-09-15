@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Identity
-Comment=A GTK + Rust application boilerplate template
+Comment=Compare images and videos
 Type=Application
 Exec=identity
 Terminal=false
