@@ -41,6 +41,7 @@ impl Window {
             builder.get_object("adjustment_position").unwrap();
         let stack_title: gtk::Stack = builder.get_object("stack_title").unwrap();
         let stack_mode: gtk::Stack = builder.get_object("stack_mode").unwrap();
+        let revealer_controls: gtk::Revealer = builder.get_object("revealer_controls").unwrap();
 
         // Devel Profile
         if PROFILE == "Devel" {
@@ -137,6 +138,11 @@ impl Window {
                     }
                     MessageView::AsyncDone(_) => {
                         g_debug!(LOG_DOMAIN, "AsyncDone");
+
+                        // If we've opened something with a duration, show the controls.
+                        if self_.pipeline.query_duration::<gst::ClockTime>().is_some() {
+                            revealer_controls.set_reveal_child(true);
+                        }
                     }
                     MessageView::Error(err) => {
                         g_warning!(
