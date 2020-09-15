@@ -1,7 +1,7 @@
 project('identity',
         'rust',
         version: '0.0.1',
-        license: 'MIT',
+        license: 'GPL3+',
   meson_version: '>= 0.50')
 
 i18n = import('i18n')
