@@ -12,6 +12,7 @@
     ],
     "desktop-file-name-suffix" : " (Devel)",
     "finish-args" : [
+        "--env=RUST_BACKTRACE=1",
         "--share=ipc",
         "--socket=fallback-x11",
         "--socket=wayland",
@@ -23,6 +24,7 @@
             "--share=network"
         ],
         "env" : {
+            "G_MESSAGES_DEBUG" : "Identity",
             "RUSTFLAGS" : "--remap-path-prefix =../",
             "CARGO_HOME" : "/run/build/identity/cargo"
         }
