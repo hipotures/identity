@@ -10,5 +10,5 @@ glib = "0.10"
 gio = { version = "0.9", features = ["v2_46"] }
 gdk = "0.13"
 gettext-rs = { version = "0.4", features = ["gettext-system"] }
-libhandy = { git = "https://gitlab.gnome.org/World/Rust/libhandy-rs" }
+libhandy = "0.7.0"
 gstreamer = "0.16.2"
