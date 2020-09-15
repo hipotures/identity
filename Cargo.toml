@@ -12,3 +12,4 @@ gdk = "0.13"
 gettext-rs = { version = "0.4", features = ["gettext-system"] }
 libhandy = "0.7.0"
 gstreamer = "0.16.2"
+pango = "0.9.1"

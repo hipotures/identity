@@ -30,6 +30,8 @@ impl Window {
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/window.ui");
         let window: hdy::ApplicationWindow = builder.get_object("window").unwrap();
         let stack_media: gtk::Stack = builder.get_object("stack_media").unwrap();
+        let stack_switcher_media: gtk::StackSwitcher =
+            builder.get_object("stack_switcher_media").unwrap();
         let button_open: gtk::Button = builder.get_object("button_open").unwrap();
         let button_play_pause: gtk::Button = builder.get_object("button_play_pause").unwrap();
         let button_play_pause_image: gtk::Image =
@@ -187,6 +189,20 @@ impl Window {
                 } else {
                     glib::Continue(false)
                 }
+            }
+        });
+
+        // Add ellipsizing to the stack switcher button labels so long filenames don't cause big
+        // window width requirements.
+        stack_switcher_media.connect_add(|_, radio_button| {
+            // These two downcasts don't fail for me, but this is a GTK implementation detail, so
+            // let's err on the safe side.
+            if let Some(radio_button) = radio_button.downcast_ref::<gtk::RadioButton>() {
+                radio_button.connect_add(|_, label| {
+                    if let Some(label) = label.downcast_ref::<gtk::Label>() {
+                        label.set_ellipsize(pango::EllipsizeMode::Middle);
+                    }
+                });
             }
         });
 

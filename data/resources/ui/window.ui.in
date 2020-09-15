@@ -80,7 +80,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkStackSwitcher">
+                  <object class="GtkStackSwitcher" id="stack_switcher_media">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="stack">stack_media</property>
