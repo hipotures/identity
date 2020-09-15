@@ -1,14 +1,14 @@
 use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy as hdy;
-use std::env;
+use std::{env, rc::Rc};
 
 use crate::config;
 use crate::window::Window;
 
 pub struct Application {
     app: gtk::Application,
-    window: Window,
+    window: Rc<Window>,
 }
 
 impl Application {
@@ -63,6 +63,35 @@ impl Application {
         self.app.add_action(&action);
         self.app
             .set_accels_for_action("win.show-help-overlay", &["<primary>question"]);
+
+        // Switching pages
+        for i in 0..10 {
+            let page = if i == 0 { 10 } else { i };
+            let action_name = format!("switch-to-page-{}", page);
+            let action = gio::SimpleAction::new(&action_name, None);
+            action.connect_activate({
+                let window = Rc::downgrade(&self.window);
+                move |_, _| {
+                    let window = window.upgrade().unwrap();
+                    window.set_visible_child(page);
+                }
+            });
+            self.app.add_action(&action);
+            self.app
+                .set_accels_for_action(&format!("app.{}", action_name), &[i.to_string().as_ref()]);
+        }
+
+        // Open
+        let action = gio::SimpleAction::new("open", None);
+        action.connect_activate({
+            let window = Rc::downgrade(&self.window);
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+                window.show_open_dialog();
+            }
+        });
+        self.app.add_action(&action);
+        self.app.set_accels_for_action("app.open", &["<primary>o"]);
     }
 
     fn setup_signals(&self) {

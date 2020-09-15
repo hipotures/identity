@@ -14,6 +14,13 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
+                                <property name="title" translatable="yes" context="shortcut window">Open image or video</property>
+                                <property name="accelerator">&lt;Primary&gt;O</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="visible">True</property>
                                 <property name="title" translatable="yes" context="shortcut window">Show Shortcuts</property>
                                 <property name="accelerator">&lt;Primary&gt;question</property>
                             </object>
@@ -23,6 +30,19 @@
                                 <property name="visible">True</property>
                                 <property name="title" translatable="yes" context="shortcut window">Quit</property>
                                 <property name="accelerator">&lt;Primary&gt;Q</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkShortcutsGroup">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes" context="shortcut window">Tabbed comparison</property>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes" context="shortcut window">Switch to page</property>
+                                <property name="accelerator">1...9 0</property>
                             </object>
                         </child>
                     </object>
