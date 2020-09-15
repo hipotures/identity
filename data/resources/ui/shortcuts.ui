@@ -21,7 +21,7 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes" context="shortcut window">Show Shortcuts</property>
+                                <property name="title" translatable="yes" context="shortcut window">Show shortcuts</property>
                                 <property name="accelerator">&lt;Primary&gt;question</property>
                             </object>
                         </child>
@@ -37,7 +37,7 @@
                 <child>
                     <object class="GtkShortcutsGroup">
                         <property name="visible">True</property>
-                        <property name="title" translatable="yes" context="shortcut window">Tabbed comparison</property>
+                        <property name="title" translatable="yes" context="shortcut window">Tabbed Comparison</property>
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
