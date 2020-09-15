@@ -13,8 +13,11 @@ pub struct Application {
 
 impl Application {
     pub fn new() -> Self {
-        let app =
-            gtk::Application::new(Some(config::APP_ID), gio::ApplicationFlags::NON_UNIQUE).unwrap();
+        let app = gtk::Application::new(
+            Some(config::APP_ID),
+            gio::ApplicationFlags::NON_UNIQUE | gio::ApplicationFlags::HANDLES_OPEN,
+        )
+        .unwrap();
         let window = Window::new();
 
         let application = Self { app, window };
@@ -96,6 +99,18 @@ impl Application {
 
     fn setup_signals(&self) {
         self.app.connect_startup(|_| hdy::init());
+        self.app.connect_open({
+            let window = Rc::downgrade(&self.window);
+            move |app, files, _| {
+                let window = window.upgrade().unwrap();
+
+                for file in files {
+                    window.add_file(file);
+                }
+
+                app.activate();
+            }
+        });
         self.app.connect_activate({
             let window = self.window.window.downgrade();
             move |app| {

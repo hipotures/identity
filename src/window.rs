@@ -236,7 +236,7 @@ impl Window {
 
                 if response == gtk::ResponseType::Accept {
                     for file in file_chooser.get_files() {
-                        self.add_file(file);
+                        self.add_file(&file);
                     }
                 }
             }
@@ -245,7 +245,7 @@ impl Window {
         file_chooser.show();
     }
 
-    fn add_file(&self, file: gio::File) {
+    pub fn add_file(&self, file: &gio::File) {
         let gtkglsink = gst::ElementFactory::make("gtkglsink", None).unwrap();
         let glsinkbin = gst::ElementFactory::make("glsinkbin", None).unwrap();
         let playbin = gst::ElementFactory::make("playbin3", None).unwrap();

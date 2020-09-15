@@ -2,7 +2,7 @@
 Name=Identity
 Comment=Compare images and videos
 Type=Application
-Exec=identity
+Exec=identity %U
 Terminal=false
 Categories=GNOME;GTK;
 Keywords=Gnome;GTK;
