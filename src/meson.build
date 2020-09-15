@@ -42,7 +42,6 @@ sources = files(
   'main.rs',
   'static_resources.rs',
   'window.rs',
-  'window_state.rs',
 )
 
 custom_target(

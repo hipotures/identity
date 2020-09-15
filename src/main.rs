@@ -10,7 +10,6 @@ mod config;
 #[rustfmt::skip]
 mod static_resources;
 mod window;
-mod window_state;
 
 use application::Application;
 use config::{GETTEXT_PACKAGE, LOCALEDIR};

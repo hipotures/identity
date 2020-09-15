@@ -7,8 +7,7 @@ use gstreamer as gst;
 use gtk::prelude::*;
 use libhandy as hdy;
 
-use crate::config::{APP_ID, LOG_DOMAIN, PROFILE};
-use crate::window_state;
+use crate::config::{LOG_DOMAIN, PROFILE};
 
 pub struct Window {
     pub window: hdy::ApplicationWindow,
@@ -25,8 +24,6 @@ pub struct Window {
 
 impl Window {
     pub fn new() -> Rc<Self> {
-        let settings = gio::Settings::new(APP_ID);
-
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/window.ui");
         let window: hdy::ApplicationWindow = builder.get_object("window").unwrap();
         let stack_media: gtk::Stack = builder.get_object("stack_media").unwrap();
@@ -47,9 +44,6 @@ impl Window {
         if PROFILE == "Devel" {
             window.get_style_context().add_class("devel");
         }
-
-        // Load latest window state
-        window_state::load(&window, &settings);
 
         let pipeline = gst::Pipeline::new(None);
 
@@ -164,11 +158,7 @@ impl Window {
         pipeline.set_state(gst::State::Paused).unwrap();
 
         self_.window.connect_delete_event({
-            move |window, _| {
-                if let Err(err) = window_state::save(&window, &settings) {
-                    g_warning!(LOG_DOMAIN, "Failed to save window state, {}", err);
-                }
-
+            move |_, _| {
                 pipeline.set_state(gst::State::Null).unwrap();
 
                 // This returns Err if called multiple times.
