@@ -108,6 +108,19 @@ impl Application {
         self.app.add_action(&action);
         self.app
             .set_accels_for_action("app.play-pause", &["p", "space"]);
+
+        // Step forward
+        let action = gio::SimpleAction::new("step-forward", None);
+        action.connect_activate({
+            let window = Rc::downgrade(&self.window);
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+                window.step_forward();
+            }
+        });
+        self.app.add_action(&action);
+        self.app
+            .set_accels_for_action("app.step-forward", &["period"]);
     }
 
     fn setup_signals(&self) {

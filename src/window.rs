@@ -285,6 +285,15 @@ impl Window {
             .unwrap();
     }
 
+    pub fn step_forward(&self) {
+        self.pipeline.send_event(gst::event::Step::new(
+            gst::format::Buffers(Some(1)),
+            1.,
+            true,
+            false,
+        ));
+    }
+
     fn refresh_ui(&self) {
         if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
             let nanoseconds = position.nanoseconds().unwrap();
