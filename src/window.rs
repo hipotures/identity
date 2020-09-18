@@ -19,7 +19,6 @@ pub struct Window {
     adjustment_position: gtk::Adjustment,
     adjustment_position_value_changed: glib::SignalHandlerId,
     stack_title: gtk::Stack,
-    stack_mode: gtk::Stack,
 }
 
 impl Window {
@@ -37,7 +36,6 @@ impl Window {
         let adjustment_position: gtk::Adjustment =
             builder.get_object("adjustment_position").unwrap();
         let stack_title: gtk::Stack = builder.get_object("stack_title").unwrap();
-        let stack_mode: gtk::Stack = builder.get_object("stack_mode").unwrap();
         let revealer_controls: gtk::Revealer = builder.get_object("revealer_controls").unwrap();
 
         // Devel Profile
@@ -76,7 +74,6 @@ impl Window {
             adjustment_position,
             adjustment_position_value_changed,
             stack_title,
-            stack_mode,
         });
 
         button_play_pause.connect_clicked({
@@ -265,9 +262,6 @@ impl Window {
             // This is the first file.
             self.stack_title
                 .set_visible_child_name("page_stack_switcher");
-            // Not implemented yet.
-            // self.stack_mode
-            //     .set_visible_child_name("page_buttons");
         }
 
         self.stack_media.add_titled(
