@@ -95,6 +95,19 @@ impl Application {
         });
         self.app.add_action(&action);
         self.app.set_accels_for_action("app.open", &["<primary>o"]);
+
+        // Play / Pause
+        let action = gio::SimpleAction::new("play-pause", None);
+        action.connect_activate({
+            let window = Rc::downgrade(&self.window);
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+                window.play_pause();
+            }
+        });
+        self.app.add_action(&action);
+        self.app
+            .set_accels_for_action("app.play-pause", &["p", "space"]);
     }
 
     fn setup_signals(&self) {

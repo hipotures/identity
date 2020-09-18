@@ -21,6 +21,13 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
+                                <property name="title" translatable="yes" context="shortcut window">Play / Pause</property>
+                                <property name="accelerator">P space</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="visible">True</property>
                                 <property name="title" translatable="yes" context="shortcut window">Show shortcuts</property>
                                 <property name="accelerator">&lt;Primary&gt;question</property>
                             </object>
