@@ -80,14 +80,7 @@ impl Window {
             let self_ = Rc::downgrade(&self_);
             move |_| {
                 let self_ = self_.upgrade().unwrap();
-                self_
-                    .pipeline
-                    .set_state(if self_.pipeline_playing.get() {
-                        gst::State::Paused
-                    } else {
-                        gst::State::Playing
-                    })
-                    .unwrap();
+                self_.play_pause();
             }
         });
 
@@ -280,6 +273,16 @@ impl Window {
 
         self.pipeline.add(&playbin).unwrap();
         playbin.sync_state_with_parent().unwrap();
+    }
+
+    pub fn play_pause(&self) {
+        self.pipeline
+            .set_state(if self.pipeline_playing.get() {
+                gst::State::Paused
+            } else {
+                gst::State::Playing
+            })
+            .unwrap();
     }
 
     fn refresh_ui(&self) {
