@@ -298,8 +298,17 @@ impl Window {
     fn on_bus_message(&self, msg: &gst::Message) -> glib::Continue {
         use gst::MessageView;
         match msg.view() {
-            MessageView::StateChanged(state_changed) => {
-                // g_debug!(LOG_DOMAIN, "StateChanged {:?}", state_changed.get_current());
+            MessageView::StateChanged(state_changed)
+                if state_changed.get_src().as_ref()
+                    == Some(self.pipeline.upcast_ref::<gst::Object>()) =>
+            {
+                g_debug!(
+                    LOG_DOMAIN,
+                    "StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                    state_changed.get_old(),
+                    state_changed.get_current(),
+                    state_changed.get_pending()
+                );
 
                 if state_changed.get_current() == gst::State::Playing {
                     self.pipeline_playing.set(true);
