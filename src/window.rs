@@ -19,6 +19,8 @@ pub struct Window {
     adjustment_position: gtk::Adjustment,
     adjustment_position_value_changed: glib::SignalHandlerId,
     stack_title: gtk::Stack,
+    button_play_pause_image: gtk::Image,
+    revealer_controls: gtk::Revealer,
 }
 
 impl Window {
@@ -74,6 +76,8 @@ impl Window {
             adjustment_position,
             adjustment_position_value_changed,
             stack_title,
+            button_play_pause_image,
+            revealer_controls,
         });
 
         button_play_pause.connect_clicked({
@@ -90,57 +94,7 @@ impl Window {
             let self_ = Rc::downgrade(&self_);
             move |_, msg| {
                 let self_ = self_.upgrade().unwrap();
-
-                use gst::MessageView;
-                match msg.view() {
-                    MessageView::StateChanged(state_changed) => {
-                        // g_debug!(LOG_DOMAIN, "StateChanged {:?}", state_changed.get_current());
-
-                        if state_changed.get_current() == gst::State::Playing {
-                            self_.pipeline_playing.set(true);
-                            button_play_pause_image
-                                .set_property_icon_name(Some("media-playback-pause-symbolic"));
-                        } else {
-                            self_.pipeline_playing.set(false);
-                            button_play_pause_image
-                                .set_property_icon_name(Some("media-playback-start-symbolic"));
-                        }
-                    }
-                    MessageView::DurationChanged(_) => {
-                        g_debug!(LOG_DOMAIN, "DurationChanged");
-                    }
-                    MessageView::Eos(_) => {
-                        g_debug!(LOG_DOMAIN, "Eos");
-
-                        self_
-                            .pipeline
-                            .seek_simple(
-                                gst::SeekFlags::FLUSH | gst::SeekFlags::KEY_UNIT,
-                                gst::ClockTime::from_seconds(0),
-                            )
-                            .unwrap();
-                    }
-                    MessageView::AsyncDone(_) => {
-                        g_debug!(LOG_DOMAIN, "AsyncDone");
-
-                        // If we've opened something with a duration, show the controls.
-                        if self_.pipeline.query_duration::<gst::ClockTime>().is_some() {
-                            revealer_controls.set_reveal_child(true);
-                        }
-                    }
-                    MessageView::Error(err) => {
-                        g_warning!(
-                            LOG_DOMAIN,
-                            "Error from {:?}: {} ({:?})",
-                            err.get_src().map(|s| s.get_path_string()),
-                            err.get_error(),
-                            err.get_debug()
-                        );
-                    }
-                    _ => (),
-                }
-
-                glib::Continue(true)
+                self_.on_bus_message(msg)
             }
         })
         .unwrap();
@@ -334,5 +288,57 @@ impl Window {
                 }
             }
         }
+    }
+
+    fn on_bus_message(&self, msg: &gst::Message) -> glib::Continue {
+        use gst::MessageView;
+        match msg.view() {
+            MessageView::StateChanged(state_changed) => {
+                // g_debug!(LOG_DOMAIN, "StateChanged {:?}", state_changed.get_current());
+
+                if state_changed.get_current() == gst::State::Playing {
+                    self.pipeline_playing.set(true);
+                    self.button_play_pause_image
+                        .set_property_icon_name(Some("media-playback-pause-symbolic"));
+                } else {
+                    self.pipeline_playing.set(false);
+                    self.button_play_pause_image
+                        .set_property_icon_name(Some("media-playback-start-symbolic"));
+                }
+            }
+            MessageView::DurationChanged(_) => {
+                g_debug!(LOG_DOMAIN, "DurationChanged");
+            }
+            MessageView::Eos(_) => {
+                g_debug!(LOG_DOMAIN, "Eos");
+
+                self.pipeline
+                    .seek_simple(
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::KEY_UNIT,
+                        gst::ClockTime::from_seconds(0),
+                    )
+                    .unwrap();
+            }
+            MessageView::AsyncDone(_) => {
+                g_debug!(LOG_DOMAIN, "AsyncDone");
+
+                // If we've opened something with a duration, show the controls.
+                if self.pipeline.query_duration::<gst::ClockTime>().is_some() {
+                    self.revealer_controls.set_reveal_child(true);
+                }
+            }
+            MessageView::Error(err) => {
+                g_warning!(
+                    LOG_DOMAIN,
+                    "Error from {:?}: {} ({:?})",
+                    err.get_src().map(|s| s.get_path_string()),
+                    err.get_error(),
+                    err.get_debug()
+                );
+            }
+            _ => (),
+        }
+
+        glib::Continue(true)
     }
 }
