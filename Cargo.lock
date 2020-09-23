@@ -467,6 +467,7 @@ dependencies = [
  "gstreamer",
  "gtk",
  "libhandy",
+ "once_cell",
  "pango",
 ]
 

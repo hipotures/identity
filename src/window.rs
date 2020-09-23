@@ -6,6 +6,7 @@ use gst::prelude::*;
 use gstreamer as gst;
 use gtk::prelude::*;
 use libhandy as hdy;
+use once_cell::unsync::OnceCell;
 
 use crate::config::{LOG_DOMAIN, PROFILE};
 
@@ -16,7 +17,7 @@ pub struct Window {
     pipeline_playing: Cell<bool>,
     label_current_time: gtk::Label,
     adjustment_position: gtk::Adjustment,
-    adjustment_position_value_changed: glib::SignalHandlerId,
+    adjustment_position_value_changed: OnceCell<glib::SignalHandlerId>,
     stack_title: gtk::Stack,
     button_play_pause_image: gtk::Image,
     revealer_controls: gtk::Revealer,
@@ -46,35 +47,29 @@ impl Window {
 
         let pipeline = gst::Pipeline::new(None);
 
-        let adjustment_position_value_changed = adjustment_position.connect_value_changed({
-            let pipeline = pipeline.downgrade();
-            move |adjustment_position| {
-                let pipeline = pipeline.upgrade().unwrap();
-                if let Some(duration) = pipeline.query_duration::<gst::ClockTime>() {
-                    let value = adjustment_position.get_value();
-
-                    g_debug!(LOG_DOMAIN, "seeking, value: {}", value);
-
-                    let time = gst::ClockTime::from_nseconds(
-                        (value * duration.nseconds().unwrap() as f64) as u64,
-                    );
-                    pipeline.seek_simple(gst::SeekFlags::FLUSH, time).unwrap();
-                }
-            }
-        });
-
         let self_ = Rc::new(Window {
             window,
             stack_media,
             pipeline: pipeline.clone(),
             pipeline_playing: Cell::new(false),
             label_current_time,
-            adjustment_position,
-            adjustment_position_value_changed,
+            adjustment_position: adjustment_position.clone(),
+            adjustment_position_value_changed: OnceCell::new(),
             stack_title,
             button_play_pause_image,
             revealer_controls,
         });
+
+        self_
+            .adjustment_position_value_changed
+            .set(adjustment_position.connect_value_changed({
+                let self_ = Rc::downgrade(&self_);
+                move |adjustment_position| {
+                    let self_ = self_.upgrade().unwrap();
+                    self_.seek(adjustment_position.get_value());
+                }
+            }))
+            .unwrap();
 
         button_play_pause.connect_clicked({
             let self_ = Rc::downgrade(&self_);
@@ -239,6 +234,18 @@ impl Window {
         self.pipeline.set_state(target_state).unwrap();
     }
 
+    fn seek(&self, value: f64) {
+        if let Some(duration) = self.pipeline.query_duration::<gst::ClockTime>() {
+            g_debug!(LOG_DOMAIN, "seeking, value: {}", value);
+
+            let time =
+                gst::ClockTime::from_nseconds((value * duration.nseconds().unwrap() as f64) as u64);
+            self.pipeline
+                .seek_simple(gst::SeekFlags::FLUSH, time)
+                .unwrap();
+        }
+    }
+
     pub fn step_forward(&self) {
         g_debug!(LOG_DOMAIN, "step_forward()");
 
@@ -280,11 +287,10 @@ impl Window {
                 let value =
                     position.nanoseconds().unwrap() as f64 / duration.nanoseconds().unwrap() as f64;
 
-                self.adjustment_position
-                    .block_signal(&self.adjustment_position_value_changed);
+                let value_changed = self.adjustment_position_value_changed.get().unwrap();
+                self.adjustment_position.block_signal(value_changed);
                 self.adjustment_position.set_value(value);
-                self.adjustment_position
-                    .unblock_signal(&self.adjustment_position_value_changed);
+                self.adjustment_position.unblock_signal(value_changed);
             }
         }
     }
@@ -311,12 +317,7 @@ impl Window {
             MessageView::Eos(_) => {
                 g_debug!(LOG_DOMAIN, "Eos");
 
-                self.pipeline
-                    .seek_simple(
-                        gst::SeekFlags::FLUSH | gst::SeekFlags::KEY_UNIT,
-                        gst::ClockTime::from_seconds(0),
-                    )
-                    .unwrap();
+                self.seek(0.);
             }
             MessageView::AsyncDone(_) => {
                 g_debug!(LOG_DOMAIN, "AsyncDone");
