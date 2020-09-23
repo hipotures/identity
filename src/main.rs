@@ -15,6 +15,17 @@ use application::Application;
 use config::{GETTEXT_PACKAGE, LOCALEDIR};
 
 fn main() {
+    // Required for GStreamer on X11.
+    #[cfg(target_os = "linux")]
+    unsafe {
+        #[link(name = "X11")]
+        extern "C" {
+            fn XInitThreads() -> std::os::raw::c_int;
+        }
+
+        XInitThreads();
+    }
+
     // Prepare i18n
     setlocale(LocaleCategory::LcAll, "");
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
