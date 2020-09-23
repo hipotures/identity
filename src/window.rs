@@ -310,14 +310,19 @@ impl Window {
                     state_changed.get_pending()
                 );
 
-                if state_changed.get_current() == gst::State::Playing {
-                    self.pipeline_playing.set(true);
-                    self.button_play_pause_image
-                        .set_property_icon_name(Some("media-playback-pause-symbolic"));
-                } else {
-                    self.pipeline_playing.set(false);
-                    self.button_play_pause_image
-                        .set_property_icon_name(Some("media-playback-start-symbolic"));
+                use gst::State::*;
+                match (state_changed.get_current(), state_changed.get_pending()) {
+                    (Playing, VoidPending) => {
+                        self.pipeline_playing.set(true);
+                        self.button_play_pause_image
+                            .set_property_icon_name(Some("media-playback-pause-symbolic"));
+                    }
+                    (Paused, VoidPending) => {
+                        self.pipeline_playing.set(false);
+                        self.button_play_pause_image
+                            .set_property_icon_name(Some("media-playback-start-symbolic"));
+                    }
+                    (_, _) => (),
                 }
             }
             MessageView::DurationChanged(_) => {
