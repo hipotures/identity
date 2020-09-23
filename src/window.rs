@@ -15,7 +15,6 @@ pub struct Window {
     pipeline: gst::Pipeline,
     pipeline_playing: Cell<bool>,
     label_current_time: gtk::Label,
-    seeking: Cell<bool>,
     adjustment_position: gtk::Adjustment,
     adjustment_position_value_changed: glib::SignalHandlerId,
     stack_title: gtk::Stack,
@@ -70,7 +69,6 @@ impl Window {
             pipeline: pipeline.clone(),
             pipeline_playing: Cell::new(false),
             label_current_time,
-            seeking: Cell::new(false),
             adjustment_position,
             adjustment_position_value_changed,
             stack_title,
@@ -279,17 +277,14 @@ impl Window {
                 // Hence, update the duration from here; this callback is called on a timer as well
                 // as upon receiving AsyncDone.
 
-                // Don't modify the position during seeking as it's out of date.
-                if !self.seeking.get() {
-                    let value = position.nanoseconds().unwrap() as f64
-                        / duration.nanoseconds().unwrap() as f64;
+                let value =
+                    position.nanoseconds().unwrap() as f64 / duration.nanoseconds().unwrap() as f64;
 
-                    self.adjustment_position
-                        .block_signal(&self.adjustment_position_value_changed);
-                    self.adjustment_position.set_value(value);
-                    self.adjustment_position
-                        .unblock_signal(&self.adjustment_position_value_changed);
-                }
+                self.adjustment_position
+                    .block_signal(&self.adjustment_position_value_changed);
+                self.adjustment_position.set_value(value);
+                self.adjustment_position
+                    .unblock_signal(&self.adjustment_position_value_changed);
             }
         }
     }
