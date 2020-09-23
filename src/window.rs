@@ -52,16 +52,14 @@ impl Window {
             move |adjustment_position| {
                 let pipeline = pipeline.upgrade().unwrap();
                 if let Some(duration) = pipeline.query_duration::<gst::ClockTime>() {
-                    pipeline
-                        .seek_simple(
-                            gst::SeekFlags::FLUSH,
-                            gst::ClockTime::from_nseconds(
-                                (adjustment_position.get_value()
-                                    * duration.nseconds().unwrap() as f64)
-                                    as u64,
-                            ),
-                        )
-                        .unwrap();
+                    let value = adjustment_position.get_value();
+
+                    g_debug!(LOG_DOMAIN, "seeking, value: {}", value);
+
+                    let time = gst::ClockTime::from_nseconds(
+                        (value * duration.nseconds().unwrap() as f64) as u64,
+                    );
+                    pipeline.seek_simple(gst::SeekFlags::FLUSH, time).unwrap();
                 }
             }
         });
@@ -180,6 +178,8 @@ impl Window {
     }
 
     pub fn add_file(&self, file: &gio::File) {
+        g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
+
         let gtkglsink = gst::ElementFactory::make("gtkglsink", None).unwrap();
         let glsinkbin = gst::ElementFactory::make("glsinkbin", None).unwrap();
         let playbin = gst::ElementFactory::make("playbin3", None).unwrap();
@@ -230,16 +230,20 @@ impl Window {
     }
 
     pub fn play_pause(&self) {
-        self.pipeline
-            .set_state(if self.pipeline_playing.get() {
-                gst::State::Paused
-            } else {
-                gst::State::Playing
-            })
-            .unwrap();
+        let target_state = if self.pipeline_playing.get() {
+            gst::State::Paused
+        } else {
+            gst::State::Playing
+        };
+
+        g_debug!(LOG_DOMAIN, "play_pause(), target_state: {:?}", target_state);
+
+        self.pipeline.set_state(target_state).unwrap();
     }
 
     pub fn step_forward(&self) {
+        g_debug!(LOG_DOMAIN, "step_forward()");
+
         self.pipeline.send_event(gst::event::Step::new(
             gst::format::Buffers(Some(1)),
             1.,
