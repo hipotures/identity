@@ -14,29 +14,15 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
+                                <property name="title" translatable="yes" context="shortcut window">Switch between files</property>
+                                <property name="accelerator">1...9 0</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="visible">True</property>
                                 <property name="title" translatable="yes" context="shortcut window">Open image or video</property>
                                 <property name="accelerator">&lt;Primary&gt;O</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkShortcutsShortcut">
-                                <property name="visible">True</property>
-                                <property name="title" translatable="yes" context="shortcut window">Play / Pause</property>
-                                <property name="accelerator">P space</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkShortcutsShortcut">
-                                <property name="visible">True</property>
-                                <property name="title" translatable="yes" context="shortcut window">Step forward one frame</property>
-                                <property name="accelerator">period</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkShortcutsShortcut">
-                                <property name="visible">True</property>
-                                <property name="title" translatable="yes" context="shortcut window">Step back one frame</property>
-                                <property name="accelerator">comma</property>
                             </object>
                         </child>
                         <child>
@@ -58,12 +44,26 @@
                 <child>
                     <object class="GtkShortcutsGroup">
                         <property name="visible">True</property>
-                        <property name="title" translatable="yes" context="shortcut window">Tabbed Comparison</property>
+                        <property name="title" translatable="yes" context="shortcut window">Playback</property>
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes" context="shortcut window">Switch to page</property>
-                                <property name="accelerator">1...9 0</property>
+                                <property name="title" translatable="yes" context="shortcut window">Play / Pause</property>
+                                <property name="accelerator">P space</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes" context="shortcut window">Step forward one frame</property>
+                                <property name="accelerator">period</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="visible">True</property>
+                                <property name="title" translatable="yes" context="shortcut window">Step back one frame</property>
+                                <property name="accelerator">comma</property>
                             </object>
                         </child>
                     </object>
