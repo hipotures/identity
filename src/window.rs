@@ -96,7 +96,9 @@ impl Window {
 
         self_.window.connect_delete_event({
             move |_, _| {
-                pipeline.set_state(gst::State::Null).unwrap();
+                // I got this to return Err once by opening a file GStreamer couldn't play and a
+                // regular video file.
+                let _ = pipeline.set_state(gst::State::Null);
 
                 // This returns Err if called multiple times.
                 let _ = bus.remove_watch();
