@@ -121,6 +121,18 @@ impl Application {
         self.app.add_action(&action);
         self.app
             .set_accels_for_action("app.step-forward", &["period"]);
+
+        // Step back
+        let action = gio::SimpleAction::new("step-back", None);
+        action.connect_activate({
+            let window = Rc::downgrade(&self.window);
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+                window.step_back();
+            }
+        });
+        self.app.add_action(&action);
+        self.app.set_accels_for_action("app.step-back", &["comma"]);
     }
 
     fn setup_signals(&self) {

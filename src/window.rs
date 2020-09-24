@@ -231,7 +231,35 @@ impl Window {
             gst::State::Playing
         };
 
-        g_debug!(LOG_DOMAIN, "play_pause(), target_state: {:?}", target_state);
+        let forward = self.forward.get();
+
+        g_debug!(
+            LOG_DOMAIN,
+            "play_pause(), target_state: {:?}, forward: {}",
+            target_state,
+            forward
+        );
+
+        if target_state == gst::State::Playing && !forward {
+            if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
+                if position.is_none() {
+                    return;
+                }
+
+                self.pipeline
+                    .seek(
+                        1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        position,
+                        gst::SeekType::End,
+                        0.into(),
+                    )
+                    .unwrap();
+
+                self.forward.set(true);
+            }
+        }
 
         self.pipeline.set_state(target_state).unwrap();
     }
@@ -251,14 +279,85 @@ impl Window {
     }
 
     pub fn step_forward(&self) {
-        g_debug!(LOG_DOMAIN, "step_forward()");
+        if self.pipeline_playing.get() {
+            // Only step while paused.
+            return;
+        }
 
-        self.pipeline.send_event(gst::event::Step::new(
-            gst::format::Buffers(Some(1)),
-            1.,
-            true,
-            false,
-        ));
+        let forward = self.forward.get();
+
+        g_debug!(LOG_DOMAIN, "step_forward(), forward: {}", forward);
+
+        if forward {
+            self.pipeline.send_event(gst::event::Step::new(
+                gst::format::Buffers(Some(1)),
+                1.,
+                true,
+                false,
+            ));
+        } else {
+            if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
+                if position.is_none() {
+                    return;
+                }
+
+                // Reversing playback direction already steps 1 frame in most cases.
+                // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
+                self.pipeline
+                    .seek(
+                        1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        position,
+                        gst::SeekType::End,
+                        0.into(),
+                    )
+                    .unwrap();
+
+                self.forward.set(true);
+            }
+        }
+    }
+
+    pub fn step_back(&self) {
+        if self.pipeline_playing.get() {
+            // Only step while paused.
+            return;
+        }
+
+        let forward = self.forward.get();
+
+        g_debug!(LOG_DOMAIN, "step_back(), forward: {}", forward);
+
+        if forward {
+            if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
+                if position.is_none() {
+                    return;
+                }
+
+                // Reversing playback direction already steps 1 frame in most cases.
+                // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
+                self.pipeline
+                    .seek(
+                        -1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        0.into(),
+                        gst::SeekType::Set,
+                        position,
+                    )
+                    .unwrap();
+
+                self.forward.set(false);
+            }
+        } else {
+            self.pipeline.send_event(gst::event::Step::new(
+                gst::format::Buffers(Some(1)),
+                1.,
+                true,
+                false,
+            ));
+        }
     }
 
     fn refresh_ui(&self) {
