@@ -15,6 +15,7 @@ pub struct Window {
     stack_media: gtk::Stack,
     pipeline: gst::Pipeline,
     pipeline_playing: Cell<bool>,
+    forward: Cell<bool>,
     label_current_time: gtk::Label,
     adjustment_position: gtk::Adjustment,
     adjustment_position_value_changed: OnceCell<glib::SignalHandlerId>,
@@ -52,6 +53,7 @@ impl Window {
             stack_media,
             pipeline: pipeline.clone(),
             pipeline_playing: Cell::new(false),
+            forward: Cell::new(true),
             label_current_time,
             adjustment_position: adjustment_position.clone(),
             adjustment_position_value_changed: OnceCell::new(),
@@ -243,6 +245,8 @@ impl Window {
             self.pipeline
                 .seek_simple(gst::SeekFlags::FLUSH, time)
                 .unwrap();
+
+            self.forward.set(true);
         }
     }
 
