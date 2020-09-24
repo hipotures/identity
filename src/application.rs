@@ -80,8 +80,10 @@ impl Application {
                 }
             });
             self.app.add_action(&action);
-            self.app
-                .set_accels_for_action(&format!("app.{}", action_name), &[i.to_string().as_ref()]);
+            self.app.set_accels_for_action(
+                &format!("app.{}", action_name),
+                &[i.to_string().as_ref(), &format!("KP_{}", i)],
+            );
         }
 
         // Open
