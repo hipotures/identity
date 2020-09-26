@@ -450,7 +450,7 @@ impl Window {
                 g_warning!(
                     LOG_DOMAIN,
                     "Error from {:?}: {} ({:?})",
-                    err.get_src().map(|s| s.get_path_string()),
+                    err.get_src(),
                     err.get_error(),
                     err.get_debug()
                 );
