@@ -507,19 +507,7 @@ impl Window {
                 if let Some(playbin) = err.get_src().and_then(|obj| self.find_immediate_child(obj))
                 {
                     let playbin = playbin.downcast::<gst::Element>().unwrap();
-
-                    let pages = self.pages.borrow();
-                    let (i, page) = pages
-                        .iter()
-                        .enumerate()
-                        .find(|(_, page)| page.playbin == playbin)
-                        .unwrap();
-
-                    g_warning!(LOG_DOMAIN, "Hiding media on page {} due to error", i + 1);
-                    page.stack.set_visible_child_name("page_error");
-
-                    self.pipeline.remove(&playbin).unwrap();
-                    let _ = playbin.set_state(gst::State::Null);
+                    self.on_playbin_error(playbin);
                 }
             }
             _ => (),
@@ -537,5 +525,20 @@ impl Window {
 
             object = parent;
         }
+    }
+
+    fn on_playbin_error(&self, playbin: gst::Element) {
+        let pages = self.pages.borrow();
+        let (i, page) = pages
+            .iter()
+            .enumerate()
+            .find(|(_, page)| page.playbin == playbin)
+            .unwrap();
+
+        g_warning!(LOG_DOMAIN, "Hiding media on page {} due to error", i + 1);
+        page.stack.set_visible_child_name("page_error");
+
+        self.pipeline.remove(&playbin).unwrap();
+        let _ = playbin.set_state(gst::State::Null);
     }
 }
