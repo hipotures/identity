@@ -268,7 +268,13 @@ impl Window {
         );
 
         self.pipeline.add(&playbin).unwrap();
-        playbin.sync_state_with_parent().unwrap();
+
+        if let Err(err) = playbin.sync_state_with_parent() {
+            // Can fail when the file is inaccessible.
+            g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
+
+            self.on_playbin_error(playbin);
+        }
     }
 
     pub fn play_pause(&self) {
