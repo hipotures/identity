@@ -98,6 +98,26 @@ impl Application {
         self.app.add_action(&action);
         self.app.set_accels_for_action("app.open", &["<primary>o"]);
 
+        // Paste
+        let action = gio::SimpleAction::new("paste", None);
+        action.connect_activate({
+            let window = Rc::downgrade(&self.window);
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+
+                let display = gdk::Display::get_default().unwrap();
+                let clipboard = gtk::Clipboard::get_default(&display).unwrap();
+
+                // TODO: use request_uris() when it's available.
+                // https://github.com/gtk-rs/gtk/issues/591
+                for uri in clipboard.wait_for_uris() {
+                    window.add_file(&gio::File::new_for_uri(&uri));
+                }
+            }
+        });
+        self.app.add_action(&action);
+        self.app.set_accels_for_action("app.paste", &["<primary>v"]);
+
         // Play / Pause
         let action = gio::SimpleAction::new("play-pause", None);
         action.connect_activate({
