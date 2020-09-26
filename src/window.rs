@@ -148,6 +148,25 @@ impl Window {
             }
         });
 
+        // Register the window as a DnD destination.
+        self_
+            .window
+            .drag_dest_set(gtk::DestDefaults::ALL, &[], gdk::DragAction::COPY);
+        self_.window.drag_dest_add_uri_targets();
+        self_.window.connect_drag_data_received({
+            let self_ = Rc::downgrade(&self_);
+            move |_, context, _, _, data, _, time| {
+                let self_ = self_.upgrade().unwrap();
+                let uris = data.get_uris();
+
+                for uri in uris {
+                    self_.add_file(&gio::File::new_for_uri(&uri));
+                }
+
+                context.drag_finish(true, false, time);
+            }
+        });
+
         self_
     }
 
