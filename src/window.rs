@@ -12,6 +12,7 @@ use crate::config::{LOG_DOMAIN, PROFILE};
 
 struct Page {
     playbin: gst::Element,
+    stack: gtk::Stack,
 }
 
 pub struct Window {
@@ -204,7 +205,6 @@ impl Window {
             .get::<gtk::Widget>()
             .unwrap()
             .unwrap();
-        widget.show();
 
         let index = self.stack_media.get_children().len() + 1;
 
@@ -214,12 +214,28 @@ impl Window {
                 .set_visible_child_name("page_stack_switcher");
         }
 
+        let stack = gtk::Stack::new();
+        stack.add(&widget);
+
+        // Set up the error page.
+        let error_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
+        error_box.get_style_context().add_class("background");
+        let error_label = gtk::Label::new(Some("Could not display the file."));
+        error_label.set_margin_start(18);
+        error_label.set_margin_end(18);
+        error_label.set_margin_top(18);
+        error_label.set_margin_bottom(18);
+        error_box.pack_start(&error_label, true, true, 0);
+        stack.add_named(&error_box, "page_error");
+        stack.show_all();
+
         self.pages.borrow_mut().push(Page {
             playbin: playbin.clone(),
+            stack: stack.clone(),
         });
 
         self.stack_media.add_titled(
-            &widget,
+            &stack,
             &index.to_string(),
             &file
                 .query_info(
@@ -464,10 +480,43 @@ impl Window {
                     err.get_error(),
                     err.get_debug()
                 );
+
+                // Upon getting an error, find the playbin the error originates from and remove it
+                // from the pipeline. Note that find_immediate_child() can fail if an element
+                // throws multiple errors at once since playbin will be removed from the pipeline
+                // the first time around.
+                if let Some(playbin) = err.get_src().and_then(|obj| self.find_immediate_child(obj))
+                {
+                    let playbin = playbin.downcast::<gst::Element>().unwrap();
+
+                    let pages = self.pages.borrow();
+                    let (i, page) = pages
+                        .iter()
+                        .enumerate()
+                        .find(|(_, page)| page.playbin == playbin)
+                        .unwrap();
+
+                    g_warning!(LOG_DOMAIN, "Hiding media on page {} due to error", i + 1);
+                    page.stack.set_visible_child_name("page_error");
+
+                    self.pipeline.remove(&playbin).unwrap();
+                    let _ = playbin.set_state(gst::State::Null);
+                }
             }
             _ => (),
         }
 
         glib::Continue(true)
+    }
+
+    fn find_immediate_child(&self, mut object: gst::Object) -> Option<gst::Object> {
+        loop {
+            let parent = object.get_parent()?;
+            if parent == self.pipeline {
+                return Some(object);
+            }
+
+            object = parent;
+        }
     }
 }
