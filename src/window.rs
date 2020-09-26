@@ -10,6 +10,10 @@ use once_cell::unsync::OnceCell;
 
 use crate::config::{LOG_DOMAIN, PROFILE};
 
+struct Page {
+    playbin: gst::Element,
+}
+
 pub struct Window {
     pub window: hdy::ApplicationWindow,
     stack_media: gtk::Stack,
@@ -22,6 +26,7 @@ pub struct Window {
     stack_title: gtk::Stack,
     button_play_pause_image: gtk::Image,
     revealer_controls: gtk::Revealer,
+    pages: RefCell<Vec<Page>>,
 }
 
 impl Window {
@@ -60,6 +65,7 @@ impl Window {
             stack_title,
             button_play_pause_image,
             revealer_controls,
+            pages: RefCell::new(Vec::new()),
         });
 
         self_
@@ -207,6 +213,10 @@ impl Window {
             self.stack_title
                 .set_visible_child_name("page_stack_switcher");
         }
+
+        self.pages.borrow_mut().push(Page {
+            playbin: playbin.clone(),
+        });
 
         self.stack_media.add_titled(
             &widget,
