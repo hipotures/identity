@@ -448,16 +448,14 @@ impl Window {
                     return;
                 }
 
-                self.pipeline
-                    .seek(
-                        1.,
-                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                        gst::SeekType::Set,
-                        position,
-                        gst::SeekType::End,
-                        0.into(),
-                    )
-                    .unwrap();
+                let _ = self.pipeline.seek(
+                    1.,
+                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                    gst::SeekType::Set,
+                    position,
+                    gst::SeekType::End,
+                    0.into(),
+                );
 
                 self.forward.set(true);
             }
@@ -472,9 +470,7 @@ impl Window {
 
             let time =
                 gst::ClockTime::from_nseconds((value * duration.nseconds().unwrap() as f64) as u64);
-            self.pipeline
-                .seek_simple(gst::SeekFlags::FLUSH, time)
-                .unwrap();
+            let _ = self.pipeline.seek_simple(gst::SeekFlags::FLUSH, time);
 
             self.forward.set(true);
         }
@@ -505,16 +501,14 @@ impl Window {
 
                 // Reversing playback direction already steps 1 frame in most cases.
                 // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                self.pipeline
-                    .seek(
-                        1.,
-                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                        gst::SeekType::Set,
-                        position,
-                        gst::SeekType::End,
-                        0.into(),
-                    )
-                    .unwrap();
+                let _ = self.pipeline.seek(
+                    1.,
+                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                    gst::SeekType::Set,
+                    position,
+                    gst::SeekType::End,
+                    0.into(),
+                );
 
                 self.forward.set(true);
             }
@@ -539,16 +533,14 @@ impl Window {
 
                 // Reversing playback direction already steps 1 frame in most cases.
                 // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                self.pipeline
-                    .seek(
-                        -1.,
-                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                        gst::SeekType::Set,
-                        0.into(),
-                        gst::SeekType::Set,
-                        position,
-                    )
-                    .unwrap();
+                let _ = self.pipeline.seek(
+                    -1.,
+                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                    gst::SeekType::Set,
+                    0.into(),
+                    gst::SeekType::Set,
+                    position,
+                );
 
                 self.forward.set(false);
             }
