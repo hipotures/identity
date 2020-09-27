@@ -240,7 +240,7 @@ impl Window {
         }
 
         let stack = gtk::Stack::new();
-        stack.set_transition_duration(2000);
+        stack.set_transition_duration(200);
 
         // Set up the media page.
         stack.add_named(&widget, "page_media");
