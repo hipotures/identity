@@ -11,7 +11,7 @@ gio = { version = "0.9", features = ["v2_46"] }
 gdk = "0.13"
 gettext-rs = { version = "0.4", features = ["gettext-system"] }
 libhandy = "0.7.0"
-gstreamer = "0.16.2"
+gstreamer = { version = "0.16.2", features = ["v1_10"] }
 pango = "0.9.1"
 once_cell = "1.4.1"
 futures-util = "0.3.5"

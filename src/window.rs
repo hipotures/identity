@@ -1,6 +1,6 @@
 use std::{cell::Cell, cell::RefCell, rc::Rc};
 
-use futures_util::{select_biased, FutureExt};
+use futures_util::{select_biased, FutureExt, StreamExt};
 use gettextrs::gettext;
 use gio::prelude::*;
 use gst::prelude::*;
@@ -235,7 +235,20 @@ impl Window {
         }
 
         let stack = gtk::Stack::new();
-        stack.add(&widget);
+
+        // Set up the media page.
+        stack.add_named(&widget, "page_media");
+
+        // Set up the loading page.
+        let loading_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
+        loading_box.get_style_context().add_class("background");
+        let loading_spinner = gtk::Spinner::new();
+        loading_spinner.start();
+        loading_box.pack_start(&loading_spinner, true, true, 0);
+        stack.add_named(&loading_box, "page_loading");
+
+        loading_box.show_all();
+        stack.set_visible_child_name("page_loading");
 
         // Set up the error page.
         let error_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
@@ -257,7 +270,8 @@ impl Window {
             .add_titled(&stack, &index.to_string(), "Loading…");
 
         let self_ = Rc::clone(self);
-        let future = async move {
+        let stack_ = stack.clone();
+        let get_name_and_show_page = async move {
             let mut timeout = glib::timeout_future(10).fuse();
             let mut info_future = file
                 .query_info_async_future(
@@ -276,13 +290,14 @@ impl Window {
             let info = select_biased! {
                 info = info_future => info,
                 _ = timeout => {
-                    stack.show_all();
+                    stack_.show_all();
+                    stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
                     info_future.await
                 }
             };
 
             self_.stack_media.set_child_title(
-                &stack,
+                &stack_,
                 Some(
                     &info
                         .ok()
@@ -291,18 +306,61 @@ impl Window {
                 ),
             );
 
-            stack.show_all();
+            stack_.show_all();
+            stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
         };
-        glib::MainContext::default().spawn_local(future);
+        glib::MainContext::default().spawn_local(get_name_and_show_page);
 
-        self.pipeline.add(&playbin).unwrap();
+        let self_ = Rc::clone(self);
+        let start_playback = async move {
+            // Create the stream first to not miss any messages.
+            let mut stream = playbin.get_bus().unwrap().stream();
 
-        if let Err(err) = playbin.sync_state_with_parent() {
-            // Can fail when the file is inaccessible.
-            g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
+            if let Err(err) = playbin
+                .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
+                .await
+            {
+                // Can fail when the file is inaccessible.
+                g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
+                self_.on_playbin_error(playbin);
+                return;
+            }
 
-            self.on_playbin_error(playbin);
-        }
+            loop {
+                match stream.next().await.unwrap().view() {
+                    gst::MessageView::Error(err) => {
+                        // Can fail on missing codecs.
+                        g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
+                        self_.on_playbin_error(playbin);
+                        return;
+                    }
+                    gst::MessageView::StateChanged(state_changed)
+                        if state_changed.get_src().as_ref()
+                            == Some(playbin.upcast_ref::<gst::Object>()) =>
+                    {
+                        g_debug!(
+                            LOG_DOMAIN,
+                            "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                            state_changed.get_old(),
+                            state_changed.get_current(),
+                            state_changed.get_pending()
+                        );
+
+                        if state_changed.get_current() == gst::State::Paused
+                            && state_changed.get_pending() == gst::State::VoidPending
+                        {
+                            // Pre-rolled and ready to show.
+                            break;
+                        }
+                    }
+                    _ => (),
+                }
+            }
+
+            self_.pipeline.add(&playbin).unwrap();
+            stack.set_visible_child_name("page_media");
+        };
+        glib::MainContext::default().spawn_local(start_playback);
     }
 
     pub fn play_pause(&self) {
@@ -460,14 +518,6 @@ impl Window {
                 .set_markup(&format!("<span font_features=\"tnum\">{}</span>", time));
 
             if let Some(duration) = self.pipeline.query_duration::<gst::ClockTime>() {
-                // There's a DurationChanged message, however it is delivered before the first
-                // AsyncDone, which means it's possible that query_duration won't work yet. For
-                // instance, with GST_DEBUG=5 querying the duration upon receiving DurationChanged
-                // returns None all of the time.
-                //
-                // Hence, update the duration from here; this callback is called on a timer as well
-                // as upon receiving AsyncDone.
-
                 let value =
                     position.nanoseconds().unwrap() as f64 / duration.nanoseconds().unwrap() as f64;
 
@@ -475,6 +525,11 @@ impl Window {
                 self.adjustment_position.block_signal(value_changed);
                 self.adjustment_position.set_value(value);
                 self.adjustment_position.unblock_signal(value_changed);
+
+                // If we've opened something with a duration, show the controls.
+                if self.pipeline.query_duration::<gst::ClockTime>().is_some() {
+                    self.revealer_controls.set_reveal_child(true);
+                }
             }
         }
     }
@@ -519,11 +574,6 @@ impl Window {
             }
             MessageView::AsyncDone(_) => {
                 g_debug!(LOG_DOMAIN, "AsyncDone");
-
-                // If we've opened something with a duration, show the controls.
-                if self.pipeline.query_duration::<gst::ClockTime>().is_some() {
-                    self.revealer_controls.set_reveal_child(true);
-                }
             }
             MessageView::Error(err) => {
                 g_warning!(
@@ -572,7 +622,7 @@ impl Window {
         g_warning!(LOG_DOMAIN, "Hiding media on page {} due to error", i + 1);
         page.stack.set_visible_child_name("page_error");
 
-        self.pipeline.remove(&playbin).unwrap();
+        let _ = self.pipeline.remove(&playbin); // We can call this before adding playbin.
         let _ = playbin.set_state(gst::State::Null);
     }
 }
