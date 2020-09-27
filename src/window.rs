@@ -11,6 +11,9 @@ use once_cell::unsync::OnceCell;
 
 use crate::config::{LOG_DOMAIN, PROFILE};
 
+/// Show a loading state when a file takes longer than this to load.
+const TIMEOUT_MS: u32 = 300;
+
 struct Page {
     playbin: gst::Element,
     stack: gtk::Stack,
@@ -278,7 +281,7 @@ impl Window {
         let self_ = Rc::clone(self);
         let stack_ = stack.clone();
         let get_name_and_show_page = async move {
-            let mut timeout = glib::timeout_future(100).fuse();
+            let mut timeout = glib::timeout_future(TIMEOUT_MS).fuse();
             let mut info_future = file
                 .query_info_async_future(
                     "standard::display-name",
@@ -377,7 +380,7 @@ impl Window {
             .fuse();
             pin_mut!(start_future);
 
-            let mut timeout = glib::timeout_future(300).fuse();
+            let mut timeout = glib::timeout_future(TIMEOUT_MS).fuse();
             let success = select_biased! {
                 success = start_future => success,
                 _ = timeout => {
