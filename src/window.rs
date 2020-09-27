@@ -1,5 +1,6 @@
 use std::{cell::Cell, cell::RefCell, rc::Rc};
 
+use futures_util::{select_biased, FutureExt};
 use gettextrs::gettext;
 use gio::prelude::*;
 use gst::prelude::*;
@@ -200,7 +201,7 @@ impl Window {
         file_chooser.show();
     }
 
-    pub fn add_file(&self, file: gio::File) {
+    pub fn add_file(self: &Rc<Self>, file: gio::File) {
         g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
 
         let gtkglsink = gst::ElementFactory::make("gtkglsink", None).unwrap();
@@ -246,26 +247,53 @@ impl Window {
         error_label.set_margin_bottom(18);
         error_box.pack_start(&error_label, true, true, 0);
         stack.add_named(&error_box, "page_error");
-        stack.show_all();
 
         self.pages.borrow_mut().push(Page {
             playbin: playbin.clone(),
             stack: stack.clone(),
         });
 
-        self.stack_media.add_titled(
-            &stack,
-            &index.to_string(),
-            &file
-                .query_info(
+        self.stack_media
+            .add_titled(&stack, &index.to_string(), "Loading…");
+
+        let self_ = Rc::clone(self);
+        let future = async move {
+            let mut timeout = glib::timeout_future(10).fuse();
+            let mut info_future = file
+                .query_info_async_future(
                     "standard::display-name",
                     gio::FileQueryInfoFlags::NONE,
-                    None::<&gio::Cancellable>,
+                    glib::PRIORITY_DEFAULT,
                 )
-                .ok()
-                .and_then(|info| info.get_display_name())
-                .unwrap_or_else(|| format!("File {}", index).into()),
-        );
+                .fuse();
+
+            // Query info with a timeout. If it takes longer than the timeout, show the page with a
+            // temporary name.
+            //
+            // Use biased select as adding multiple files can cause a main loop stall after which
+            // both the timeout and the info future will be complete. In this case we want to
+            // prioritize the info future.
+            let info = select_biased! {
+                info = info_future => info,
+                _ = timeout => {
+                    stack.show_all();
+                    info_future.await
+                }
+            };
+
+            self_.stack_media.set_child_title(
+                &stack,
+                Some(
+                    &info
+                        .ok()
+                        .and_then(|info| info.get_display_name())
+                        .unwrap_or_else(|| format!("File {}", index).into()),
+                ),
+            );
+
+            stack.show_all();
+        };
+        glib::MainContext::default().spawn_local(future);
 
         self.pipeline.add(&playbin).unwrap();
 
