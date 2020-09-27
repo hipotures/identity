@@ -168,7 +168,8 @@ impl Application {
                     window.add_file(file.clone());
                 }
 
-                app.activate();
+                window.window.set_application(Some(app));
+                app.add_window(&window.window);
             }
         });
         self.app.connect_activate({

@@ -1,6 +1,6 @@
 use std::{cell::Cell, cell::RefCell, rc::Rc};
 
-use futures_util::{select_biased, FutureExt, StreamExt};
+use futures_util::{pin_mut, select_biased, FutureExt, StreamExt};
 use gettextrs::gettext;
 use gio::prelude::*;
 use gst::prelude::*;
@@ -298,13 +298,6 @@ impl Window {
                 _ = timeout => {
                     stack_.show_all();
                     stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
-
-                    if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
-                        self_.stack_main.set_transition_type(gtk::StackTransitionType::Crossfade);
-                        self_.stack_main.set_visible_child_name("page_loading");
-                        self_.stack_main.set_transition_type(gtk::StackTransitionType::OverDownUp);
-                    }
-
                     info_future.await
                 }
             };
@@ -329,51 +322,75 @@ impl Window {
 
         let self_ = Rc::clone(self);
         let start_playback = async move {
-            // Create the stream first to not miss any messages.
-            let mut stream = playbin.get_bus().unwrap().stream();
+            let start_future = {
+                let playbin = playbin.clone();
+                async move {
+                    // Create the stream first to not miss any messages.
+                    let mut stream = playbin.get_bus().unwrap().stream();
 
-            let success = if let Err(err) = playbin
-                .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
-                .await
-            {
-                // Can fail when the file is inaccessible.
-                g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
-                playbin.call_async(|playbin| {
-                    let _ = playbin.set_state(gst::State::Null);
-                });
-                false
-            } else {
-                loop {
-                    match stream.next().await.unwrap().view() {
-                        gst::MessageView::Error(err) => {
-                            // Can fail on missing codecs.
-                            g_warning!(LOG_DOMAIN, "playbin Error: {:?}", err);
-                            playbin.call_async(|playbin| {
-                                let _ = playbin.set_state(gst::State::Null);
-                            });
-                            break false;
-                        }
-                        gst::MessageView::StateChanged(state_changed)
-                            if state_changed.get_src().as_ref()
-                                == Some(playbin.upcast_ref::<gst::Object>()) =>
-                        {
-                            g_debug!(
-                                LOG_DOMAIN,
-                                "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                                state_changed.get_old(),
-                                state_changed.get_current(),
-                                state_changed.get_pending()
-                            );
-
-                            if state_changed.get_current() == gst::State::Paused
-                                && state_changed.get_pending() == gst::State::VoidPending
-                            {
-                                // Pre-rolled and ready to show.
-                                break true;
-                            }
-                        }
-                        _ => (),
+                    if let Err(err) = playbin
+                        .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
+                        .await
+                    {
+                        // Can fail when the file is inaccessible.
+                        g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
+                        playbin.call_async(|playbin| {
+                            let _ = playbin.set_state(gst::State::Null);
+                        });
+                        return false;
                     }
+
+                    loop {
+                        match stream.next().await.unwrap().view() {
+                            gst::MessageView::Error(err) => {
+                                // Can fail on missing codecs.
+                                g_warning!(LOG_DOMAIN, "playbin Error: {:?}", err);
+                                playbin.call_async(|playbin| {
+                                    let _ = playbin.set_state(gst::State::Null);
+                                });
+                                break false;
+                            }
+                            gst::MessageView::StateChanged(state_changed)
+                                if state_changed.get_src().as_ref()
+                                    == Some(playbin.upcast_ref::<gst::Object>()) =>
+                            {
+                                g_debug!(
+                                    LOG_DOMAIN,
+                                    "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                                    state_changed.get_old(),
+                                    state_changed.get_current(),
+                                    state_changed.get_pending()
+                                );
+
+                                if state_changed.get_current() == gst::State::Paused
+                                    && state_changed.get_pending() == gst::State::VoidPending
+                                {
+                                    // Pre-rolled and ready to show.
+                                    break true;
+                                }
+                            }
+                            _ => (),
+                        }
+                    }
+                }
+            }
+            .fuse();
+            pin_mut!(start_future);
+
+            let mut timeout = glib::timeout_future(300).fuse();
+            let success = select_biased! {
+                success = start_future => success,
+                _ = timeout => {
+                    // After a 300 ms timeout, show the loading spinner and the window, if it
+                    // hasn't opened yet.
+                    if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
+                        self_.stack_main.set_transition_type(gtk::StackTransitionType::Crossfade);
+                        self_.stack_main.set_visible_child_name("page_loading");
+                        self_.stack_main.set_transition_type(gtk::StackTransitionType::OverDownUp);
+                    }
+
+                    self_.window.show_all();
+                    start_future.await
                 }
             };
 
@@ -400,6 +417,11 @@ impl Window {
             } else {
                 stack.set_visible_child_name("page_error");
             }
+
+            self_.window.show_all();
+            self_
+                .stack_main
+                .set_transition_type(gtk::StackTransitionType::OverDownUp);
         };
         glib::MainContext::default().spawn_local(start_playback);
     }
