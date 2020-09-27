@@ -160,7 +160,7 @@ impl Window {
                 let uris = data.get_uris();
 
                 for uri in uris {
-                    self_.add_file(&gio::File::new_for_uri(&uri));
+                    self_.add_file(gio::File::new_for_uri(&uri));
                 }
 
                 context.drag_finish(true, false, time);
@@ -191,7 +191,7 @@ impl Window {
 
                 if response == gtk::ResponseType::Accept {
                     for file in file_chooser.get_files() {
-                        self.add_file(&file);
+                        self.add_file(file);
                     }
                 }
             }
@@ -200,7 +200,7 @@ impl Window {
         file_chooser.show();
     }
 
-    pub fn add_file(&self, file: &gio::File) {
+    pub fn add_file(&self, file: gio::File) {
         g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
 
         let gtkglsink = gst::ElementFactory::make("gtkglsink", None).unwrap();

@@ -111,7 +111,7 @@ impl Application {
                 // TODO: use request_uris() when it's available.
                 // https://github.com/gtk-rs/gtk/issues/591
                 for uri in clipboard.wait_for_uris() {
-                    window.add_file(&gio::File::new_for_uri(&uri));
+                    window.add_file(gio::File::new_for_uri(&uri));
                 }
             }
         });
@@ -165,7 +165,7 @@ impl Application {
                 let window = window.upgrade().unwrap();
 
                 for file in files {
-                    window.add_file(file);
+                    window.add_file(file.clone());
                 }
 
                 app.activate();
