@@ -29,12 +29,14 @@ pub struct Window {
     button_play_pause_image: gtk::Image,
     revealer_controls: gtk::Revealer,
     pages: RefCell<Vec<Page>>,
+    stack_main: gtk::Stack,
 }
 
 impl Window {
     pub fn new() -> Rc<Self> {
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/window.ui");
         let window: hdy::ApplicationWindow = builder.get_object("window").unwrap();
+        let stack_main: gtk::Stack = builder.get_object("stack_main").unwrap();
         let stack_media: gtk::Stack = builder.get_object("stack_media").unwrap();
         let stack_switcher_media: gtk::StackSwitcher =
             builder.get_object("stack_switcher_media").unwrap();
@@ -48,6 +50,8 @@ impl Window {
         let stack_title: gtk::Stack = builder.get_object("stack_title").unwrap();
         let revealer_controls: gtk::Revealer = builder.get_object("revealer_controls").unwrap();
 
+        stack_main.set_visible_child_name("page_empty");
+
         // Devel Profile
         if PROFILE == "Devel" {
             window.get_style_context().add_class("devel");
@@ -57,6 +61,7 @@ impl Window {
 
         let self_ = Rc::new(Window {
             window,
+            stack_main,
             stack_media,
             pipeline: pipeline.clone(),
             pipeline_playing: Cell::new(false),
@@ -235,6 +240,7 @@ impl Window {
         }
 
         let stack = gtk::Stack::new();
+        stack.set_transition_duration(2000);
 
         // Set up the media page.
         stack.add_named(&widget, "page_media");
@@ -272,7 +278,7 @@ impl Window {
         let self_ = Rc::clone(self);
         let stack_ = stack.clone();
         let get_name_and_show_page = async move {
-            let mut timeout = glib::timeout_future(10).fuse();
+            let mut timeout = glib::timeout_future(100).fuse();
             let mut info_future = file
                 .query_info_async_future(
                     "standard::display-name",
@@ -292,6 +298,13 @@ impl Window {
                 _ = timeout => {
                     stack_.show_all();
                     stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
+
+                    if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
+                        self_.stack_main.set_transition_type(gtk::StackTransitionType::Crossfade);
+                        self_.stack_main.set_visible_child_name("page_loading");
+                        self_.stack_main.set_transition_type(gtk::StackTransitionType::OverDownUp);
+                    }
+
                     info_future.await
                 }
             };
@@ -307,7 +320,10 @@ impl Window {
             );
 
             stack_.show_all();
-            stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
+
+            if self_.stack_main.get_visible_child_name().unwrap() == "page_media" {
+                stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
+            }
         };
         glib::MainContext::default().spawn_local(get_name_and_show_page);
 
@@ -316,49 +332,74 @@ impl Window {
             // Create the stream first to not miss any messages.
             let mut stream = playbin.get_bus().unwrap().stream();
 
-            if let Err(err) = playbin
+            let success = if let Err(err) = playbin
                 .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
                 .await
             {
                 // Can fail when the file is inaccessible.
                 g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
-                self_.on_playbin_error(playbin);
-                return;
-            }
-
-            loop {
-                match stream.next().await.unwrap().view() {
-                    gst::MessageView::Error(err) => {
-                        // Can fail on missing codecs.
-                        g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
-                        self_.on_playbin_error(playbin);
-                        return;
-                    }
-                    gst::MessageView::StateChanged(state_changed)
-                        if state_changed.get_src().as_ref()
-                            == Some(playbin.upcast_ref::<gst::Object>()) =>
-                    {
-                        g_debug!(
-                            LOG_DOMAIN,
-                            "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                            state_changed.get_old(),
-                            state_changed.get_current(),
-                            state_changed.get_pending()
-                        );
-
-                        if state_changed.get_current() == gst::State::Paused
-                            && state_changed.get_pending() == gst::State::VoidPending
-                        {
-                            // Pre-rolled and ready to show.
-                            break;
+                playbin.call_async(|playbin| {
+                    let _ = playbin.set_state(gst::State::Null);
+                });
+                false
+            } else {
+                loop {
+                    match stream.next().await.unwrap().view() {
+                        gst::MessageView::Error(err) => {
+                            // Can fail on missing codecs.
+                            g_warning!(LOG_DOMAIN, "playbin Error: {:?}", err);
+                            playbin.call_async(|playbin| {
+                                let _ = playbin.set_state(gst::State::Null);
+                            });
+                            break false;
                         }
+                        gst::MessageView::StateChanged(state_changed)
+                            if state_changed.get_src().as_ref()
+                                == Some(playbin.upcast_ref::<gst::Object>()) =>
+                        {
+                            g_debug!(
+                                LOG_DOMAIN,
+                                "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                                state_changed.get_old(),
+                                state_changed.get_current(),
+                                state_changed.get_pending()
+                            );
+
+                            if state_changed.get_current() == gst::State::Paused
+                                && state_changed.get_pending() == gst::State::VoidPending
+                            {
+                                // Pre-rolled and ready to show.
+                                break true;
+                            }
+                        }
+                        _ => (),
                     }
-                    _ => (),
                 }
+            };
+
+            stack.show_all();
+
+            if self_.stack_main.get_visible_child_name().unwrap() != "page_media" {
+                // This is the first file being loaded. Display the revealer if needed and then set
+                // its transition type. This way when the main stack first reveals a video, it will
+                // already show the controls without an extra animation looking weird.
+                if playbin.query_duration::<gst::ClockTime>().is_some() {
+                    self_.revealer_controls.set_reveal_child(true);
+                }
+
+                self_
+                    .revealer_controls
+                    .set_transition_type(gtk::RevealerTransitionType::SlideUp);
+
+                self_.stack_main.set_visible_child_name("page_media");
             }
 
-            self_.pipeline.add(&playbin).unwrap();
-            stack.set_visible_child_name("page_media");
+            if success {
+                self_.pipeline.add(&playbin).unwrap();
+                stack.set_visible_child_name("page_media");
+            } else {
+                stack.set_visible_child_name("page_error");
+            }
         };
         glib::MainContext::default().spawn_local(start_playback);
     }
