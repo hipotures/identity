@@ -460,6 +460,7 @@ dependencies = [
 name = "identity"
 version = "0.1.0"
 dependencies = [
+ "futures-channel",
  "futures-util",
  "gdk",
  "gettext-rs",

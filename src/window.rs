@@ -33,6 +33,7 @@ pub struct Window {
     revealer_controls: gtk::Revealer,
     pages: RefCell<Vec<Page>>,
     stack_main: gtk::Stack,
+    paused_senders: RefCell<Vec<futures_channel::oneshot::Sender<()>>>,
 }
 
 impl Window {
@@ -76,6 +77,7 @@ impl Window {
             button_play_pause_image,
             revealer_controls,
             pages: RefCell::new(Vec::new()),
+            paused_senders: RefCell::new(Vec::new()),
         });
 
         self_
@@ -415,7 +417,28 @@ impl Window {
             }
 
             if success {
+                // To synchronize the playbin and the pipeline position, perform a seek on the
+                // pipeline after adding the playbin.
+
+                // First, pause the pipeline.
+                let playing = self_.pipeline_playing.get();
+                if playing {
+                    let (tx, rx) = futures_channel::oneshot::channel();
+                    self_.paused_senders.borrow_mut().push(tx);
+                    self_.pipeline.set_state(gst::State::Paused).unwrap();
+                    // Wait until it's paused.
+                    let _ = rx.await;
+                }
+
                 self_.pipeline.add(&playbin).unwrap();
+
+                self_.seek(self_.adjustment_position.get_value());
+
+                // Finally, resume the pipeline if it has been playing.
+                if playing {
+                    self_.pipeline.set_state(gst::State::Playing).unwrap();
+                }
+
                 stack.set_visible_child_name("page_media");
             } else {
                 stack.set_visible_child_name("page_error");
@@ -618,6 +641,10 @@ impl Window {
                         self.pipeline_playing.set(false);
                         self.button_play_pause_image
                             .set_property_icon_name(Some("media-playback-start-symbolic"));
+
+                        for sender in self.paused_senders.borrow_mut().drain(..) {
+                            let _ = sender.send(());
+                        }
                     }
                     (_, _) => (),
                 }
