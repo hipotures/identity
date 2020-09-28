@@ -317,7 +317,7 @@ impl Window {
                     &info
                         .ok()
                         .and_then(|info| info.get_display_name())
-                        .unwrap_or_else(|| format!("File {}", index).into()),
+                        .unwrap_or_else(|| file.get_uri()),
                 ),
             );
 
