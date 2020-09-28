@@ -268,7 +268,12 @@ impl Window {
         // Set up the error page.
         let error_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
         error_box.get_style_context().add_class("background");
-        let error_label = gtk::Label::new(Some("Could not display the file."));
+        let error_label = gtk::Label::new(Some(
+            "Could not display the file.\n\n\
+             If you're running Identity under Flatpak, note that \
+             drag-and-drop and pasting to open files may not work.",
+        ));
+        error_label.set_line_wrap(true);
         error_label.set_margin_start(18);
         error_label.set_margin_end(18);
         error_label.set_margin_top(18);
