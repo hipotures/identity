@@ -214,12 +214,17 @@ impl Window {
     pub fn add_file(self: &Rc<Self>, file: gio::File) {
         g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
 
-        // TODO: switch to gtkglsink if the infrastructure becomes more stable.
+        // Using gtksink instead of gtkglsink due to instability.
+        //
         // Issues I've hit:
         // - https://gitlab.freedesktop.org/mesa/mesa/-/issues/3029
         // - https://gitlab.gnome.org/GNOME/gtk/-/issues/3208
+        //
+        // Besides, with gtksink I can use alpha.
         let gtksink = gst::ElementFactory::make("gtksink", None).unwrap();
         let playbin = gst::ElementFactory::make("playbin3", None).unwrap();
+
+        gtksink.set_property("ignore-alpha", &false).unwrap();
 
         playbin
             .set_property("video-sink", &gtksink.to_value())
