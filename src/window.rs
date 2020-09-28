@@ -214,22 +214,21 @@ impl Window {
     pub fn add_file(self: &Rc<Self>, file: gio::File) {
         g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
 
-        let gtkglsink = gst::ElementFactory::make("gtkglsink", None).unwrap();
-        let glsinkbin = gst::ElementFactory::make("glsinkbin", None).unwrap();
+        // TODO: switch to gtkglsink if the infrastructure becomes more stable.
+        // Issues I've hit:
+        // - https://gitlab.freedesktop.org/mesa/mesa/-/issues/3029
+        // - https://gitlab.gnome.org/GNOME/gtk/-/issues/3208
+        let gtksink = gst::ElementFactory::make("gtksink", None).unwrap();
         let playbin = gst::ElementFactory::make("playbin3", None).unwrap();
 
-        glsinkbin
-            .set_property("sink", &gtkglsink.to_value())
-            .unwrap();
-
         playbin
-            .set_property("video-sink", &glsinkbin.to_value())
+            .set_property("video-sink", &gtksink.to_value())
             .unwrap();
         playbin.set_property("mute", &true).unwrap();
         playbin.set_property("uri", &file.get_uri()).unwrap();
 
         // Add the video widget to the UI.
-        let widget = gtkglsink
+        let widget = gtksink
             .get_property("widget")
             .unwrap()
             .get::<gtk::Widget>()
