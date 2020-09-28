@@ -580,6 +580,40 @@ impl Window {
         }
     }
 
+    pub fn close_selected_file(&self) {
+        let selected = match self.stack_media.get_visible_child() {
+            Some(child) => child,
+            None => return,
+        };
+
+        let mut pages = self.pages.borrow_mut();
+        let index = match pages.iter().position(|page| page.stack == selected) {
+            Some(index) => index,
+            None => return,
+        };
+
+        let page = pages.remove(index);
+        self.stack_media.remove(&page.stack);
+
+        // Update names of pages past the removed one so our shortcuts still work.
+        for (i, page) in pages.iter().skip(index).enumerate() {
+            self.stack_media
+                .set_child_name(&page.stack, Some(&(i + index + 1).to_string()));
+        }
+
+        let _ = self.pipeline.remove(&page.playbin);
+        let _ = page.playbin.set_state(gst::State::Null);
+
+        if self.stack_media.get_children().is_empty() {
+            // No elements left, go back to the empty state.
+            self.stack_main.set_visible_child_name("page_empty");
+
+            // Reset the pipeline position and state.
+            self.adjustment_position.set_value(0.); // This is used to seek in add_file().
+            self.pipeline.set_state(gst::State::Paused).unwrap();
+        }
+    }
+
     fn refresh_ui(&self) {
         if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
             let nanoseconds = position.nanoseconds().unwrap();

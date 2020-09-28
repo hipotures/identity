@@ -118,6 +118,19 @@ impl Application {
         self.app.add_action(&action);
         self.app.set_accels_for_action("app.paste", &["<primary>v"]);
 
+        // Close selected file
+        let action = gio::SimpleAction::new("close-selected-file", None);
+        action.connect_activate({
+            let window = Rc::downgrade(&self.window);
+            move |_, _| {
+                let window = window.upgrade().unwrap();
+                window.close_selected_file();
+            }
+        });
+        self.app.add_action(&action);
+        self.app
+            .set_accels_for_action("app.close-selected-file", &["<primary>w"]);
+
         // Play / Pause
         let action = gio::SimpleAction::new("play-pause", None);
         action.connect_activate({
