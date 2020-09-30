@@ -4,5 +4,7 @@
     <file compressed="true" preprocess="xml-stripblanks">about_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="shortcuts.ui">resources/ui/shortcuts.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">window.ui</file>
+
+    <file preprocess="xml-stripblanks">icons/org.gnome.gitlab.YaLTeR.Identity-symbolic-big.svg</file>
   </gresource>
 </gresources>

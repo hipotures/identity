@@ -253,7 +253,7 @@
                     <property name="can_focus">False</property>
                     <property name="margin_bottom">32</property>
                     <property name="pixel_size">128</property>
-                    <property name="icon_name">video-x-generic-symbolic</property>
+                    <property name="resource">/org/gnome/gitlab/YaLTeR/Identity/icons/org.gnome.gitlab.YaLTeR.Identity-symbolic-big.svg</property>
                     <style>
                       <class name="dim-label"/>
                     </style>
