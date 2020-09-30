@@ -885,9 +885,9 @@
      borderopacity="0.25490196"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16"
-     inkscape:cx="70.080986"
-     inkscape:cy="50.365542"
+     inkscape:zoom="90.509668"
+     inkscape:cx="175.28933"
+     inkscape:cy="18.944691"
      inkscape:current-layer="layer9"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -925,7 +925,9 @@
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-text-baseline="true"
      borderlayer="true"
-     inkscape:document-rotation="0">
+     inkscape:document-rotation="0"
+     inkscape:lockguides="false"
+     inkscape:snap-grids="true">
     <inkscape:grid
        type="xygrid"
        id="grid5883"
@@ -1168,7 +1170,7 @@
        inkscape:groupmode="layer"
        id="layer2"
        inkscape:label="baseplate"
-       style="display:none"
+       style="display:inline"
        sodipodi:insensitive="true">
       <g
          id="g1481"
@@ -3187,56 +3189,14 @@
          width="12"
          height="1"
          x="162"
-         y="176" />
-      <rect
-         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:2"
-         id="rect8080"
-         width="1"
-         height="3"
-         x="162"
-         y="173" />
-      <rect
-         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:2"
-         id="rect8082"
-         width="1"
-         height="3"
-         x="173"
-         y="173" />
+         y="175" />
       <rect
          style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:2"
          id="rect8084"
-         width="2"
+         width="1"
          height="2"
-         x="167"
+         x="166"
          y="174" />
-      <rect
-         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect8101"
-         width="1"
-         height="14"
-         x="161"
-         y="173" />
-      <rect
-         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect8103"
-         width="1"
-         height="14"
-         x="174"
-         y="173" />
-      <rect
-         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect8105"
-         width="12"
-         height="1"
-         x="162"
-         y="173" />
-      <rect
-         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect8107"
-         width="12"
-         height="1"
-         x="162"
-         y="186" />
       <rect
          style="fill:#c0bfbc;fill-opacity:1;stroke:none;stroke-width:1.90693;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect8109"
@@ -3265,6 +3225,37 @@
          d="m 12,276 v 4 c 0,4.432 3.568,8 8,8 h 88 c 4.432,0 8,-3.568 8,-8 v -4 c 0,4.432 -3.568,8 -8,8 H 20 c -4.432,0 -8,-3.568 -8,-8 z"
          id="rect929-3-6-3-9-3-2"
          sodipodi:nodetypes="csssscssc" />
+      <rect
+         style="fill:none;stroke:#241f31;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1369"
+         width="13"
+         height="13"
+         x="161.5"
+         y="173.5"
+         ry="0.5" />
+      <rect
+         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:2"
+         id="rect1372"
+         width="1"
+         height="2"
+         x="169"
+         y="174" />
+      <rect
+         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:1.41421;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1388"
+         width="2"
+         height="2"
+         x="162"
+         y="174"
+         ry="0" />
+      <rect
+         style="fill:#241f31;fill-opacity:1;stroke:none;stroke-width:1.41421;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1390"
+         width="2"
+         height="2"
+         x="172"
+         y="174"
+         ry="0" />
     </g>
     <g
        inkscape:groupmode="layer"

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
     <g fill="#241f31">
-        <path d="m 2 4 h 12 v 1 h -12 z m 0 0"/>
-        <path d="m 2 1 h 1 v 3 h -1 z m 0 0"/>
-        <path d="m 13 1 h 1 v 3 h -1 z m 0 0"/>
-        <path d="m 7 2 h 2 v 2 h -2 z m 0 0"/>
-        <path d="m 1 1 h 1 v 14 h -1 z m 0 0"/>
-        <path d="m 14 1 h 1 v 14 h -1 z m 0 0"/>
-        <path d="m 2 1 h 12 v 1 h -12 z m 0 0"/>
-        <path d="m 2 14 h 12 v 1 h -12 z m 0 0"/>
+        <path d="m 2 3 h 12 v 1 h -12 z m 0 0"/>
+        <path d="m 6 2 h 1 v 2 h -1 z m 0 0"/>
         <path d="m 10 14 l 4 -4 h -4 z m 0 0"/>
     </g>
+    <path d="m 2 1.5 h 12 c 0.277344 0 0.5 0.222656 0.5 0.5 v 12 c 0 0.277344 -0.222656 0.5 -0.5 0.5 h -12 c -0.277344 0 -0.5 -0.222656 -0.5 -0.5 v -12 c 0 -0.277344 0.222656 -0.5 0.5 -0.5 z m 0 0" fill="none" stroke="#241f31" stroke-linejoin="round"/>
+    <path d="m 9 2 h 1 v 2 h -1 z m 0 0" fill="#241f31"/>
+    <path d="m 2 2 h 2 v 2 h -2 z m 0 0" fill="#241f31"/>
+    <path d="m 12 2 h 2 v 2 h -2 z m 0 0" fill="#241f31"/>
 </svg>
