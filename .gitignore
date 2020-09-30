@@ -10,3 +10,8 @@ src/static_resources.rs
 builddir/
 .buildconfig
 install/
+/po/identity.pot
+/.flatpak-builder/
+/build-dir/
+/*.flatpak
+/repository/
