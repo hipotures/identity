@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-01 12:33+0300\n"
-"PO-Revision-Date: 2020-10-01 12:33+0300\n"
+"POT-Creation-Date: 2020-10-01 14:10+0300\n"
+"PO-Revision-Date: 2020-10-01 14:10+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -151,13 +151,18 @@ msgstr ""
 "Не удалось создать один из необходимых элементов GStreamer (gtksink, "
 "playbin3)."
 
+#. Translators: file chooser file filter name.
+#: src/window.rs:260
+msgid "Videos and images"
+msgstr "Видео и изображения"
+
 #. Translators: file chooser dialog title.
-#: src/window.rs:195
+#: src/window.rs:271
 msgid "Open videos or images to compare"
 msgstr "Открыть видео или изображения для сравнения"
 
 #. Translators: label shown when a video or image has failed to load.
-#: src/window.rs:275
+#: src/window.rs:353
 msgid ""
 "Could not display the file.\n"
 "\n"
@@ -171,6 +176,6 @@ msgstr ""
 
 #. Translators: placeholder shown in the headerbar for new files before their display
 #. name is available (for example, when loading a file from a network mount).
-#: src/window.rs:295
+#: src/window.rs:373
 msgid "Loading…"
 msgstr "Загрузка…"

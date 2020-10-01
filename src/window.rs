@@ -14,6 +14,75 @@ use crate::config::{LOG_DOMAIN, PROFILE};
 /// Show a loading state when a file takes longer than this to load.
 const TIMEOUT_MS: u32 = 300;
 
+/// MIME types for the file chooser filter.
+const MIME_TYPES: &[&str] = &[
+    "image/bmp",
+    "image/jpeg",
+    "image/jpg",
+    "image/pjpeg",
+    "image/png",
+    "image/tiff",
+    "image/x-bmp",
+    "image/x-gray",
+    "image/x-icb",
+    "image/x-ico",
+    "image/x-png",
+    "image/x-portable-anymap",
+    "image/x-portable-bitmap",
+    "image/x-portable-graymap",
+    "image/x-portable-pixmap",
+    "image/x-xbitmap",
+    "image/x-xpixmap",
+    "image/x-pcx",
+    "image/svg+xml",
+    "image/svg+xml-compressed",
+    "image/vnd.wap.wbmp",
+    "image/x-icns",
+    "video/3gp",
+    "video/3gpp",
+    "video/3gpp2",
+    "video/dv",
+    "video/divx",
+    "video/fli",
+    "video/flv",
+    "video/mp2t",
+    "video/mp4",
+    "video/mp4v-es",
+    "video/mpeg",
+    "video/mpeg-system",
+    "video/msvideo",
+    "video/ogg",
+    "video/quicktime",
+    "video/vivo",
+    "video/vnd.divx",
+    "video/vnd.mpegurl",
+    "video/vnd.rn-realvideo",
+    "video/vnd.vivo",
+    "video/webm",
+    "video/x-anim",
+    "video/x-avi",
+    "video/x-flc",
+    "video/x-fli",
+    "video/x-flic",
+    "video/x-flv",
+    "video/x-m4v",
+    "video/x-matroska",
+    "video/x-mjpeg",
+    "video/x-mpeg",
+    "video/x-mpeg2",
+    "video/x-ms-asf",
+    "video/x-ms-asf-plugin",
+    "video/x-ms-asx",
+    "video/x-msvideo",
+    "video/x-ms-wm",
+    "video/x-ms-wmv",
+    "video/x-ms-wvx",
+    "video/x-nsv",
+    "video/x-ogm+ogg",
+    "video/x-theora",
+    "video/x-theora+ogg",
+];
+
 struct Page {
     playbin: gst::Element,
     stack: gtk::Stack,
@@ -186,6 +255,13 @@ impl Window {
     }
 
     pub fn show_open_dialog(self: Rc<Self>) {
+        let filter = gtk::FileFilter::new();
+        // Translators: file chooser file filter name.
+        filter.set_name(Some(&gettext("Videos and images")));
+        for mime_type in MIME_TYPES {
+            filter.add_mime_type(mime_type);
+        }
+
         let file_chooser = gtk::FileChooserNativeBuilder::new()
             .transient_for(&self.window)
             .modal(true)
@@ -194,6 +270,8 @@ impl Window {
             // Translators: file chooser dialog title.
             .title(&gettext("Open videos or images to compare"))
             .build();
+
+        file_chooser.add_filter(&filter);
 
         file_chooser.connect_response({
             let file_chooser = RefCell::new(Some(file_chooser.clone()));
