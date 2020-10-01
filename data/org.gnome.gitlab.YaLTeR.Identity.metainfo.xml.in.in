@@ -19,7 +19,11 @@
   <url type="bugtracker">https://gitlab.gnome.org/YaLTeR/identity/issues</url>
   <content_rating type="oars-1.0" />
   <releases>
-    <release version="0.0.1" date="2019-07-11" />
+    <release version="0.1.0" date="2020-10-01">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
   </releases>
   <kudos>
      <!--
