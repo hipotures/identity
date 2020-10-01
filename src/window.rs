@@ -192,7 +192,7 @@ impl Window {
             .action(gtk::FileChooserAction::Open)
             .select_multiple(true)
             // Translators: file chooser dialog title.
-            .title(&gettext("Open image or video"))
+            .title(&gettext("Open videos or images to compare"))
             .build();
 
         file_chooser.connect_response({

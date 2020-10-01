@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-01 12:23+0300\n"
-"PO-Revision-Date: 2020-10-01 12:23+0300\n"
+"POT-Creation-Date: 2020-10-01 12:27+0300\n"
+"PO-Revision-Date: 2020-10-01 12:28+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -42,8 +42,8 @@ msgstr "Переключение между файлами"
 
 #: data/resources/ui/shortcuts.ui:24
 msgctxt "shortcut window"
-msgid "Open image or video"
-msgstr "Открыть изображение или видео"
+msgid "Open videos or images"
+msgstr "Открыть видео или изображения"
 
 #: data/resources/ui/shortcuts.ui:31
 msgctxt "shortcut window"
@@ -153,8 +153,8 @@ msgstr ""
 
 #. Translators: file chooser dialog title.
 #: src/window.rs:195
-msgid "Open image or video"
-msgstr "Открыть изображение или видео"
+msgid "Open videos or images to compare"
+msgstr "Открыть видео или изображения для сравнения"
 
 #. Translators: label shown when a video or image has failed to load.
 #: src/window.rs:275
@@ -174,7 +174,3 @@ msgstr ""
 #: src/window.rs:295
 msgid "Loading…"
 msgstr "Загрузка…"
-
-#~ msgctxt "Text on the window when no files are open."
-#~ msgid "Press the Open button to open videos or images."
-#~ msgstr "Нажмите кнопку Открыть, чтобы открыть видео или изображения."

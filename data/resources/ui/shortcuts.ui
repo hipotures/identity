@@ -21,7 +21,7 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="visible">True</property>
-                                <property name="title" translatable="yes" context="shortcut window">Open image or video</property>
+                                <property name="title" translatable="yes" context="shortcut window">Open videos or images</property>
                                 <property name="accelerator">&lt;Primary&gt;O</property>
                             </object>
                         </child>
