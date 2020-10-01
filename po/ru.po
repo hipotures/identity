@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-01 12:21+0300\n"
-"PO-Revision-Date: 2020-10-01 12:21+0300\n"
+"POT-Creation-Date: 2020-10-01 12:23+0300\n"
+"PO-Revision-Date: 2020-10-01 12:23+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -107,8 +107,9 @@ msgstr "Открыть…"
 
 #: data/resources/ui/window.ui.in:271
 msgctxt "Text on the window when no files are open."
-msgid "Press the Open button to open videos or images."
-msgstr "Нажмите кнопку Открыть, чтобы открыть видео или изображения."
+msgid "Open videos or images to compare by pressing the Open button."
+msgstr ""
+"Чтобы открыть видео или изображения для сравнения, нажмите кнопку Открыть."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -173,3 +174,7 @@ msgstr ""
 #: src/window.rs:295
 msgid "Loading…"
 msgstr "Загрузка…"
+
+#~ msgctxt "Text on the window when no files are open."
+#~ msgid "Press the Open button to open videos or images."
+#~ msgstr "Нажмите кнопку Открыть, чтобы открыть видео или изображения."
