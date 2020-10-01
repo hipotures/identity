@@ -2,6 +2,8 @@
 
 A program for comparing multiple versions of an image or video.
 
+<a href='https://flathub.org/apps/details/org.gnome.gitlab.YaLTeR.Identity'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
+
 ![Screenshot of the window.](data/resources/screenshots/screenshot1.png)
 
 ## Format support
