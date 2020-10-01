@@ -4,3 +4,5 @@ data/resources/ui/window.ui.in
 data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in
 data/org.gnome.gitlab.YaLTeR.Identity.gschema.xml.in
 data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in
+
+src/window.rs

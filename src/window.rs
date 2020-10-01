@@ -268,11 +268,14 @@ impl Window {
         // Set up the error page.
         let error_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
         error_box.get_style_context().add_class("background");
-        let error_label = gtk::Label::new(Some(
+        // Weird string formatting because xgettext doesn't understand that \ eats trailing spaces
+        // on the next line.
+        let error_label = gtk::Label::new(Some(&gettext(
+            // Translators: label shown when a video or image has failed to load.
             "Could not display the file.\n\n\
-             If you're running Identity under Flatpak, note that \
-             drag-and-drop and pasting to open files may not work.",
-        ));
+If you're running Identity under Flatpak, note that \
+drag-and-drop and pasting to open files may not work.",
+        )));
         error_label.set_line_wrap(true);
         error_label.set_margin_start(18);
         error_label.set_margin_end(18);
@@ -287,7 +290,9 @@ impl Window {
         });
 
         self.stack_media
-            .add_titled(&stack, &index.to_string(), "Loading…");
+            // Translators: placeholder shown in the headerbar for new files before their display
+            // name is available (for example, when loading a file from a network mount).
+            .add_titled(&stack, &index.to_string(), &gettext("Loading…"));
 
         let self_ = Rc::clone(self);
         let stack_ = stack.clone();
