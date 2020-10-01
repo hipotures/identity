@@ -4,6 +4,10 @@ A program for comparing multiple versions of an image or video.
 
 ![Screenshot of the window.](data/resources/screenshots/screenshot1.png)
 
+## Format support
+
+Identity uses GStreamer, and therefore your system's or Flatpak GNOME Platform's installed GStreamer plugins. In particular, Identity won't work at all without the `playbin3` element (typically in `gst-plugins-base`) as well as the `gtksink` element (typically in `gst-plugins-good`, although sometimes extracted into its own package).
+
 ## Building
 
 The easiest way is to clone the repository with GNOME Builder and press the Build button.
