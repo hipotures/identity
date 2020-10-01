@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-01 10:43+0300\n"
-"PO-Revision-Date: 2020-10-01 10:43+0300\n"
+"POT-Creation-Date: 2020-10-01 12:21+0300\n"
+"PO-Revision-Date: 2020-10-01 12:21+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -20,7 +20,13 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Gtranslator 3.38.0\n"
 
-#: data/resources/ui/about_dialog.ui.in:13
+#: data/resources/ui/about_dialog.ui.in:11
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "Сравнение изображений и видео"
+
+#: data/resources/ui/about_dialog.ui.in:14
 msgid "translator-credits"
 msgstr "Ivan Molodetskikh <yalterz@gmail.com>, 2020"
 
@@ -108,11 +114,6 @@ msgstr "Нажмите кнопку Открыть, чтобы открыть в
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
 msgid "Identity"
 msgstr "Идентичность"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
-msgid "Compare images and videos"
-msgstr "Сравнение изображений и видео"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10

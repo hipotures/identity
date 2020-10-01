@@ -8,6 +8,7 @@
     <property name="type_hint">dialog</property>
     <property name="program_name">Identity</property>
     <property name="version">@version@</property>
+    <property name="comments" translatable="yes">Compare images and videos</property>
     <property name="website">https://gitlab.gnome.org/YaLTeR/identity/</property>
     <property name="authors">Ivan Molodetskikh</property>
     <property name="translator_credits" translatable="yes">translator-credits</property>
