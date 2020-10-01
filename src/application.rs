@@ -1,4 +1,6 @@
+use gettextrs::gettext;
 use gio::prelude::*;
+use gstreamer as gst;
 use gtk::prelude::*;
 use libhandy as hdy;
 use std::{env, rc::Rc};
@@ -8,7 +10,7 @@ use crate::window::Window;
 
 pub struct Application {
     app: gtk::Application,
-    window: Rc<Window>,
+    _window: Option<Rc<Window>>,
 }
 
 impl Application {
@@ -18,23 +20,65 @@ impl Application {
             gio::ApplicationFlags::NON_UNIQUE | gio::ApplicationFlags::HANDLES_OPEN,
         )
         .unwrap();
+
+        if gst::ElementFactory::make("gtksink", None).is_err()
+            || gst::ElementFactory::make("playbin3", None).is_err()
+        {
+            let dialog = gtk::MessageDialogBuilder::new()
+                // Translators: startup error dialog text.
+                .text(&gettext("Error loading Identity"))
+                .secondary_text(&gettext(
+                    // Translators: startup error dialog secondary text.
+                    "Could not create one of the required GStreamer elements (gtksink, playbin3).",
+                ))
+                .message_type(gtk::MessageType::Error)
+                .buttons(gtk::ButtonsType::Close)
+                .build();
+
+            dialog.connect_response({
+                let app = app.downgrade();
+                move |_, _| {
+                    let app = app.upgrade().unwrap();
+                    app.quit()
+                }
+            });
+
+            app.connect_activate({
+                move |app| {
+                    dialog.set_application(Some(app));
+                    dialog.show_all()
+                }
+            });
+
+            app.connect_open({
+                move |app, _, _| {
+                    app.activate();
+                }
+            });
+
+            return Self { app, _window: None };
+        }
+
         let window = Window::new();
 
-        let application = Self { app, window };
+        let application = Self {
+            app,
+            _window: Some(window.clone()),
+        };
 
-        application.setup_widgets();
-        application.setup_gactions();
-        application.setup_signals();
+        application.setup_widgets(&window);
+        application.setup_gactions(&window);
+        application.setup_signals(&window);
         application
     }
 
-    fn setup_widgets(&self) {
+    fn setup_widgets(&self, window: &Rc<Window>) {
         let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/shortcuts.ui");
         let shortcuts: gtk::ShortcutsWindow = builder.get_object("shortcuts").unwrap();
-        self.window.window.set_help_overlay(Some(&shortcuts));
+        window.window.set_help_overlay(Some(&shortcuts));
     }
 
-    fn setup_gactions(&self) {
+    fn setup_gactions(&self, window: &Rc<Window>) {
         // Quit
         let action = gio::SimpleAction::new("quit", None);
         action.connect_activate({
@@ -50,7 +94,7 @@ impl Application {
         // About
         let action = gio::SimpleAction::new("about", None);
         action.connect_activate({
-            let window = self.window.window.downgrade();
+            let window = window.window.downgrade();
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 let builder = gtk::Builder::from_resource(
@@ -73,7 +117,7 @@ impl Application {
             let action_name = format!("switch-to-page-{}", page);
             let action = gio::SimpleAction::new(&action_name, None);
             action.connect_activate({
-                let window = Rc::downgrade(&self.window);
+                let window = Rc::downgrade(window);
                 move |_, _| {
                     let window = window.upgrade().unwrap();
                     window.set_visible_child(page);
@@ -89,7 +133,7 @@ impl Application {
         // Open
         let action = gio::SimpleAction::new("open", None);
         action.connect_activate({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 window.show_open_dialog();
@@ -101,7 +145,7 @@ impl Application {
         // Paste
         let action = gio::SimpleAction::new("paste", None);
         action.connect_activate({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |_, _| {
                 let window = window.upgrade().unwrap();
 
@@ -121,7 +165,7 @@ impl Application {
         // Close selected file
         let action = gio::SimpleAction::new("close-selected-file", None);
         action.connect_activate({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 window.close_selected_file();
@@ -134,7 +178,7 @@ impl Application {
         // Play / Pause
         let action = gio::SimpleAction::new("play-pause", None);
         action.connect_activate({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 window.play_pause();
@@ -147,7 +191,7 @@ impl Application {
         // Step forward
         let action = gio::SimpleAction::new("step-forward", None);
         action.connect_activate({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 window.step_forward();
@@ -160,7 +204,7 @@ impl Application {
         // Step back
         let action = gio::SimpleAction::new("step-back", None);
         action.connect_activate({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |_, _| {
                 let window = window.upgrade().unwrap();
                 window.step_back();
@@ -170,10 +214,10 @@ impl Application {
         self.app.set_accels_for_action("app.step-back", &["comma"]);
     }
 
-    fn setup_signals(&self) {
+    fn setup_signals(&self, window: &Rc<Window>) {
         self.app.connect_startup(|_| hdy::init());
         self.app.connect_open({
-            let window = Rc::downgrade(&self.window);
+            let window = Rc::downgrade(window);
             move |app, files, _| {
                 let window = window.upgrade().unwrap();
 
@@ -186,7 +230,7 @@ impl Application {
             }
         });
         self.app.connect_activate({
-            let window = self.window.window.downgrade();
+            let window = window.window.downgrade();
             move |app| {
                 let window = window.upgrade().unwrap();
                 window.set_application(Some(app));
