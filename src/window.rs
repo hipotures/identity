@@ -565,6 +565,11 @@ impl Window {
         let _ = self.pipeline.remove(&page.playbin);
         let _ = page.playbin.set_state(gst::State::Null);
 
+        // Select the tab before the closed one.
+        if index >= 1 {
+            self.stack_media.set_visible_child_name(&index.to_string());
+        }
+
         if self.stack_media.get_children().is_empty() {
             // No elements left, go back to the empty state.
             self.stack_main.set_visible_child_name("page_empty");
