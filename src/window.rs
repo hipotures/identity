@@ -327,28 +327,30 @@ impl Window {
             }
         };
 
-        let self_ = Rc::clone(self);
-        let stack_ = stack.clone();
-        let show_stack_ = show_stack.clone();
-        let get_name_and_show_page = async move {
-            let info_future = file.query_info_async_future(
-                "standard::display-name",
-                gio::FileQueryInfoFlags::NONE,
-                glib::PRIORITY_DEFAULT,
-            );
+        let get_name_and_show_page = {
+            let self_ = Rc::clone(self);
+            let stack = stack.clone();
+            let show_stack = show_stack.clone();
+            async move {
+                let info_future = file.query_info_async_future(
+                    "standard::display-name",
+                    gio::FileQueryInfoFlags::NONE,
+                    glib::PRIORITY_DEFAULT,
+                );
 
-            let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
-                show_stack_();
-            })
-            .await;
+                let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
+                    show_stack();
+                })
+                .await;
 
-            let title = info
-                .ok()
-                .and_then(|info| info.get_display_name())
-                .unwrap_or_else(|| file.get_uri());
-            self_.stack_media.set_child_title(&stack_, Some(&title));
+                let title = info
+                    .ok()
+                    .and_then(|info| info.get_display_name())
+                    .unwrap_or_else(|| file.get_uri());
+                self_.stack_media.set_child_title(&stack, Some(&title));
 
-            show_stack_();
+                show_stack();
+            }
         };
         glib::MainContext::default().spawn_local(get_name_and_show_page);
 
