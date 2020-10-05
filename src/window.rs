@@ -356,13 +356,10 @@ impl Window {
                 // After a 300 ms timeout, show the loading spinner and the window, if it hasn't
                 // opened yet.
                 if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
-                    self_
-                        .stack_main
-                        .set_transition_type(gtk::StackTransitionType::Crossfade);
-                    self_.stack_main.set_visible_child_name("page_loading");
-                    self_
-                        .stack_main
-                        .set_transition_type(gtk::StackTransitionType::OverDownUp);
+                    self_.stack_main.set_visible_child_full(
+                        "page_loading",
+                        gtk::StackTransitionType::Crossfade,
+                    );
                 }
 
                 self_.window.show_all();
