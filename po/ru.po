@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-01 14:10+0300\n"
+"POT-Creation-Date: 2020-10-05 20:18+0300\n"
 "PO-Revision-Date: 2020-10-01 14:10+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -29,6 +29,20 @@ msgstr "Сравнение изображений и видео"
 #: data/resources/ui/about_dialog.ui.in:14
 msgid "translator-credits"
 msgstr "Ivan Molodetskikh <yalterz@gmail.com>, 2020"
+
+#: data/resources/ui/media_page.ui:59
+#, fuzzy
+msgctxt "Label shown when a video or image has failed to load."
+msgid ""
+"Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-"
+"and-drop and by pasting may not work."
+msgstr ""
+"Не удалось отобразить файл.\n"
+"\n"
+"Если программа запущена под Flatpak, открытие файлов путём перетаскивания "
+"или вставки из буфера обмена может не работать."
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
@@ -161,21 +175,8 @@ msgstr "Видео и изображения"
 msgid "Open videos or images to compare"
 msgstr "Открыть видео или изображения для сравнения"
 
-#. Translators: label shown when a video or image has failed to load.
-#: src/window.rs:353
-msgid ""
-"Could not display the file.\n"
-"\n"
-"If you're running Identity under Flatpak, note that opening files by drag-"
-"and-drop and by pasting may not work."
-msgstr ""
-"Не удалось отобразить файл.\n"
-"\n"
-"Если программа запущена под Flatpak, открытие файлов путём перетаскивания "
-"или вставки из буфера обмена может не работать."
-
 #. Translators: placeholder shown in the headerbar for new files before their display
 #. name is available (for example, when loading a file from a network mount).
-#: src/window.rs:373
+#: src/window.rs:348
 msgid "Loading…"
 msgstr "Загрузка…"

@@ -3,6 +3,7 @@
   <gresource prefix="/org/gnome/gitlab/YaLTeR/Identity/">
     <file compressed="true" preprocess="xml-stripblanks">about_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="shortcuts.ui">resources/ui/shortcuts.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="media_page.ui">resources/ui/media_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">window.ui</file>
 
     <file preprocess="xml-stripblanks">icons/org.gnome.gitlab.YaLTeR.Identity-symbolic-big.svg</file>

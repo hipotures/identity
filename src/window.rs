@@ -326,41 +326,16 @@ impl Window {
                 .set_visible_child_name("page_stack_switcher");
         }
 
-        let stack = gtk::Stack::new();
-        stack.set_transition_duration(200);
+        let builder =
+            gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/media_page.ui");
+        let stack: gtk::Stack = builder.get_object("stack_main").unwrap();
 
         // Set up the media page.
-        stack.add_named(&widget, "page_media");
+        let box_media: gtk::Box = builder.get_object("box_media").unwrap();
+        box_media.pack_start(&widget, true, true, 0);
 
-        // Set up the loading page.
-        let loading_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
-        loading_box.get_style_context().add_class("background");
-        let loading_spinner = gtk::Spinner::new();
-        loading_spinner.start();
-        loading_box.pack_start(&loading_spinner, true, true, 0);
-        stack.add_named(&loading_box, "page_loading");
-
-        loading_box.show_all();
+        // Show the loading spinner by default.
         stack.set_visible_child_name("page_loading");
-
-        // Set up the error page.
-        let error_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
-        error_box.get_style_context().add_class("background");
-        // Weird string formatting because xgettext doesn't understand that \ eats trailing spaces
-        // on the next line.
-        let error_label = gtk::Label::new(Some(&gettext(
-            // Translators: label shown when a video or image has failed to load.
-            "Could not display the file.\n\n\
-If you're running Identity under Flatpak, note that \
-opening files by drag-and-drop and by pasting may not work.",
-        )));
-        error_label.set_line_wrap(true);
-        error_label.set_margin_start(18);
-        error_label.set_margin_end(18);
-        error_label.set_margin_top(18);
-        error_label.set_margin_bottom(18);
-        error_box.pack_start(&error_label, true, true, 0);
-        stack.add_named(&error_box, "page_error");
 
         self.pages.borrow_mut().push(Page {
             playbin: playbin.clone(),
