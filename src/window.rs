@@ -327,7 +327,7 @@ impl Window {
             }
         };
 
-        let get_name_and_show_page = {
+        let get_name = {
             let self_ = Rc::clone(self);
             let stack = stack.clone();
             async move {
@@ -345,7 +345,7 @@ impl Window {
                 self_.stack_media.set_child_title(&stack, Some(&title));
             }
         };
-        glib::MainContext::default().spawn_local(get_name_and_show_page);
+        glib::MainContext::default().spawn_local(get_name);
 
         let self_ = Rc::clone(self);
         let show_stack_ = show_stack.clone();
