@@ -410,10 +410,6 @@ impl Window {
                     self_.revealer_controls.set_reveal_child(true);
                 }
 
-                self_
-                    .revealer_controls
-                    .set_transition_type(gtk::RevealerTransitionType::SlideUp);
-
                 self_.stack_main.set_visible_child_name("page_media");
             }
 
