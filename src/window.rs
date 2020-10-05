@@ -368,9 +368,12 @@ impl Window {
 
             stack.show_all();
 
-            // Query duration now that the playbin is pre-rolled, before potentially changing its
-            // state.
-            let has_duration = playbin.query_duration::<gst::ClockTime>().is_some();
+            // This is the first file being loaded. Display the revealer if needed and then set its
+            // transition type. This way when the main stack first reveals a video, it will already
+            // show the controls without an extra animation looking weird.
+            if playbin.query_duration::<gst::ClockTime>().is_some() {
+                self_.revealer_controls.set_reveal_child(true);
+            }
 
             if success {
                 // To synchronize the playbin and the pipeline position, perform a seek on the
@@ -402,16 +405,7 @@ impl Window {
 
             // Change the main stack visible child _after_ the media stack, so that the media stack
             // transition isn't run unnecessarily.
-            if self_.stack_main.get_visible_child_name().unwrap() != "page_media" {
-                // This is the first file being loaded. Display the revealer if needed and then set
-                // its transition type. This way when the main stack first reveals a video, it will
-                // already show the controls without an extra animation looking weird.
-                if has_duration {
-                    self_.revealer_controls.set_reveal_child(true);
-                }
-
-                self_.stack_main.set_visible_child_name("page_media");
-            }
+            self_.stack_main.set_visible_child_name("page_media");
 
             self_.window.show_all();
         };
