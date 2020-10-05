@@ -335,7 +335,10 @@ impl Window {
             let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
                 // Show the page with a temporary name.
                 stack_.show_all();
-                stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
+
+                if self_.stack_main.get_visible_child_name().unwrap() == "page_media" {
+                    stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
+                }
             })
             .await;
 
