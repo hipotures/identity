@@ -348,24 +348,9 @@ impl Window {
         glib::MainContext::default().spawn_local(get_name_and_show_page);
 
         let self_ = Rc::clone(self);
+        let show_stack_ = show_stack.clone();
         let start_playback = async move {
-            let start_future = preroll(&playbin);
-
-            let success = add_timeout_action(start_future.fuse(), TIMEOUT, || {
-                // After a 300 ms timeout, show the loading spinner and the window, if it hasn't
-                // opened yet.
-                if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
-                    self_.stack_main.set_visible_child_full(
-                        "page_loading",
-                        gtk::StackTransitionType::Crossfade,
-                    );
-                }
-
-                show_stack();
-
-                self_.window.show_all();
-            })
-            .await;
+            let success = preroll(&playbin).await;
 
             // This is the first file being loaded. Display the revealer if needed and then set its
             // transition type. This way when the main stack first reveals a video, it will already
@@ -404,11 +389,27 @@ impl Window {
 
             // Change the main stack visible child _after_ the media stack, so that the media stack
             // transition isn't run unnecessarily.
-            show_stack();
+            show_stack_();
             self_.stack_main.set_visible_child_name("page_media");
 
             self_.window.show_all();
         };
+
+        let self_ = Rc::clone(self);
+        let start_playback = add_timeout_action(start_playback.fuse(), TIMEOUT, move || {
+            // After a 300 ms timeout, show the loading spinner and the window, if it hasn't opened
+            // yet.
+            if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
+                self_
+                    .stack_main
+                    .set_visible_child_full("page_loading", gtk::StackTransitionType::Crossfade);
+            }
+
+            show_stack();
+
+            self_.window.show_all();
+        });
+
         glib::MainContext::default().spawn_local(start_playback);
     }
 
