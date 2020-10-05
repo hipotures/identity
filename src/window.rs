@@ -294,14 +294,6 @@ impl Window {
 
         let (playbin, widget) = create_player(&file.get_uri());
 
-        let index = self.stack_media.get_children().len() + 1;
-
-        if index == 1 {
-            // This is the first file.
-            self.stack_title
-                .set_visible_child_name("page_stack_switcher");
-        }
-
         let builder =
             gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/media_page.ui");
         let stack: gtk::Stack = builder.get_object("stack_main").unwrap();
@@ -318,6 +310,7 @@ impl Window {
             stack: stack.clone(),
         });
 
+        let index = self.stack_media.get_children().len() + 1;
         self.stack_media
             // Translators: placeholder shown in the headerbar for new files before their display
             // name is available (for example, when loading a file from a network mount).
@@ -335,6 +328,9 @@ impl Window {
             let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
                 // Show the page with a temporary name.
                 stack_.show_all();
+                self_
+                    .stack_title
+                    .set_visible_child_name("page_stack_switcher");
             })
             .await;
 
@@ -345,6 +341,9 @@ impl Window {
             self_.stack_media.set_child_title(&stack_, Some(&title));
 
             stack_.show_all();
+            self_
+                .stack_title
+                .set_visible_child_name("page_stack_switcher");
         };
         glib::MainContext::default().spawn_local(get_name_and_show_page);
 
@@ -365,8 +364,6 @@ impl Window {
                 self_.window.show_all();
             })
             .await;
-
-            stack.show_all();
 
             // This is the first file being loaded. Display the revealer if needed and then set its
             // transition type. This way when the main stack first reveals a video, it will already
@@ -405,6 +402,10 @@ impl Window {
 
             // Change the main stack visible child _after_ the media stack, so that the media stack
             // transition isn't run unnecessarily.
+            stack.show_all(); // Show the stack if it wasn't shown yet.
+            self_
+                .stack_title
+                .set_visible_child_name("page_stack_switcher");
             self_.stack_main.set_visible_child_name("page_media");
 
             self_.window.show_all();
