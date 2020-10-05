@@ -633,6 +633,7 @@ impl Window {
         if self.stack_media.get_children().is_empty() {
             // No elements left, go back to the empty state.
             self.stack_main.set_visible_child_name("page_empty");
+            self.stack_title.set_visible_child_name("page_title");
 
             // Reset the pipeline position and state.
             self.adjustment_position.set_value(0.); // This is used to seek in add_file().
