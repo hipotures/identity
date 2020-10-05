@@ -418,9 +418,6 @@ impl Window {
             }
 
             self_.window.show_all();
-            self_
-                .stack_main
-                .set_transition_type(gtk::StackTransitionType::OverDownUp);
         };
         glib::MainContext::default().spawn_local(start_playback);
     }
