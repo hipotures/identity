@@ -330,7 +330,6 @@ impl Window {
         let get_name_and_show_page = {
             let self_ = Rc::clone(self);
             let stack = stack.clone();
-            let show_stack = show_stack.clone();
             async move {
                 let info_future = file.query_info_async_future(
                     "standard::display-name",
@@ -344,8 +343,6 @@ impl Window {
                     .and_then(|info| info.get_display_name())
                     .unwrap_or_else(|| file.get_uri());
                 self_.stack_media.set_child_title(&stack, Some(&title));
-
-                show_stack();
             }
         };
         glib::MainContext::default().spawn_local(get_name_and_show_page);
