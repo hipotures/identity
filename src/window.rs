@@ -363,15 +363,11 @@ impl Window {
             })
             .await;
 
-            self_.stack_media.set_child_title(
-                &stack_,
-                Some(
-                    &info
-                        .ok()
-                        .and_then(|info| info.get_display_name())
-                        .unwrap_or_else(|| file.get_uri()),
-                ),
-            );
+            let title = info
+                .ok()
+                .and_then(|info| info.get_display_name())
+                .unwrap_or_else(|| file.get_uri());
+            self_.stack_media.set_child_title(&stack_, Some(&title));
 
             stack_.show_all();
 
