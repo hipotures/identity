@@ -1,6 +1,6 @@
-use std::{cell::Cell, cell::RefCell, rc::Rc};
+use std::{cell::Cell, cell::RefCell, convert::TryInto, rc::Rc, time::Duration};
 
-use futures_util::{pin_mut, select_biased, FutureExt, StreamExt};
+use futures_util::{pin_mut, select_biased, FusedFuture, FutureExt, StreamExt};
 use gettextrs::gettext;
 use gio::prelude::*;
 use gst::prelude::*;
@@ -12,7 +12,7 @@ use once_cell::unsync::OnceCell;
 use crate::config::{LOG_DOMAIN, PROFILE};
 
 /// Show a loading state when a file takes longer than this to load.
-const TIMEOUT_MS: u32 = 300;
+const TIMEOUT: Duration = Duration::from_millis(300);
 
 /// MIME types for the file chooser filter.
 const MIME_TYPES: &[&str] = &[
@@ -350,29 +350,18 @@ impl Window {
         let self_ = Rc::clone(self);
         let stack_ = stack.clone();
         let get_name_and_show_page = async move {
-            let mut timeout = glib::timeout_future(TIMEOUT_MS).fuse();
-            let mut info_future = file
-                .query_info_async_future(
-                    "standard::display-name",
-                    gio::FileQueryInfoFlags::NONE,
-                    glib::PRIORITY_DEFAULT,
-                )
-                .fuse();
+            let info_future = file.query_info_async_future(
+                "standard::display-name",
+                gio::FileQueryInfoFlags::NONE,
+                glib::PRIORITY_DEFAULT,
+            );
 
-            // Query info with a timeout. If it takes longer than the timeout, show the page with a
-            // temporary name.
-            //
-            // Use biased select as adding multiple files can cause a main loop stall after which
-            // both the timeout and the info future will be complete. In this case we want to
-            // prioritize the info future.
-            let info = select_biased! {
-                info = info_future => info,
-                _ = timeout => {
-                    stack_.show_all();
-                    stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
-                    info_future.await
-                }
-            };
+            let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
+                // Show the page with a temporary name.
+                stack_.show_all();
+                stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
+            })
+            .await;
 
             self_.stack_media.set_child_title(
                 &stack_,
@@ -445,26 +434,24 @@ impl Window {
                         }
                     }
                 }
-            }
-            .fuse();
-            pin_mut!(start_future);
-
-            let mut timeout = glib::timeout_future(TIMEOUT_MS).fuse();
-            let success = select_biased! {
-                success = start_future => success,
-                _ = timeout => {
-                    // After a 300 ms timeout, show the loading spinner and the window, if it
-                    // hasn't opened yet.
-                    if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
-                        self_.stack_main.set_transition_type(gtk::StackTransitionType::Crossfade);
-                        self_.stack_main.set_visible_child_name("page_loading");
-                        self_.stack_main.set_transition_type(gtk::StackTransitionType::OverDownUp);
-                    }
-
-                    self_.window.show_all();
-                    start_future.await
-                }
             };
+
+            let success = add_timeout_action(start_future.fuse(), TIMEOUT, || {
+                // After a 300 ms timeout, show the loading spinner and the window, if it hasn't
+                // opened yet.
+                if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
+                    self_
+                        .stack_main
+                        .set_transition_type(gtk::StackTransitionType::Crossfade);
+                    self_.stack_main.set_visible_child_name("page_loading");
+                    self_
+                        .stack_main
+                        .set_transition_type(gtk::StackTransitionType::OverDownUp);
+                }
+
+                self_.window.show_all();
+            })
+            .await;
 
             stack.show_all();
 
@@ -810,5 +797,34 @@ impl Window {
 
         let _ = self.pipeline.remove(&playbin); // We can call this before adding playbin.
         let _ = playbin.set_state(gst::State::Null);
+    }
+}
+
+/// Adds a timeout action to the future.
+///
+/// If the future doesn't complete within `timeout`, `on_timeout` is called.
+///
+/// The value of `timeout` is floored down to a millisecond.
+///
+/// # Panics
+///
+/// Panics if the number of milliseconds in `timeout` doesn't fit into a `u32`.
+async fn add_timeout_action<F: FusedFuture, O: FnOnce()>(
+    future: F,
+    timeout: Duration,
+    on_timeout: O,
+) -> F::Output {
+    let timeout_ms = timeout.as_millis().try_into().unwrap();
+    let mut timeout = glib::timeout_future(timeout_ms).fuse();
+    pin_mut!(future);
+
+    // Use biased select as a main loop stall can result in both the timeout and the target future
+    // complete at the same time. In this case we want to prioritize the target future.
+    select_biased! {
+        result = future => result,
+        _ = timeout => {
+            on_timeout();
+            future.await
+        }
     }
 }
