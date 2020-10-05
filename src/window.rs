@@ -292,31 +292,7 @@ impl Window {
     pub fn add_file(self: &Rc<Self>, file: gio::File) {
         g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
 
-        // Using gtksink instead of gtkglsink due to instability.
-        //
-        // Issues I've hit:
-        // - https://gitlab.freedesktop.org/mesa/mesa/-/issues/3029
-        // - https://gitlab.gnome.org/GNOME/gtk/-/issues/3208
-        //
-        // Besides, with gtksink I can use alpha.
-        let gtksink = gst::ElementFactory::make("gtksink", None).unwrap();
-        let playbin = gst::ElementFactory::make("playbin3", None).unwrap();
-
-        gtksink.set_property("ignore-alpha", &false).unwrap();
-
-        playbin
-            .set_property("video-sink", &gtksink.to_value())
-            .unwrap();
-        playbin.set_property("mute", &true).unwrap();
-        playbin.set_property("uri", &file.get_uri()).unwrap();
-
-        // Add the video widget to the UI.
-        let widget = gtksink
-            .get_property("widget")
-            .unwrap()
-            .get::<gtk::Widget>()
-            .unwrap()
-            .unwrap();
+        let (playbin, widget) = create_player(&file.get_uri());
 
         let index = self.stack_media.get_children().len() + 1;
 
@@ -794,6 +770,41 @@ impl Window {
         let _ = self.pipeline.remove(&playbin); // We can call this before adding playbin.
         let _ = playbin.set_state(gst::State::Null);
     }
+}
+
+/// Creates and returns a new playbin with a sink GTK widget.
+///
+/// # Panics
+///
+/// Panics if the creation of `gtksink` and `playbin3` elements fails.
+fn create_player(uri: &glib::GString) -> (gst::Element, gtk::Widget) {
+    // Using gtksink instead of gtkglsink due to instability.
+    //
+    // Issues I've hit:
+    // - https://gitlab.freedesktop.org/mesa/mesa/-/issues/3029
+    // - https://gitlab.gnome.org/GNOME/gtk/-/issues/3208
+    //
+    // Besides, with gtksink I can use alpha.
+    let gtksink = gst::ElementFactory::make("gtksink", None).unwrap();
+    let playbin = gst::ElementFactory::make("playbin3", None).unwrap();
+
+    gtksink.set_property("ignore-alpha", &false).unwrap();
+
+    playbin
+        .set_property("video-sink", &gtksink.to_value())
+        .unwrap();
+    playbin.set_property("mute", &true).unwrap();
+    playbin.set_property("uri", uri).unwrap();
+
+    // Add the video widget to the UI.
+    let widget = gtksink
+        .get_property("widget")
+        .unwrap()
+        .get::<gtk::Widget>()
+        .unwrap()
+        .unwrap();
+
+    (playbin, widget)
 }
 
 /// Adds a timeout action to the future.
