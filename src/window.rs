@@ -316,8 +316,20 @@ impl Window {
             // name is available (for example, when loading a file from a network mount).
             .add_titled(&stack, &index.to_string(), &gettext("Loading…"));
 
+        let show_stack = {
+            let self_ = Rc::clone(self);
+            let stack = stack.clone();
+            move || {
+                stack.show_all();
+                self_
+                    .stack_title
+                    .set_visible_child_name("page_stack_switcher");
+            }
+        };
+
         let self_ = Rc::clone(self);
         let stack_ = stack.clone();
+        let show_stack_ = show_stack.clone();
         let get_name_and_show_page = async move {
             let info_future = file.query_info_async_future(
                 "standard::display-name",
@@ -326,11 +338,7 @@ impl Window {
             );
 
             let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
-                // Show the page with a temporary name.
-                stack_.show_all();
-                self_
-                    .stack_title
-                    .set_visible_child_name("page_stack_switcher");
+                show_stack_();
             })
             .await;
 
@@ -340,10 +348,7 @@ impl Window {
                 .unwrap_or_else(|| file.get_uri());
             self_.stack_media.set_child_title(&stack_, Some(&title));
 
-            stack_.show_all();
-            self_
-                .stack_title
-                .set_visible_child_name("page_stack_switcher");
+            show_stack_();
         };
         glib::MainContext::default().spawn_local(get_name_and_show_page);
 
@@ -402,10 +407,7 @@ impl Window {
 
             // Change the main stack visible child _after_ the media stack, so that the media stack
             // transition isn't run unnecessarily.
-            stack.show_all(); // Show the stack if it wasn't shown yet.
-            self_
-                .stack_title
-                .set_visible_child_name("page_stack_switcher");
+            show_stack();
             self_.stack_main.set_visible_child_name("page_media");
 
             self_.window.show_all();
