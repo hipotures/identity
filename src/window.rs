@@ -355,58 +355,7 @@ impl Window {
 
         let self_ = Rc::clone(self);
         let start_playback = async move {
-            let start_future = {
-                let playbin = playbin.clone();
-                async move {
-                    // Create the stream first to not miss any messages.
-                    let mut stream = playbin.get_bus().unwrap().stream();
-
-                    if let Err(err) = playbin
-                        .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
-                        .await
-                    {
-                        // Can fail when the file is inaccessible.
-                        g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
-                        playbin.call_async(|playbin| {
-                            let _ = playbin.set_state(gst::State::Null);
-                        });
-                        return false;
-                    }
-
-                    loop {
-                        match stream.next().await.unwrap().view() {
-                            gst::MessageView::Error(err) => {
-                                // Can fail on missing codecs.
-                                g_warning!(LOG_DOMAIN, "playbin Error: {:?}", err);
-                                playbin.call_async(|playbin| {
-                                    let _ = playbin.set_state(gst::State::Null);
-                                });
-                                break false;
-                            }
-                            gst::MessageView::StateChanged(state_changed)
-                                if state_changed.get_src().as_ref()
-                                    == Some(playbin.upcast_ref::<gst::Object>()) =>
-                            {
-                                g_debug!(
-                                    LOG_DOMAIN,
-                                    "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                                    state_changed.get_old(),
-                                    state_changed.get_current(),
-                                    state_changed.get_pending()
-                                );
-
-                                if state_changed.get_current() == gst::State::Paused
-                                    && state_changed.get_pending() == gst::State::VoidPending
-                                {
-                                    // Pre-rolled and ready to show.
-                                    break true;
-                                }
-                            }
-                            _ => (),
-                        }
-                    }
-                }
-            };
+            let start_future = preroll(&playbin);
 
             let success = add_timeout_action(start_future.fuse(), TIMEOUT, || {
                 // After a 300 ms timeout, show the loading spinner and the window, if it hasn't
@@ -833,6 +782,60 @@ async fn add_timeout_action<F: FusedFuture, O: FnOnce()>(
         _ = timeout => {
             on_timeout();
             future.await
+        }
+    }
+}
+
+/// Pre-rolls the `playbin`.
+///
+/// Returns `true` when the `playbin` has been successfully pre-rolled and put in the paused state,
+/// and `false` on error.
+async fn preroll(playbin: &gst::Element) -> bool {
+    // Create the stream first to not miss any messages.
+    let mut stream = playbin.get_bus().unwrap().stream();
+
+    if let Err(err) = playbin
+        .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
+        .await
+    {
+        // Can fail when the file is inaccessible.
+        g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
+        playbin.call_async(|playbin| {
+            let _ = playbin.set_state(gst::State::Null);
+        });
+        return false;
+    }
+
+    loop {
+        match stream.next().await.unwrap().view() {
+            gst::MessageView::Error(err) => {
+                // Can fail on missing codecs.
+                g_warning!(LOG_DOMAIN, "playbin Error: {:?}", err);
+                playbin.call_async(|playbin| {
+                    let _ = playbin.set_state(gst::State::Null);
+                });
+                break false;
+            }
+            gst::MessageView::StateChanged(state_changed)
+                if state_changed.get_src().as_ref()
+                    == Some(playbin.upcast_ref::<gst::Object>()) =>
+            {
+                g_debug!(
+                    LOG_DOMAIN,
+                    "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                    state_changed.get_old(),
+                    state_changed.get_current(),
+                    state_changed.get_pending()
+                );
+
+                if state_changed.get_current() == gst::State::Paused
+                    && state_changed.get_pending() == gst::State::VoidPending
+                {
+                    // Pre-rolled and ready to show.
+                    break true;
+                }
+            }
+            _ => (),
         }
     }
 }
