@@ -338,12 +338,8 @@ impl Window {
                     glib::PRIORITY_DEFAULT,
                 );
 
-                let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
-                    show_stack();
-                })
-                .await;
-
-                let title = info
+                let title = info_future
+                    .await
                     .ok()
                     .and_then(|info| info.get_display_name())
                     .unwrap_or_else(|| file.get_uri());
@@ -367,6 +363,8 @@ impl Window {
                         gtk::StackTransitionType::Crossfade,
                     );
                 }
+
+                show_stack();
 
                 self_.window.show_all();
             })
