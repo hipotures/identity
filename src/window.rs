@@ -477,6 +477,16 @@ impl Window {
         }
     }
 
+    /// Steps one frame into the current playback direction.
+    fn step_frame(&self) {
+        self.pipeline.send_event(gst::event::Step::new(
+            gst::format::Buffers(Some(1)),
+            1.,
+            true,
+            false,
+        ));
+    }
+
     pub fn step_forward(&self) {
         if self.pipeline_playing.get() {
             // Only step while paused.
@@ -488,12 +498,7 @@ impl Window {
         g_debug!(LOG_DOMAIN, "step_forward(), forward: {}", forward);
 
         if forward {
-            self.pipeline.send_event(gst::event::Step::new(
-                gst::format::Buffers(Some(1)),
-                1.,
-                true,
-                false,
-            ));
+            self.step_frame();
         } else {
             if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
                 if position.is_none() {
@@ -546,12 +551,7 @@ impl Window {
                 self.forward.set(false);
             }
         } else {
-            self.pipeline.send_event(gst::event::Step::new(
-                gst::format::Buffers(Some(1)),
-                1.,
-                true,
-                false,
-            ));
+            self.step_frame();
         }
     }
 
