@@ -335,10 +335,6 @@ impl Window {
             let info = add_timeout_action(info_future.fuse(), TIMEOUT, || {
                 // Show the page with a temporary name.
                 stack_.show_all();
-
-                if self_.stack_main.get_visible_child_name().unwrap() == "page_media" {
-                    stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
-                }
             })
             .await;
 
@@ -349,10 +345,6 @@ impl Window {
             self_.stack_media.set_child_title(&stack_, Some(&title));
 
             stack_.show_all();
-
-            if self_.stack_main.get_visible_child_name().unwrap() == "page_media" {
-                stack_.set_transition_type(gtk::StackTransitionType::OverDownUp);
-            }
         };
         glib::MainContext::default().spawn_local(get_name_and_show_page);
 
@@ -379,20 +371,9 @@ impl Window {
 
             stack.show_all();
 
-            if self_.stack_main.get_visible_child_name().unwrap() != "page_media" {
-                // This is the first file being loaded. Display the revealer if needed and then set
-                // its transition type. This way when the main stack first reveals a video, it will
-                // already show the controls without an extra animation looking weird.
-                if playbin.query_duration::<gst::ClockTime>().is_some() {
-                    self_.revealer_controls.set_reveal_child(true);
-                }
-
-                self_
-                    .revealer_controls
-                    .set_transition_type(gtk::RevealerTransitionType::SlideUp);
-
-                self_.stack_main.set_visible_child_name("page_media");
-            }
+            // Query duration now that the playbin is pre-rolled, before potentially changing its
+            // state.
+            let has_duration = playbin.query_duration::<gst::ClockTime>().is_some();
 
             if success {
                 // To synchronize the playbin and the pipeline position, perform a seek on the
@@ -420,6 +401,23 @@ impl Window {
                 stack.set_visible_child_name("page_media");
             } else {
                 stack.set_visible_child_name("page_error");
+            }
+
+            // Change the main stack visible child _after_ the media stack, so that the media stack
+            // transition isn't run unnecessarily.
+            if self_.stack_main.get_visible_child_name().unwrap() != "page_media" {
+                // This is the first file being loaded. Display the revealer if needed and then set
+                // its transition type. This way when the main stack first reveals a video, it will
+                // already show the controls without an extra animation looking weird.
+                if has_duration {
+                    self_.revealer_controls.set_reveal_child(true);
+                }
+
+                self_
+                    .revealer_controls
+                    .set_transition_type(gtk::RevealerTransitionType::SlideUp);
+
+                self_.stack_main.set_visible_child_name("page_media");
             }
 
             self_.window.show_all();
