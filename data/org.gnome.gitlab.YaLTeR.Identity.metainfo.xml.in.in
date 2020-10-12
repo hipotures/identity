@@ -19,6 +19,15 @@
   <url type="bugtracker">https://gitlab.gnome.org/YaLTeR/identity/issues</url>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="0.1.1" date="2020-10-12">
+      <description>
+        <p>This release fixes minor UI issues.</p>
+        <ul>
+          <li>When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected.</li>
+          <li>Fixed the application title not showing up upon closing all files.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.0" date="2020-10-01">
       <description>
         <p>First release.</p>
