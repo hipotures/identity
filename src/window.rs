@@ -565,8 +565,11 @@ impl Window {
         let _ = self.pipeline.remove(&page.playbin);
         let _ = page.playbin.set_state(gst::State::Null);
 
-        // Select the tab before the closed one.
-        if index >= 1 {
+        // Select the tab after the closed one or, if that fails, before the closed one.
+        if pages.len() > index {
+            self.stack_media
+                .set_visible_child_name(&(index + 1).to_string());
+        } else if index >= 1 {
             self.stack_media.set_visible_child_name(&index.to_string());
         }
 
