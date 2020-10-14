@@ -1,0 +1,177 @@
+# French translations for identity package.
+# This file is distributed under the same license as the identity package.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: identity\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-05 20:18+0300\n"
+"PO-Revision-Date: 2020-10-01 14:10+0300\n"
+"Last-Translator: Lapineige"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+                                   "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"X-Generator: Gtranslator 3.38.0\n"
+
+#: data/resources/ui/about_dialog.ui.in:11
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "Сomparer les images et vidéos"
+
+#: data/resources/ui/about_dialog.ui.in:14
+msgid "translator-credits"
+msgstr "Lapineige, 2020"
+
+#: data/resources/ui/media_page.ui:59
+#, fuzzy
+msgctxt "Label shown when a video or image has failed to load."
+msgid ""
+"Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-"
+"and-drop and by pasting may not work."
+msgstr ""
+"Impossible d'afficher le fichier"
+"\n"
+"Si vous utilisez Identity via Flatpak, notez qu'ouvrir un fichier par glisser-déposer peut ne pas fonctionner."
+
+#: data/resources/ui/shortcuts.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Général"
+
+#: data/resources/ui/shortcuts.ui:17
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "Passer d'un fichier à l'autre"
+
+#: data/resources/ui/shortcuts.ui:24
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "Ouvrir les vidéos ou images"
+
+#: data/resources/ui/shortcuts.ui:31
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "Ouvrir depuis le presse-papier"
+
+#: data/resources/ui/shortcuts.ui:38
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "Fermer le fichier sélectionné"
+
+#: data/resources/ui/shortcuts.ui:45
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Afficher les raccourcis"
+
+#: data/resources/ui/shortcuts.ui:52
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Quitter"
+
+#: data/resources/ui/shortcuts.ui:61
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Lecture"
+
+#: data/resources/ui/shortcuts.ui:65
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "Lecture / Pause"
+
+#: data/resources/ui/shortcuts.ui:72
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "Avancer d'une image"
+
+#: data/resources/ui/shortcuts.ui:79
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "Reculer d'une image"
+
+#: data/resources/ui/window.ui.in:25
+msgctxt "Entry in the hamburger menu."
+msgid "Keyboard Shortcuts"
+msgstr "Raccourcis clavier"
+
+#: data/resources/ui/window.ui.in:39
+msgctxt "Entry in the hamburger menu."
+msgid "About Identity"
+msgstr "À propos d'Identity"
+
+#: data/resources/ui/window.ui.in:78
+msgctxt "Window title."
+msgid "Identity"
+msgstr "Identity"
+
+#: data/resources/ui/window.ui.in:120
+msgctxt "Open button label."
+msgid "Open…"
+msgstr "Ouvrir…"
+
+#: data/resources/ui/window.ui.in:271
+msgctxt "Text on the window when no files are open."
+msgid "Open videos or images to compare by pressing the Open button."
+msgstr "Ouvrez les vidéos ou images à comparer en cliquant sur le bouton Ouvrir"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+msgid "Identity"
+msgstr "Identity"
+
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr ""
+"Movie;Film;Clip;Difference;Frame;Quality;Film;Vidéo;Différence;Image;Qualité;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "Un programme pour comparer de multiples versions d'une image ou vidéo."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
+msgid "Main Window"
+msgstr "Fenêtre principale"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "First release."
+msgstr "Première version."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: startup error dialog text.
+#: src/application.rs:29
+msgid "Error loading Identity"
+msgstr "Erreur au chargement d'Identity"
+
+#. Translators: startup error dialog secondary text.
+#: src/application.rs:32
+msgid ""
+"Could not create one of the required GStreamer elements (gtksink, playbin3)."
+msgstr ""
+"Impossible de créer on des éléments GStreamer requis (gtksink, "
+                                                             "playbin3)."
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:260
+msgid "Videos and images"
+msgstr "Vidéos et images"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:271
+msgid "Open videos or images to compare"
+msgstr "Ouvrir les vidéos ou images à comparer"
+
+#. Translators: placeholder shown in the headerbar for new files before their display
+#. name is available (for example, when loading a file from a network mount).
+#: src/window.rs:348
+msgid "Loading…"
+msgstr "Chargement…"
