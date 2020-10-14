@@ -6,6 +6,22 @@ A program for comparing multiple versions of an image or video.
 
 ![Screenshot of the window.](data/resources/screenshots/screenshot1.png)
 
+## Running
+
+You can run Identity as is and select files to compare using the Open button. You can also pass file paths or URIs as command-line arguments:
+
+```
+$ identity path/to/file1.mp4 path/to/file2.mp4
+```
+
+Note that Flatpak Identity doesn't have access to the filesystem, so files need to be forwarded manually like so:
+
+```
+$ flatpak run --file-forwarding org.gnome.gitlab.YaLTeR.Identity @@ path/to/file1.mp4 path/to/file2.mp4
+```
+
+Use `@@u` instead of `@@` to pass URIs.
+
 ## Format support
 
 Identity uses GStreamer, and therefore your system's or Flatpak GNOME Platform's installed GStreamer plugins. In particular, Identity won't work at all without the `playbin3` element (typically in `gst-plugins-base`) as well as the `gtksink` element (typically in `gst-plugins-good`, although sometimes extracted into its own package).
