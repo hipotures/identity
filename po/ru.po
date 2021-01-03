@@ -2,14 +2,14 @@
 # Copyright (C) 2020 THE identity'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the identity package.
 # Automatically generated, 2020.
-# Ivan Molodetskikh <yalterz@gmail.com>, 2020.
+# Ivan Molodetskikh <yalterz@gmail.com>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: identity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-12 08:41+0300\n"
-"PO-Revision-Date: 2020-10-12 08:45+0300\n"
+"POT-Creation-Date: 2021-01-03 09:15+0300\n"
+"PO-Revision-Date: 2021-01-03 09:16+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -144,11 +144,27 @@ msgid "Main Window"
 msgstr "Основное окно"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "This release contains translation updates."
+msgstr "В этой версии были обновлены переводы."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr "Добавлен перевод на голландский (спасибо Heimen Stoffels)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Added French translation (thanks Lapineige)."
+msgstr "Добавлен перевод на французский (спасибо Lapineige)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr "Добавлен перевод на испанский (спасибо Óscar Fernández Díaz)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
 msgid "This release fixes minor UI issues."
 msgstr ""
 "В этой версии исправлены небольшие ошибки пользовательского интерфейса."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
 msgid ""
 "When closing a file, the next “tab” is now selected, or, if closing the last "
 "file, the previous one is selected."
@@ -156,16 +172,16 @@ msgstr ""
 "При закрытии файла теперь выбирается следующая «вкладка» или, если закрыт "
 "последний файл, предыдущая."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
 msgid "Fixed the application title not showing up upon closing all files."
 msgstr ""
 "При закрытии всех файлов теперь корректно показывается название приложения."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
 msgid "First release."
 msgstr "Первая версия."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
