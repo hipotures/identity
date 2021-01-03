@@ -19,6 +19,16 @@
   <url type="bugtracker">https://gitlab.gnome.org/YaLTeR/identity/issues</url>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="0.1.2" date="2021-01-03">
+      <description>
+        <p>This release contains translation updates.</p>
+        <ul>
+          <li>Added Dutch translation (thanks Heimen Stoffels).</li>
+          <li>Added French translation (thanks Lapineige).</li>
+          <li>Added Spanish translation (thanks Óscar Fernández Díaz).</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.1" date="2020-10-12">
       <description>
         <p>This release fixes minor UI issues.</p>
