@@ -1,21 +1,10 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the identity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: identity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-13 14:37+0200\n"
-"PO-Revision-Date: 2020-10-13 18:14+0200\n"
-"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Identity\n"
 "Language: nl\n"
 
 #: data/resources/ui/about_dialog.ui.in:11
@@ -30,16 +19,12 @@ msgstr "Heimen Stoffels"
 
 #: data/resources/ui/media_page.ui:60
 msgctxt "Label shown when a video or image has failed to load."
-msgid ""
-"Could not display the file.\n"
+msgid "Could not display the file.\n"
 "\n"
-"If you're running Identity under Flatpak, note that opening files by drag-"
-"and-drop and by pasting may not work."
-msgstr ""
-"Het bestand kan niet worden getoond.\n"
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
+msgstr "Het bestand kan niet worden getoond.\n"
 "\n"
-"Als je Identiteit als flatpak hebt opgestart, dan werkt openen middels "
-"slepen-en-neerzetten en plakken mogelijk niet."
+"Als je Identiteit als flatpak hebt opgestart, dan werkt openen middels slepen-en-neerzetten en plakken mogelijk niet."
 
 #: data/resources/ui/shortcuts.ui:13
 msgctxt "shortcut window"
@@ -131,44 +116,47 @@ msgstr "Identiteit"
 msgid "Movie;Film;Clip;Difference;Frame;Quality;"
 msgstr "Video;Film;Clip;Verschil;Vergelijk;Frame;Kwaliteit;"
 
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:12
-msgid "@icon@"
-msgstr ""
-
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
-msgstr ""
-"Een toepassing voor het vergelijken van meerdere versies van een afbeelding "
-"of video."
+msgstr "Een toepassing voor het vergelijken van meerdere versies van een afbeelding of video."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
 msgid "Main Window"
 msgstr "Hoofdvenster"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "This release contains translation updates."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Added French translation (thanks Lapineige)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
 msgid "This release fixes minor UI issues."
 msgstr "In deze versie zijn enkele vormgevingsproblemen opgelost."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
-msgid ""
-"When closing a file, the next “tab” is now selected, or, if closing the last "
-"file, the previous one is selected."
-msgstr ""
-"Bij het sluiten van een bestand wordt voortaan het volgende tabblad "
-"geselecteerd of, bij het sluiten, het vorige."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
+msgstr "Bij het sluiten van een bestand wordt voortaan het volgende tabblad geselecteerd of, bij het sluiten, het vorige."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
 msgid "Fixed the application title not showing up upon closing all files."
-msgstr ""
-"Opgelost: de toepassingstitel werd niet getoond bij het sluiten van alle "
-"bestanden."
+msgstr "Opgelost: de toepassingstitel werd niet getoond bij het sluiten van alle bestanden."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
 msgid "First release."
 msgstr "Eerste uitgave."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -179,11 +167,8 @@ msgstr "Kan Identiteit niet starten"
 
 #. Translators: startup error dialog secondary text.
 #: src/application.rs:32
-msgid ""
-"Could not create one of the required GStreamer elements (gtksink, playbin3)."
-msgstr ""
-"Het aanmaken van één van de vereiste GStreamer-elementen (gtksink of "
-"playbin3) is mislukt."
+msgid "Could not create one of the required GStreamer elements (gtksink, playbin3)."
+msgstr "Het aanmaken van één van de vereiste GStreamer-elementen (gtksink of playbin3) is mislukt."
 
 #. Translators: file chooser file filter name.
 #: src/window.rs:260
@@ -200,3 +185,4 @@ msgstr "Open te vergelijken afbeeldingen of video's"
 #: src/window.rs:317
 msgid "Loading…"
 msgstr "Bezig met laden…"
+
