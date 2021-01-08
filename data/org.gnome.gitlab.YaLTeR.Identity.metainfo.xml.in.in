@@ -17,6 +17,7 @@
   </screenshots>
   <url type="homepage">https://gitlab.gnome.org/YaLTeR/identity</url>
   <url type="bugtracker">https://gitlab.gnome.org/YaLTeR/identity/issues</url>
+  <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
     <release version="0.1.2" date="2021-01-03">

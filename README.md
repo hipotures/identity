@@ -26,6 +26,10 @@ Use `@@u` instead of `@@` to pass URIs.
 
 Identity uses GStreamer, and therefore your system's or Flatpak GNOME Platform's installed GStreamer plugins. In particular, Identity won't work at all without the `playbin3` element (typically in `gst-plugins-base`) as well as the `gtksink` element (typically in `gst-plugins-good`, although sometimes extracted into its own package).
 
+## Contributing translations
+
+You can help translate Identity on POEditor: https://poeditor.com/join/project?hash=5nahahJe7Z. Any help is appreciated!
+
 ## Building
 
 The easiest way is to clone the repository with GNOME Builder and press the Build button.
