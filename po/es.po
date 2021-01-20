@@ -104,7 +104,7 @@ msgstr "Abrir…"
 #: data/resources/ui/window.ui.in:274
 msgctxt "Text on the window when no files are open."
 msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Abra los vídeos o imágenes para compararlas pulsando el botón Abrir."
+msgstr "Abre los vídeos o imágenes para compararlas pulsando el botón Abrir."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -126,31 +126,31 @@ msgstr "Ventana principal"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
 msgid "This release contains translation updates."
-msgstr ""
+msgstr "Esta versión contiene actualizaciones de la traducción."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
 msgid "Added Dutch translation (thanks Heimen Stoffels)."
-msgstr ""
+msgstr "Añadida traducción al holandés (gracias Heimen Stoffels)."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added French translation (thanks Lapineige)."
-msgstr ""
+msgstr "Añadida traducción al francés (gracias Lapineige)."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
 msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
-msgstr ""
+msgstr "Añadida traducción al español (gracias Óscar Fernández Díaz)."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
 msgid "This release fixes minor UI issues."
-msgstr ""
+msgstr "Esta versión corrige problemas menores en la UI."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
 msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
-msgstr ""
+msgstr "Al cerrar un archivo, se selecciona la siguiente \"pestaña\" o, si se cierra el último archivo, se selecciona la anterior."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
 msgid "Fixed the application title not showing up upon closing all files."
-msgstr ""
+msgstr "Corregido el título de la aplicación que no aparece al cerrar todos los archivos."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
 msgid "First release."
