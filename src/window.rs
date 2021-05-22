@@ -734,6 +734,24 @@ fn create_player(uri: &glib::GString) -> (gst::Element, gtk::Widget) {
 
     gtksink.set_property("ignore-alpha", &false).unwrap();
 
+    // videoflip takes care of applying the rotation tag.
+    match gst::ElementFactory::make("videoflip", None) {
+        Ok(videoflip) => {
+            // A little awkward until the next gstreamer-rs release.
+            let direction = {
+                let video_orientation_method =
+                    glib::Type::from_name("GstVideoOrientationMethod").unwrap();
+                let enum_class = glib::EnumClass::new(video_orientation_method).unwrap();
+                enum_class.to_value_by_nick("auto").unwrap()
+            };
+            videoflip
+                .set_property("video-direction", &direction)
+                .unwrap();
+            playbin.set_property("video-filter", &videoflip).unwrap();
+        }
+        Err(err) => g_warning!(LOG_DOMAIN, "Error creating videoflip: {:?}", err),
+    }
+
     playbin
         .set_property("video-sink", &gtksink.to_value())
         .unwrap();
