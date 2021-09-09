@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Identity\n"
+"Language: hr\n"
+
+#: data/resources/ui/about_dialog.ui.in:11
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "Usporedi slike i videa"
+
+#: data/resources/ui/about_dialog.ui.in:14
+msgid "translator-credits"
+msgstr "Milo Ivir <mail@milotype.de>, 2021."
+
+#: data/resources/ui/media_page.ui:60
+msgctxt "Label shown when a video or image has failed to load."
+msgid "Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
+msgstr "Datoteka se ne može prikazati.\n"
+"\n"
+"Ako se program „Identičnost” pokreće pod Flatpakom, otvaranje datoteka povlačenjem i ispuštanjem ili umetanjem možda neće raditi."
+
+#: data/resources/ui/shortcuts.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Opće"
+
+#: data/resources/ui/shortcuts.ui:17
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "Odredi aktivnu datoteku"
+
+#: data/resources/ui/shortcuts.ui:24
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "Otvori videa ili slike"
+
+#: data/resources/ui/shortcuts.ui:31
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "Otvori datoteku iz međuspremnika"
+
+#: data/resources/ui/shortcuts.ui:38
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "Zatvori odabranu datoteku"
+
+#: data/resources/ui/shortcuts.ui:45
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Prikaži tipkovne prečace"
+
+#: data/resources/ui/shortcuts.ui:52
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Zatvori program"
+
+#: data/resources/ui/shortcuts.ui:61
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Reprodukcija"
+
+#: data/resources/ui/shortcuts.ui:65
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "Pokreni/Zaustavi"
+
+#: data/resources/ui/shortcuts.ui:72
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "Pomakni se na sljedeći kadar"
+
+#: data/resources/ui/shortcuts.ui:79
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "Pomakni se na prethodni kadar"
+
+#: data/resources/ui/window.ui.in:25
+msgctxt "Entry in the hamburger menu."
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovni prečaci"
+
+#: data/resources/ui/window.ui.in:39
+msgctxt "Entry in the hamburger menu."
+msgid "About Identity"
+msgstr "O programu Identičnost"
+
+#: data/resources/ui/window.ui.in:78
+msgctxt "Window title."
+msgid "Identity"
+msgstr "Identičnost"
+
+#: data/resources/ui/window.ui.in:123
+msgctxt "Open button label."
+msgid "Open…"
+msgstr "Otvori …"
+
+#: data/resources/ui/window.ui.in:274
+msgctxt "Text on the window when no files are open."
+msgid "Open videos or images to compare by pressing the Open button."
+msgstr "Za uspoređivanje videa ili slika, otvori ih pomoću gumba „Otvori”."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+msgid "Identity"
+msgstr "Identičnost"
+
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr "film;isječak;razlika;kadar;kvaliteta;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "Program za uspoređivanje verzija slike ili videa."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
+msgid "Main Window"
+msgstr "Glavni prozor"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "This release contains translation updates."
+msgstr "Ovo izdanje sadrži aktualizirane prijevode."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr "Dodan je prijevod za nizozemski (hvala Heimen Stoffels)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Added French translation (thanks Lapineige)."
+msgstr "Dodan je prijevod za francuski (hvala Lapineige)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr "Dodan je prijevod za španjolski (hvala Óscar Fernández Díaz)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+msgid "This release fixes minor UI issues."
+msgstr "Ovo izdanje ispravlja neke manje probleme u korsiničkom sučelju."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
+msgstr "Prilikom zatvaranja datoteke sada se bira sljedeći „registar” ili, ako se zatvara posljednja datoteka, bira se prethodni."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+msgid "Fixed the application title not showing up upon closing all files."
+msgstr "Ispravljen je naslov programa koji se nije prikazivao nakon zatvaranja svih datoteka."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
+msgid "First release."
+msgstr "Prvo izdanje."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: startup error dialog text.
+#: src/application.rs:29
+msgid "Error loading Identity"
+msgstr "Greška prilikom učitavanja programa „Identičnost”"
+
+#. Translators: startup error dialog secondary text.
+#: src/application.rs:32
+msgid "Could not create one of the required GStreamer elements (gtksink, playbin3)."
+msgstr "Neuspjelo stvaranje jednog od potrebnih GStreamer elemenata (gtksink, playbin3)."
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:260
+msgid "Videos and images"
+msgstr "Videa ili slike"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:271
+msgid "Open videos or images to compare"
+msgstr "Otvori videa ili slike koje želiš usporediti"
+
+#. Translators: placeholder shown in the headerbar for new files before their display
+#. name is available (for example, when loading a file from a network mount).
+#: src/window.rs:317
+msgid "Loading…"
+msgstr "Učitavanje …"
+
