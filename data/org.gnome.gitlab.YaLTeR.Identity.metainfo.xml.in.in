@@ -20,6 +20,24 @@
   <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="0.1.3" date="2021-09-09">
+      <description>
+        <p>This release contains translation updates and minor UI changes.</p>
+        <ul>
+          <li>Video rotation tag is now respected.</li>
+          <li>Added Deutsch translation (thanks Johannes Hayeß).</li>
+          <li>Added Finnish translation (thanks Jiri Grönroos).</li>
+          <li>Added Croatian translation (thanks Milo Ivir).</li>
+          <li>Added Italian translation (thanks Blackcat-917).</li>
+          <li>Added Brazilian Portuguese translation (thanks Gustavo Costa).</li>
+          <li>Added Slovak translation (thanks Jose Riha).</li>
+          <li>Added Swedish translation (thanks Åke Engelbrektson).</li>
+          <li>Added translation contribution link.</li>
+          <li>Specified input device recommendations to improve display in the new GNOME Software.</li>
+          <li>Label on the main window can now wrap so as not to restrict minimum window size.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.2" date="2021-01-03">
       <description>
         <p>This release contains translation updates.</p>
