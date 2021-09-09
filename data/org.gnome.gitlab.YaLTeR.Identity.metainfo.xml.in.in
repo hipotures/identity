@@ -53,6 +53,11 @@
      <kudo>ModernToolkit</kudo>
      <kudo>HiDpiIcon</kudo>
   </kudos>
+  <recommends>
+      <control>pointing</control>
+      <control>keyboard</control>
+      <control>touch</control>
+  </recommends>
   <developer_name>Ivan Molodetskikh</developer_name>
   <update_contact>yalterz@gmail.com</update_contact>
   <translation type="gettext">@gettext-package@</translation>
