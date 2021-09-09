@@ -271,6 +271,7 @@
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="wrap">1</property>
                     <property name="label" translatable="yes" context="Text on the window when no files are open.">Open videos or images to compare by pressing the Open button.</property>
                   </object>
                   <packing>
