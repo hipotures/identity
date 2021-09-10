@@ -101,7 +101,7 @@ msgctxt "Open button label."
 msgid "Open…"
 msgstr "Otvori …"
 
-#: data/resources/ui/window.ui.in:274
+#: data/resources/ui/window.ui.in:275
 msgctxt "Text on the window when no files are open."
 msgid "Open videos or images to compare by pressing the Open button."
 msgstr "Za uspoređivanje videa ili slika, otvori ih pomoću gumba „Otvori”."
@@ -124,39 +124,39 @@ msgstr "Program za uspoređivanje verzija slike ili videa."
 msgid "Main Window"
 msgstr "Glavni prozor"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
 msgid "This release contains translation updates."
 msgstr "Ovo izdanje sadrži aktualizirane prijevode."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
 msgid "Added Dutch translation (thanks Heimen Stoffels)."
-msgstr "Dodan je prijevod za nizozemski (hvala Heimen Stoffels)."
+msgstr "Dodan je prijevod na nizozemski (hvala Heimen Stoffels)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:46
 msgid "Added French translation (thanks Lapineige)."
-msgstr "Dodan je prijevod za francuski (hvala Lapineige)."
+msgstr "Dodan je prijevod na francuski (hvala Lapineige)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:47
 msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
-msgstr "Dodan je prijevod za španjolski (hvala Óscar Fernández Díaz)."
+msgstr "Dodan je prijevod na španjolski (hvala Óscar Fernández Díaz)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
 msgid "This release fixes minor UI issues."
 msgstr "Ovo izdanje ispravlja neke manje probleme u korsiničkom sučelju."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
 msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
 msgstr "Prilikom zatvaranja datoteke sada se bira sljedeći „registar” ili, ako se zatvara posljednja datoteka, bira se prethodni."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:56
 msgid "Fixed the application title not showing up upon closing all files."
 msgstr "Ispravljen je naslov programa koji se nije prikazivao nakon zatvaranja svih datoteka."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
 msgid "First release."
 msgstr "Prvo izdanje."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -185,4 +185,52 @@ msgstr "Otvori videa ili slike koje želiš usporediti"
 #: src/window.rs:317
 msgid "Loading…"
 msgstr "Učitavanje …"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:25
+msgid "This release contains translation updates and minor UI changes."
+msgstr "Ovo izdanje sadrži aktualizirane prijevode i neke manje promjene u korsiničkom sučelju."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Video rotation tag is now respected."
+msgstr "Sada se poštuje oznaka okretanja videa."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+msgstr "Dodan je prijevod na njemački (hvala Johannes Hayeß)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
+msgid "Added Finnish translation (thanks Jiri Grönroos)."
+msgstr "Dodan je prijevod na finski (hvala Jiri Grönroos)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
+msgid "Added Croatian translation (thanks Milo Ivir)."
+msgstr "Dodan je prijevod na hrvatski (hvala Milo Ivir)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
+msgid "Added Italian translation (thanks Blackcat-917)."
+msgstr "Dodan je prijevod na talijanski (hvala Blackcat-917)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
+msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+msgstr "Dodan je prijevod na brazilski portugalski (hvala Gustavo Costa)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+msgid "Added Slovak translation (thanks Jose Riha)."
+msgstr "Dodan je prijevod na slovački (hvala Jose Riha)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+msgstr "Dodan je prijevod na švedski (hvala Åke Engelbrektson)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
+msgid "Added translation contribution link."
+msgstr "Dodana je poveznica za doprinose prijevodima. "
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "Specified input device recommendations to improve display in the new GNOME Software."
+msgstr "Za poboljšanje prikaza u novoj verziji GNOME Softver specificirane su preporuke za ulazni uređaj."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+msgid "Label on the main window can now wrap so as not to restrict minimum window size."
+msgstr "Tekst oznake na glavnom prozoru sada se prelama kako se ne bi ograničila minimalna veličina prozora."
 
