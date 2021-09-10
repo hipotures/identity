@@ -101,7 +101,7 @@ msgctxt "Open button label."
 msgid "Open…"
 msgstr "Öppna…"
 
-#: data/resources/ui/window.ui.in:274
+#: data/resources/ui/window.ui.in:275
 msgctxt "Text on the window when no files are open."
 msgid "Open videos or images to compare by pressing the Open button."
 msgstr "Öppna videor eller bilder att jämföra, genom att trycka på Öppna."
@@ -124,39 +124,39 @@ msgstr "Ett program för att jämföra flera versioner av en bild eller video."
 msgid "Main Window"
 msgstr "Huvudfönster"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
 msgid "This release contains translation updates."
 msgstr "Denna utgåva innehåller översättningsuppdateringar."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
 msgid "Added Dutch translation (thanks Heimen Stoffels)."
 msgstr "Lade till Nederländsk översättning (Tack Heimen Stoffels)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:46
 msgid "Added French translation (thanks Lapineige)."
 msgstr "Lade till Fransk översättning (Tack Lapineige)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:47
 msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
 msgstr "Lade till Spansk översättning (Tack Óscar Fernández Díaz)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
 msgid "This release fixes minor UI issues."
 msgstr "Denna utgåva fixar mindre UI-problem."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
 msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
 msgstr "När en fil stängs, öppnas nu nästa \"flik\", eller föregående, om det är sista filen som stängs."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:56
 msgid "Fixed the application title not showing up upon closing all files."
 msgstr "Fixar visning av programtiteln när alla filer stängs."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
 msgid "First release."
 msgstr "Första utgåvan."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -185,4 +185,52 @@ msgstr "Öppna videor eller bilder att jämföra"
 #: src/window.rs:317
 msgid "Loading…"
 msgstr "Läser in…"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:25
+msgid "This release contains translation updates and minor UI changes."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Video rotation tag is now respected."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
+msgid "Added Finnish translation (thanks Jiri Grönroos)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
+msgid "Added Croatian translation (thanks Milo Ivir)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
+msgid "Added Italian translation (thanks Blackcat-917)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
+msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+msgid "Added Slovak translation (thanks Jose Riha)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
+msgid "Added translation contribution link."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "Specified input device recommendations to improve display in the new GNOME Software."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+msgid "Label on the main window can now wrap so as not to restrict minimum window size."
+msgstr ""
 
