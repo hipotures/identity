@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Identity\n"
+"Language: ja\n"
+
+#: data/resources/ui/about_dialog.ui.in:11
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "画像、ビデオを比べる"
+
+#: data/resources/ui/about_dialog.ui.in:14
+msgid "translator-credits"
+msgstr "Kaz Sibuya"
+
+#: data/resources/ui/media_page.ui:60
+msgctxt "Label shown when a video or image has failed to load."
+msgid "Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
+msgstr "ファイルを表示できませんでした。\n"
+"\n"
+"もし、IdentityをFlatpakで実行している場合ではドラッグ・アンド・ドロップが利用できない場合があります。"
+
+#: data/resources/ui/shortcuts.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "一般"
+
+#: data/resources/ui/shortcuts.ui:17
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "ファイルを切り替える"
+
+#: data/resources/ui/shortcuts.ui:24
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "ビデオか画像を開く"
+
+#: data/resources/ui/shortcuts.ui:31
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "クリップボードからファイルを開く"
+
+#: data/resources/ui/shortcuts.ui:38
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "選択したファイルを閉じる"
+
+#: data/resources/ui/shortcuts.ui:45
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "ショートカットを表示"
+
+#: data/resources/ui/shortcuts.ui:52
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "終了"
+
+#: data/resources/ui/shortcuts.ui:61
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "再生コントロール"
+
+#: data/resources/ui/shortcuts.ui:65
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "再生・停止"
+
+#: data/resources/ui/shortcuts.ui:72
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "１フレーム先に進める"
+
+#: data/resources/ui/shortcuts.ui:79
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "１フレーム前に戻る"
+
+#: data/resources/ui/window.ui.in:25
+msgctxt "Entry in the hamburger menu."
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: data/resources/ui/window.ui.in:39
+msgctxt "Entry in the hamburger menu."
+msgid "About Identity"
+msgstr "Identityについて"
+
+#: data/resources/ui/window.ui.in:78
+msgctxt "Window title."
+msgid "Identity"
+msgstr "Identity"
+
+#: data/resources/ui/window.ui.in:123
+msgctxt "Open button label."
+msgid "Open…"
+msgstr "開く…"
+
+#: data/resources/ui/window.ui.in:275
+msgctxt "Text on the window when no files are open."
+msgid "Open videos or images to compare by pressing the Open button."
+msgstr "開くボタンを押してビデオまたは画像を開きます。"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+msgid "Identity"
+msgstr "Identity"
+
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr "Movie;Film;Clip;Difference;Frame;Quality;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "複数の様々なバージョンの画像またはビデオを比較するためのプログラムです。"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
+msgid "Main Window"
+msgstr "メインウィンドウ"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
+msgid "This release contains translation updates."
+msgstr "このリリースは翻訳の更新が含まれています。"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr "オランダ語の翻訳が追加されました。（Heimen Stoffels に感謝します）"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:46
+msgid "Added French translation (thanks Lapineige)."
+msgstr "フランス語の翻訳が追加されました。（Lapineige に感謝します）"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:47
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr "スペイン語の翻訳が追加されました。（Óscar Fernández Díaz に感謝します）"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
+msgid "This release fixes minor UI issues."
+msgstr "このリリースではマイナーなUI問題を修正しました。"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:56
+msgid "Fixed the application title not showing up upon closing all files."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
+msgid "First release."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
+msgid "Ivan Molodetskikh"
+msgstr ""
+
+#. Translators: startup error dialog text.
+#: src/application.rs:29
+msgid "Error loading Identity"
+msgstr ""
+
+#. Translators: startup error dialog secondary text.
+#: src/application.rs:32
+msgid "Could not create one of the required GStreamer elements (gtksink, playbin3)."
+msgstr ""
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:260
+msgid "Videos and images"
+msgstr ""
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:271
+msgid "Open videos or images to compare"
+msgstr ""
+
+#. Translators: placeholder shown in the headerbar for new files before their display
+#. name is available (for example, when loading a file from a network mount).
+#: src/window.rs:317
+msgid "Loading…"
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:25
+msgid "This release contains translation updates and minor UI changes."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Video rotation tag is now respected."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
+msgid "Added Finnish translation (thanks Jiri Grönroos)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
+msgid "Added Croatian translation (thanks Milo Ivir)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
+msgid "Added Italian translation (thanks Blackcat-917)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
+msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+msgid "Added Slovak translation (thanks Jose Riha)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
+msgid "Added translation contribution link."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "Specified input device recommendations to improve display in the new GNOME Software."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+msgid "Label on the main window can now wrap so as not to restrict minimum window size."
+msgstr ""
+

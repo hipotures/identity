@@ -20,6 +20,18 @@
   <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="0.2.0" date="2022-03-21">
+      <description>
+        <ul>
+					<li>Added Basque translation (thanks Sergio Varela).</li>
+					<li>Added Galician translation (thanks Fran Diéguez).</li>
+					<li>Added Japanese translation (thanks Kaz Sibuya).</li>
+					<li>Added Polish translation (thanks Rafał Baran).</li>
+					<li>Added Chinese Simplified translation (thanks Garling Liang).</li>
+					<li>Updated translations.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.3" date="2021-09-09">
       <description>
         <p>This release contains translation updates and minor UI changes.</p>
