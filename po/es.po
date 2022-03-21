@@ -15,7 +15,7 @@ msgstr "Comparar imágenes y vídeos"
 
 #: data/resources/ui/about_dialog.ui.in:14
 msgid "translator-credits"
-msgstr "Óscar Fernández Díaz"
+msgstr "Óscar Fernández Díaz <oscfdezdz@tuta.io>"
 
 #: data/resources/ui/media_page.ui:60
 msgctxt "Label shown when a video or image has failed to load."
