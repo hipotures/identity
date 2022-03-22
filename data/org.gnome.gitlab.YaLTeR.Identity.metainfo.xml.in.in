@@ -11,8 +11,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://gitlab.gnome.org/YaLTeR/identity/raw/master/data/resources/screenshots/screenshot1.png</image>
-      <caption>Main Window</caption>
+      <image>https://gitlab.gnome.org/YaLTeR/identity/-/raw/HEAD/data/resources/screenshots/screenshot1.png</image>
     </screenshot>
   </screenshots>
   <url type="homepage">https://gitlab.gnome.org/YaLTeR/identity</url>
