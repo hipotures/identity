@@ -23,12 +23,12 @@
     <release version="0.2.0" date="2022-03-21">
       <description>
         <ul>
-					<li>Added Basque translation (thanks Sergio Varela).</li>
-					<li>Added Galician translation (thanks Fran Diéguez).</li>
-					<li>Added Japanese translation (thanks Kaz Sibuya).</li>
-					<li>Added Polish translation (thanks Rafał Baran).</li>
-					<li>Added Chinese Simplified translation (thanks Garling Liang).</li>
-					<li>Updated translations.</li>
+          <li>Added Basque translation (thanks Sergio Varela).</li>
+          <li>Added Galician translation (thanks Fran Diéguez).</li>
+          <li>Added Japanese translation (thanks Kaz Sibuya).</li>
+          <li>Added Polish translation (thanks Rafał Baran).</li>
+          <li>Added Chinese Simplified translation (thanks Garling Liang).</li>
+          <li>Updated translations.</li>
         </ul>
       </description>
     </release>
@@ -76,17 +76,17 @@
     </release>
   </releases>
   <kudos>
-     <!--
-       GNOME Software kudos:
-       https://gitlab.gnome.org/GNOME/gnome-software/blob/master/doc/kudos.md
-     -->
-     <kudo>ModernToolkit</kudo>
-     <kudo>HiDpiIcon</kudo>
+    <!--
+      GNOME Software kudos:
+      https://gitlab.gnome.org/GNOME/gnome-software/blob/master/doc/kudos.md
+    -->
+    <kudo>ModernToolkit</kudo>
+    <kudo>HiDpiIcon</kudo>
   </kudos>
   <recommends>
-      <control>pointing</control>
-      <control>keyboard</control>
-      <control>touch</control>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
   </recommends>
   <developer_name>Ivan Molodetskikh</developer_name>
   <update_contact>yalterz@gmail.com</update_contact>
