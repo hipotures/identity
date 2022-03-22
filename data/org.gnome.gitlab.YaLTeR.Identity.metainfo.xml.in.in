@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Ivan Molodetskikh 2020 <yalterz@gmail.com> -->
+<!-- Ivan Molodetskikh 2020-2022 <yalterz@gmail.com> -->
 <component type="desktop-application">
   <id>@app-id@</id>
   <metadata_license>CC0</metadata_license>
@@ -21,7 +21,11 @@
   <releases>
     <release version="0.2.0" date="2022-03-21">
       <description>
+        <p>Identity is now a GTK 4 application!</p>
         <ul>
+          <li>Rewrote the application with GTK 4 and libadwaita.</li>
+          <li>Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows.</li>
+          <li>Changed the default style to dark.</li>
           <li>Added Basque translation (thanks Sergio Varela).</li>
           <li>Added Galician translation (thanks Fran Diéguez).</li>
           <li>Added Japanese translation (thanks Kaz Sibuya).</li>

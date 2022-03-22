@@ -1,18 +1,12 @@
-use std::{cell::Cell, cell::RefCell, convert::TryInto, rc::Rc, time::Duration};
+use std::cell::RefCell;
 
-use futures_util::{pin_mut, select_biased, FusedFuture, FutureExt, StreamExt};
 use gettextrs::gettext;
-use gio::prelude::*;
-use gst::prelude::*;
-use gstreamer as gst;
+use glib::{debug, warn};
 use gtk::prelude::*;
-use libhandy as hdy;
-use once_cell::unsync::OnceCell;
+use gtk::subclass::prelude::*;
+use gtk::{gdk, gio};
 
-use crate::config::{LOG_DOMAIN, PROFILE};
-
-/// Show a loading state when a file takes longer than this to load.
-const TIMEOUT: Duration = Duration::from_millis(300);
+use crate::G_LOG_DOMAIN;
 
 /// MIME types for the file chooser filter.
 const MIME_TYPES: &[&str] = &[
@@ -83,178 +77,793 @@ const MIME_TYPES: &[&str] = &[
     "video/x-theora+ogg",
 ];
 
-struct Page {
-    playbin: gst::Element,
-    stack: gtk::Stack,
-}
+mod imp {
+    use std::cell::Cell;
+    use std::collections::HashMap;
+    use std::time::Duration;
 
-pub struct Window {
-    pub window: hdy::ApplicationWindow,
-    stack_media: gtk::Stack,
-    pipeline: gst::Pipeline,
-    pipeline_playing: Cell<bool>,
-    forward: Cell<bool>,
-    label_current_time: gtk::Label,
-    adjustment_position: gtk::Adjustment,
-    adjustment_position_value_changed: OnceCell<glib::SignalHandlerId>,
-    stack_title: gtk::Stack,
-    button_play_pause_image: gtk::Image,
-    revealer_controls: gtk::Revealer,
-    pages: RefCell<Vec<Page>>,
-    stack_main: gtk::Stack,
-    paused_senders: RefCell<Vec<futures_channel::oneshot::Sender<()>>>,
-}
+    use adw::subclass::prelude::*;
+    use glib::{clone, closure, error, SignalHandlerId, SourceId};
+    use gst::prelude::*;
+    use gtk::gdk::{self, Key, ModifierType};
+    use gtk::subclass::prelude::*;
+    use gtk::{glib, CompositeTemplate};
+    use once_cell::unsync::OnceCell;
 
-impl Window {
-    pub fn new() -> Rc<Self> {
-        let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/window.ui");
-        let window: hdy::ApplicationWindow = builder.get_object("window").unwrap();
-        let stack_main: gtk::Stack = builder.get_object("stack_main").unwrap();
-        let stack_media: gtk::Stack = builder.get_object("stack_media").unwrap();
-        let stack_switcher_media: gtk::StackSwitcher =
-            builder.get_object("stack_switcher_media").unwrap();
-        let button_open: gtk::Button = builder.get_object("button_open").unwrap();
-        let button_play_pause: gtk::Button = builder.get_object("button_play_pause").unwrap();
-        let button_play_pause_image: gtk::Image =
-            builder.get_object("button_play_pause_image").unwrap();
-        let label_current_time: gtk::Label = builder.get_object("label_current_time").unwrap();
-        let adjustment_position: gtk::Adjustment =
-            builder.get_object("adjustment_position").unwrap();
-        let stack_title: gtk::Stack = builder.get_object("stack_title").unwrap();
-        let revealer_controls: gtk::Revealer = builder.get_object("revealer_controls").unwrap();
+    use super::*;
+    use crate::application::Application;
+    use crate::config;
+    use crate::page::Page;
 
-        stack_main.set_visible_child_name("page_empty");
+    #[derive(Debug, Default, CompositeTemplate)]
+    #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/window.ui")]
+    pub struct Window {
+        #[template_child]
+        stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        tab_view: TemplateChild<adw::TabView>,
+        #[template_child]
+        controls_revealer: TemplateChild<gtk::Revealer>,
+        #[template_child]
+        play_pause_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        time_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        time_adjustment: TemplateChild<gtk::Adjustment>,
+        time_adjustment_value_changed: OnceCell<SignalHandlerId>,
 
-        // Devel Profile
-        if PROFILE == "Devel" {
-            window.get_style_context().add_class("devel");
+        pipeline: OnceCell<gst::Pipeline>,
+
+        is_playing: Cell<bool>,
+        is_backward: Cell<bool>,
+
+        page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        switch_to_content_source_id: RefCell<Option<SourceId>>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for Window {
+        const NAME: &'static str = "IdWindow";
+        type Type = super::Window;
+        type ParentType = adw::ApplicationWindow;
+
+        fn class_init(klass: &mut Self::Class) {
+            Self::bind_template(klass);
+            Self::bind_template_callbacks(klass);
+            Self::Type::bind_template_callbacks(klass);
+
+            klass.install_action("win.play-pause", None, |obj, _, _| obj.imp().play_pause());
+            klass.add_binding_action(
+                Key::space,
+                ModifierType::CONTROL_MASK,
+                "win.play-pause",
+                None,
+            );
+            klass.add_binding_action(Key::p, ModifierType::empty(), "win.play-pause", None);
+
+            klass.install_action("win.open", None, |obj, _, _| obj.on_open_clicked());
+            klass.add_binding_action(Key::o, ModifierType::CONTROL_MASK, "win.open", None);
+
+            klass.install_action("win.paste", None, |obj, _, _| {
+                glib::MainContext::default()
+                    .spawn_local(clone!(@weak obj => async move { obj.paste().await; }));
+            });
+            klass.add_binding_action(Key::v, ModifierType::CONTROL_MASK, "win.paste", None);
+
+            klass.install_action("win.close-tab", None, |obj, _, _| obj.imp().close_tab());
+            klass.add_binding_action(Key::w, ModifierType::CONTROL_MASK, "win.close-tab", None);
+
+            klass.install_action("win.step-forward", None, |obj, _, _| {
+                obj.imp().step_forward()
+            });
+            klass.add_binding_action(Key::period, ModifierType::empty(), "win.step-forward", None);
+
+            klass.install_action("win.step-back", None, |obj, _, _| obj.imp().step_back());
+            klass.add_binding_action(Key::comma, ModifierType::empty(), "win.step-back", None);
+
+            klass.install_action(
+                "win.focus-tab",
+                Some(i32::static_variant_type().as_str()),
+                |obj, _, param| {
+                    let index = param
+                        .expect("missing parameter")
+                        .get()
+                        .expect("wrong parameter type");
+                    obj.imp().focus_tab(index);
+                },
+            );
+
+            for i in 0..10 {
+                klass.add_binding_action(
+                    Key::from_name(&format!("{i}")).unwrap(),
+                    ModifierType::empty(),
+                    "win.focus-tab",
+                    Some(&((i + 9) % 10).to_variant()),
+                );
+                klass.add_binding_action(
+                    Key::from_name(&format!("KP_{i}")).unwrap(),
+                    ModifierType::empty(),
+                    "win.focus-tab",
+                    Some(&((i + 9) % 10).to_variant()),
+                );
+            }
+
+            klass.install_action("win.about", None, |window, _, _| {
+                gtk::AboutDialog::builder()
+                    .transient_for(window)
+                    .modal(true)
+                    .logo_icon_name(config::APP_ID)
+                    .version(config::VERSION)
+                    .license_type(gtk::License::Gpl30)
+                    .authors(vec!["Ivan Molodetskikh".to_owned()])
+                    .website("https://gitlab.gnome.org/YaLTeR/identity")
+                    // Translators: shown in the About dialog, put your name here.
+                    .translator_credits(&gettext("translator-credits"))
+                    .build()
+                    .show();
+            });
         }
 
-        let pipeline = gst::Pipeline::new(None);
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
+            obj.init_template();
+        }
+    }
 
-        let self_ = Rc::new(Window {
-            window,
-            stack_main,
-            stack_media,
-            pipeline: pipeline.clone(),
-            pipeline_playing: Cell::new(false),
-            forward: Cell::new(true),
-            label_current_time,
-            adjustment_position: adjustment_position.clone(),
-            adjustment_position_value_changed: OnceCell::new(),
-            stack_title,
-            button_play_pause_image,
-            revealer_controls,
-            pages: RefCell::new(Vec::new()),
-            paused_senders: RefCell::new(Vec::new()),
-        });
+    impl ObjectImpl for Window {
+        fn constructed(&self, obj: &Self::Type) {
+            self.parent_constructed(obj);
 
-        self_
-            .adjustment_position_value_changed
-            .set(adjustment_position.connect_value_changed({
-                let self_ = Rc::downgrade(&self_);
-                move |adjustment_position| {
-                    let self_ = self_.upgrade().unwrap();
-                    self_.seek(adjustment_position.get_value());
-                }
-            }))
-            .unwrap();
-
-        button_play_pause.connect_clicked({
-            let self_ = Rc::downgrade(&self_);
-            move |_| {
-                let self_ = self_.upgrade().unwrap();
-                self_.play_pause();
+            if config::PROFILE == "Devel" {
+                obj.add_css_class("devel");
             }
-        });
 
-        // Handle GStreamer messages.
-        let bus = pipeline.get_bus().unwrap();
-        bus.add_watch_local({
-            let self_ = Rc::downgrade(&self_);
-            move |_, msg| {
-                let self_ = self_.upgrade().unwrap();
-                self_.on_bus_message(msg)
-            }
-        })
-        .unwrap();
+            // FIXME: Remove when https://github.com/gtk-rs/gtk4-rs/issues/934 is fixed.
+            self.tab_view.connect_page_detached(
+                clone!(@weak obj => move |_, tab_page, _| obj.imp().on_page_detached(tab_page)),
+            );
 
-        pipeline.set_state(gst::State::Paused).unwrap();
+            let drop_target =
+                gtk::DropTarget::new(gdk::FileList::static_type(), gdk::DragAction::COPY);
+            drop_target.connect_drop(
+                clone!(@weak obj => @default-return false, move |_, data, _, _| {
+                    if let Ok(file_list) = data.get::<gdk::FileList>() {
+                        for file in file_list.files().into_iter() {
+                            obj.open_file(&file);
+                        }
 
-        self_.window.connect_delete_event({
-            move |_, _| {
+                        return true;
+                    }
+
+                    false
+                }),
+            );
+            self.stack.add_controller(&drop_target);
+
+            let pipeline = gst::Pipeline::new(None);
+            self.pipeline.set(pipeline.clone()).unwrap();
+
+            let bus = pipeline.bus().unwrap();
+            bus.add_watch_local(
+                clone!(@weak obj => @default-return glib::Continue(false), move |_, msg| {
+                    obj.imp().on_bus_message(msg);
+                    glib::Continue(true)
+                }),
+            )
+            .expect("could not add pipeline bus watch");
+
+            pipeline
+                .set_state(gst::State::Paused)
+                .expect("error setting pipeline state to Paused");
+
+            self.time_adjustment_value_changed
+                .set(self.time_adjustment.connect_value_changed(
+                    clone!(@weak obj => move |adj| obj.imp().seek(adj.value())),
+                ))
+                .unwrap();
+
+            glib::timeout_add_local(
+                Duration::from_millis(100),
+                clone!(@weak obj => @default-return glib::Continue(false), move || {
+                    obj.imp().refresh_controls();
+                    glib::Continue(true)
+                }),
+            );
+        }
+
+        fn dispose(&self, _obj: &Self::Type) {
+            if let Some(pipeline) = self.pipeline.get() {
                 // I got this to return Err once by opening a file GStreamer couldn't play and a
                 // regular video file.
-                let _ = pipeline.set_state(gst::State::Null);
+                if let Err(err) = pipeline.set_state(gst::State::Null) {
+                    warn!("error setting pipeline state to Null: {err:?}");
+                }
 
                 // This returns Err if called multiple times.
-                let _ = bus.remove_watch();
-
-                Inhibit(false)
-            }
-        });
-
-        button_open.connect_clicked({
-            let self_ = Rc::downgrade(&self_);
-            move |_| {
-                let self_ = self_.upgrade().unwrap();
-                self_.show_open_dialog();
-            }
-        });
-
-        glib::timeout_add_local(100, {
-            let self_ = Rc::downgrade(&self_);
-            move || {
-                if let Some(self_) = self_.upgrade() {
-                    self_.refresh_ui();
-                    glib::Continue(true)
-                } else {
-                    glib::Continue(false)
+                if let Err(err) = pipeline.bus().unwrap().remove_watch() {
+                    warn!("error removing pipeline bus watch: {err:?}");
                 }
+            } else {
+                warn!("unexpected unset `pipeline`");
             }
-        });
+        }
+    }
 
-        // Add ellipsizing to the stack switcher button labels so long filenames don't cause big
-        // window width requirements.
-        stack_switcher_media.connect_add(|_, radio_button| {
-            // These two downcasts don't fail for me, but this is a GTK implementation detail, so
-            // let's err on the safe side.
-            if let Some(radio_button) = radio_button.downcast_ref::<gtk::RadioButton>() {
-                radio_button.connect_add(|_, label| {
-                    if let Some(label) = label.downcast_ref::<gtk::Label>() {
-                        label.set_ellipsize(pango::EllipsizeMode::Middle);
+    impl WidgetImpl for Window {}
+    impl WindowImpl for Window {}
+    impl ApplicationWindowImpl for Window {}
+    impl AdwApplicationWindowImpl for Window {}
+
+    #[gtk::template_callbacks]
+    impl Window {
+        fn on_bus_message(&self, msg: &gst::Message) {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("received bus message {msg:?} without `pipeline` set");
+                    return;
+                }
+            };
+
+            use gst::MessageView;
+            match msg.view() {
+                MessageView::StateChanged(state_changed)
+                    if state_changed.src().as_ref() == Some(pipeline.upcast_ref()) =>
+                {
+                    debug!(
+                        "bus: StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                        state_changed.old(),
+                        state_changed.current(),
+                        state_changed.pending(),
+                    );
+
+                    use gst::State::*;
+                    match (state_changed.current(), state_changed.pending()) {
+                        (Playing, VoidPending) => {
+                            self.is_playing.set(true);
+                            self.play_pause_button
+                                .set_icon_name("media-playback-pause-symbolic");
+                        }
+                        (Paused, VoidPending) => {
+                            self.is_playing.set(false);
+                            self.play_pause_button
+                                .set_icon_name("media-playback-start-symbolic");
+                        }
+                        (_, _) => (),
                     }
-                });
+                }
+                MessageView::Eos(_) => {
+                    debug!("bus: Eos");
+
+                    self.seek(0.);
+                }
+                MessageView::Error(err) => {
+                    warn!(
+                        "bus: Error from {:?}: {} ({:?})",
+                        err.src(),
+                        err.error(),
+                        err.debug(),
+                    );
+
+                    // Upon getting an error, find the playbin the error originates from and remove
+                    // it from the pipeline. Note that find_immediate_child() can fail if an element
+                    // throws multiple errors at once since playbin will be removed from the
+                    // pipeline the first time around.
+                    if let Some(playbin) = err.src().and_then(|obj| self.find_immediate_child(obj))
+                    {
+                        let playbin = playbin
+                            .downcast::<gst::Element>()
+                            .expect("immediate child didn't downcast to `gst::Element`");
+
+                        if let Err(err) = pipeline.remove(&playbin) {
+                            warn!("error removing playbin from pipeline: {err:?}");
+                        }
+
+                        if let Some(page) = self.find_page_for_playbin(&playbin) {
+                            page.set_error();
+                        } else {
+                            error!("couldn't find page for playbin");
+                        }
+                    }
+                }
+                _ => (),
             }
-        });
+        }
 
-        // Register the window as a DnD destination.
-        self_
-            .window
-            .drag_dest_set(gtk::DestDefaults::ALL, &[], gdk::DragAction::COPY);
-        self_.window.drag_dest_add_uri_targets();
-        self_.window.connect_drag_data_received({
-            let self_ = Rc::downgrade(&self_);
-            move |_, context, _, _, data, _, time| {
-                let self_ = self_.upgrade().unwrap();
-                let uris = data.get_uris();
+        fn find_immediate_child(&self, mut object: gst::Object) -> Option<gst::Object> {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("find_immediate_child: unexpected unset `pipeline`");
+                    return None;
+                }
+            };
 
-                for uri in uris {
-                    self_.add_file(gio::File::new_for_uri(&uri));
+            loop {
+                let parent = object.parent()?;
+                if &parent == pipeline {
+                    return Some(object);
                 }
 
-                context.drag_finish(true, false, time);
+                object = parent;
             }
-        });
+        }
 
-        self_
+        fn find_page_for_playbin(&self, playbin: &gst::Element) -> Option<Page> {
+            for i in 0..self.tab_view.n_pages() {
+                let page = self.tab_view.nth_page(i).child();
+                let page = page
+                    .downcast::<Page>()
+                    .expect("unexpected widget type in tab view");
+                if page.playbin() == Some(playbin) {
+                    return Some(page);
+                }
+            }
+
+            None
+        }
+
+        #[template_callback]
+        fn play_pause(&self) {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("play_pause: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            let target_state = if self.is_playing.get() {
+                gst::State::Paused
+            } else {
+                gst::State::Playing
+            };
+
+            debug!(
+                "play_pause: target_state: {:?}, is_backward: {}",
+                target_state,
+                self.is_backward.get()
+            );
+
+            if target_state == gst::State::Playing && self.is_backward.get() {
+                let position = pipeline.query_position::<gst::ClockTime>();
+                if position.is_none() {
+                    return;
+                }
+
+                if let Err(err) = pipeline.seek(
+                    1.,
+                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                    gst::SeekType::Set,
+                    position,
+                    gst::SeekType::End,
+                    Some(gst::ClockTime::ZERO),
+                ) {
+                    warn!("error seeking: {err:?}");
+                }
+
+                self.is_backward.set(false);
+            }
+
+            pipeline.set_state(target_state).unwrap();
+        }
+
+        fn seek(&self, value: f64) {
+            debug!("seek({value:.02})");
+
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("seek: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            if let Some(duration) = pipeline.query_duration::<gst::ClockTime>() {
+                let time =
+                    gst::ClockTime::from_nseconds((value * duration.nseconds() as f64) as u64);
+
+                if let Err(err) = pipeline.seek_simple(gst::SeekFlags::FLUSH, time) {
+                    // This can happen if there's a broken playbin in the pipeline that nevertheless
+                    // hasn't sent an error to the bus yet.
+                    warn!("error seeking: {err:?}");
+                }
+
+                self.is_backward.set(false);
+            }
+        }
+
+        /// Steps one frame into the current playback direction.
+        fn step_frame(&self) {
+            debug!("step_frame()");
+
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("step_frame: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            pipeline.send_event(gst::event::Step::new(
+                gst::format::Buffers(1),
+                1.,
+                true,
+                false,
+            ));
+        }
+
+        fn step_forward(&self) {
+            if self.is_playing.get() {
+                // Only step while paused.
+                return;
+            }
+
+            debug!("step_forward: is_backward: {}", self.is_backward.get());
+
+            if self.is_backward.get() {
+                let pipeline = match self.pipeline.get() {
+                    Some(x) => x,
+                    None => {
+                        error!("step_forward: unexpected unset `pipeline`");
+                        return;
+                    }
+                };
+
+                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
+                    // Reversing playback direction already steps 1 frame in most cases.
+                    // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
+                    if let Err(err) = pipeline.seek(
+                        1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        position,
+                        gst::SeekType::End,
+                        gst::ClockTime::ZERO,
+                    ) {
+                        warn!("step_forward: error seeking: {err:?}");
+                    }
+
+                    self.is_backward.set(false);
+                }
+            } else {
+                self.step_frame();
+            }
+        }
+
+        fn step_back(&self) {
+            if self.is_playing.get() {
+                // Only step while paused.
+                return;
+            }
+
+            debug!("step_back: is_backward: {}", self.is_backward.get());
+
+            if self.is_backward.get() {
+                self.step_frame();
+            } else {
+                let pipeline = match self.pipeline.get() {
+                    Some(x) => x,
+                    None => {
+                        error!("step_back: unexpected unset `pipeline`");
+                        return;
+                    }
+                };
+
+                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
+                    // Reversing playback direction already steps 1 frame in most cases.
+                    // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
+                    if let Err(err) = pipeline.seek(
+                        -1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        gst::ClockTime::ZERO,
+                        gst::SeekType::Set,
+                        position,
+                    ) {
+                        warn!("step_back: error seeking: {err:?}");
+                    }
+
+                    self.is_backward.set(true);
+                }
+            }
+        }
+
+        fn refresh_controls(&self) {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("refresh_controls: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            let duration = pipeline.query_duration::<gst::ClockTime>();
+
+            // If we've opened something with a duration, show the controls.
+            //
+            // Do this outside the position check because when attaching a new playbin to the
+            // pipeline the position query might still return `None` even though the duration is
+            // already set. We rely on `refresh_controls` to reveal the controls as soon as possible
+            // for smooth animation.
+            self.controls_revealer.set_reveal_child(duration.is_some());
+
+            if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
+                let nanoseconds = position.nseconds();
+                let mut seconds = nanoseconds / 1_000_000_000;
+                let mut minutes = seconds / 60;
+                let hours = minutes / 60;
+                seconds %= 60;
+                minutes %= 60;
+
+                let time = if hours == 0 {
+                    format!("{}:{:02}", minutes, seconds)
+                } else {
+                    format!("{}:{:02}:{:02}", hours, minutes, seconds)
+                };
+
+                self.time_label.set_label(&time);
+
+                if let Some(duration) = duration {
+                    let value = position.nseconds() as f64 / duration.nseconds() as f64;
+
+                    let value_changed = self
+                        .time_adjustment_value_changed
+                        .get()
+                        .expect("unexpected unset `time_adjustment_value_changed`");
+                    self.time_adjustment.block_signal(value_changed);
+                    self.time_adjustment.set_value(value);
+                    self.time_adjustment.unblock_signal(value_changed);
+                }
+            }
+        }
+
+        pub fn open_file(&self, file: &gio::File) {
+            debug!("open_file(\"{}\")", file.uri());
+
+            let page = Page::new(file);
+            let tab_page = self.tab_view.append(&page);
+
+            page.bind_property("display-name", &tab_page, "title")
+                .flags(glib::BindingFlags::SYNC_CREATE)
+                .build();
+            page.bind_property("is-loading", &tab_page, "loading")
+                .flags(glib::BindingFlags::SYNC_CREATE)
+                .build();
+
+            page.property_expression("is-error")
+                .chain_closure::<Option<gio::Icon>>(closure!(
+                    |_: Option<glib::Object>, is_error: bool| {
+                        if is_error {
+                            Some(gio::ThemedIcon::new("error-symbolic"))
+                        } else {
+                            None
+                        }
+                    }
+                ))
+                .bind(&tab_page, "icon", None::<&Page>);
+        }
+
+        fn attach_playbin(&self, playbin: &gst::Element) {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("attach_playbin: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            if let Err(err) = pipeline.add(playbin) {
+                error!("error adding playbin to pipeline: {err:?}");
+                return;
+            }
+
+            if let Err(err) = playbin.sync_state_with_parent() {
+                warn!("error syncing playbin state with parent: {err:?}");
+            }
+
+            self.seek(self.time_adjustment.value());
+
+            self.refresh_controls();
+            self.stack.set_visible_child_name("content");
+            self.instance().present_if_not_visible();
+        }
+
+        fn detach_playbin(&self, playbin: &gst::Element) {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("detach_playbin: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            if let Err(err) = pipeline.remove(playbin) {
+                error!("error removing playbin from pipeline: {err:?}");
+            }
+
+            if let Err(err) = playbin.set_state(gst::State::Paused) {
+                warn!("error setting playbin state to Paused: {err:?}");
+            }
+        }
+
+        #[template_callback]
+        fn on_page_attached(&self, tab_page: &adw::TabPage) {
+            debug!("page-attached");
+
+            self.switch_to_content_after_timeout();
+
+            let page: Page = tab_page
+                .child()
+                .downcast()
+                .expect("tab page child has wrong type");
+
+            if page.is_error() {
+                self.stack.set_visible_child_name("content");
+                self.instance().present_if_not_visible();
+            } else if let Some(playbin) = page.playbin() {
+                self.attach_playbin(playbin);
+            } else {
+                let obj = self.instance();
+                let id = page.connect_notify_local(
+                    Some("is-loading"),
+                    clone!(@weak obj => move |page, _| {
+                        if let Some(playbin) = page.playbin() {
+                            obj.imp().attach_playbin(playbin);
+                        } else {
+                            // attach_playbin does this for us in the good case.
+                            obj.imp().stack.set_visible_child_name("content");
+                            obj.present_if_not_visible();
+                        }
+                    }),
+                );
+
+                if self
+                    .page_is_loading_notify_id
+                    .borrow_mut()
+                    .insert(page, id)
+                    .is_some()
+                {
+                    error!("`page_playbin_notify_id` already had an entry for this page");
+                };
+            }
+        }
+
+        #[template_callback]
+        fn on_page_detached(&self, tab_page: &adw::TabPage) {
+            debug!("page-detached");
+
+            if self.tab_view.n_pages() == 0 {
+                self.stack.set_visible_child_name("empty");
+            }
+
+            let page: Page = tab_page
+                .child()
+                .downcast()
+                .expect("tab page child has wrong type");
+
+            if let Some(playbin) = page.playbin() {
+                self.detach_playbin(playbin);
+            } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            }
+        }
+
+        #[template_callback]
+        fn on_create_window(&self) -> adw::TabView {
+            debug!("create-window");
+
+            let application: Application = self
+                .instance()
+                .application()
+                .expect("application was not set")
+                .downcast()
+                .expect("application has wrong type");
+            let new_window = application.create_new_window();
+            new_window.imp().tab_view.clone()
+        }
+
+        pub fn close_tab(&self) {
+            if let Some(page) = self.tab_view.selected_page() {
+                self.tab_view.close_page(&page);
+            } else {
+                self.instance().close();
+            }
+        }
+
+        pub fn focus_tab(&self, index: i32) {
+            if index < self.tab_view.n_pages() {
+                let page = self.tab_view.nth_page(index);
+                self.tab_view.set_selected_page(&page);
+            }
+        }
+
+        fn switch_to_content_after_timeout(&self) {
+            let mut source_id = self.switch_to_content_source_id.borrow_mut();
+            if source_id.is_some() {
+                return;
+            }
+
+            let obj = self.instance();
+            *source_id = Some(glib::timeout_add_local_once(
+                Duration::from_millis(300),
+                clone!(@weak obj => move || {
+                    debug!("switch to content timeout callback");
+
+                    let self_ = obj.imp();
+                    let _ = self_.switch_to_content_source_id.take();
+
+                    // The user could've closed the loading tab before the timeout fired or was
+                    // cancelled. So check again here and only switch if there are open tabs.
+                    if self_.tab_view.n_pages() > 0 {
+                        self_.stack.set_visible_child_name("content");
+                    }
+
+                    obj.present_if_not_visible();
+                }),
+            ));
+        }
+
+        #[template_callback]
+        fn on_visible_child_notify(&self) {
+            if let Some(source_id) = self.switch_to_content_source_id.take() {
+                source_id.remove();
+            }
+        }
+    }
+}
+
+glib::wrapper! {
+    pub struct Window(ObjectSubclass<imp::Window>)
+        @extends adw::ApplicationWindow, gtk::ApplicationWindow, gtk::Window, gtk::Widget,
+        @implements gio::ActionGroup, gio::ActionMap;
+}
+
+#[gtk::template_callbacks]
+impl Window {
+    pub fn new(app: &impl IsA<gtk::Application>) -> Self {
+        glib::Object::new(&[("application", app)]).expect("could not create `Window`")
     }
 
-    pub fn set_visible_child(&self, child: u8) {
-        self.stack_media.set_visible_child_name(&child.to_string());
+    pub fn open_file(&self, file: &gio::File) {
+        self.imp().open_file(file);
     }
 
-    pub fn show_open_dialog(self: Rc<Self>) {
+    fn present_if_not_visible(&self) {
+        if !self.is_visible() {
+            debug!("present_if_not_visible: presenting");
+
+            self.present();
+        }
+    }
+
+    async fn paste(&self) {
+        let value = match self
+            .clipboard()
+            .read_value_future(gdk::FileList::static_type(), glib::PRIORITY_DEFAULT)
+            .await
+        {
+            Ok(x) => x,
+            Err(err) => {
+                warn!("could not read clipboard contents: {err:?}");
+                return;
+            }
+        };
+
+        let file_list: gdk::FileList = match value.get() {
+            Ok(x) => x,
+            Err(err) => {
+                warn!("could not convert value to `FileList`: {err:?}");
+                return;
+            }
+        };
+
+        for file in file_list.files() {
+            self.open_file(&file);
+        }
+    }
+
+    #[template_callback]
+    fn on_open_clicked(&self) {
         let filter = gtk::FileFilter::new();
         // Translators: file chooser file filter name.
         filter.set_name(Some(&gettext("Videos and images")));
@@ -262,8 +871,8 @@ impl Window {
             filter.add_mime_type(mime_type);
         }
 
-        let file_chooser = gtk::FileChooserNativeBuilder::new()
-            .transient_for(&self.window)
+        let file_chooser = gtk::FileChooserNative::builder()
+            .transient_for(self)
             .modal(true)
             .action(gtk::FileChooserAction::Open)
             .select_multiple(true)
@@ -274,580 +883,28 @@ impl Window {
         file_chooser.add_filter(&filter);
 
         file_chooser.connect_response({
+            let obj = self.downgrade();
             let file_chooser = RefCell::new(Some(file_chooser.clone()));
             move |_, response| {
-                let file_chooser = file_chooser.borrow_mut().take().unwrap();
-
-                if response == gtk::ResponseType::Accept {
-                    for file in file_chooser.get_files() {
-                        self.add_file(file);
+                if let Some(obj) = obj.upgrade() {
+                    if let Some(file_chooser) = file_chooser.take() {
+                        if response == gtk::ResponseType::Accept {
+                            for file in file_chooser.files().snapshot().into_iter() {
+                                let file: gio::File = file
+                                    .downcast()
+                                    .expect("unexpected type returned from file chooser");
+                                obj.open_file(&file);
+                            }
+                        }
+                    } else {
+                        warn!("got file chooser response more than once");
                     }
+                } else {
+                    warn!("got file chooser response after window was freed");
                 }
             }
         });
 
         file_chooser.show();
-    }
-
-    pub fn add_file(self: &Rc<Self>, file: gio::File) {
-        g_debug!(LOG_DOMAIN, "add_file(), uri: {}", &file.get_uri());
-
-        let (playbin, widget) = create_player(&file.get_uri());
-
-        let builder =
-            gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/media_page.ui");
-        let stack: gtk::Stack = builder.get_object("stack_main").unwrap();
-
-        // Set up the media page.
-        let box_media: gtk::Box = builder.get_object("box_media").unwrap();
-        box_media.pack_start(&widget, true, true, 0);
-
-        // Show the loading spinner by default.
-        stack.set_visible_child_name("page_loading");
-
-        self.pages.borrow_mut().push(Page {
-            playbin: playbin.clone(),
-            stack: stack.clone(),
-        });
-
-        let index = self.stack_media.get_children().len() + 1;
-        self.stack_media
-            // Translators: placeholder shown in the headerbar for new files before their display
-            // name is available (for example, when loading a file from a network mount).
-            .add_titled(&stack, &index.to_string(), &gettext("Loading…"));
-
-        let show_stack = {
-            let self_ = Rc::clone(self);
-            let stack = stack.clone();
-            move || {
-                stack.show_all();
-                self_
-                    .stack_title
-                    .set_visible_child_name("page_stack_switcher");
-            }
-        };
-
-        let get_name = {
-            let self_ = Rc::clone(self);
-            let stack = stack.clone();
-            async move {
-                let info_future = file.query_info_async_future(
-                    "standard::display-name",
-                    gio::FileQueryInfoFlags::NONE,
-                    glib::PRIORITY_DEFAULT,
-                );
-
-                let title = info_future
-                    .await
-                    .ok()
-                    .and_then(|info| info.get_display_name())
-                    .unwrap_or_else(|| file.get_uri());
-                self_.stack_media.set_child_title(&stack, Some(&title));
-            }
-        };
-        glib::MainContext::default().spawn_local(get_name);
-
-        let self_ = Rc::clone(self);
-        let show_stack_ = show_stack.clone();
-        let start_playback = async move {
-            let success = preroll(&playbin).await;
-
-            // This is the first file being loaded. Display the revealer if needed and then set its
-            // transition type. This way when the main stack first reveals a video, it will already
-            // show the controls without an extra animation looking weird.
-            if playbin.query_duration::<gst::ClockTime>().is_some() {
-                self_.revealer_controls.set_reveal_child(true);
-            }
-
-            if success {
-                // To synchronize the playbin and the pipeline position, perform a seek on the
-                // pipeline after adding the playbin.
-
-                // First, pause the pipeline.
-                let playing = self_.pipeline_playing.get();
-                if playing {
-                    let (tx, rx) = futures_channel::oneshot::channel();
-                    self_.paused_senders.borrow_mut().push(tx);
-                    self_.pipeline.set_state(gst::State::Paused).unwrap();
-                    // Wait until it's paused.
-                    let _ = rx.await;
-                }
-
-                self_.pipeline.add(&playbin).unwrap();
-
-                self_.seek(self_.adjustment_position.get_value());
-
-                // Finally, resume the pipeline if it has been playing.
-                if playing {
-                    self_.pipeline.set_state(gst::State::Playing).unwrap();
-                }
-
-                stack.set_visible_child_name("page_media");
-            } else {
-                stack.set_visible_child_name("page_error");
-            }
-
-            // Change the main stack visible child _after_ the media stack, so that the media stack
-            // transition isn't run unnecessarily.
-            show_stack_();
-            self_.stack_main.set_visible_child_name("page_media");
-
-            self_.window.show_all();
-        };
-
-        let self_ = Rc::clone(self);
-        let start_playback = add_timeout_action(start_playback.fuse(), TIMEOUT, move || {
-            // After a 300 ms timeout, show the loading spinner and the window, if it hasn't opened
-            // yet.
-            if self_.stack_main.get_visible_child_name().unwrap() == "page_empty" {
-                self_
-                    .stack_main
-                    .set_visible_child_full("page_loading", gtk::StackTransitionType::Crossfade);
-            }
-
-            show_stack();
-
-            self_.window.show_all();
-        });
-
-        glib::MainContext::default().spawn_local(start_playback);
-    }
-
-    pub fn play_pause(&self) {
-        let target_state = if self.pipeline_playing.get() {
-            gst::State::Paused
-        } else {
-            gst::State::Playing
-        };
-
-        let forward = self.forward.get();
-
-        g_debug!(
-            LOG_DOMAIN,
-            "play_pause(), target_state: {:?}, forward: {}",
-            target_state,
-            forward
-        );
-
-        if target_state == gst::State::Playing && !forward {
-            if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
-                if position.is_none() {
-                    return;
-                }
-
-                let _ = self.pipeline.seek(
-                    1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    position,
-                    gst::SeekType::End,
-                    0.into(),
-                );
-
-                self.forward.set(true);
-            }
-        }
-
-        self.pipeline.set_state(target_state).unwrap();
-    }
-
-    fn seek(&self, value: f64) {
-        if let Some(duration) = self.pipeline.query_duration::<gst::ClockTime>() {
-            g_debug!(LOG_DOMAIN, "seeking, value: {}", value);
-
-            let time =
-                gst::ClockTime::from_nseconds((value * duration.nseconds().unwrap() as f64) as u64);
-            let _ = self.pipeline.seek_simple(gst::SeekFlags::FLUSH, time);
-
-            self.forward.set(true);
-        }
-    }
-
-    /// Steps one frame into the current playback direction.
-    fn step_frame(&self) {
-        self.pipeline.send_event(gst::event::Step::new(
-            gst::format::Buffers(Some(1)),
-            1.,
-            true,
-            false,
-        ));
-    }
-
-    pub fn step_forward(&self) {
-        if self.pipeline_playing.get() {
-            // Only step while paused.
-            return;
-        }
-
-        let forward = self.forward.get();
-
-        g_debug!(LOG_DOMAIN, "step_forward(), forward: {}", forward);
-
-        if forward {
-            self.step_frame();
-        } else {
-            if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
-                if position.is_none() {
-                    return;
-                }
-
-                // Reversing playback direction already steps 1 frame in most cases.
-                // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                let _ = self.pipeline.seek(
-                    1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    position,
-                    gst::SeekType::End,
-                    0.into(),
-                );
-
-                self.forward.set(true);
-            }
-        }
-    }
-
-    pub fn step_back(&self) {
-        if self.pipeline_playing.get() {
-            // Only step while paused.
-            return;
-        }
-
-        let forward = self.forward.get();
-
-        g_debug!(LOG_DOMAIN, "step_back(), forward: {}", forward);
-
-        if forward {
-            if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
-                if position.is_none() {
-                    return;
-                }
-
-                // Reversing playback direction already steps 1 frame in most cases.
-                // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                let _ = self.pipeline.seek(
-                    -1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    0.into(),
-                    gst::SeekType::Set,
-                    position,
-                );
-
-                self.forward.set(false);
-            }
-        } else {
-            self.step_frame();
-        }
-    }
-
-    pub fn close_selected_file(&self) {
-        let selected = match self.stack_media.get_visible_child() {
-            Some(child) => child,
-            None => return,
-        };
-
-        let mut pages = self.pages.borrow_mut();
-        let index = match pages.iter().position(|page| page.stack == selected) {
-            Some(index) => index,
-            None => return,
-        };
-
-        let page = pages.remove(index);
-        self.stack_media.remove(&page.stack);
-
-        // Update names of pages past the removed one so our shortcuts still work.
-        for (i, page) in pages.iter().skip(index).enumerate() {
-            self.stack_media
-                .set_child_name(&page.stack, Some(&(i + index + 1).to_string()));
-        }
-
-        let _ = self.pipeline.remove(&page.playbin);
-        let _ = page.playbin.set_state(gst::State::Null);
-
-        // Select the tab after the closed one or, if that fails, before the closed one.
-        if pages.len() > index {
-            self.stack_media
-                .set_visible_child_name(&(index + 1).to_string());
-        } else if index >= 1 {
-            self.stack_media.set_visible_child_name(&index.to_string());
-        }
-
-        if self.stack_media.get_children().is_empty() {
-            // No elements left, go back to the empty state.
-            self.stack_main.set_visible_child_name("page_empty");
-            self.stack_title.set_visible_child_name("page_title");
-
-            // Reset the pipeline position and state.
-            self.adjustment_position.set_value(0.); // This is used to seek in add_file().
-            self.pipeline.set_state(gst::State::Paused).unwrap();
-        }
-    }
-
-    fn refresh_ui(&self) {
-        if let Some(position) = self.pipeline.query_position::<gst::ClockTime>() {
-            let nanoseconds = position.nanoseconds().unwrap();
-            let mut seconds = nanoseconds / 1_000_000_000;
-            let mut minutes = seconds / 60;
-            let hours = minutes / 60;
-            seconds %= 60;
-            minutes %= 60;
-
-            let time = if hours == 0 {
-                format!("{}:{:02}", minutes, seconds)
-            } else {
-                format!("{}:{:02}:{:02}", hours, minutes, seconds)
-            };
-
-            self.label_current_time
-                .set_markup(&format!("<span font_features=\"tnum\">{}</span>", time));
-
-            if let Some(duration) = self.pipeline.query_duration::<gst::ClockTime>() {
-                let value =
-                    position.nanoseconds().unwrap() as f64 / duration.nanoseconds().unwrap() as f64;
-
-                let value_changed = self.adjustment_position_value_changed.get().unwrap();
-                self.adjustment_position.block_signal(value_changed);
-                self.adjustment_position.set_value(value);
-                self.adjustment_position.unblock_signal(value_changed);
-
-                // If we've opened something with a duration, show the controls.
-                if self.pipeline.query_duration::<gst::ClockTime>().is_some() {
-                    self.revealer_controls.set_reveal_child(true);
-                }
-            }
-        }
-    }
-
-    fn on_bus_message(&self, msg: &gst::Message) -> glib::Continue {
-        use gst::MessageView;
-        match msg.view() {
-            MessageView::StateChanged(state_changed)
-                if state_changed.get_src().as_ref()
-                    == Some(self.pipeline.upcast_ref::<gst::Object>()) =>
-            {
-                g_debug!(
-                    LOG_DOMAIN,
-                    "StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                    state_changed.get_old(),
-                    state_changed.get_current(),
-                    state_changed.get_pending()
-                );
-
-                use gst::State::*;
-                match (state_changed.get_current(), state_changed.get_pending()) {
-                    (Playing, VoidPending) => {
-                        self.pipeline_playing.set(true);
-                        self.button_play_pause_image
-                            .set_property_icon_name(Some("media-playback-pause-symbolic"));
-                    }
-                    (Paused, VoidPending) => {
-                        self.pipeline_playing.set(false);
-                        self.button_play_pause_image
-                            .set_property_icon_name(Some("media-playback-start-symbolic"));
-
-                        for sender in self.paused_senders.borrow_mut().drain(..) {
-                            let _ = sender.send(());
-                        }
-                    }
-                    (_, _) => (),
-                }
-            }
-            MessageView::DurationChanged(_) => {
-                g_debug!(LOG_DOMAIN, "DurationChanged");
-            }
-            MessageView::Eos(_) => {
-                g_debug!(LOG_DOMAIN, "Eos");
-
-                self.seek(0.);
-            }
-            MessageView::AsyncDone(_) => {
-                g_debug!(LOG_DOMAIN, "AsyncDone");
-            }
-            MessageView::Error(err) => {
-                g_warning!(
-                    LOG_DOMAIN,
-                    "Error from {:?}: {} ({:?})",
-                    err.get_src(),
-                    err.get_error(),
-                    err.get_debug()
-                );
-
-                // Upon getting an error, find the playbin the error originates from and remove it
-                // from the pipeline. Note that find_immediate_child() can fail if an element
-                // throws multiple errors at once since playbin will be removed from the pipeline
-                // the first time around.
-                if let Some(playbin) = err.get_src().and_then(|obj| self.find_immediate_child(obj))
-                {
-                    let playbin = playbin.downcast::<gst::Element>().unwrap();
-                    self.on_playbin_error(playbin);
-                }
-            }
-            _ => (),
-        }
-
-        glib::Continue(true)
-    }
-
-    fn find_immediate_child(&self, mut object: gst::Object) -> Option<gst::Object> {
-        loop {
-            let parent = object.get_parent()?;
-            if parent == self.pipeline {
-                return Some(object);
-            }
-
-            object = parent;
-        }
-    }
-
-    fn on_playbin_error(&self, playbin: gst::Element) {
-        let pages = self.pages.borrow();
-        let (i, page) = pages
-            .iter()
-            .enumerate()
-            .find(|(_, page)| page.playbin == playbin)
-            .unwrap();
-
-        g_warning!(LOG_DOMAIN, "Hiding media on page {} due to error", i + 1);
-        page.stack.set_visible_child_name("page_error");
-
-        let _ = self.pipeline.remove(&playbin); // We can call this before adding playbin.
-        let _ = playbin.set_state(gst::State::Null);
-    }
-}
-
-/// Creates and returns a new playbin with a sink GTK widget.
-///
-/// # Panics
-///
-/// Panics if the creation of `gtksink` and `playbin3` elements fails.
-fn create_player(uri: &glib::GString) -> (gst::Element, gtk::Widget) {
-    // Using gtksink instead of gtkglsink due to instability.
-    //
-    // Issues I've hit:
-    // - https://gitlab.freedesktop.org/mesa/mesa/-/issues/3029
-    // - https://gitlab.gnome.org/GNOME/gtk/-/issues/3208
-    //
-    // Besides, with gtksink I can use alpha.
-    let gtksink = gst::ElementFactory::make("gtksink", None).unwrap();
-    let playbin = gst::ElementFactory::make("playbin3", None).unwrap();
-
-    gtksink.set_property("ignore-alpha", &false).unwrap();
-
-    // videoflip takes care of applying the rotation tag.
-    match gst::ElementFactory::make("videoflip", None) {
-        Ok(videoflip) => {
-            // A little awkward until the next gstreamer-rs release.
-            let direction = {
-                let video_orientation_method =
-                    glib::Type::from_name("GstVideoOrientationMethod").unwrap();
-                let enum_class = glib::EnumClass::new(video_orientation_method).unwrap();
-                enum_class.to_value_by_nick("auto").unwrap()
-            };
-            videoflip
-                .set_property("video-direction", &direction)
-                .unwrap();
-            playbin.set_property("video-filter", &videoflip).unwrap();
-        }
-        Err(err) => g_warning!(LOG_DOMAIN, "Error creating videoflip: {:?}", err),
-    }
-
-    playbin
-        .set_property("video-sink", &gtksink.to_value())
-        .unwrap();
-    playbin.set_property("mute", &true).unwrap();
-    playbin.set_property("uri", uri).unwrap();
-
-    // Add the video widget to the UI.
-    let widget = gtksink
-        .get_property("widget")
-        .unwrap()
-        .get::<gtk::Widget>()
-        .unwrap()
-        .unwrap();
-
-    (playbin, widget)
-}
-
-/// Adds a timeout action to the future.
-///
-/// If the future doesn't complete within `timeout`, `on_timeout` is called.
-///
-/// The value of `timeout` is floored down to a millisecond.
-///
-/// # Panics
-///
-/// Panics if the number of milliseconds in `timeout` doesn't fit into a `u32`.
-async fn add_timeout_action<F: FusedFuture, O: FnOnce()>(
-    future: F,
-    timeout: Duration,
-    on_timeout: O,
-) -> F::Output {
-    let timeout_ms = timeout.as_millis().try_into().unwrap();
-    let mut timeout = glib::timeout_future(timeout_ms).fuse();
-    pin_mut!(future);
-
-    // Use biased select as a main loop stall can result in both the timeout and the target future
-    // complete at the same time. In this case we want to prioritize the target future.
-    select_biased! {
-        result = future => result,
-        _ = timeout => {
-            on_timeout();
-            future.await
-        }
-    }
-}
-
-/// Pre-rolls the `playbin`.
-///
-/// Returns `true` when the `playbin` has been successfully pre-rolled and put in the paused state,
-/// and `false` on error.
-async fn preroll(playbin: &gst::Element) -> bool {
-    // Create the stream first to not miss any messages.
-    let mut stream = playbin.get_bus().unwrap().stream();
-
-    if let Err(err) = playbin
-        .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
-        .await
-    {
-        // Can fail when the file is inaccessible.
-        g_warning!(LOG_DOMAIN, "Error setting playbin state: {:?}", err);
-        playbin.call_async(|playbin| {
-            let _ = playbin.set_state(gst::State::Null);
-        });
-        return false;
-    }
-
-    loop {
-        match stream.next().await.unwrap().view() {
-            gst::MessageView::Error(err) => {
-                // Can fail on missing codecs.
-                g_warning!(LOG_DOMAIN, "playbin Error: {:?}", err);
-                playbin.call_async(|playbin| {
-                    let _ = playbin.set_state(gst::State::Null);
-                });
-                break false;
-            }
-            gst::MessageView::StateChanged(state_changed)
-                if state_changed.get_src().as_ref()
-                    == Some(playbin.upcast_ref::<gst::Object>()) =>
-            {
-                g_debug!(
-                    LOG_DOMAIN,
-                    "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                    state_changed.get_old(),
-                    state_changed.get_current(),
-                    state_changed.get_pending()
-                );
-
-                if state_changed.get_current() == gst::State::Paused
-                    && state_changed.get_pending() == gst::State::VoidPending
-                {
-                    // Pre-rolled and ready to show.
-                    break true;
-                }
-            }
-            _ => (),
-        }
     }
 }

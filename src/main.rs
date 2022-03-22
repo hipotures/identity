@@ -1,44 +1,45 @@
-#[macro_use]
-extern crate glib;
-
 use gettextrs::*;
-use gstreamer as gst;
+use glib::{info, warn, GlibLogger, GlibLoggerDomain, GlibLoggerFormat};
+use gtk::prelude::*;
+use gtk::{gio, glib};
 
 mod application;
+use application::Application;
 #[rustfmt::skip]
 mod config;
-#[rustfmt::skip]
-mod static_resources;
+mod page;
 mod window;
 
-use application::Application;
-use config::{GETTEXT_PACKAGE, LOCALEDIR};
+const G_LOG_DOMAIN: &str = "Identity";
 
 fn main() {
-    // Required for GStreamer on X11.
-    #[cfg(target_os = "linux")]
-    unsafe {
-        #[link(name = "X11")]
-        extern "C" {
-            fn XInitThreads() -> std::os::raw::c_int;
-        }
+    static GLIB_LOGGER: GlibLogger =
+        GlibLogger::new(GlibLoggerFormat::LineAndFile, GlibLoggerDomain::CrateTarget);
 
-        XInitThreads();
+    let _ = log::set_logger(&GLIB_LOGGER);
+    log::set_max_level(log::LevelFilter::Debug);
+
+    info!("Identity version {}", config::VERSION);
+
+    setlocale(LocaleCategory::LcAll, "");
+    if let Err(err) = bindtextdomain(config::GETTEXT_PACKAGE, config::LOCALEDIR) {
+        warn!("Error in bindtextdomain(): {}", err);
+    }
+    if let Err(err) = bind_textdomain_codeset(config::GETTEXT_PACKAGE, "UTF-8") {
+        warn!("Error in bind_textdomain_codeset(): {}", err);
+    }
+    if let Err(err) = textdomain(config::GETTEXT_PACKAGE) {
+        warn!("Error in textdomain(): {}", err);
     }
 
-    // Prepare i18n
-    setlocale(LocaleCategory::LcAll, "");
-    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-    textdomain(GETTEXT_PACKAGE);
+    glib::set_application_name(&format!("{}{}", gettext("Identity"), config::NAME_SUFFIX));
 
-    glib::set_application_name(&format!("Identity{}", config::NAME_SUFFIX));
-    glib::set_prgname(Some("identity"));
+    let res =
+        gio::Resource::load(config::RESOURCES_FILE).expect("could not load the gresource file");
+    gio::resources_register(&res);
 
-    gst::init().expect("Unable to start GStreamer");
-    gtk::init().expect("Unable to start GTK3");
+    gst::init().expect("could not initialize GStreamer");
+    gstgtk4::plugin_register_static().expect("could not initialize gst-plugin-gtk4");
 
-    static_resources::init().expect("Failed to initialize the resource file.");
-
-    let app = Application::new();
-    app.run();
+    std::process::exit(Application::new().run());
 }

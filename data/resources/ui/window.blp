@@ -1,0 +1,125 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu primary_menu {
+  section {
+    item {
+      /* Translators: Primary menu entry that opens a new window. */
+      label: _("_New Window");
+      action: "app.new-window";
+    }
+
+    item {
+      /* Translators: Primary menu entry that opens the keyboard shortcuts window. */
+      label: _("_Keyboard Shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      /* Translators: Primary menu entry that opens the About dialog. */
+      label: _("_About Identity");
+      action: "win.about";
+    }
+  }
+}
+
+template IdWindow : Adw.ApplicationWindow {
+  title: _("Identity");
+
+  /* These parameters are chosen to make the default size of the video 640×360. */
+  default-width: 640;
+  default-height: 504;
+
+  content: Box {
+    orientation: vertical;
+
+    Adw.HeaderBar {
+      [start]
+      Button {
+        /* Translators: Open button label. */
+        label: _("Open");
+
+        styles ["suggested-action"]
+
+        clicked => on_open_clicked() swapped;
+      }
+
+      title-widget: Adw.WindowTitle {
+        title: bind IdWindow.title;
+      };
+
+      [end]
+      MenuButton {
+        icon-name: "open-menu-symbolic";
+        menu-model: primary_menu;
+      }
+    }
+
+    Stack stack {
+      transition-type: crossfade;
+
+      notify::visible-child => on_visible_child_notify() swapped;
+
+      StackPage {
+        name: "empty";
+
+        child: Adw.StatusPage {
+          vexpand: true;
+          icon-name: "identity-symbolic";
+
+          /* Translators: Text on the window when no files are open. */
+          description: _("Open videos or images to compare by pressing the Open button.");
+        };
+      }
+
+      StackPage {
+        name: "content";
+
+        child: Box {
+          orientation: vertical;
+
+          Adw.TabBar {
+            autohide: false;
+            view: tab_view;
+          }
+
+          Adw.TabView tab_view {
+            vexpand: true;
+
+            page-attached => on_page_attached() swapped;
+            /* page-detached => on_page_detached() swapped; */
+            create-window => on_create_window() swapped;
+          }
+
+          Revealer controls_revealer {
+            Box {
+              name: "controls";
+              spacing: 6;
+
+              Button play_pause_button {
+                icon-name: "media-playback-start-symbolic";
+                action-name: "win.play-pause";
+              }
+
+              Label time_label {
+                styles ["numeric"]
+                label: "0:00";
+
+                margin-start: 6; /* Scale and its extra padding... */
+              }
+
+              Scale {
+                hexpand: true;
+
+                adjustment: Adjustment time_adjustment {
+                  upper: 1;
+                  page-increment: 0.1;
+                };
+              }
+            }
+          }
+        };
+      }
+    }
+  };
+}

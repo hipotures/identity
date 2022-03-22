@@ -1,4 +1,5 @@
 subdir('icons')
+subdir('resources')
 # Desktop file
 desktop_conf = configuration_data()
 desktop_conf.set('icon', application_id)
@@ -21,7 +22,8 @@ if desktop_file_validate.found()
     desktop_file_validate,
     args: [
       desktop_file.full_path()
-    ]
+    ],
+    depends: desktop_file,
   )
 endif
 
@@ -46,7 +48,8 @@ if appstream_util.found()
     'validate-appdata', appstream_util,
     args: [
       'validate', '--nonet', appdata_file.full_path()
-    ]
+    ],
+    depends: appdata_file,
   )
 endif
 
@@ -67,32 +70,7 @@ if glib_compile_schemas.found()
   test(
     'validate-gschema', glib_compile_schemas,
     args: [
-      '--strict', '--dry-run', meson.current_source_dir()
-    ]
+      '--strict', '--dry-run', meson.current_build_dir()
+    ],
   )
 endif
-
-# Resources
-ui_config = configuration_data()
-ui_config.set('app-id', application_id)
-ui_config.set('version', meson.project_version() + version_suffix)
-ui_preconfigured_files = files(
-  'resources/ui/about_dialog.ui.in',
-  'resources/ui/window.ui.in',
-)
-ui_dependencies = []
-foreach ui_file: ui_preconfigured_files
-  ui_dependencies += configure_file(
-    input: ui_file,
-    output: '@BASENAME@',
-    configuration: ui_config
-  )
-endforeach
-
-resources = gnome.compile_resources(
-  'resources',
-  'resources.gresource.xml',
-  gresource_bundle: true,
-  source_dir: meson.current_build_dir(),
-  dependencies: ui_dependencies
-)

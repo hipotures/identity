@@ -1,261 +1,107 @@
-use gettextrs::gettext;
-use gio::prelude::*;
-use gstreamer as gst;
 use gtk::prelude::*;
-use libhandy as hdy;
-use std::{env, rc::Rc};
+use gtk::{gio, glib};
 
 use crate::config;
 use crate::window::Window;
 
-pub struct Application {
-    app: gtk::Application,
-    _window: Option<Rc<Window>>,
+mod imp {
+    use adw::prelude::AdwApplicationExt;
+    use adw::subclass::prelude::*;
+    use glib::{clone, debug};
+    use gtk::subclass::prelude::*;
+
+    use super::*;
+    use crate::G_LOG_DOMAIN;
+
+    #[derive(Default)]
+    pub struct Application {}
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for Application {
+        const NAME: &'static str = "IdApplication";
+        type Type = super::Application;
+        type ParentType = adw::Application;
+    }
+
+    impl ObjectImpl for Application {}
+
+    impl ApplicationImpl for Application {
+        fn activate(&self, obj: &Self::Type) {
+            debug!("activate");
+            self.parent_activate(obj);
+            obj.open_new_window();
+        }
+
+        fn open(&self, obj: &Self::Type, files: &[gio::File], _hint: &str) {
+            debug!(
+                "open: {:?}",
+                files
+                    .iter()
+                    .map(|x| x.uri().into())
+                    .collect::<Vec<String>>()
+            );
+
+            let window = obj.create_new_window();
+
+            for file in files {
+                window.open_file(file);
+            }
+        }
+
+        fn startup(&self, obj: &Self::Type) {
+            self.parent_startup(obj);
+
+            obj.style_manager()
+                .set_color_scheme(adw::ColorScheme::PreferDark);
+
+            let action = gio::SimpleAction::new("quit", None);
+            action.connect_activate(clone!(@weak obj => move |_, _| obj.quit()));
+            obj.add_action(&action);
+            obj.set_accels_for_action("app.quit", &["<primary>q"]);
+
+            let action = gio::SimpleAction::new("new-window", None);
+            action.connect_activate(clone!(@weak obj => move |_, _| { obj.open_new_window(); }));
+            obj.add_action(&action);
+            obj.set_accels_for_action("app.new-window", &["<primary>n"]);
+        }
+    }
+
+    impl GtkApplicationImpl for Application {}
+    impl AdwApplicationImpl for Application {}
+}
+
+glib::wrapper! {
+    pub struct Application(ObjectSubclass<imp::Application>)
+        @extends adw::Application, gtk::Application, gio::Application,
+        @implements gio::ActionGroup, gio::ActionMap;
 }
 
 impl Application {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        let app = gtk::Application::new(
-            Some(config::APP_ID),
-            gio::ApplicationFlags::NON_UNIQUE | gio::ApplicationFlags::HANDLES_OPEN,
-        )
-        .unwrap();
-
-        if gst::ElementFactory::make("gtksink", None).is_err()
-            || gst::ElementFactory::make("playbin3", None).is_err()
-        {
-            let dialog = gtk::MessageDialogBuilder::new()
-                // Translators: startup error dialog text.
-                .text(&gettext("Error loading Identity"))
-                .secondary_text(&gettext(
-                    // Translators: startup error dialog secondary text.
-                    "Could not create one of the required GStreamer elements (gtksink, playbin3).",
-                ))
-                .message_type(gtk::MessageType::Error)
-                .buttons(gtk::ButtonsType::Close)
-                .build();
-
-            dialog.connect_response({
-                let app = app.downgrade();
-                move |_, _| {
-                    let app = app.upgrade().unwrap();
-                    app.quit()
-                }
-            });
-
-            app.connect_activate({
-                move |app| {
-                    dialog.set_application(Some(app));
-                    dialog.show_all()
-                }
-            });
-
-            app.connect_open({
-                move |app, _, _| {
-                    app.activate();
-                }
-            });
-
-            return Self { app, _window: None };
-        }
-
-        let window = Window::new();
-
-        let application = Self {
-            app,
-            _window: Some(window.clone()),
-        };
-
-        application.setup_widgets(&window);
-        application.setup_gactions(&window);
-        application.setup_signals(&window);
-        application
+        glib::Object::new(&[
+            ("application-id", &config::APP_ID),
+            ("flags", &gio::ApplicationFlags::HANDLES_OPEN),
+            ("resource-base-path", &"/org/gnome/gitlab/YaLTeR/Identity"),
+        ])
+        .expect("could not create `Application`")
     }
 
-    fn setup_widgets(&self, window: &Rc<Window>) {
-        let builder = gtk::Builder::from_resource("/org/gnome/gitlab/YaLTeR/Identity/shortcuts.ui");
-        let shortcuts: gtk::ShortcutsWindow = builder.get_object("shortcuts").unwrap();
-        window.window.set_help_overlay(Some(&shortcuts));
+    pub fn create_new_window(&self) -> Window {
+        let window = Window::new(self);
+
+        // Put it in a new window group so modal dialogs don't block other windows.
+        let group = gtk::WindowGroup::new();
+        group.add_window(&window);
+
+        window
     }
 
-    fn setup_gactions(&self, window: &Rc<Window>) {
-        // Quit
-        let action = gio::SimpleAction::new("quit", None);
-        action.connect_activate({
-            let app = self.app.downgrade();
-            move |_, _| {
-                let app = app.upgrade().unwrap();
-                app.quit();
-            }
-        });
-        self.app.add_action(&action);
-        self.app.set_accels_for_action("app.quit", &["<primary>q"]);
+    pub fn open_new_window(&self) -> Window {
+        let window = self.create_new_window();
 
-        // About
-        let action = gio::SimpleAction::new("about", None);
-        action.connect_activate({
-            let window = window.window.downgrade();
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-                let builder = gtk::Builder::from_resource(
-                    "/org/gnome/gitlab/YaLTeR/Identity/about_dialog.ui",
-                );
-                let about_dialog: gtk::AboutDialog = builder.get_object("about_dialog").unwrap();
-                about_dialog.set_transient_for(Some(&window));
+        window.present();
 
-                about_dialog.connect_response(|dialog, _| dialog.close());
-                about_dialog.show();
-            }
-        });
-        self.app.add_action(&action);
-        self.app
-            .set_accels_for_action("win.show-help-overlay", &["<primary>question"]);
-
-        // Switching pages
-        for i in 0..10 {
-            let page = if i == 0 { 10 } else { i };
-            let action_name = format!("switch-to-page-{}", page);
-            let action = gio::SimpleAction::new(&action_name, None);
-            action.connect_activate({
-                let window = Rc::downgrade(window);
-                move |_, _| {
-                    let window = window.upgrade().unwrap();
-                    window.set_visible_child(page);
-                }
-            });
-            self.app.add_action(&action);
-            self.app.set_accels_for_action(
-                &format!("app.{}", action_name),
-                &[i.to_string().as_ref(), &format!("KP_{}", i)],
-            );
-        }
-
-        // Open
-        let action = gio::SimpleAction::new("open", None);
-        action.connect_activate({
-            let window = Rc::downgrade(window);
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-                window.show_open_dialog();
-            }
-        });
-        self.app.add_action(&action);
-        self.app.set_accels_for_action("app.open", &["<primary>o"]);
-
-        // Paste
-        let action = gio::SimpleAction::new("paste", None);
-        action.connect_activate({
-            let window = Rc::downgrade(window);
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-
-                let display = gdk::Display::get_default().unwrap();
-                let clipboard = gtk::Clipboard::get_default(&display).unwrap();
-
-                // TODO: use request_uris() when it's available.
-                // https://github.com/gtk-rs/gtk/issues/591
-                for uri in clipboard.wait_for_uris() {
-                    window.add_file(gio::File::new_for_uri(&uri));
-                }
-            }
-        });
-        self.app.add_action(&action);
-        self.app.set_accels_for_action("app.paste", &["<primary>v"]);
-
-        // Close selected file
-        let action = gio::SimpleAction::new("close-selected-file", None);
-        action.connect_activate({
-            let window = Rc::downgrade(window);
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-                window.close_selected_file();
-            }
-        });
-        self.app.add_action(&action);
-        self.app
-            .set_accels_for_action("app.close-selected-file", &["<primary>w"]);
-
-        // Play / Pause
-        let action = gio::SimpleAction::new("play-pause", None);
-        action.connect_activate({
-            let window = Rc::downgrade(window);
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-                window.play_pause();
-            }
-        });
-        self.app.add_action(&action);
-        self.app
-            .set_accels_for_action("app.play-pause", &["p", "space"]);
-
-        // Step forward
-        let action = gio::SimpleAction::new("step-forward", None);
-        action.connect_activate({
-            let window = Rc::downgrade(window);
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-                window.step_forward();
-            }
-        });
-        self.app.add_action(&action);
-        self.app
-            .set_accels_for_action("app.step-forward", &["period"]);
-
-        // Step back
-        let action = gio::SimpleAction::new("step-back", None);
-        action.connect_activate({
-            let window = Rc::downgrade(window);
-            move |_, _| {
-                let window = window.upgrade().unwrap();
-                window.step_back();
-            }
-        });
-        self.app.add_action(&action);
-        self.app.set_accels_for_action("app.step-back", &["comma"]);
-    }
-
-    fn setup_signals(&self, window: &Rc<Window>) {
-        self.app.connect_startup(|_| hdy::init());
-        self.app.connect_open({
-            let window = Rc::downgrade(window);
-            move |app, files, _| {
-                let window = window.upgrade().unwrap();
-
-                for file in files {
-                    window.add_file(file.clone());
-                }
-
-                window.window.set_application(Some(app));
-                app.add_window(&window.window);
-            }
-        });
-        self.app.connect_activate({
-            let window = window.window.downgrade();
-            move |app| {
-                let window = window.upgrade().unwrap();
-                window.set_application(Some(app));
-                app.add_window(&window);
-                window.show_all();
-            }
-        });
-    }
-
-    pub fn run(&self) {
-        g_debug!(
-            config::LOG_DOMAIN,
-            "Identity{} ({})",
-            config::NAME_SUFFIX,
-            config::APP_ID
-        );
-        g_debug!(
-            config::LOG_DOMAIN,
-            "Version: {} ({})",
-            config::VERSION,
-            config::PROFILE
-        );
-        g_debug!(config::LOG_DOMAIN, "Datadir: {}", config::PKGDATADIR);
-
-        let args: Vec<String> = env::args().collect();
-        self.app.run(&args);
+        window
     }
 }

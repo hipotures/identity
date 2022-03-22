@@ -1,0 +1,63 @@
+using Gtk 4.0;
+
+ShortcutsWindow help_overlay {
+  ShortcutsSection {
+    ShortcutsGroup {
+      title: C_("shortcut window", "General");
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Switch between files");
+        accelerator: "1...9 0";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Open videos or images");
+        accelerator: "<ctrl>o";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Open file from clipboard");
+        accelerator: "<ctrl>v";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Close selected file");
+        accelerator: "<ctrl>w";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "New window");
+        action-name: "app.new-window";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Show shortcuts");
+        action-name: "win.show-help-overlay";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Quit");
+        action-name: "app.quit";
+      }
+    }
+
+    ShortcutsGroup {
+      title: C_("shortcut window", "Playback");
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Play / Pause");
+        accelerator: "p <ctrl>space";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Step forward one frame");
+        accelerator: "period";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Step back one frame");
+        accelerator: "comma";
+      }
+    }
+  }
+}

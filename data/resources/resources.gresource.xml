@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gnome/gitlab/YaLTeR/Identity">
+    <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/page.ui</file>
+    <file compressed="true">style.css</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/broken-playback-symbolic.svg">../icons/broken-playback-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/error-symbolic.svg">../icons/error-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/identity-symbolic.svg">../icons/org.gnome.gitlab.YaLTeR.Identity-symbolic.svg</file>
+  </gresource>
+</gresources>
