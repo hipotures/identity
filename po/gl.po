@@ -1,24 +1,81 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-22 18:00+0300\n"
-"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+"Project-Id-Version: Identity\n"
+"Language: gl\n"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "Compare imaxes e vídeos"
+
+#: src/window.rs:201
+msgid "translator-credits"
+msgstr "Fran Diéguez <frandieguez@gnome.org>, 2021"
+
+#: data/resources/ui/shortcuts.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Xeral"
+
+#: data/resources/ui/shortcuts.blp:9
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "Trocar entre ficheiros"
+
+#: data/resources/ui/shortcuts.blp:14
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "Abrir vídeos e imaxes"
+
+#: data/resources/ui/shortcuts.blp:19
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "Abrir ficheiro desde o portapapeis"
+
+#: data/resources/ui/shortcuts.blp:24
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "Pechar ficheiro seleccionado"
+
+#: data/resources/ui/shortcuts.blp:34
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Mostrar atallos"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Saír"
+
+#: data/resources/ui/shortcuts.blp:45
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Reprodución"
+
+#: data/resources/ui/shortcuts.blp:48
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "Reproducir / Pausar"
+
+#: data/resources/ui/shortcuts.blp:53
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "Avanzar un marco"
+
+#: data/resources/ui/shortcuts.blp:58
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "Atrasar un marco"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
 #: data/resources/ui/window.blp:27 src/main.rs:35
 msgid "Identity"
 msgstr "Identidade"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
-msgid "Compare images and videos"
-msgstr "Compare imaxes e vídeos"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
@@ -29,59 +86,55 @@ msgstr "Película;Filtme;Curta;Diferencia;Marco;Cualidade;"
 msgid "A program for comparing multiple versions of an image or video."
 msgstr "Un programa para comparar varias versións dunha imaxe ou vídeo."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
-msgid "Identity is now a GTK 4 application!"
-msgstr ""
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:58
+msgid "This release contains translation updates."
+msgstr "Esta publicación contén actualizacións de traducións."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
-msgid "Rewrote the application with GTK 4 and libadwaita."
-msgstr ""
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:60
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr "Engadida a tradución ao Holandés (grazas Heimen Stoffels)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
-msgid ""
-"Added tabs to replace the old file switcher. You can drag tabs to rearrange "
-"them, drag a tab to split it into a new window, and drag tabs between "
-"windows."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
-msgid "Changed the default style to dark."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
-#, fuzzy
-msgid "Added Basque translation (thanks Sergio Varela)."
-msgstr "Engadiuse a tradución ao Croata (grazas Milo Ivir)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
-#, fuzzy
-msgid "Added Galician translation (thanks Fran Diéguez)."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
+msgid "Added French translation (thanks Lapineige)."
 msgstr "Engadida a tradución ao Francés (grazas Lapineige)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
-#, fuzzy
-msgid "Added Japanese translation (thanks Kaz Sibuya)."
-msgstr "Engadiuse a tradución ao Croata (grazas Milo Ivir)."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr "Engadida a tradución ao Español (grazas Óscar Fernández Díaz)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
-#, fuzzy
-msgid "Added Polish translation (thanks Rafał Baran)."
-msgstr "Engadiuse a tradución ao Finés (grazas Jiri Grönroos)."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:68
+msgid "This release fixes minor UI issues."
+msgstr "Esta publicación arranxa problemas pequenos de interface."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
-#, fuzzy
-msgid "Added Chinese Simplified translation (thanks Garling Liang)."
-msgstr "Engadida a tradución ao Francés (grazas Lapineige)."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:70
+msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
+msgstr "Ao pechar un ficheiro, a seguinte \"lapela\" seleccionarase, ou se pecha o último ficheiro, seleccionarase o anterior."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
-msgid "Updated translations."
-msgstr ""
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
+msgid "Fixed the application title not showing up upon closing all files."
+msgstr "Arranxouse que o título da aplicación non se mostra ao pechar todos os ficheiros."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:77
+msgid "First release."
+msgstr "Primeira publicación."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:94
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:869
+msgid "Videos and images"
+msgstr "Vídeos e imaxes"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:880
+msgid "Open videos or images to compare"
+msgstr "Abrir vídeos ou imaxes para comparar"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:40
 msgid "This release contains translation updates and minor UI changes."
-msgstr ""
-"Esta publicación contén actualizacións de traducións e cambios de interface "
-"menores."
+msgstr "Esta publicación contén actualizacións de traducións e cambios de interface menores."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:42
 msgid "Video rotation tag is now respected."
@@ -120,62 +173,52 @@ msgid "Added translation contribution link."
 msgstr "Engadiuse a ligazón á contribución de traducións."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:51
-msgid ""
-"Specified input device recommendations to improve display in the new GNOME "
-"Software."
-msgstr ""
-"As recomendacións de dispositivo de entrada especificadas para mellorar a "
-"visualización no novo GNOME Software."
+msgid "Specified input device recommendations to improve display in the new GNOME Software."
+msgstr "As recomendacións de dispositivo de entrada especificadas para mellorar a visualización no novo GNOME Software."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:52
-msgid ""
-"Label on the main window can now wrap so as not to restrict minimum window "
-"size."
+msgid "Label on the main window can now wrap so as not to restrict minimum window size."
+msgstr "A etiqueta na xanela principal agora pode envolverse polo que non restrinxe o tamaño da xanela mínimo."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "Identity is now a GTK 4 application!"
 msgstr ""
-"A etiqueta na xanela principal agora pode envolverse polo que non restrinxe "
-"o tamaño da xanela mínimo."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:58
-msgid "This release contains translation updates."
-msgstr "Esta publicación contén actualizacións de traducións."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:60
-msgid "Added Dutch translation (thanks Heimen Stoffels)."
-msgstr "Engadida a tradución ao Holandés (grazas Heimen Stoffels)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
-msgid "Added French translation (thanks Lapineige)."
-msgstr "Engadida a tradución ao Francés (grazas Lapineige)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
-msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
-msgstr "Engadida a tradución ao Español (grazas Óscar Fernández Díaz)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:68
-msgid "This release fixes minor UI issues."
-msgstr "Esta publicación arranxa problemas pequenos de interface."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:70
-msgid ""
-"When closing a file, the next “tab” is now selected, or, if closing the last "
-"file, the previous one is selected."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+msgid "Rewrote the application with GTK 4 and libadwaita."
 msgstr ""
-"Ao pechar un ficheiro, a seguinte \"lapela\" seleccionarase, ou se pecha o "
-"último ficheiro, seleccionarase o anterior."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
-msgid "Fixed the application title not showing up upon closing all files."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows."
 msgstr ""
-"Arranxouse que o título da aplicación non se mostra ao pechar todos os "
-"ficheiros."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:77
-msgid "First release."
-msgstr "Primeira publicación."
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+msgid "Changed the default style to dark."
+msgstr ""
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:94
-msgid "Ivan Molodetskikh"
-msgstr "Ivan Molodetskikh"
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
+msgid "Added Basque translation (thanks Sergio Varela)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
+msgid "Added Galician translation (thanks Fran Diéguez)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
+msgid "Added Japanese translation (thanks Kaz Sibuya)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
+msgid "Added Polish translation (thanks Rafał Baran)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+msgid "Added Chinese Simplified translation (thanks Garling Liang)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+msgid "Updated translations."
+msgstr ""
 
 #. Translators: Title that is shown upon video or image loading error.
 #: data/resources/ui/page.blp:26
@@ -184,136 +227,38 @@ msgstr ""
 
 #. Translators: Label shown when a video or image has failed to load.
 #: data/resources/ui/page.blp:29
-#, fuzzy
-msgid ""
-"Could not display the file.\n"
+msgid "Could not display the file.\n"
 "\n"
-"If you're running Identity under Flatpak, note that opening files by drag-"
-"and-drop and by pasting may not work."
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
 msgstr ""
-"Non é posíbel mostrar o ficheiro.\n"
-"\n"
-"Se está executando Identidade con Flatpak, teña en conta que abrir ficheiros "
-"mediante arrastrar e soltar ou pegando podería non funcionar."
-
-#: data/resources/ui/shortcuts.blp:6
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Xeral"
-
-#: data/resources/ui/shortcuts.blp:9
-msgctxt "shortcut window"
-msgid "Switch between files"
-msgstr "Trocar entre ficheiros"
-
-#: data/resources/ui/shortcuts.blp:14
-msgctxt "shortcut window"
-msgid "Open videos or images"
-msgstr "Abrir vídeos e imaxes"
-
-#: data/resources/ui/shortcuts.blp:19
-msgctxt "shortcut window"
-msgid "Open file from clipboard"
-msgstr "Abrir ficheiro desde o portapapeis"
-
-#: data/resources/ui/shortcuts.blp:24
-msgctxt "shortcut window"
-msgid "Close selected file"
-msgstr "Pechar ficheiro seleccionado"
 
 #: data/resources/ui/shortcuts.blp:29
 msgctxt "shortcut window"
 msgid "New window"
 msgstr ""
 
-#: data/resources/ui/shortcuts.blp:34
-msgctxt "shortcut window"
-msgid "Show shortcuts"
-msgstr "Mostrar atallos"
-
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Saír"
-
-#: data/resources/ui/shortcuts.blp:45
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Reprodución"
-
-#: data/resources/ui/shortcuts.blp:48
-msgctxt "shortcut window"
-msgid "Play / Pause"
-msgstr "Reproducir / Pausar"
-
-#: data/resources/ui/shortcuts.blp:53
-msgctxt "shortcut window"
-msgid "Step forward one frame"
-msgstr "Avanzar un marco"
-
-#: data/resources/ui/shortcuts.blp:58
-msgctxt "shortcut window"
-msgid "Step back one frame"
-msgstr "Atrasar un marco"
-
 #. Translators: Primary menu entry that opens a new window.
 #: data/resources/ui/window.blp:8
-#, fuzzy
 msgid "_New Window"
-msgstr "Xanela principal"
+msgstr ""
 
 #. Translators: Primary menu entry that opens the keyboard shortcuts window.
 #: data/resources/ui/window.blp:14
-#, fuzzy
 msgid "_Keyboard Shortcuts"
-msgstr "Atallos de teclado"
+msgstr ""
 
 #. Translators: Primary menu entry that opens the About dialog.
 #: data/resources/ui/window.blp:20
-#, fuzzy
 msgid "_About Identity"
-msgstr "Sobre Identidade"
+msgstr ""
 
 #. Translators: Open button label.
 #: data/resources/ui/window.blp:40
-#, fuzzy
 msgid "Open"
-msgstr "Abrir…"
+msgstr ""
 
 #. Translators: Text on the window when no files are open.
 #: data/resources/ui/window.blp:71
-#, fuzzy
 msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Abra vídeos ou imaxes para comparar premendo o botón Abrir."
+msgstr ""
 
-#. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:201
-msgid "translator-credits"
-msgstr "Fran Diéguez <frandieguez@gnome.org>, 2021"
-
-#. Translators: file chooser file filter name.
-#: src/window.rs:869
-msgid "Videos and images"
-msgstr "Vídeos e imaxes"
-
-#. Translators: file chooser dialog title.
-#: src/window.rs:880
-msgid "Open videos or images to compare"
-msgstr "Abrir vídeos ou imaxes para comparar"
-
-#~ msgctxt "Window title."
-#~ msgid "Identity"
-#~ msgstr "Identidade"
-
-#~ msgid "Error loading Identity"
-#~ msgstr "Produciuse un erro ao cargar Identidade"
-
-#~ msgid ""
-#~ "Could not create one of the required GStreamer elements (gtksink, "
-#~ "playbin3)."
-#~ msgstr ""
-#~ "Non foi posíbel cargar un dos elementos GStreamer requiridos (gtksink, "
-#~ "playbin3)."
-
-#~ msgid "Loading…"
-#~ msgstr "Cargando…"
