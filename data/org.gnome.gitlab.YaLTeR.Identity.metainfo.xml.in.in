@@ -91,6 +91,9 @@
     <control>keyboard</control>
     <control>touch</control>
   </recommends>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
   <developer_name>Ivan Molodetskikh</developer_name>
   <update_contact>yalterz@gmail.com</update_contact>
   <translation type="gettext">@gettext-package@</translation>
