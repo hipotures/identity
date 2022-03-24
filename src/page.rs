@@ -243,6 +243,7 @@ mod imp {
                 .builder_with_value(flags)
                 .expect("could not create `FlagsBuilder`")
                 .unset_by_nick("audio")
+                .unset_by_nick("deinterlace")
                 .build()
                 .expect("could not create flags `Value`");
             playbin.set_property("flags", flags);
