@@ -88,12 +88,14 @@ mod imp {
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::subclass::prelude::*;
     use gtk::{glib, CompositeTemplate};
+    use once_cell::sync::Lazy;
     use once_cell::unsync::OnceCell;
 
     use super::*;
     use crate::application::Application;
     use crate::config;
     use crate::page::Page;
+    use crate::picture::ScaleRequest;
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/window.ui")]
@@ -109,8 +111,14 @@ mod imp {
         #[template_child]
         time_label: TemplateChild<gtk::Label>,
         #[template_child]
+        time_scale: TemplateChild<gtk::Scale>,
+        #[template_child]
         time_adjustment: TemplateChild<gtk::Adjustment>,
         time_adjustment_value_changed: OnceCell<SignalHandlerId>,
+        #[template_child]
+        scale_entry: TemplateChild<gtk::Entry>,
+        #[template_child]
+        scale_button: TemplateChild<gtk::MenuButton>,
 
         pipeline: OnceCell<gst::Pipeline>,
 
@@ -119,6 +127,16 @@ mod imp {
 
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
+
+        scale_binding: RefCell<Option<glib::Binding>>,
+        scale_request: Cell<ScaleRequest>,
+        scale_request_notify_id: RefCell<Option<SignalHandlerId>>,
+
+        h_scroll_pos: Cell<f64>,
+        v_scroll_pos: Cell<f64>,
+        h_scroll_pos_notify_id: RefCell<Option<SignalHandlerId>>,
+        v_scroll_pos_notify_id: RefCell<Option<SignalHandlerId>>,
+        prev_selected_page: RefCell<glib::WeakRef<Page>>,
     }
 
     #[glib::object_subclass]
@@ -188,6 +206,37 @@ mod imp {
                 );
             }
 
+            klass.install_property_action("win.set-best-fit", "best-fit");
+            klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit", None);
+
+            klass.install_action(
+                "win.set-scale-request",
+                Some(f64::static_variant_type().as_str()),
+                |obj, _, param| {
+                    let value = param
+                        .expect("missing parameter")
+                        .get()
+                        .expect("wrong parameter type");
+                    obj.imp().set_scale_request(ScaleRequest::from_value(value));
+                },
+            );
+
+            klass.install_action("win.zoom-in", None, |obj, _, _| obj.imp().zoom_in());
+            klass.install_action("win.zoom-out", None, |obj, _, _| obj.imp().zoom_out());
+
+            klass.add_binding_action(
+                Key::_0,
+                ModifierType::CONTROL_MASK,
+                "win.set-scale-request",
+                Some(&1f64.to_variant()),
+            );
+            klass.add_binding_action(Key::equal, ModifierType::empty(), "win.zoom-in", None);
+            klass.add_binding_action(Key::equal, ModifierType::CONTROL_MASK, "win.zoom-in", None);
+            klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in", None);
+            klass.add_binding_action(Key::plus, ModifierType::CONTROL_MASK, "win.zoom-in", None);
+            klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out", None);
+            klass.add_binding_action(Key::minus, ModifierType::CONTROL_MASK, "win.zoom-out", None);
+
             klass.install_action("win.about", None, |window, _, _| {
                 gtk::AboutDialog::builder()
                     .transient_for(window)
@@ -221,7 +270,12 @@ mod imp {
             self.tab_view.connect_page_detached(
                 clone!(@weak obj => move |_, tab_page, _| obj.imp().on_page_detached(tab_page)),
             );
+            self.tab_view.connect_notify_local(
+                Some("selected-page"),
+                clone!(@weak obj => move |_, _| obj.imp().on_selected_page_notify()),
+            );
 
+            // Set up the drop target.
             let drop_target =
                 gtk::DropTarget::new(gdk::FileList::static_type(), gdk::DragAction::COPY);
             drop_target.connect_drop(
@@ -239,6 +293,27 @@ mod imp {
             );
             self.stack.add_controller(&drop_target);
 
+            // Set up the scale menu model.
+            let menu = gio::Menu::new();
+
+            let section = gio::Menu::new();
+            // Translators: Entry in the scale/zoom menu that indicates that the image or video is
+            // always resized to fit the window.
+            section.append(Some(&gettext("Best Fit")), Some("win.set-best-fit"));
+            menu.append_section(None, &section);
+
+            let section = gio::Menu::new();
+            section.append(Some("25%"), Some("win.set-scale-request(0.25)"));
+            section.append(Some("50%"), Some("win.set-scale-request(0.5)"));
+            section.append(Some("100%"), Some("win.set-scale-request(1.0)"));
+            section.append(Some("200%"), Some("win.set-scale-request(2.0)"));
+            section.append(Some("400%"), Some("win.set-scale-request(4.0)"));
+            section.append(Some("800%"), Some("win.set-scale-request(8.0)"));
+            menu.append_section(None, &section);
+
+            self.scale_button.set_menu_model(Some(&menu));
+
+            // Set up the pipeline.
             let pipeline = gst::Pipeline::new(None);
             self.pipeline.set(pipeline.clone()).unwrap();
 
@@ -268,6 +343,29 @@ mod imp {
                     glib::Continue(true)
                 }),
             );
+
+            // Big hack: disable some GtkScale shortcuts that we want to use ourselves.
+            for controller in self.time_scale.observe_controllers().snapshot() {
+                if let Ok(controller) = controller.downcast::<gtk::ShortcutController>() {
+                    if controller.name().as_deref() == Some("gtk-widget-class-shortcuts") {
+                        for shortcut in controller.snapshot() {
+                            let shortcut = shortcut
+                                .downcast::<gtk::Shortcut>()
+                                .expect("wrong item type in gtk::ShortcutController");
+                            if let Some(trigger) = shortcut.trigger() {
+                                if let Ok(trigger) = trigger.downcast::<gtk::KeyvalTrigger>() {
+                                    match trigger.keyval() {
+                                        gdk::Key::plus | gdk::Key::minus => {
+                                            shortcut.set_trigger(None::<&gtk::ShortcutTrigger>);
+                                        }
+                                        _ => (),
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         fn dispose(&self, _obj: &Self::Type) {
@@ -284,6 +382,65 @@ mod imp {
                 }
             } else {
                 warn!("unexpected unset `pipeline`");
+            }
+        }
+
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 2]> = Lazy::new(|| {
+                [
+                    glib::ParamSpecDouble::new(
+                        "scale-request",
+                        "scale-request",
+                        "scale-request",
+                        0.,
+                        10.,
+                        0.,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecBoolean::new(
+                        "best-fit",
+                        "best-fit",
+                        "best-fit",
+                        true,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                ]
+            });
+
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(
+            &self,
+            _obj: &Self::Type,
+            _id: usize,
+            value: &glib::Value,
+            pspec: &glib::ParamSpec,
+        ) {
+            match pspec.name() {
+                "scale-request" => {
+                    let value: f64 = value.get().expect("invalid `scale-request` value type");
+                    self.set_scale_request(ScaleRequest::from_value(value));
+                }
+                "best-fit" => {
+                    let best_fit: bool = value.get().expect("invalid `best-fit` value type");
+                    self.set_scale_request(if best_fit {
+                        ScaleRequest::FitToAllocation
+                    } else {
+                        ScaleRequest::Set(1.)
+                    });
+                }
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "scale-request" => self.scale_request.get().into_value().to_value(),
+                "best-fit" => {
+                    (self.scale_request.get() == ScaleRequest::FitToAllocation).to_value()
+                }
+                _ => unimplemented!(),
             }
         }
     }
@@ -807,6 +964,244 @@ mod imp {
         fn on_visible_child_notify(&self) {
             if let Some(source_id) = self.switch_to_content_source_id.take() {
                 source_id.remove();
+            }
+        }
+
+        #[template_callback]
+        fn on_selected_page_notify(&self) {
+            let obj = self.instance();
+
+            if let Some(binding) = self.scale_binding.take() {
+                binding.unbind();
+            }
+            if let Some(id) = self.scale_request_notify_id.take() {
+                if let Some(page) = self.prev_selected_page.borrow().upgrade() {
+                    page.disconnect(id);
+                }
+            }
+            if let Some(id) = self.h_scroll_pos_notify_id.take() {
+                if let Some(page) = self.prev_selected_page.borrow().upgrade() {
+                    page.disconnect(id);
+                }
+            }
+            if let Some(id) = self.v_scroll_pos_notify_id.take() {
+                if let Some(page) = self.prev_selected_page.borrow().upgrade() {
+                    page.disconnect(id);
+                }
+            }
+
+            if let Some(page) = self.prev_selected_page.borrow().upgrade() {
+                page.reset_kinetic_scrolling();
+            }
+
+            if let Some(tab_page) = self.tab_view.selected_page() {
+                let page = tab_page
+                    .child()
+                    .downcast::<Page>()
+                    .expect("unexpected widget type in tab view");
+
+                self.prev_selected_page.replace(page.downgrade());
+
+                let binding = page
+                    .bind_property("scale", &*self.scale_entry, "text")
+                    .transform_to(|_, value| {
+                        let scale: f64 = value.get().expect("wrong `scale` property type");
+                        let text = if scale != 0. {
+                            format_scale(scale).to_value()
+                        } else {
+                            "".into()
+                        };
+                        Some(text)
+                    })
+                    .flags(glib::BindingFlags::SYNC_CREATE)
+                    .build();
+                self.scale_binding.replace(Some(binding));
+
+                page.set_scale_request(self.scale_request.get());
+                page.set_h_scroll_pos(self.h_scroll_pos.get());
+                page.set_v_scroll_pos(self.v_scroll_pos.get());
+
+                let id = page.connect_notify_local(
+                    Some("scale-request"),
+                    clone!(@weak obj => move |page, _| {
+                        obj.imp().scale_request.set(page.scale_request());
+                        obj.notify("scale-request");
+                        obj.notify("best-fit");
+                    }),
+                );
+                self.scale_request_notify_id.replace(Some(id));
+
+                let id = page.connect_notify_local(
+                    Some("h-scroll-pos"),
+                    clone!(@weak obj => move |page, _| {
+                        obj.imp().h_scroll_pos.set(page.h_scroll_pos());
+                    }),
+                );
+                self.h_scroll_pos_notify_id.replace(Some(id));
+
+                let id = page.connect_notify_local(
+                    Some("v-scroll-pos"),
+                    clone!(@weak obj => move |page, _| {
+                        obj.imp().v_scroll_pos.set(page.v_scroll_pos());
+                    }),
+                );
+                self.v_scroll_pos_notify_id.replace(Some(id));
+            } else {
+                self.prev_selected_page.replace(glib::WeakRef::new());
+
+                self.scale_entry.set_text("");
+            }
+        }
+
+        fn set_scale_request(&self, scale_request: ScaleRequest) {
+            debug!("set_scale_request({scale_request:?})");
+
+            if self.scale_request.get() == scale_request {
+                return;
+            }
+
+            self.scale_request.set(scale_request);
+            self.instance().notify("scale-request");
+            self.instance().notify("best-fit");
+
+            if let Some(tab_page) = self.tab_view.selected_page() {
+                let page = tab_page
+                    .child()
+                    .downcast::<Page>()
+                    .expect("unexpected widget type in tab view");
+                page.set_scale_request(self.scale_request.get());
+            }
+        }
+
+        #[template_callback]
+        fn on_scale_entry_activate(&self) {
+            if let Some(tab_page) = self.tab_view.selected_page() {
+                let page = tab_page
+                    .child()
+                    .downcast::<Page>()
+                    .expect("unexpected widget type in tab view");
+                page.grab_focus_();
+            }
+
+            let text = self.scale_entry.text();
+            let scale = parse_scale(&text);
+            debug!("on_scale_entry_activate({text}): parsed: {scale:?}");
+
+            let scale = match scale {
+                Some(x) => x,
+                None => return,
+            };
+
+            self.set_scale_request(ScaleRequest::from_value(scale));
+        }
+
+        fn zoom_in(&self) {
+            if let Some(tab_page) = self.tab_view.selected_page() {
+                let page = tab_page
+                    .child()
+                    .downcast::<Page>()
+                    .expect("unexpected widget type in tab view");
+
+                let scale = page.scale();
+                if scale != 0. {
+                    let new_scale = scale + 0.25;
+                    self.set_scale_request(ScaleRequest::from_value(new_scale));
+                }
+            }
+        }
+
+        fn zoom_out(&self) {
+            if let Some(tab_page) = self.tab_view.selected_page() {
+                let page = tab_page
+                    .child()
+                    .downcast::<Page>()
+                    .expect("unexpected widget type in tab view");
+
+                let scale = page.scale();
+                if scale != 0. {
+                    // Max with 0.1 here so it doesn't become 0 (fit to allocation).
+                    let new_scale = (scale - 0.25).max(0.1);
+                    self.set_scale_request(ScaleRequest::from_value(new_scale));
+                }
+            }
+        }
+    }
+
+    fn parse_scale(mut text: &str) -> Option<f64> {
+        // `g_strtod ()` ignores leading whitespace, so just trim it from both sides.
+        text = text.trim();
+
+        if text.ends_with('%') {
+            text = &text[..text.len() - 1];
+        }
+
+        // Use `g_strtod ()` to get both locale-aware and C-locale parsing.
+        let scale = unsafe {
+            let input = glib::translate::ToGlibPtr::to_glib_none(&text);
+            let mut end_ptr = std::ptr::null_mut();
+            let value = glib::ffi::g_strtod(input.0, &mut end_ptr);
+
+            if *end_ptr != 0 {
+                // The conversion failed or succeeded but didn't take the entire text.
+                return None;
+            }
+
+            value
+        };
+
+        if scale.is_sign_negative() {
+            return None;
+        }
+
+        Some(scale / 100.)
+    }
+
+    fn format_scale(mut scale: f64) -> glib::GString {
+        // Round to get one decimal digit of precision.
+        scale = (scale * 1000.).round();
+
+        // Don't show the decimal digit if it's zero.
+        let format = if scale % 10. == 0. {
+            b"%.0f%%\0"
+        } else {
+            b"%.1f%%\0"
+        };
+
+        scale /= 10.;
+
+        // Use `g_strdup_printf ()` to get locale-aware formatting.
+        unsafe {
+            glib::translate::from_glib_full(glib::ffi::g_strdup_printf(
+                format.as_ptr().cast(),
+                scale,
+            ))
+        }
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+
+        #[test]
+        fn test_parse_scale() {
+            let check = |text: &str, expected| {
+                assert_eq!(parse_scale(text), expected, "parsing `{text}`");
+            };
+
+            for scale in [0., 0.125, 0.25, 0.5, 1., 1.25, 1.5, 2., 4., 8.] {
+                check(&format!("{:.1}", scale * 100.), Some(scale));
+                check(&format!("{:.1}%", scale * 100.), Some(scale));
+                check(&format!("{:.1}%%", scale * 100.), None);
+                check(&format!("{:.1}a", scale * 100.), None);
+                check(&format!("a{:.1}", scale * 100.), None);
+                check(&format!("{:.1} ", scale * 100.), Some(scale));
+                check(&format!("{:.1}  ", scale * 100.), Some(scale));
+                check(&format!(" {:.1}", scale * 100.), Some(scale));
+                check(&format!("  {:.1}", scale * 100.), Some(scale));
+                check(&format!("-{:.1}", scale * 100.), None);
+                check(&format!(" -{:.1}", scale * 100.), None);
+
+                check(&format_scale(scale), Some(scale));
             }
         }
     }

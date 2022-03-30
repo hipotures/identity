@@ -1,5 +1,8 @@
+use glib::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
+
+use crate::picture::ScaleRequest;
 
 mod imp {
     use std::cell::Cell;
@@ -7,7 +10,6 @@ mod imp {
 
     use adw::subclass::prelude::*;
     use futures_util::StreamExt;
-    use glib::prelude::*;
     use glib::{clone, debug, error, warn};
     use gst::prelude::*;
     use gst_video::VideoOrientationMethod;
@@ -17,6 +19,7 @@ mod imp {
     use once_cell::unsync::OnceCell;
 
     use super::*;
+    use crate::picture::Picture;
     use crate::G_LOG_DOMAIN;
 
     #[derive(Debug, Default, CompositeTemplate)]
@@ -25,7 +28,9 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        picture: TemplateChild<gtk::Picture>,
+        picture: TemplateChild<Picture>,
+        #[template_child]
+        scrolled_window: TemplateChild<gtk::ScrolledWindow>,
 
         file: OnceCell<gio::File>,
         playbin: OnceCell<gst::Element>,
@@ -44,6 +49,8 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+            Self::bind_template_callbacks(klass);
+            Self::Type::bind_template_callbacks(klass);
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -53,7 +60,7 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 5]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 9]> = Lazy::new(|| {
                 [
                     glib::ParamSpecObject::new(
                         "file",
@@ -90,6 +97,42 @@ mod imp {
                         gst::Element::static_type(),
                         glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecDouble::new(
+                        "scale-request",
+                        "scale-request",
+                        "scale-request",
+                        0.,
+                        10.,
+                        0.,
+                        glib::ParamFlags::READWRITE,
+                    ),
+                    glib::ParamSpecDouble::new(
+                        "scale",
+                        "scale",
+                        "scale",
+                        0.,
+                        f64::MAX,
+                        0.,
+                        glib::ParamFlags::READABLE,
+                    ),
+                    glib::ParamSpecDouble::new(
+                        "h-scroll-pos",
+                        "h-scroll-pos",
+                        "h-scroll-pos",
+                        0.,
+                        1.,
+                        0.,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecDouble::new(
+                        "v-scroll-pos",
+                        "v-scroll-pos",
+                        "v-scroll-pos",
+                        0.,
+                        1.,
+                        0.,
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
 
@@ -112,6 +155,15 @@ mod imp {
                         .set(file)
                         .expect("tried to set `file` more than once");
                 }
+                "scale-request" => self.picture.set_property("scale-request", value),
+                "h-scroll-pos" => {
+                    let value: f64 = value.get().expect("invalid `h-scroll-pos` value type");
+                    self.set_h_scroll_pos(value);
+                }
+                "v-scroll-pos" => {
+                    let value: f64 = value.get().expect("invalid `v-scroll-pos` value type");
+                    self.set_v_scroll_pos(value);
+                }
                 _ => unimplemented!(),
             }
         }
@@ -129,6 +181,10 @@ mod imp {
                 }
                 "is-loading" => self.is_loading.get().to_value(),
                 "is-error" => self.is_error().to_value(),
+                "scale-request" => self.picture.property("scale-request"),
+                "scale" => self.picture.property("scale"),
+                "h-scroll-pos" => self.h_scroll_pos().to_value(),
+                "v-scroll-pos" => self.v_scroll_pos().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -161,6 +217,7 @@ mod imp {
     impl WidgetImpl for Page {}
     impl BinImpl for Page {}
 
+    #[gtk::template_callbacks]
     impl Page {
         pub fn playbin(&self) -> Option<&gst::Element> {
             self.playbin.get()
@@ -190,6 +247,43 @@ mod imp {
                     warn!("error setting playbin state to Null: {err:?}");
                 }
             }
+        }
+
+        pub fn scale_request(&self) -> ScaleRequest {
+            self.picture.scale_request()
+        }
+
+        pub fn set_scale_request(&self, scale_request: ScaleRequest) {
+            self.picture.set_scale_request(scale_request);
+        }
+
+        pub fn scale(&self) -> f64 {
+            self.picture.scale()
+        }
+
+        pub fn h_scroll_pos(&self) -> f64 {
+            self.picture.h_scroll_pos()
+        }
+
+        pub fn set_h_scroll_pos(&self, value: f64) {
+            self.picture.set_h_scroll_pos(value);
+        }
+
+        pub fn v_scroll_pos(&self) -> f64 {
+            self.picture.v_scroll_pos()
+        }
+
+        pub fn set_v_scroll_pos(&self, value: f64) {
+            self.picture.set_v_scroll_pos(value);
+        }
+
+        pub fn reset_kinetic_scrolling(&self) {
+            self.scrolled_window.set_kinetic_scrolling(false);
+            self.scrolled_window.set_kinetic_scrolling(true);
+        }
+
+        pub fn grab_focus_(&self) {
+            self.scrolled_window.grab_focus();
         }
 
         async fn retrieve_display_name(&self, obj: &super::Page) {
@@ -227,7 +321,7 @@ mod imp {
             let sink = gst::ElementFactory::make("gtk4paintablesink", None)
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
-            self.picture.set_paintable(Some(&paintable));
+            self.picture.set_paintable(Some(paintable));
 
             let playbin = gst::ElementFactory::make("playbin3", None)
                 .expect("could not create a `playbin3` GStreamer element");
@@ -276,7 +370,7 @@ mod imp {
                 self.is_loading.set(false);
                 obj.notify("is-loading");
 
-                self.stack.set_visible_child(&*self.picture);
+                self.stack.set_visible_child_name("content");
             } else {
                 let _guard = obj.freeze_notify();
 
@@ -350,6 +444,7 @@ glib::wrapper! {
     pub struct Page(ObjectSubclass<imp::Page>) @extends adw::Bin, gtk::Widget;
 }
 
+#[gtk::template_callbacks]
 impl Page {
     pub fn new(file: &gio::File) -> Self {
         glib::Object::new(&[("file", file)]).expect("could not create a `Page`")
@@ -365,5 +460,61 @@ impl Page {
 
     pub fn set_error(&self) {
         self.imp().set_error();
+    }
+
+    pub fn scale_request(&self) -> ScaleRequest {
+        self.imp().scale_request()
+    }
+
+    pub fn set_scale_request(&self, scale_request: ScaleRequest) {
+        self.imp().set_scale_request(scale_request);
+    }
+
+    pub fn scale(&self) -> f64 {
+        self.imp().scale()
+    }
+
+    #[template_callback]
+    fn on_scale_request_changed(&self) {
+        self.notify("scale-request");
+    }
+
+    #[template_callback]
+    fn on_scale_changed(&self) {
+        self.notify("scale");
+    }
+
+    pub fn h_scroll_pos(&self) -> f64 {
+        self.imp().h_scroll_pos()
+    }
+
+    pub fn set_h_scroll_pos(&self, value: f64) {
+        self.imp().set_h_scroll_pos(value);
+    }
+
+    #[template_callback]
+    fn on_h_scroll_pos_notify(&self) {
+        self.notify("h-scroll-pos");
+    }
+
+    pub fn v_scroll_pos(&self) -> f64 {
+        self.imp().v_scroll_pos()
+    }
+
+    pub fn set_v_scroll_pos(&self, value: f64) {
+        self.imp().set_v_scroll_pos(value);
+    }
+
+    #[template_callback]
+    fn on_v_scroll_pos_notify(&self) {
+        self.notify("v-scroll-pos");
+    }
+
+    pub fn reset_kinetic_scrolling(&self) {
+        self.imp().reset_kinetic_scrolling();
+    }
+
+    pub fn grab_focus_(&self) {
+        self.imp().grab_focus_();
     }
 }

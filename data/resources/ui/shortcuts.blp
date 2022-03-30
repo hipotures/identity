@@ -59,5 +59,29 @@ ShortcutsWindow help_overlay {
         accelerator: "comma";
       }
     }
+
+    ShortcutsGroup {
+      title: C_("shortcut window", "Zoom");
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Zoom in");
+        accelerator: "<ctrl>plus plus";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Zoom out");
+        accelerator: "<ctrl>minus minus";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Zoom 1:1");
+        accelerator: "<ctrl>0";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Best fit");
+        accelerator: "f";
+      }
+    }
   }
 }

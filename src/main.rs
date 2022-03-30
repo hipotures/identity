@@ -8,6 +8,7 @@ use application::Application;
 #[rustfmt::skip]
 mod config;
 mod page;
+mod picture;
 mod window;
 
 const G_LOG_DOMAIN: &str = "Identity";

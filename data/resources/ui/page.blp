@@ -14,7 +14,18 @@ template IdPage : Adw.Bin {
       valign: center;
     }
 
-    Picture picture {}
+    StackPage {
+      name: "content";
+
+      child: ScrolledWindow scrolled_window {
+        child: .IdPicture picture {
+          notify::scale-request => on_scale_request_changed() swapped;
+          notify::scale => on_scale_changed() swapped;
+          notify::h-scroll-pos => on_h_scroll_pos_notify() swapped;
+          notify::v-scroll-pos => on_v_scroll_pos_notify() swapped;
+        };
+      };
+    }
 
     StackPage {
       name: "error";

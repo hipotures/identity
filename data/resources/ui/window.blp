@@ -53,6 +53,21 @@ template IdWindow : Adw.ApplicationWindow {
         icon-name: "open-menu-symbolic";
         menu-model: primary_menu;
       }
+
+      [end]
+      Box {
+        styles ["linked"]
+
+        Entry scale_entry {
+          styles ["numeric"]
+          max-width-chars: 6;
+          width-chars: 6;
+
+          activate => on_scale_entry_activate() swapped;
+        }
+
+        MenuButton scale_button {}
+      }
     }
 
     Stack stack {
@@ -89,6 +104,7 @@ template IdWindow : Adw.ApplicationWindow {
             page-attached => on_page_attached() swapped;
             /* page-detached => on_page_detached() swapped; */
             create-window => on_create_window() swapped;
+            /* notify::selected-page => on_selected_page_notify() swapped; */
           }
 
           Revealer controls_revealer {
@@ -108,7 +124,7 @@ template IdWindow : Adw.ApplicationWindow {
                 margin-start: 6; /* Scale and its extra padding... */
               }
 
-              Scale {
+              Scale time_scale {
                 hexpand: true;
 
                 adjustment: Adjustment time_adjustment {
