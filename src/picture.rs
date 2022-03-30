@@ -96,6 +96,10 @@ mod imp {
 
             obj.set_overflow(gtk::Overflow::Hidden);
 
+            obj.connect_notify_local(Some("scale-factor"), |obj, _| {
+                obj.queue_resize();
+            });
+
             // Track the cursor position for zooming.
             let motion_controller = gtk::EventControllerMotion::new();
             motion_controller.connect_enter(clone!(@weak obj => move |_, x, y| {
@@ -264,7 +268,7 @@ mod imp {
 
         fn measure(
             &self,
-            _widget: &Self::Type,
+            widget: &Self::Type,
             orientation: gtk::Orientation,
             _for_size: i32,
         ) -> (i32, i32, i32, i32) {
@@ -289,18 +293,18 @@ mod imp {
                 return (0, 0, -1, -1);
             }
 
-            let size = match orientation {
+            let size = (match orientation {
                 gtk::Orientation::Horizontal => (paintable_width as f64 * scale).ceil() as i32,
                 gtk::Orientation::Vertical => (paintable_height as f64 * scale).ceil() as i32,
                 _ => unreachable!(),
-            };
+            }) / widget.scale_factor();
 
             (size, size, -1, -1)
         }
 
-        fn size_allocate(&self, _widget: &Self::Type, width: i32, height: i32, _baseline: i32) {
-            self.update_scale(width, height);
-            self.configure_adjustments(width, height);
+        fn size_allocate(&self, widget: &Self::Type, width: i32, height: i32, _baseline: i32) {
+            self.update_scale(width, height, widget.scale_factor());
+            self.configure_adjustments(width, height, widget.scale_factor());
         }
 
         fn snapshot(&self, widget: &Self::Type, snapshot: &gtk::Snapshot) {
@@ -342,8 +346,8 @@ mod imp {
                     }
                 }
                 ScaleRequest::Set(scale) => (
-                    paintable_width as f64 * scale,
-                    paintable_height as f64 * scale,
+                    paintable_width as f64 * scale / widget.scale_factor() as f64,
+                    paintable_height as f64 * scale / widget.scale_factor() as f64,
                 ),
             };
 
@@ -441,15 +445,15 @@ mod imp {
             self.scale.get()
         }
 
-        fn update_scale(&self, width: i32, height: i32) {
-            let scale = self.compute_scale(width, height);
+        fn update_scale(&self, width: i32, height: i32, scale_factor: i32) {
+            let scale = self.compute_scale(width, height, scale_factor);
             if self.scale.get() != scale {
                 self.scale.set(scale);
                 self.instance().notify("scale");
             }
         }
 
-        fn compute_scale(&self, width: i32, height: i32) -> f64 {
+        fn compute_scale(&self, width: i32, height: i32, scale_factor: i32) -> f64 {
             if let ScaleRequest::Set(scale) = self.scale_request.get() {
                 return scale;
             }
@@ -470,11 +474,11 @@ mod imp {
             }
 
             let widget_ratio = width as f64 / height as f64;
-            if paintable_ratio > widget_ratio {
+            (if paintable_ratio > widget_ratio {
                 width as f64 / paintable_width as f64
             } else {
                 height as f64 / paintable_height as f64
-            }
+            }) * scale_factor as f64
         }
 
         pub fn h_scroll_pos(&self) -> f64 {
@@ -573,7 +577,7 @@ mod imp {
             }
         }
 
-        fn configure_adjustments(&self, width: i32, height: i32) {
+        fn configure_adjustments(&self, width: i32, height: i32, scale_factor: i32) {
             let scale = match self.scale_request.get() {
                 ScaleRequest::FitToAllocation => {
                     self.configure_adjustments_with_values(width, height, width, height);
@@ -603,8 +607,8 @@ mod imp {
             }
 
             // Compute target width and height.
-            let w = (paintable_width as f64 * scale).ceil() as i32;
-            let h = (paintable_height as f64 * scale).ceil() as i32;
+            let w = (paintable_width as f64 * scale / scale_factor as f64).ceil() as i32;
+            let h = (paintable_height as f64 * scale / scale_factor as f64).ceil() as i32;
             self.configure_adjustments_with_values(width, height, w, h);
         }
 
@@ -634,8 +638,8 @@ mod imp {
             }
 
             // Compute the content width and height.
-            let w = paintable_width as f64 * scale;
-            let h = paintable_height as f64 * scale;
+            let w = paintable_width as f64 * scale / obj.scale_factor() as f64;
+            let h = paintable_height as f64 * scale / obj.scale_factor() as f64;
 
             // Either center and pixel-align it, or take the scroll position into account.
             let content_x = if w < widget_width as f64 {
@@ -695,8 +699,10 @@ mod imp {
             let image_dx_norm = (new_image_x - image_x) / paintable.intrinsic_width() as f64;
             let image_dy_norm = (new_image_y - image_y) / paintable.intrinsic_height() as f64;
 
-            let content_w = paintable.intrinsic_width() as f64 * new_scale;
-            let content_h = paintable.intrinsic_height() as f64 * new_scale;
+            let content_w =
+                paintable.intrinsic_width() as f64 * new_scale / obj.scale_factor() as f64;
+            let content_h =
+                paintable.intrinsic_height() as f64 * new_scale / obj.scale_factor() as f64;
 
             if (obj.width() as f64) < content_w {
                 let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
