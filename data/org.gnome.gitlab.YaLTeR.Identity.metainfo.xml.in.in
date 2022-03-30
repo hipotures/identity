@@ -20,11 +20,13 @@
   <content_rating type="oars-1.0" />
   <releases>
     <release version="0.3.0" date="2022-03-30">
+      <description>
         <p>This release adds zoom support.</p>
         <ul>
           <li>Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files.</li>
           <li>Updated translations.</li>
         </ul>
+      </description>
     </release>
     <release version="0.2.0" date="2022-03-21">
       <description>
