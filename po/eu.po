@@ -233,8 +233,7 @@ msgid "Could not display the file.\n"
 "If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
 msgstr "Ezin izan da artxiboa erakutsi.\n"
 "\n"
-"Flatpakrekin Identity exekutatzen ari bazara, kontuan izan fitxategiak arrastatu, askatu eta itsatsi bidez irekitzeak agian ez duela funtzionatuko.\n"
-""
+"Flatpakrekin Identity exekutatzen ari bazara, kontuan izan fitxategiak arrastatu, askatu eta itsatsi bidez irekitzeak agian ez duela funtzionatuko."
 
 #: data/resources/ui/shortcuts.blp:29
 msgctxt "shortcut window"
