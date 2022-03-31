@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Identity\n"
+"Language: cs\n"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "Porovnat obrázky a videa"
+
+#: src/window.rs:250
+msgid "translator-credits"
+msgstr "Jaroslav Svoboda"
+
+#: data/resources/ui/shortcuts.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Hlavní"
+
+#: data/resources/ui/shortcuts.blp:9
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "Přepínaní mezi soubory"
+
+#: data/resources/ui/shortcuts.blp:14
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "Otevřít videa a obrázky"
+
+#: data/resources/ui/shortcuts.blp:19
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "Otevřít soubor ze schránky"
+
+#: data/resources/ui/shortcuts.blp:24
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "Zavřít vybraný soubor"
+
+#: data/resources/ui/shortcuts.blp:34
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Zobrazit zkratky"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Ukončit"
+
+#: data/resources/ui/shortcuts.blp:45
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Přehrávání"
+
+#: data/resources/ui/shortcuts.blp:48
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "Přehrát / Pozastavit"
+
+#: data/resources/ui/shortcuts.blp:53
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "Krok vpřed o jeden snímek"
+
+#: data/resources/ui/shortcuts.blp:58
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "Krok vzad o jeden snímek"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/resources/ui/window.blp:27 src/main.rs:36
+msgid "Identity"
+msgstr "Identita"
+
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr "Video;Film;Klip;Rozdíl;Snímek;Kvalita;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "Program pro porovnání různých verzí obrázku nebo videa."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:67
+msgid "This release contains translation updates."
+msgstr "Toto vydání obsahuje aktualizaci překladů."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:69
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr "Přidán překlad do nizozemštiny (díky Heimen Stoffels)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:70
+msgid "Added French translation (thanks Lapineige)."
+msgstr "Přidán překlad do francouzštiny (díky Lapineige)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr "Přidán překlad do španělštiny (díky Óscar Fernández Díaz)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:77
+msgid "This release fixes minor UI issues."
+msgstr "Toto vydání opravuje drobné UI problémy."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
+msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
+msgstr "Při uzavírání soboru je nyní vybrána následující karta nebo pokud je uzavírán poslední soubor, je vybrána předchozí."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:80
+msgid "Fixed the application title not showing up upon closing all files."
+msgstr "Opraveno nezobrazování názvu aplikace při zavření všech souborů."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:86
+msgid "First release."
+msgstr "První vydání."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:106
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:1264
+msgid "Videos and images"
+msgstr "Videa a obrázky"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:1275
+msgid "Open videos or images to compare"
+msgstr "Otevřít videa nebo obrázky pro porovnání"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:49
+msgid "This release contains translation updates and minor UI changes."
+msgstr "Toto vydání obsahuje aktualizace překladů a drobné změny v UI."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:51
+msgid "Video rotation tag is now respected."
+msgstr "Štítek otočení videa je nyní respektován."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:52
+msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+msgstr "Přidán překlad do němčiny (díky Johannes Hayeß)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
+msgid "Added Finnish translation (thanks Jiri Grönroos)."
+msgstr "Přidán překlad do finštiny (díky Jiri Grönroos)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:54
+msgid "Added Croatian translation (thanks Milo Ivir)."
+msgstr "Přidán překlad do chorvatštiny (díky Milo Ivir)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+msgid "Added Italian translation (thanks Blackcat-917)."
+msgstr "Přidán překlad do italštiny (díky Blackcat-917)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:56
+msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+msgstr "Přidán překlad do brazilské portugalštiny (díky Gustavo Costa)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:57
+msgid "Added Slovak translation (thanks Jose Riha)."
+msgstr "Přidán překlad do slovenštiny (díky Jose Riha)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:58
+msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+msgstr "Přidán překlad do švédštiny (díky Åke Engelbrektson)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:59
+msgid "Added translation contribution link."
+msgstr "Přidán odkaz pro přispívání překlady."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:60
+msgid "Specified input device recommendations to improve display in the new GNOME Software."
+msgstr "Specifikována doporučení vstupního zařízení pro zlepšení zobrazení v novém GNOME Software."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
+msgid "Label on the main window can now wrap so as not to restrict minimum window size."
+msgstr "Označení hlavního okna je nyní možno zalomit tak, že neomezuje minimální velikost okna."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+msgid "Identity is now a GTK 4 application!"
+msgstr "Identity je nyní GTK 4 aplikací!"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
+msgid "Rewrote the application with GTK 4 and libadwaita."
+msgstr "Aplikace přepsána s využitím GTK 4 a libadwaita."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+msgid "Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows."
+msgstr "Přidány karty nahrazující starý přepínač souborů. Karty můžete tahem přesouvat, táhnutím z karty vytvořit samostatné okno a přesouvat karty mezi okny."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+msgid "Changed the default style to dark."
+msgstr "Změna výchozího stylu na tmavý."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:38
+msgid "Added Basque translation (thanks Sergio Varela)."
+msgstr "Přidán překlad do baskičtiny (díky Sergio Varela)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:39
+msgid "Added Galician translation (thanks Fran Diéguez)."
+msgstr "Přidán překlad do galicijštiny (díky Fran Diéguez)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:40
+msgid "Added Japanese translation (thanks Kaz Sibuya)."
+msgstr "Přidán překlad do japonštiny (díky Kaz Sibuya)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:41
+msgid "Added Polish translation (thanks Rafał Baran)."
+msgstr "Přidán překlad do polštiny (díky Rafał Baran)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:42
+msgid "Added Chinese Simplified translation (thanks Garling Liang)."
+msgstr "Přidán překlad do zjednodušené čínštiny (díky Garling Liang)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
+msgid "Updated translations."
+msgstr "Aktualizace překladů."
+
+#. Translators: Title that is shown upon video or image loading error.
+#: data/resources/ui/page.blp:37
+msgid "File Failed to Load"
+msgstr "Soubor se nepodařilo načíst"
+
+#. Translators: Label shown when a video or image has failed to load.
+#: data/resources/ui/page.blp:40
+msgid "Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
+msgstr "Nelze zobrazit soubor.\n"
+"\n"
+"Pokud používáte Flatpak verzi Identity, je možné, že otevírání souborů přetáhnutím nebo vložením nemusí fungovat."
+
+#: data/resources/ui/shortcuts.blp:29
+msgctxt "shortcut window"
+msgid "New window"
+msgstr "Nové okno"
+
+#. Translators: Primary menu entry that opens a new window.
+#: data/resources/ui/window.blp:8
+msgid "_New Window"
+msgstr "_Nové okno"
+
+#. Translators: Primary menu entry that opens the keyboard shortcuts window.
+#: data/resources/ui/window.blp:14
+msgid "_Keyboard Shortcuts"
+msgstr "_Klávesové zkratky"
+
+#. Translators: Primary menu entry that opens the About dialog.
+#: data/resources/ui/window.blp:20
+msgid "_About Identity"
+msgstr "_O aplikaci Identity"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:47 data/resources/ui/window.blp:90
+msgid "Open"
+msgstr "Otevřít"
+
+#. Translators: Text on the window when no files are open.
+#: data/resources/ui/window.blp:75
+msgid "Open videos or images to compare by pressing the Open button."
+msgstr "Pro porovnání, otevřete videa nebo obrázky kliknutím na tlačítko Otevřít."
+
+#: data/resources/ui/shortcuts.blp:64
+msgctxt "shortcut window"
+msgid "Zoom"
+msgstr "Přiblížení"
+
+#: data/resources/ui/shortcuts.blp:67
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Zvětšit"
+
+#: data/resources/ui/shortcuts.blp:72
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Zmenšit"
+
+#: data/resources/ui/shortcuts.blp:77
+msgctxt "shortcut window"
+msgid "Zoom 1:1"
+msgstr "Skutečná velikost"
+
+#: data/resources/ui/shortcuts.blp:82
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Nejvhodnější velikost"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:49 data/resources/ui/window.blp:92
+msgid "Select an Image or Video"
+msgstr "Vyberte obrázek nebo video"
+
+#. Translators: Primary menu tooltip.
+#: data/resources/ui/window.blp:66 data/resources/ui/window.blp:109
+msgid "Main Menu"
+msgstr "Hlavní menu"
+
+#. Translators: Scale/zoom entry tooltip.
+#: data/resources/ui/window.blp:124
+msgid "Zoom Level"
+msgstr "Míra přiblížení"
+
+#. Translators: Scale/zoom menu button tooltip.
+#: data/resources/ui/window.blp:129
+msgid "Select Zoom Level"
+msgstr "Vybrat přiblížení"
+
+#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
+#. always resized to fit the window.
+#: src/window.rs:302
+msgid "Best Fit"
+msgstr "Nejvhodnější velikost"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "This release adds zoom support."
+msgstr "Toto vydání přidává podporu přiblížení."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
+msgstr "Přidána možnost zvětšení a zmenšení. Můžete použít klávesové zkratky, Ctrl + posunutí kolečkem myši, přiblížení prsty na touchpadu nebo dotykovém displeji, nebo vložit hodnotu přiblížení manuálně. Přiblížení a zobrazovaná oblast jsou synchronizovány mezi otevřenými soubory."
+
