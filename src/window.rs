@@ -793,6 +793,9 @@ mod imp {
             page.bind_property("is-loading", &tab_page, "loading")
                 .flags(glib::BindingFlags::SYNC_CREATE)
                 .build();
+            page.bind_property("path", &tab_page, "tooltip")
+                .flags(glib::BindingFlags::SYNC_CREATE)
+                .build();
 
             page.property_expression("is-error")
                 .chain_closure::<Option<gio::Icon>>(closure!(

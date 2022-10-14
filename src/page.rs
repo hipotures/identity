@@ -60,7 +60,7 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 9]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 10]> = Lazy::new(|| {
                 [
                     glib::ParamSpecObject::new(
                         "file",
@@ -71,6 +71,13 @@ mod imp {
                     ),
                     glib::ParamSpecString::new(
                         "display-name",
+                        "",
+                        "",
+                        None,
+                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecString::new(
+                        "path",
                         "",
                         "",
                         None,
@@ -179,6 +186,15 @@ mod imp {
                         self.file.get().map(|file| file.uri()).to_value()
                     }
                 }
+                "path" => self
+                    .file
+                    .get()
+                    .map(|file| {
+                        file.path()
+                            .map(|path| path.to_string_lossy().into_owned())
+                            .unwrap_or_else(|| file.uri().into())
+                    })
+                    .to_value(),
                 "is-loading" => self.is_loading.get().to_value(),
                 "is-error" => self.is_error().to_value(),
                 "scale-request" => self.picture.property("scale-request"),
