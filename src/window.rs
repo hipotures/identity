@@ -31,6 +31,7 @@ const MIME_TYPES: &[&str] = &[
     "image/svg+xml",
     "image/svg+xml-compressed",
     "image/vnd.wap.wbmp",
+    "image/webp",
     "image/x-icns",
     "video/3gp",
     "video/3gpp",
