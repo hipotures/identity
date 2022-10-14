@@ -326,5 +326,5 @@ msgstr "Engadiuse a habilidade de ampliar e afastar. Pode usar os atallos, Ctrl 
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr ""
+msgstr "Engadida a tradución ao Checo (grazas Jaroslav Svoboda)."
 

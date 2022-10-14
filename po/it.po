@@ -269,22 +269,22 @@ msgstr "Apri video o immagini da confrontare premendo il pulsante Apri."
 #: data/resources/ui/shortcuts.blp:64
 msgctxt "shortcut window"
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Ingrandimento"
 
 #: data/resources/ui/shortcuts.blp:67
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr "Aumenta zoom"
+msgstr "Ingrandisci"
 
 #: data/resources/ui/shortcuts.blp:72
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr "Diminuisci zoom"
+msgstr "Rimpicciolisci"
 
 #: data/resources/ui/shortcuts.blp:77
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
-msgstr "Zoom 1:1"
+msgstr "Dimensione reale"
 
 #: data/resources/ui/shortcuts.blp:82
 msgctxt "shortcut window"
@@ -304,26 +304,26 @@ msgstr "Menu principale"
 #. Translators: Scale/zoom entry tooltip.
 #: data/resources/ui/window.blp:124
 msgid "Zoom Level"
-msgstr "Livello zoom"
+msgstr "Ingrandimento"
 
 #. Translators: Scale/zoom menu button tooltip.
 #: data/resources/ui/window.blp:129
 msgid "Select Zoom Level"
-msgstr "Seleziona livello zoom"
+msgstr "Seleziona ingrandimento"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
 #: src/window.rs:302
 msgid "Best Fit"
-msgstr "Adatta alla finestra"
+msgstr "Automatico"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
 msgid "This release adds zoom support."
-msgstr "Questa versione aggiunge il supporto allo zoom"
+msgstr "Questa versione aggiunge la funzionalità di ingrandimento."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
 msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
-msgstr "Aggiunta la capacità di zoomare. Puoi usare le combinazioni di tasti, Ctrl+rotellina del mouse, usando due dita sul touchpad o su un touchscreen, oppure inserire manualmente quanto zoomare. Lo zoom e la posizione sono sincronizzati tra i file aperti."
+msgstr "Aggiunta la possibilità di ingrandire e rimpicciolire. È possibile usare le scorciatoie, Ctrl + scorrimento, due dita sul touchpad o su uno schermo touch o inserire la percentuale di ingrandimento. L'ingrandimento e la posizione sono sincronizzati tra i file aperti."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."

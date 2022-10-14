@@ -80,7 +80,7 @@ msgstr "Идентичность"
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
 msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "Movie;Film;Clip;Difference;Frame;Quality;Фильм;Клип;Разница;Кадр;Качество;"
+msgstr "Кино;Фильм;Клип;Разница;Кадр;Качество;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -233,7 +233,7 @@ msgid "Could not display the file.\n"
 "If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
 msgstr "Не удалось отобразить файл.\n"
 "\n"
-"Если программа запущена под Flatpak, открытие файлов путём перетаскивания или вставки из буфера обмена может не работать."
+"Если программа запущена под Flatpak, открытие файлов путём перетаскивания и вставки из буфера обмена может не работать."
 
 #: data/resources/ui/shortcuts.blp:29
 msgctxt "shortcut window"

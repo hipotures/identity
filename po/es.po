@@ -326,5 +326,5 @@ msgstr "Añadida la posibilidad de acercar y alejar el zum. Se pueden usar tecla
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr ""
+msgstr "Añadida la traducción al checo (gracias a Jaroslav Svoboda)."
 

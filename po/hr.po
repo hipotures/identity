@@ -328,5 +328,5 @@ msgstr "Dodana je mogućnost uvećanja i smanjivanja prikaza. Možeš koristiti 
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr ""
+msgstr "Dodan je prijevod na češki (hvala Jaroslav Svoboda)."
 

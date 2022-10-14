@@ -326,5 +326,5 @@ msgstr "Zoom in of uit met sneltoetsen, Ctrl+scrollen, knijpen met vingers op ee
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr ""
+msgstr "Nieuw: Tsjechische vertaling, met dank aan Jaroslav Svoboda."
 

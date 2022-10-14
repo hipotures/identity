@@ -277,63 +277,63 @@ msgstr "Öffne Videos und Bilder zum Vergleichen durch Drücken des Öffnen-Knop
 #: data/resources/ui/shortcuts.blp:64
 msgctxt "shortcut window"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: data/resources/ui/shortcuts.blp:67
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Vergrößern"
 
 #: data/resources/ui/shortcuts.blp:72
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Verkleinern"
 
 #: data/resources/ui/shortcuts.blp:77
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
-msgstr ""
+msgstr "Zoomstufe 1:1"
 
 #: data/resources/ui/shortcuts.blp:82
 msgctxt "shortcut window"
 msgid "Best fit"
-msgstr ""
+msgstr "Beste Anpassung"
 
 #. Translators: Open button tooltip.
 #: data/resources/ui/window.blp:49 data/resources/ui/window.blp:92
 msgid "Select an Image or Video"
-msgstr ""
+msgstr "Wählen Sie ein Bild oder Video aus"
 
 #. Translators: Primary menu tooltip.
 #: data/resources/ui/window.blp:66 data/resources/ui/window.blp:109
 msgid "Main Menu"
-msgstr ""
+msgstr "Hauptmenü"
 
 #. Translators: Scale/zoom entry tooltip.
 #: data/resources/ui/window.blp:124
 msgid "Zoom Level"
-msgstr ""
+msgstr "Zoomstufe"
 
 #. Translators: Scale/zoom menu button tooltip.
 #: data/resources/ui/window.blp:129
 msgid "Select Zoom Level"
-msgstr ""
+msgstr "Wählen Sie die Zoomstufe"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
 #: src/window.rs:302
 msgid "Best Fit"
-msgstr ""
+msgstr "Beste Anpassung"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
 msgid "This release adds zoom support."
-msgstr ""
+msgstr "In dieser Version wurde die Zoom-Unterstützung hinzugefügt."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
 msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
-msgstr ""
+msgstr "Es wurde die Möglichkeit hinzugefügt, ein- und auszuzoomen. Sie können Hotkeys, Strg + Scroll, Pinch-Zoom auf einem Touchpad oder Touchscreen verwenden oder den Zoomfaktor manuell eingeben. Zoom und Ansichtsposition werden zwischen den geöffneten Dateien synchronisiert."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr ""
+msgstr "Tschechische Übersetzung hinzugefügt (Dank an Jaroslav Svoboda)."
 
