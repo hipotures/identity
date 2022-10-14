@@ -19,6 +19,17 @@
   <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="0.4.0" date="2022-10-14">
+      <description>
+        <p>This release adds file-path tooltips and updates Identity to the GNOME 43 platform.</p>
+        <ul>
+          <li>Tab tooltips now show full file paths, which is useful when comparing files with identical names.</li>
+          <li>Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog.</li>
+          <li>Added WebP images to the list of supported file types.</li>
+          <li>Updated translations.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.3.0" date="2022-03-31">
       <description>
         <p>This release adds zoom support.</p>

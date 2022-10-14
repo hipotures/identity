@@ -238,6 +238,28 @@ mod imp {
             klass.add_binding_action(Key::minus, ModifierType::CONTROL_MASK, "win.zoom-out", None);
 
             klass.install_action("win.about", None, |window, _, _| {
+                // Concat translated strings to reuse the metainfo translations.
+                let list_points = [
+                    gettext(
+                        "Tab tooltips now show full file paths, which is useful when \
+comparing files with identical names.",
+                    ),
+                    gettext(
+                        "Updated to the GNOME 43 platform, which brings the ability \
+to drag-and-drop from Files on Flatpak and a refreshed About dialog.",
+                    ),
+                    gettext("Added WebP images to the list of supported file types."),
+                    gettext("Updated translations."),
+                ];
+                let release_notes = String::from("<p>")
+                    + &gettext(
+                        "This release adds file-path tooltips and \
+updates Identity to the GNOME 43 platform.",
+                    )
+                    + "</p><ul><li>"
+                    + &list_points.join("</li><li>")
+                    + "</li></ul>";
+
                 let about_window = adw::AboutWindow::builder()
                     .transient_for(window)
                     .application_name(&gettext("Identity"))
@@ -248,7 +270,7 @@ mod imp {
                     .issue_url("https://gitlab.gnome.org/YaLTeR/identity/-/issues/new")
                     // Translators: shown in the About dialog, put your name here.
                     .translator_credits(&gettext("translator-credits"))
-                    // .release_notes(&release_notes)
+                    .release_notes(&release_notes)
                     .build();
 
                 about_window.add_link(
