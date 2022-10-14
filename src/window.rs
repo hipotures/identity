@@ -397,8 +397,8 @@ mod imp {
                 [
                     glib::ParamSpecDouble::new(
                         "scale-request",
-                        "scale-request",
-                        "scale-request",
+                        "",
+                        "",
                         0.,
                         10.,
                         0.,
@@ -406,8 +406,8 @@ mod imp {
                     ),
                     glib::ParamSpecBoolean::new(
                         "best-fit",
-                        "best-fit",
-                        "best-fit",
+                        "",
+                        "",
                         true,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),

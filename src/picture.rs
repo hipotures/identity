@@ -174,8 +174,8 @@ mod imp {
                 [
                     glib::ParamSpecDouble::new(
                         "scale-request",
-                        "scale-request",
-                        "scale-request",
+                        "",
+                        "",
                         0.,
                         10.,
                         0.,
@@ -183,8 +183,8 @@ mod imp {
                     ),
                     glib::ParamSpecDouble::new(
                         "scale",
-                        "scale",
-                        "scale",
+                        "",
+                        "",
                         0.,
                         f64::MAX,
                         0.,
@@ -192,8 +192,8 @@ mod imp {
                     ),
                     glib::ParamSpecDouble::new(
                         "h-scroll-pos",
-                        "h-scroll-pos",
-                        "h-scroll-pos",
+                        "",
+                        "",
                         0.,
                         1.,
                         0.,
@@ -201,8 +201,8 @@ mod imp {
                     ),
                     glib::ParamSpecDouble::new(
                         "v-scroll-pos",
-                        "v-scroll-pos",
-                        "v-scroll-pos",
+                        "",
+                        "",
                         0.,
                         1.,
                         0.,
