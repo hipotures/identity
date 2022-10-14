@@ -5,7 +5,7 @@ authors = ["Ivan Molodetskikh <yalterz@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-adw = { version = "0.1.1", package = "libadwaita" }
+adw = { version = "0.2.0-alpha.3", package = "libadwaita", features = ["v1_2"] }
 futures-util = "0.3.24"
 gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
 glib = { version = "0.15.12", features = ["log", "log_macros"] }

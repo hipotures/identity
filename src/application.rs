@@ -8,7 +8,6 @@ mod imp {
     use adw::prelude::AdwApplicationExt;
     use adw::subclass::prelude::*;
     use glib::{clone, debug};
-    use gtk::subclass::prelude::*;
 
     use super::*;
     use crate::G_LOG_DOMAIN;

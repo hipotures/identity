@@ -86,7 +86,6 @@ mod imp {
     use glib::{clone, closure, error, SignalHandlerId, SourceId};
     use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
-    use gtk::subclass::prelude::*;
     use gtk::{glib, CompositeTemplate};
     use once_cell::sync::Lazy;
     use once_cell::unsync::OnceCell;
