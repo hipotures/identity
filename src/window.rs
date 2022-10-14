@@ -238,18 +238,25 @@ mod imp {
             klass.add_binding_action(Key::minus, ModifierType::CONTROL_MASK, "win.zoom-out", None);
 
             klass.install_action("win.about", None, |window, _, _| {
-                gtk::AboutDialog::builder()
+                let about_window = adw::AboutWindow::builder()
                     .transient_for(window)
-                    .modal(true)
-                    .logo_icon_name(config::APP_ID)
+                    .application_name(&gettext("Identity"))
+                    .application_icon(config::APP_ID)
                     .version(config::VERSION)
                     .license_type(gtk::License::Gpl30)
-                    .authors(vec!["Ivan Molodetskikh".to_owned()])
-                    .website("https://gitlab.gnome.org/YaLTeR/identity")
+                    .developers(vec!["Ivan Molodetskikh".to_owned()])
+                    .issue_url("https://gitlab.gnome.org/YaLTeR/identity/-/issues/new")
                     // Translators: shown in the About dialog, put your name here.
                     .translator_credits(&gettext("translator-credits"))
-                    .build()
-                    .show();
+                    // .release_notes(&release_notes)
+                    .build();
+
+                about_window.add_link(
+                    // Translators: link title in the About dialog.
+                    &gettext("Contribute Translations"),
+                    "https://poeditor.com/join/project?hash=5nahahJe7Z",
+                );
+                about_window.present();
             });
         }
 
