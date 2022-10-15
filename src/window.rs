@@ -249,6 +249,11 @@ comparing files with identical names.",
 to drag-and-drop from Files on Flatpak and a refreshed About dialog.",
                     ),
                     gettext("Added WebP images to the list of supported file types."),
+                    gettext("Added Occitan translation (thanks Quentin PAGÈS)."),
+                    gettext("Added Serbian Cyrillic translation (thanks Јован Здравковић)."),
+                    gettext("Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."),
+                    gettext("Added Turkish translation (thanks Sabri Ünal)."),
+                    gettext("Added Chinese Traditional translation (thanks Kisaragi Hiu)."),
                     gettext("Updated translations."),
                 ];
                 let release_notes = String::from("<p>")
