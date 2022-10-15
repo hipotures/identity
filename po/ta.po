@@ -1,0 +1,357 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Identity\n"
+"Language: ta\n"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "படங்கள் மற்றும் வீடியோக்களை ஒப்பிடுக"
+
+#: src/window.rs:272
+msgid "translator-credits"
+msgstr "க.பா.தருண் கிருஷ்ணா"
+
+#: data/resources/ui/shortcuts.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "ஜெனரல்"
+
+#: data/resources/ui/shortcuts.blp:9
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "கோப்புகளுக்கிடையே மாறவும்"
+
+#: data/resources/ui/shortcuts.blp:14
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "வீடியோக்கள் அல்லது படங்களைத் திறக்கவும்"
+
+#: data/resources/ui/shortcuts.blp:19
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "கிளிப்போர்டிலிருந்து கோப்பைத் திறக்கவும்"
+
+#: data/resources/ui/shortcuts.blp:24
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்பை மூடு"
+
+#: data/resources/ui/shortcuts.blp:34
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "குறுக்குவழிகளைக் காட்டு"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "வெளியேறு"
+
+#: data/resources/ui/shortcuts.blp:45
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "பிளேபேக்"
+
+#: data/resources/ui/shortcuts.blp:48
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "ப்ளே / இடைநிறுத்தம்"
+
+#: data/resources/ui/shortcuts.blp:53
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "ஒரு சட்டகத்தை முன்னோக்கிச் செல்லுங்கள்"
+
+#: data/resources/ui/shortcuts.blp:58
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "ஒரு சட்டகத்திற்கு பின்வாங்கவும்"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/resources/ui/window.blp:27 src/main.rs:38 src/window.rs:265
+msgid "Identity"
+msgstr "அடையாளம்"
+
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr "திரைப்படம்;படம்;கிளிப்;வேறுபாடு;பிரேம்;தரம்;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "ஒரு படம் அல்லது வீடியோவின் பல பதிப்புகளை ஒப்பிடுவதற்கான ஒரு நிரல்."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
+msgid "This release contains translation updates."
+msgstr "இந்த வெளியீட்டில் மொழிபெயர்ப்பு புதுப்பிப்புகள் உள்ளன."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:81
+msgid "Added Dutch translation (thanks Heimen Stoffels)."
+msgstr "டச்சு மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஹெய்மன் ஸ்டோஃபெல்ஸ்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:82
+msgid "Added French translation (thanks Lapineige)."
+msgstr "பிரஞ்சு மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி லாபினிஜ்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:83
+msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+msgstr "ஸ்பானிஷ் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஆஸ்கார் பெர்னாண்டஸ் டியாஸ்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:89
+msgid "This release fixes minor UI issues."
+msgstr "இந்த வெளியீடு சிறிய UI சிக்கல்களை சரிசெய்கிறது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:91
+msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
+msgstr "ஒரு கோப்பை மூடும்போது, ​​அடுத்த \"தாவல்\" இப்போது தேர்ந்தெடுக்கப்பட்டது, அல்லது கடைசி கோப்பை மூடினால், முந்தையது தேர்ந்தெடுக்கப்பட்டது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:92
+msgid "Fixed the application title not showing up upon closing all files."
+msgstr "எல்லா கோப்புகளையும் மூடும் போது பயன்பாட்டின் தலைப்பு காண்பிக்கப்படாமல் சரி செய்யப்பட்டது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:98
+msgid "First release."
+msgstr "முதல் வெளியீடு."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:118
+msgid "Ivan Molodetskikh"
+msgstr "இவான் மோலோடெட்ஸ்கிக்"
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:1296
+msgid "Videos and images"
+msgstr "வீடியோக்கள் மற்றும் படங்கள்"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:1307
+msgid "Open videos or images to compare"
+msgstr "ஒப்பிடுவதற்கு வீடியோக்கள் அல்லது படங்களைத் திறக்கவும்"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
+msgid "This release contains translation updates and minor UI changes."
+msgstr "இந்த வெளியீட்டில் மொழிபெயர்ப்பு புதுப்பிப்புகள் மற்றும் சிறிய UI மாற்றங்கள் உள்ளன."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:63
+msgid "Video rotation tag is now respected."
+msgstr "வீடியோ சுழற்சி குறிச்சொல் இப்போது மதிக்கப்படுகிறது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:64
+msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+msgstr "டாய்ச் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஜோஹன்னஸ் ஹேய்ஸ்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:65
+msgid "Added Finnish translation (thanks Jiri Grönroos)."
+msgstr "பின்னிஷ் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஜிரி க்ரோன்ரூஸ்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:66
+msgid "Added Croatian translation (thanks Milo Ivir)."
+msgstr "குரோஷிய மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி மிலோ ஐவிர்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:67
+msgid "Added Italian translation (thanks Blackcat-917)."
+msgstr "இத்தாலிய மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி பிளாக் கேட்-917)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:68
+msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+msgstr "பிரேசிலிய போர்த்துகீசிய மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி குஸ்டாவோ கோஸ்டா)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:69
+msgid "Added Slovak translation (thanks Jose Riha)."
+msgstr "ஸ்லோவாக் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஜோஸ் ரிஹா)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:70
+msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+msgstr "ஸ்வீடிஷ் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஏக் ஏங்கல்பிரெக்ட்சன்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
+msgid "Added translation contribution link."
+msgstr "மொழிபெயர்ப்பு பங்களிப்பு இணைப்பு சேர்க்கப்பட்டது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:72
+msgid "Specified input device recommendations to improve display in the new GNOME Software."
+msgstr "புதிய க்னோம் மென்பொருளில் காட்சியை மேம்படுத்த குறிப்பிட்ட உள்ளீட்டு சாதன பரிந்துரைகள்."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:73
+msgid "Label on the main window can now wrap so as not to restrict minimum window size."
+msgstr "குறைந்தபட்ச சாளர அளவைக் கட்டுப்படுத்தாத வகையில் பிரதான சாளரத்தில் உள்ள லேபிளை இப்போது மடிக்கலாம்."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
+msgid "Identity is now a GTK 4 application!"
+msgstr "அடையாளம் இப்போது GTK 4 பயன்பாடாகும்!"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:47
+msgid "Rewrote the application with GTK 4 and libadwaita."
+msgstr "GTK 4 மற்றும் லிபத்வைதா மூலம் விண்ணப்பத்தை மீண்டும் எழுதப்பட்டது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:48
+msgid "Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows."
+msgstr "பழைய கோப்பு மாற்றியை மாற்ற தாவல்கள் சேர்க்கப்பட்டன. தாவல்களை மறுசீரமைக்க இழுக்கலாம், புதிய சாளரமாகப் பிரிக்க தாவலை இழுக்கலாம் மற்றும் சாளரங்களுக்கு இடையில் தாவல்களை இழுக்கலாம்."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:49
+msgid "Changed the default style to dark."
+msgstr "இயல்பு நடை இருட்டாக மாற்றப்பட்டது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:50
+msgid "Added Basque translation (thanks Sergio Varela)."
+msgstr "பாஸ்க் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி செர்ஜியோ வரேலா)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:51
+msgid "Added Galician translation (thanks Fran Diéguez)."
+msgstr "காலிசியன் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஃபிரான் டியாகுஸ்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:52
+msgid "Added Japanese translation (thanks Kaz Sibuya)."
+msgstr "ஜப்பானிய மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி காஸ் சிபுயா)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
+msgid "Added Polish translation (thanks Rafał Baran)."
+msgstr "போலிஷ் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ரஃபாஸ் பரன்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:54
+msgid "Added Chinese Simplified translation (thanks Garling Liang)."
+msgstr "சீன எளிமைப்படுத்தப்பட்ட மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி கார்லிங் லியாங்)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:39
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+#: src/window.rs:252
+msgid "Updated translations."
+msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டன."
+
+#. Translators: Title that is shown upon video or image loading error.
+#: data/resources/ui/page.blp:37
+msgid "File Failed to Load"
+msgstr "கோப்பு ஏற்றுவதில் தோல்வி"
+
+#. Translators: Label shown when a video or image has failed to load.
+#: data/resources/ui/page.blp:40
+msgid "Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
+msgstr "கோப்பைக் காட்ட முடியவில்லை.\n"
+"\n"
+"நீங்கள் பிளாட்பாக் இன் கீழ் அடையாளத்தை இயக்குகிறீர்கள் என்றால், இழுத்து விடுவதன் மூலமும் ஒட்டுவதன் மூலமும் கோப்புகளைத் திறப்பது வேலை செய்யாது என்பதை நினைவில் கொள்ளவும்."
+
+#: data/resources/ui/shortcuts.blp:29
+msgctxt "shortcut window"
+msgid "New window"
+msgstr "புதிய சாளரம்"
+
+#. Translators: Primary menu entry that opens a new window.
+#: data/resources/ui/window.blp:8
+msgid "_New Window"
+msgstr "_புதிய சாளரம்"
+
+#. Translators: Primary menu entry that opens the keyboard shortcuts window.
+#: data/resources/ui/window.blp:14
+msgid "_Keyboard Shortcuts"
+msgstr "_விசைப்பலகை குறுக்குவழிகள்"
+
+#. Translators: Primary menu entry that opens the About dialog.
+#: data/resources/ui/window.blp:20
+msgid "_About Identity"
+msgstr "_அடையாளத்தைப் பற்றி"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:47 data/resources/ui/window.blp:90
+msgid "Open"
+msgstr "திற"
+
+#. Translators: Text on the window when no files are open.
+#: data/resources/ui/window.blp:75
+msgid "Open videos or images to compare by pressing the Open button."
+msgstr "திற பொத்தானை அழுத்துவதன் மூலம் ஒப்பிடுவதற்கு வீடியோக்கள் அல்லது படங்களைத் திறக்கவும்."
+
+#: data/resources/ui/shortcuts.blp:64
+msgctxt "shortcut window"
+msgid "Zoom"
+msgstr "பெரிதாக்கு"
+
+#: data/resources/ui/shortcuts.blp:67
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "பெரிதாக்கவும்"
+
+#: data/resources/ui/shortcuts.blp:72
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "ஜூம் அவுட்"
+
+#: data/resources/ui/shortcuts.blp:77
+msgctxt "shortcut window"
+msgid "Zoom 1:1"
+msgstr "பெரிதாக்கு 1:1"
+
+#: data/resources/ui/shortcuts.blp:82
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "சிறந்த பொருத்தம்"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:49 data/resources/ui/window.blp:92
+msgid "Select an Image or Video"
+msgstr "படம் அல்லது வீடியோவைத் தேர்ந்தெடுக்கவும்"
+
+#. Translators: Primary menu tooltip.
+#: data/resources/ui/window.blp:66 data/resources/ui/window.blp:109
+msgid "Main Menu"
+msgstr "முதன்மை மெனு"
+
+#. Translators: Scale/zoom entry tooltip.
+#: data/resources/ui/window.blp:124
+msgid "Zoom Level"
+msgstr "பெரிதாக்கு நிலை"
+
+#. Translators: Scale/zoom menu button tooltip.
+#: data/resources/ui/window.blp:129
+msgid "Select Zoom Level"
+msgstr "பெரிதாக்கு நிலை தேர்ந்தெடுக்கவும்"
+
+#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
+#. always resized to fit the window.
+#: src/window.rs:331
+msgid "Best Fit"
+msgstr "சிறந்த பொருத்தம்"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
+msgid "This release adds zoom support."
+msgstr "இந்த வெளியீடு ஜூம் ஆதரவைச் சேர்க்கிறது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
+msgstr "பெரிதாக்க மற்றும் வெளியேறும் திறன் சேர்க்கப்பட்டது. நீங்கள் ஹாட்கிகளைப் பயன்படுத்தலாம், Ctrl + ஸ்க்ரோல் செய்யலாம், டச்பேட் அல்லது டச்ஸ்கிரீனில் பிஞ்ச் ஜூம் செய்யலாம் அல்லது ஜூம் காரணியை கைமுறையாக உள்ளிடலாம். பெரிதாக்கு மற்றும் பார்வை நிலை திறந்த கோப்புகளுக்கு இடையில் ஒத்திசைக்கப்படுகிறது."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:38
+msgid "Added Czech translation (thanks Jaroslav Svoboda)."
+msgstr "செக் மொழிபெயர்ப்பு சேர்க்கப்பட்டது (நன்றி ஜரோஸ்லாவ் ஸ்வோபோடா)."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+#: src/window.rs:256
+msgid "This release adds file-path tooltips and updates Identity to the GNOME 43 platform."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+#: src/window.rs:244
+msgid "Tab tooltips now show full file paths, which is useful when comparing files with identical names."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: src/window.rs:248
+msgid "Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+#: src/window.rs:251
+msgid "Added WebP images to the list of supported file types."
+msgstr ""
+
+#. Translators: link title in the About dialog.
+#: src/window.rs:278
+msgid "Contribute Translations"
+msgstr ""
+
