@@ -38,6 +38,7 @@ mod imp {
         display_name: OnceCell<String>,
         is_loading: Cell<bool>,
         is_error: Cell<bool>,
+        framerate: Cell<f32>,
 
         constructed_at: OnceCell<Instant>,
     }
@@ -61,7 +62,7 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 11]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 12]> = Lazy::new(|| {
                 [
                     glib::ParamSpecObject::new(
                         "file",
@@ -148,6 +149,15 @@ mod imp {
                         None,
                         glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecFloat::new(
+                        "framerate",
+                        "",
+                        "",
+                        0.,
+                        f32::MAX,
+                        0.,
+                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
 
@@ -225,9 +235,10 @@ mod imp {
                         }
                     })
                     // Translators: "Not applicable" string for the media properties dialog when a
-                    // given property is unknown.
+                    // given property is unknown or missing (e.g. images don't have frame rate).
                     .unwrap_or_else(|| gettext("N/A"))
                     .to_value(),
+                "framerate" => self.framerate.get().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -415,6 +426,37 @@ mod imp {
 
                 self.is_loading.set(false);
                 obj.notify("is-loading");
+
+                if let Some(sink_pad) = sink.static_pad("sink") {
+                    if let Some(caps) = sink_pad.current_caps() {
+                        debug!("caps: {caps:?}");
+
+                        let size = caps.size();
+                        if size == 1 {
+                            if let Some(structure) = caps.structure(0) {
+                                match structure.get::<gst::Fraction>("framerate") {
+                                    Ok(framerate) => {
+                                        if framerate.numer() != 0 && framerate.denom() != 0 {
+                                            self.framerate.set(
+                                                framerate.numer() as f32 / framerate.denom() as f32,
+                                            );
+                                            obj.notify("framerate");
+                                        }
+                                    }
+                                    Err(err) => warn!("error getting framerate cap: {err:?}"),
+                                }
+                            } else {
+                                warn!("unexpected missing structure at index 0");
+                            }
+                        } else {
+                            warn!("unexpected caps size: {size}");
+                        }
+                    } else {
+                        warn!("missing caps on the sink pad");
+                    }
+                } else {
+                    warn!("unexpected missing sink pad");
+                }
 
                 self.stack.set_visible_child_name("content");
             } else {

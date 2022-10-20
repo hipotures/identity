@@ -20,6 +20,8 @@ mod imp {
         file_location_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         resolution_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        frame_rate_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -47,7 +49,7 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 4]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 5]> = Lazy::new(|| {
                 [
                     glib::ParamSpecBoolean::new(
                         "show-empty-state",
@@ -77,6 +79,13 @@ mod imp {
                         Some(""),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecString::new(
+                        "frame-rate",
+                        "",
+                        "",
+                        Some(""),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
 
@@ -101,6 +110,7 @@ mod imp {
                     .file_location_row
                     .set_subtitle(value.get().unwrap_or("")),
                 "resolution" => self.resolution_row.set_subtitle(value.get().unwrap_or("")),
+                "frame-rate" => self.frame_rate_row.set_subtitle(value.get().unwrap_or("")),
                 _ => unimplemented!(),
             }
         }
@@ -113,6 +123,7 @@ mod imp {
                 "file-name" => self.file_name_row.subtitle().to_value(),
                 "file-location" => self.file_location_row.subtitle().to_value(),
                 "resolution" => self.resolution_row.subtitle().to_value(),
+                "frame-rate" => self.frame_rate_row.subtitle().to_value(),
                 _ => unimplemented!(),
             }
         }

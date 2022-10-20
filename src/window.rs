@@ -358,6 +358,18 @@ updates Identity to the GNOME 43 platform.",
                 .chain_property::<adw::TabPage>("child")
                 .chain_property::<Page>("resolution")
                 .bind(&*self.media_properties, "resolution", None::<&adw::TabView>);
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<Page>("framerate")
+                .chain_closure::<String>(closure!(|_: Option<glib::Object>, framerate: f32| {
+                    if framerate != 0. {
+                        format!("{framerate:.2}")
+                    } else {
+                        gettext("N/A")
+                    }
+                }))
+                .bind(&*self.media_properties, "frame-rate", None::<&adw::TabView>);
 
             // Set up the drop target.
             let drop_target =

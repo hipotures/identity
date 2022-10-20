@@ -71,6 +71,14 @@ template IdMediaProperties : Adw.Window {
                   title: _("Resolution");
                   use-markup: false;
                 }
+
+                Adw.ActionRow frame_rate_row {
+                  styles ["property", "numeric"]
+
+                  /* Translators: Frame-rate row in the media properties window. */
+                  title: _("Frame Rate");
+                  use-markup: false;
+                }
               }
             };
           };
