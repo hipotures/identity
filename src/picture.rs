@@ -383,6 +383,10 @@ mod imp {
     impl ScrollableImpl for Picture {}
 
     impl Picture {
+        pub fn paintable(&self) -> Option<gdk::Paintable> {
+            self.paintable.borrow().clone()
+        }
+
         pub fn set_paintable(&self, paintable: Option<impl IsA<gdk::Paintable>>) {
             let obj = self.instance();
 
@@ -734,6 +738,10 @@ glib::wrapper! {
 impl Picture {
     pub fn new() -> Self {
         glib::Object::new(&[]).expect("could not create a `Picture`")
+    }
+
+    pub fn paintable(&self) -> Option<gdk::Paintable> {
+        self.imp().paintable()
     }
 
     pub fn set_paintable(&self, paintable: Option<impl IsA<gdk::Paintable>>) {
