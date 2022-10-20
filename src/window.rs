@@ -370,6 +370,26 @@ updates Identity to the GNOME 43 platform.",
                     }
                 }))
                 .bind(&*self.media_properties, "frame-rate", None::<&adw::TabView>);
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<Page>("video-codec")
+                .chain_closure::<String>(closure!(
+                    |_: Option<glib::Object>, video_codec: Option<String>| {
+                        video_codec.unwrap_or_else(|| gettext("N/A"))
+                    }
+                ))
+                .bind(&*self.media_properties, "codec", None::<&adw::TabView>);
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<Page>("container-format")
+                .chain_closure::<String>(closure!(
+                    |_: Option<glib::Object>, container_format: Option<String>| {
+                        container_format.unwrap_or_else(|| gettext("N/A"))
+                    }
+                ))
+                .bind(&*self.media_properties, "container", None::<&adw::TabView>);
 
             // Set up the drop target.
             let drop_target =

@@ -22,6 +22,10 @@ mod imp {
         resolution_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         frame_rate_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        codec_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        container_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -49,7 +53,7 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 5]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 7]> = Lazy::new(|| {
                 [
                     glib::ParamSpecBoolean::new(
                         "show-empty-state",
@@ -86,6 +90,20 @@ mod imp {
                         Some(""),
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecString::new(
+                        "codec",
+                        "",
+                        "",
+                        Some(""),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecString::new(
+                        "container",
+                        "",
+                        "",
+                        Some(""),
+                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
 
@@ -111,6 +129,8 @@ mod imp {
                     .set_subtitle(value.get().unwrap_or("")),
                 "resolution" => self.resolution_row.set_subtitle(value.get().unwrap_or("")),
                 "frame-rate" => self.frame_rate_row.set_subtitle(value.get().unwrap_or("")),
+                "codec" => self.codec_row.set_subtitle(value.get().unwrap_or("")),
+                "container" => self.container_row.set_subtitle(value.get().unwrap_or("")),
                 _ => unimplemented!(),
             }
         }
@@ -124,6 +144,8 @@ mod imp {
                 "file-location" => self.file_location_row.subtitle().to_value(),
                 "resolution" => self.resolution_row.subtitle().to_value(),
                 "frame-rate" => self.frame_rate_row.subtitle().to_value(),
+                "codec" => self.codec_row.subtitle().to_value(),
+                "container" => self.container_row.subtitle().to_value(),
                 _ => unimplemented!(),
             }
         }

@@ -79,6 +79,22 @@ template IdMediaProperties : Adw.Window {
                   title: _("Frame Rate");
                   use-markup: false;
                 }
+
+                Adw.ActionRow codec_row {
+                  styles ["property"]
+
+                  /* Translators: Codec row in the media properties window. */
+                  title: _("Codec");
+                  use-markup: false;
+                }
+
+                Adw.ActionRow container_row {
+                  styles ["property"]
+
+                  /* Translators: Container-format row in the media properties window. */
+                  title: _("Container");
+                  use-markup: false;
+                }
               }
             };
           };

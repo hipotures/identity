@@ -5,7 +5,7 @@ use gtk::{gio, glib};
 use crate::picture::ScaleRequest;
 
 mod imp {
-    use std::cell::Cell;
+    use std::cell::{Cell, RefCell};
     use std::time::Instant;
 
     use adw::subclass::prelude::*;
@@ -39,6 +39,8 @@ mod imp {
         is_loading: Cell<bool>,
         is_error: Cell<bool>,
         framerate: Cell<f32>,
+        video_codec: RefCell<Option<String>>,
+        container_format: RefCell<Option<String>>,
 
         constructed_at: OnceCell<Instant>,
     }
@@ -62,7 +64,7 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 12]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 14]> = Lazy::new(|| {
                 [
                     glib::ParamSpecObject::new(
                         "file",
@@ -158,6 +160,20 @@ mod imp {
                         0.,
                         glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecString::new(
+                        "video-codec",
+                        "",
+                        "",
+                        None,
+                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
+                    glib::ParamSpecString::new(
+                        "container-format",
+                        "",
+                        "",
+                        None,
+                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
 
@@ -239,6 +255,8 @@ mod imp {
                     .unwrap_or_else(|| gettext("N/A"))
                     .to_value(),
                 "framerate" => self.framerate.get().to_value(),
+                "video-codec" => self.video_codec.borrow().to_value(),
+                "container-format" => self.container_format.borrow().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -408,7 +426,7 @@ mod imp {
                 Err(err) => warn!("could not create a `videoflip` GStreamer element: {err:?}"),
             }
 
-            if preroll(&playbin).await {
+            if self.preroll(&playbin).await {
                 let _guard = obj.freeze_notify();
 
                 debug!(
@@ -471,58 +489,82 @@ mod imp {
                 self.stack.set_visible_child_name("error");
             }
         }
-    }
 
-    /// Pre-rolls the `playbin`.
-    ///
-    /// Returns `true` when the `playbin` has been successfully pre-rolled and put in the paused
-    /// state, and `false` on error.
-    async fn preroll(playbin: &gst::Element) -> bool {
-        let bus = playbin.bus().unwrap();
+        /// Pre-rolls the `playbin`.
+        ///
+        /// Returns `true` when the `playbin` has been successfully pre-rolled and put in the paused
+        /// state, and `false` on error.
+        async fn preroll(&self, playbin: &gst::Element) -> bool {
+            let bus = playbin.bus().unwrap();
 
-        // Create the stream first to not miss any messages.
-        let mut stream = bus.stream();
+            // Create the stream first to not miss any messages.
+            let mut stream = bus.stream();
 
-        if let Err(err) = playbin
-            .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
-            .await
-        {
-            // Can fail when the file is inaccessible.
-            warn!("preroll: error setting playbin state: {err:?}");
-            playbin.call_async(|playbin| {
-                let _ = playbin.set_state(gst::State::Null);
-            });
-            return false;
-        }
+            if let Err(err) = playbin
+                .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
+                .await
+            {
+                // Can fail when the file is inaccessible.
+                warn!("preroll: error setting playbin state: {err:?}");
+                playbin.call_async(|playbin| {
+                    let _ = playbin.set_state(gst::State::Null);
+                });
+                return false;
+            }
 
-        loop {
-            match stream.next().await.unwrap().view() {
-                gst::MessageView::Error(err) => {
-                    // Can fail on missing codecs.
-                    warn!("preroll: playbin Error: {err:?}");
-                    playbin.call_async(|playbin| {
-                        let _ = playbin.set_state(gst::State::Null);
-                    });
-                    break false;
-                }
-                gst::MessageView::StateChanged(state_changed)
-                    if state_changed.src().as_ref() == Some(playbin.upcast_ref()) =>
-                {
-                    debug!(
-                        "preroll: playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                        state_changed.old(),
-                        state_changed.current(),
-                        state_changed.pending(),
-                    );
-
-                    if state_changed.current() == gst::State::Paused
-                        && state_changed.pending() == gst::State::VoidPending
-                    {
-                        // Pre-rolled and ready to show.
-                        break true;
+            loop {
+                match stream.next().await.unwrap().view() {
+                    gst::MessageView::Error(err) => {
+                        // Can fail on missing codecs.
+                        warn!("preroll: playbin Error: {err:?}");
+                        playbin.call_async(|playbin| {
+                            let _ = playbin.set_state(gst::State::Null);
+                        });
+                        break false;
                     }
+                    gst::MessageView::StateChanged(state_changed)
+                        if state_changed.src().as_ref() == Some(playbin.upcast_ref()) =>
+                    {
+                        debug!(
+                            "preroll: playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                            state_changed.old(),
+                            state_changed.current(),
+                            state_changed.pending(),
+                        );
+
+                        if state_changed.current() == gst::State::Paused
+                            && state_changed.pending() == gst::State::VoidPending
+                        {
+                            // Pre-rolled and ready to show.
+                            break true;
+                        }
+                    }
+                    gst::MessageView::Tag(tag) => {
+                        let tags = tag.tags();
+                        debug!("tags: {tags:?}");
+
+                        for (name, value) in tags.iter() {
+                            match name {
+                                "video-codec" => match value.get() {
+                                    Ok(value) => {
+                                        self.video_codec.replace(Some(value));
+                                        self.instance().notify("video-codec");
+                                    }
+                                    Err(err) => warn!("error retrieving tag value: {err:?}"),
+                                },
+                                "container-format" => match value.get() {
+                                    Ok(value) => {
+                                        self.container_format.replace(Some(value));
+                                        self.instance().notify("container-format");
+                                    }
+                                    Err(err) => warn!("error retrieving tag value: {err:?}"),
+                                },
+                                _ => (),
+                            }
+                        }
+                    }
+                    _ => (),
                 }
-                _ => (),
             }
         }
     }
