@@ -9,6 +9,7 @@ mod application;
 use application::Application;
 #[rustfmt::skip]
 mod config;
+mod media_properties;
 mod page;
 mod picture;
 mod window;

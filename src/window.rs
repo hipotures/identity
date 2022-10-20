@@ -94,6 +94,7 @@ mod imp {
     use super::*;
     use crate::application::Application;
     use crate::config;
+    use crate::media_properties::MediaProperties;
     use crate::page::Page;
     use crate::picture::ScaleRequest;
 
@@ -119,6 +120,8 @@ mod imp {
         scale_entry: TemplateChild<gtk::Entry>,
         #[template_child]
         scale_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        media_properties: TemplateChild<MediaProperties>,
 
         pipeline: OnceCell<gst::Pipeline>,
 
@@ -237,6 +240,10 @@ mod imp {
             klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out", None);
             klass.add_binding_action(Key::minus, ModifierType::CONTROL_MASK, "win.zoom-out", None);
 
+            klass.install_action("win.media-properties", None, |window, _, _| {
+                window.imp().media_properties.present();
+            });
+
             klass.install_action("win.about", None, |window, _, _| {
                 // Concat translated strings to reuse the metainfo translations.
                 let list_points = [
@@ -308,6 +315,49 @@ updates Identity to the GNOME 43 platform.",
                 Some("selected-page"),
                 clone!(@weak obj => move |_, _| obj.imp().on_selected_page_notify()),
             );
+
+            // Bind properties of the media properties dialog.
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_closure::<bool>(closure!(
+                    |_: Option<glib::Object>, selected_page: Option<adw::TabPage>| {
+                        selected_page.is_none()
+                    }
+                ))
+                .bind(
+                    &*self.media_properties,
+                    "show-empty-state",
+                    None::<&adw::TabView>,
+                );
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<Page>("display-name")
+                .bind(&*self.media_properties, "file-name", None::<&adw::TabView>);
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<Page>("file")
+                .chain_closure::<Option<String>>(closure!(
+                    |_: Option<glib::Object>, file: Option<gio::File>| {
+                        file.and_then(|file| file.parent()).map(|parent| {
+                            parent
+                                .path()
+                                .map(|path| path.to_string_lossy().into_owned())
+                                .unwrap_or_else(|| parent.uri().into())
+                        })
+                    }
+                ))
+                .bind(
+                    &*self.media_properties,
+                    "file-location",
+                    None::<&adw::TabView>,
+                );
+            self.tab_view
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<Page>("resolution")
+                .bind(&*self.media_properties, "resolution", None::<&adw::TabView>);
 
             // Set up the drop target.
             let drop_target =

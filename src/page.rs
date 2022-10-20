@@ -10,6 +10,7 @@ mod imp {
 
     use adw::subclass::prelude::*;
     use futures_util::StreamExt;
+    use gettextrs::gettext;
     use glib::{clone, debug, error, warn};
     use gst::prelude::*;
     use gst_video::VideoOrientationMethod;
@@ -60,7 +61,7 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 10]> = Lazy::new(|| {
+            static PROPERTIES: Lazy<[glib::ParamSpec; 11]> = Lazy::new(|| {
                 [
                     glib::ParamSpecObject::new(
                         "file",
@@ -140,6 +141,13 @@ mod imp {
                         0.,
                         glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
                     ),
+                    glib::ParamSpecString::new(
+                        "resolution",
+                        "",
+                        "",
+                        None,
+                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
+                    ),
                 ]
             });
 
@@ -201,6 +209,25 @@ mod imp {
                 "scale" => self.picture.property("scale"),
                 "h-scroll-pos" => self.h_scroll_pos().to_value(),
                 "v-scroll-pos" => self.v_scroll_pos().to_value(),
+                "resolution" => self
+                    .picture
+                    .paintable()
+                    .and_then(|p| {
+                        let width = p.intrinsic_width();
+                        let height = p.intrinsic_height();
+                        if width != 0 && height != 0 {
+                            // Translators: Pixel-resolution format string for the media properties
+                            // window. `{}` are replaced with pixel width and height. For example,
+                            // 1920 × 1080.
+                            Some(gettext!("{} × {}", width, height))
+                        } else {
+                            None
+                        }
+                    })
+                    // Translators: "Not applicable" string for the media properties dialog when a
+                    // given property is unknown.
+                    .unwrap_or_else(|| gettext("N/A"))
+                    .to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -337,6 +364,9 @@ mod imp {
             let sink = gst::ElementFactory::make("gtk4paintablesink", None)
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
+            paintable.connect_invalidate_size(clone!(@weak obj => move |_| {
+                obj.notify("resolution");
+            }));
             self.picture.set_paintable(Some(paintable));
 
             let playbin = gst::ElementFactory::make("playbin3", None)

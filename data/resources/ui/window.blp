@@ -10,6 +10,12 @@ menu primary_menu {
     }
 
     item {
+      /* Translators: Primary menu entry that opens the media properties window. */
+      label: _("_Media Properties");
+      action: "win.media-properties";
+    }
+
+    item {
       /* Translators: Primary menu entry that opens the keyboard shortcuts window. */
       label: _("_Keyboard Shortcuts");
       action: "win.show-help-overlay";
@@ -21,6 +27,12 @@ menu primary_menu {
       action: "win.about";
     }
   }
+}
+
+.IdMediaProperties media_properties {
+  transient-for: IdWindow;
+  destroy-with-parent: true;
+  hide-on-close: true;
 }
 
 template IdWindow : Adw.ApplicationWindow {

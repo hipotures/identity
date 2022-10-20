@@ -1,0 +1,102 @@
+using Gtk 4.0;
+using Adw 1;
+
+template IdMediaProperties : Adw.Window {
+  /* Translators: Title of the media properties window. */
+  title: _("Properties");
+
+  content: Box {
+    orientation: vertical;
+
+    Adw.HeaderBar {}
+
+    Stack stack {
+      transition-type: crossfade;
+      vexpand: true;
+
+      StackPage {
+        name: "empty";
+
+        child: Adw.StatusPage {
+          /* Translators: Title text in the media properties window when no files are open. */
+          title: _("No Media Open");
+          /* Translators: Description on the media properties window when no files are open. */
+          description: _("Open video or image to view its properties.");
+        };
+      }
+
+      StackPage {
+        name: "content";
+
+        child: ScrolledWindow {
+          hscrollbar-policy: never;
+          propagate-natural-width: true;
+          propagate-natural-height: true;
+
+          child: Adw.Clamp {
+            child: Box {
+              orientation: vertical;
+              spacing: 12;
+              name: "media-properties-container";
+
+              // Labels should have width-chars set to avoid a GTK sizing performance issue.
+
+              Adw.PreferencesGroup {
+                /* Translators: Section in the media properties window. */
+                title: _("File");
+
+                Adw.ActionRow {
+                  /* Translators: File-name row in the media properties window. */
+                  title: _("Name");
+
+                  Label file_name_label {
+                    selectable: true;
+                    wrap: true;
+                    wrap-mode: word_char;
+                    hexpand: true;
+                    xalign: 1;
+                    width-chars: 15;
+                  }
+                }
+
+                Adw.ActionRow {
+                  /* Translators: File location row in the media properties window. */
+                  title: _("Location");
+
+                  Label file_location_label {
+                    selectable: true;
+                    wrap: true;
+                    wrap-mode: word_char;
+                    hexpand: true;
+                    xalign: 1;
+                    width-chars: 15;
+                  }
+                }
+              }
+
+              Adw.PreferencesGroup {
+                /* Translators: Section in the media properties window. */
+                title: _("Media");
+
+                Adw.ActionRow {
+                  /* Translators: Pixel-resolution row in the media properties window. */
+                  title: _("Resolution");
+
+                  Label resolution_label {
+                    styles ["numeric"]
+
+                    selectable: true;
+                    wrap: true;
+                    wrap-mode: word_char;
+                    hexpand: true;
+                    xalign: 1;
+                  }
+                }
+              }
+            };
+          };
+        };
+      }
+    }
+  };
+}
