@@ -1,8 +1,8 @@
 use gtk::{gio, glib};
 
 mod imp {
+    use adw::prelude::*;
     use adw::subclass::prelude::*;
-    use gtk::prelude::*;
     use gtk::CompositeTemplate;
     use once_cell::sync::Lazy;
 
@@ -15,11 +15,11 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        file_name_label: TemplateChild<gtk::Label>,
+        file_name_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        file_location_label: TemplateChild<gtk::Label>,
+        file_location_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        resolution_label: TemplateChild<gtk::Label>,
+        resolution_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -96,9 +96,11 @@ mod imp {
                     let name = if value { "empty" } else { "content" };
                     self.stack.set_visible_child_name(name);
                 }
-                "file-name" => self.file_name_label.set_text(value.get().unwrap_or("")),
-                "file-location" => self.file_location_label.set_text(value.get().unwrap_or("")),
-                "resolution" => self.resolution_label.set_text(value.get().unwrap_or("")),
+                "file-name" => self.file_name_row.set_subtitle(value.get().unwrap_or("")),
+                "file-location" => self
+                    .file_location_row
+                    .set_subtitle(value.get().unwrap_or("")),
+                "resolution" => self.resolution_row.set_subtitle(value.get().unwrap_or("")),
                 _ => unimplemented!(),
             }
         }
@@ -108,9 +110,9 @@ mod imp {
                 "show-empty-state" => {
                     (self.stack.visible_child_name().unwrap() == "empty").to_value()
                 }
-                "file-name" => self.file_name_label.text().to_value(),
-                "file-location" => self.file_location_label.text().to_value(),
-                "resolution" => self.resolution_label.text().to_value(),
+                "file-name" => self.file_name_row.subtitle().to_value(),
+                "file-location" => self.file_location_row.subtitle().to_value(),
+                "resolution" => self.resolution_row.subtitle().to_value(),
                 _ => unimplemented!(),
             }
         }

@@ -39,38 +39,24 @@ template IdMediaProperties : Adw.Window {
               spacing: 12;
               name: "media-properties-container";
 
-              // Labels should have width-chars set to avoid a GTK sizing performance issue.
-
               Adw.PreferencesGroup {
                 /* Translators: Section in the media properties window. */
                 title: _("File");
 
-                Adw.ActionRow {
+                Adw.ActionRow file_name_row {
+                  styles ["property"]
+
                   /* Translators: File-name row in the media properties window. */
                   title: _("Name");
-
-                  Label file_name_label {
-                    selectable: true;
-                    wrap: true;
-                    wrap-mode: word_char;
-                    hexpand: true;
-                    xalign: 1;
-                    width-chars: 15;
-                  }
+                  use-markup: false;
                 }
 
-                Adw.ActionRow {
+                Adw.ActionRow file_location_row {
+                  styles ["property"]
+
                   /* Translators: File location row in the media properties window. */
                   title: _("Location");
-
-                  Label file_location_label {
-                    selectable: true;
-                    wrap: true;
-                    wrap-mode: word_char;
-                    hexpand: true;
-                    xalign: 1;
-                    width-chars: 15;
-                  }
+                  use-markup: false;
                 }
               }
 
@@ -78,19 +64,12 @@ template IdMediaProperties : Adw.Window {
                 /* Translators: Section in the media properties window. */
                 title: _("Media");
 
-                Adw.ActionRow {
+                Adw.ActionRow resolution_row {
+                  styles ["property", "numeric"]
+
                   /* Translators: Pixel-resolution row in the media properties window. */
                   title: _("Resolution");
-
-                  Label resolution_label {
-                    styles ["numeric"]
-
-                    selectable: true;
-                    wrap: true;
-                    wrap-mode: word_char;
-                    hexpand: true;
-                    xalign: 1;
-                  }
+                  use-markup: false;
                 }
               }
             };
