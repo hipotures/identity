@@ -12,7 +12,7 @@ msgstr ""
 msgid "Compare images and videos"
 msgstr "Сomparer des images et vidéos"
 
-#: src/window.rs:250
+#: src/window.rs:284
 msgid "translator-credits"
 msgstr "Irénée Thirion"
 
@@ -73,7 +73,7 @@ msgstr "Reculer d'une image"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:27 src/main.rs:36
+#: data/resources/ui/window.blp:39 src/main.rs:39 src/window.rs:277
 msgid "Identity"
 msgstr "Identity"
 
@@ -86,138 +86,140 @@ msgstr "Movie;Film;Clip;Difference;Frame;Quality;Film;Vidéo;Différence;Image;Q
 msgid "A program for comparing multiple versions of an image or video."
 msgstr "Un programme pour comparer de multiples versions d'une image ou vidéo."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:68
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:85
 msgid "This release contains translation updates."
 msgstr "Cette version contient des mises à jour de traduction."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:70
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:87
 msgid "Added Dutch translation (thanks Heimen Stoffels)."
 msgstr "Ajout d'une traduction néerlandaise (grâce à Heimen Stoffels)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:88
 msgid "Added French translation (thanks Lapineige)."
 msgstr "Ajout d'une traduction française (grâce à Lapineige)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:72
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:89
 msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
 msgstr "Ajout d'une traduction espagnole (grâce à Óscar Fernández Díaz)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:78
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:95
 msgid "This release fixes minor UI issues."
 msgstr "Cette version répare des problèmes mineurs d'interface."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:80
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:97
 msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
 msgstr "Lors de la fermeture d'un fichier, l'\"onglet\" suivant est désormais sélectionné, ou le précédent si c'est le dernier fichier."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:81
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:98
 msgid "Fixed the application title not showing up upon closing all files."
 msgstr "Répare un bug où le titre de l'application n'apparaissait pas au dessus de la fermeture de tous les fichiers."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:87
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:104
 msgid "First release."
 msgstr "Première version."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:107
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:124
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1264
+#: src/window.rs:1351
 msgid "Videos and images"
 msgstr "Vidéos et images"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1275
+#: src/window.rs:1362
 msgid "Open videos or images to compare"
 msgstr "Ouvrir les vidéos ou images à comparer"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:50
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:67
 msgid "This release contains translation updates and minor UI changes."
 msgstr "Cette version contient des mises à jour de traduction et des changements d'interface mineurs."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:52
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:69
 msgid "Video rotation tag is now respected."
 msgstr "La balise de rotation des vidéos est maintenant respectée."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:70
 msgid "Added Deutsch translation (thanks Johannes Hayeß)."
 msgstr "Ajout d'une traduction allemande (grâce à Johannes Hayeß)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:54
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
 msgid "Added Finnish translation (thanks Jiri Grönroos)."
 msgstr "Ajout d'une traduction en finnois (grâce à Jiri Grönroos)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:72
 msgid "Added Croatian translation (thanks Milo Ivir)."
 msgstr "Ajout d'une traduction croate (grâce à Milo Ivir)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:56
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:73
 msgid "Added Italian translation (thanks Blackcat-917)."
 msgstr "Ajout d'une traduction italienne (grâce à Blackcat-917)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:57
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:74
 msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
 msgstr "Ajout d'une traduction portugaise (grâce à Gustavo Costa)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:58
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:75
 msgid "Added Slovak translation (thanks Jose Riha)."
 msgstr "Ajout d'une traduction slovaque (grâce à Jose Riha)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:59
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:76
 msgid "Added Swedish translation (thanks Åke Engelbrektson)."
 msgstr "Ajout d'une traduction suédoise (grâce à Åke Engelbrektson)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:60
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:77
 msgid "Added translation contribution link."
 msgstr "Ajout d'un lien pour contribuer au traductions."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:78
 msgid "Specified input device recommendations to improve display in the new GNOME Software."
 msgstr "Recommandations de périphériques d'entrée spécifiés pour améliorer l'affichage dans le nouveau GNOME Software."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
 msgid "Label on the main window can now wrap so as not to restrict minimum window size."
 msgstr "L'étiquette de la fenêtre principale peut maintenant être enveloppée afin de ne pas restreindre la taille minimale de la fenêtre."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:51
 msgid "Identity is now a GTK 4 application!"
 msgstr "Identity est maintenant une application en GTK 4 !"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
 msgid "Rewrote the application with GTK 4 and libadwaita."
 msgstr "Réécriture de l'application avec GTK 4 et libadwaita."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:37
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:54
 msgid "Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows."
 msgstr "Ajout d'onglets pour remplacer l'ancien échangeur de fichier. Vous pouvez glisser-déposer les onglets pour les réarranger, en séparer un en une nouvelle fenêtre, et les déplacer entre plusieurs fenêtres."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:38
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:55
 msgid "Changed the default style to dark."
 msgstr "Style par défaut changé en sombre."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:39
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:56
 msgid "Added Basque translation (thanks Sergio Varela)."
 msgstr "Ajout d'une traduction basque (grâce à Sergio Varela)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:40
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:57
 msgid "Added Galician translation (thanks Fran Diéguez)."
 msgstr "Ajout d'une traduction galicienne (grâce à Fran Diéguez)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:41
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:58
 msgid "Added Japanese translation (thanks Kaz Sibuya)."
 msgstr "Ajout d'une traduction japonaise (grâce à Kaz Sibuya)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:42
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:59
 msgid "Added Polish translation (thanks Rafał Baran)."
 msgstr "Ajout d'une traduction polonaise (grâce à Rafał Baran)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:60
 msgid "Added Chinese Simplified translation (thanks Garling Liang)."
 msgstr "Ajout d'une traduction en chinois simplifié (grâce à Garling Liang)."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:44
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
+#: src/window.rs:264
 msgid "Updated translations."
 msgstr "Mise à jour de traductions."
 
@@ -247,25 +249,25 @@ msgid "_New Window"
 msgstr "Fenêtre principale"
 
 #. Translators: Primary menu entry that opens the keyboard shortcuts window.
-#: data/resources/ui/window.blp:14
+#: data/resources/ui/window.blp:20
 #, fuzzy
 msgid "_Keyboard Shortcuts"
 msgstr "Raccourcis clavier"
 
 #. Translators: Primary menu entry that opens the About dialog.
-#: data/resources/ui/window.blp:20
+#: data/resources/ui/window.blp:26
 #, fuzzy
 msgid "_About Identity"
 msgstr "À propos d'Identity"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:47 data/resources/ui/window.blp:90
+#: data/resources/ui/window.blp:59 data/resources/ui/window.blp:102
 #, fuzzy
 msgid "Open"
 msgstr "Ouvrir…"
 
 #. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:75
+#: data/resources/ui/window.blp:87
 #, fuzzy
 msgid "Open videos or images to compare by pressing the Open button."
 msgstr "Ouvrez les vidéos ou images à comparer en cliquant sur le bouton Ouvrir"
@@ -275,61 +277,169 @@ msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: data/resources/ui/shortcuts.blp:67
+#: data/resources/ui/shortcuts.blp:67 data/resources/ui/shortcuts.blp:77
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zoom avant"
 
-#: data/resources/ui/shortcuts.blp:72
+#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Dé-zoomer"
 
-#: data/resources/ui/shortcuts.blp:77
+#: data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Zoom 1:1"
 
-#: data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Meilleur ajustement"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:49 data/resources/ui/window.blp:92
+#: data/resources/ui/window.blp:61 data/resources/ui/window.blp:104
 msgid "Select an Image or Video"
 msgstr "Sélectionner une image ou vidéo"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:66 data/resources/ui/window.blp:109
+#: data/resources/ui/window.blp:78 data/resources/ui/window.blp:121
 msgid "Main Menu"
 msgstr "Menu principal"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:124
+#: data/resources/ui/window.blp:136
 msgid "Zoom Level"
 msgstr "Niveau de zoom"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:129
+#: data/resources/ui/window.blp:141
 msgid "Select Zoom Level"
 msgstr "Sélectionner un niveau de zoom"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:302
+#: src/window.rs:386
 msgid "Best Fit"
 msgstr "Meilleur ajustement"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:41
 msgid "This release adds zoom support."
 msgstr "Cette version ajoute le support d'un zoom."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:43
 msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
 msgstr "Ajout de la possibilité de zoomer / dé-zoomer. Vous pouvez utiliser les touches Ctrl + molette, utiliser le pincé sur pavé ou écran tactile, ou entrer le facteur de zoom manuellement. Zoom et point de vue sont synchronisés entre fichiers ouverts."
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:44
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
 msgstr "Ajout d'une traduction tchèque (grâce à Jaroslav Svoboda)."
+
+#: src/window.rs:268
+msgid "This release adds file-path tooltips and updates Identity to the GNOME 43 platform."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+#: src/window.rs:251
+msgid "Tab tooltips now show full file paths, which is useful when comparing files with identical names."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
+#: src/window.rs:255
+msgid "Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
+#: src/window.rs:258
+msgid "Added WebP images to the list of supported file types."
+msgstr ""
+
+#. Translators: link title in the About dialog.
+#: src/window.rs:290
+msgid "Contribute Translations"
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
+#: src/window.rs:259
+msgid "Added Occitan translation (thanks Quentin PAGÈS)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
+#: src/window.rs:260
+msgid "Added Serbian Cyrillic translation (thanks Јован Здравковић)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
+#: src/window.rs:261
+msgid "Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
+#: src/window.rs:262
+msgid "Added Turkish translation (thanks Sabri Ünal)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
+#: src/window.rs:263
+msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+msgid "This release adds a media properties dialog and updates Identity to the GNOME 43 platform."
+msgstr ""
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+msgid "Added a media properties dialog which will display information about the currently open file."
+msgstr ""
+
+#. Translators: Title of the media properties window.
+#: data/resources/ui/media_properties.blp:6
+msgid "Properties"
+msgstr ""
+
+#. Translators: Title text in the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:22
+msgid "No Media Open"
+msgstr ""
+
+#. Translators: Description on the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:24
+msgid "Open video or image to view its properties."
+msgstr ""
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:44
+msgid "File"
+msgstr ""
+
+#. Translators: File-name row in the media properties window.
+#: data/resources/ui/media_properties.blp:50
+msgid "Name"
+msgstr ""
+
+#. Translators: File location row in the media properties window.
+#: data/resources/ui/media_properties.blp:58
+msgid "Location"
+msgstr ""
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:65
+msgid "Media"
+msgstr ""
+
+#. Translators: Pixel-resolution row in the media properties window.
+#: data/resources/ui/media_properties.blp:71
+msgid "Resolution"
+msgstr ""
+
+#. Translators: Primary menu entry that opens the media properties window.
+#: data/resources/ui/window.blp:14
+msgid "_Media Properties"
+msgstr ""
+
+#. Translators: "Not applicable" string for the media properties dialog when a
+#. given property is unknown.
+#: src/page.rs:229
+msgid "N/A"
+msgstr ""
 
