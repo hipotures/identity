@@ -21,8 +21,9 @@
   <releases>
     <release version="0.4.0" date="2022-10-14">
       <description>
-        <p>This release adds file-path tooltips and updates Identity to the GNOME 43 platform.</p>
+        <p>This release adds a media properties dialog and updates Identity to the GNOME 43 platform.</p>
         <ul>
+          <li>Added a media properties dialog which will display information about the currently open file.</li>
           <li>Tab tooltips now show full file paths, which is useful when comparing files with identical names.</li>
           <li>Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog.</li>
           <li>Added WebP images to the list of supported file types.</li>
