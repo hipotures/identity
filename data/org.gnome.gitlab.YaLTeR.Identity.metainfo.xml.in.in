@@ -19,7 +19,7 @@
   <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
-    <release version="0.4.0" date="2022-10-14">
+    <release version="0.4.0" date="2022-10-21">
       <description>
         <p>This release adds a media properties dialog and updates Identity to the GNOME 43 platform.</p>
         <ul>
