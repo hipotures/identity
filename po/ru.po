@@ -123,12 +123,12 @@ msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1351
+#: src/window.rs:1383
 msgid "Videos and images"
 msgstr "Видео и изображения"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1362
+#: src/window.rs:1394
 msgid "Open videos or images to compare"
 msgstr "Открыть видео или изображения для сравнения"
 
@@ -314,7 +314,7 @@ msgstr "Выбрать масштаб"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:386
+#: src/window.rs:418
 msgid "Best Fit"
 msgstr "По размеру окна"
 
@@ -434,7 +434,22 @@ msgstr "Свойства файла"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown.
-#: src/page.rs:229
+#: src/page.rs:255 src/window.rs:369 src/window.rs:379 src/window.rs:389
 msgid "N/A"
-msgstr "Неизвестно"
+msgstr "Н/Д"
+
+#. Translators: Frame-rate row in the media properties window.
+#: data/resources/ui/media_properties.blp:79
+msgid "Frame Rate"
+msgstr "Частота кадров"
+
+#. Translators: Codec row in the media properties window.
+#: data/resources/ui/media_properties.blp:87
+msgid "Codec"
+msgstr "Кодек"
+
+#. Translators: Container-format row in the media properties window.
+#: data/resources/ui/media_properties.blp:95
+msgid "Container"
+msgstr "Контейнер"
 
