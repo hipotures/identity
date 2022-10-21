@@ -12,7 +12,7 @@ msgstr ""
 msgid "Compare images and videos"
 msgstr "比對圖片和影片"
 
-#: src/window.rs:284
+#: src/window.rs:288
 msgid "translator-credits"
 msgstr "Kisaragi Hiu"
 
@@ -73,7 +73,7 @@ msgstr "跳至前一個影格"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:39 src/main.rs:39 src/window.rs:277
+#: data/resources/ui/window.blp:39 src/main.rs:39 src/window.rs:281
 msgid "Identity"
 msgstr "Identity"
 
@@ -123,12 +123,12 @@ msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1351
+#: src/window.rs:1387
 msgid "Videos and images"
 msgstr "影片和圖片"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1362
+#: src/window.rs:1398
 msgid "Open videos or images to compare"
 msgstr "開啟影片或圖片來進行比對"
 
@@ -219,7 +219,7 @@ msgstr "新增了簡體中文翻譯（感謝 Garling Liang）。"
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
-#: src/window.rs:264
+#: src/window.rs:268
 msgid "Updated translations."
 msgstr "更新了翻譯。"
 
@@ -314,7 +314,7 @@ msgstr "選擇縮放級別"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:386
+#: src/window.rs:422
 msgid "Best Fit"
 msgstr "最適"
 
@@ -330,111 +330,124 @@ msgstr "新增了放大和縮小的功能。您可以使用"
 msgid "Added Czech translation (thanks Jaroslav Svoboda)."
 msgstr "新增了捷克語翻譯（感謝 Jaroslav Svoboda）。"
 
-#: src/window.rs:268
-msgid "This release adds file-path tooltips and updates Identity to the GNOME 43 platform."
-msgstr ""
-
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
-#: src/window.rs:251
+#: src/window.rs:255
 msgid "Tab tooltips now show full file paths, which is useful when comparing files with identical names."
 msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
-#: src/window.rs:255
+#: src/window.rs:259
 msgid "Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog."
 msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
-#: src/window.rs:258
+#: src/window.rs:262
 msgid "Added WebP images to the list of supported file types."
 msgstr ""
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:290
+#: src/window.rs:294
 msgid "Contribute Translations"
-msgstr ""
+msgstr "貢獻翻譯"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
-#: src/window.rs:259
+#: src/window.rs:263
 msgid "Added Occitan translation (thanks Quentin PAGÈS)."
-msgstr ""
+msgstr "新增了奧克語翻譯（感謝 Quentin PAGÈS）。"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
-#: src/window.rs:260
+#: src/window.rs:264
 msgid "Added Serbian Cyrillic translation (thanks Јован Здравковић)."
 msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
-#: src/window.rs:261
+#: src/window.rs:265
 msgid "Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."
-msgstr ""
+msgstr "新增了坦米爾語翻譯（感謝 க.பா.தருண் கிருஷ்ணா）。"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
-#: src/window.rs:262
+#: src/window.rs:266
 msgid "Added Turkish translation (thanks Sabri Ünal)."
 msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
-#: src/window.rs:263
+#: src/window.rs:267
 msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
-msgstr ""
+msgstr "新增了繁體中文翻譯（感謝 Kisaragi Hiu）。"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
+#: src/window.rs:272
 msgid "This release adds a media properties dialog and updates Identity to the GNOME 43 platform."
 msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
+#: src/window.rs:251
 msgid "Added a media properties dialog which will display information about the currently open file."
-msgstr ""
+msgstr "新增了媒體屬性對話框，用來檢視目前開啟檔案的資訊。"
 
 #. Translators: Title of the media properties window.
 #: data/resources/ui/media_properties.blp:6
 msgid "Properties"
-msgstr ""
+msgstr "屬性"
 
 #. Translators: Title text in the media properties window when no files are open.
 #: data/resources/ui/media_properties.blp:22
 msgid "No Media Open"
-msgstr ""
+msgstr "沒有開啟的媒體"
 
 #. Translators: Description on the media properties window when no files are open.
 #: data/resources/ui/media_properties.blp:24
 msgid "Open video or image to view its properties."
-msgstr ""
+msgstr "開啟影片或圖片來檢視它的屬性。"
 
 #. Translators: Section in the media properties window.
 #: data/resources/ui/media_properties.blp:44
 msgid "File"
-msgstr ""
+msgstr "檔案"
 
 #. Translators: File-name row in the media properties window.
 #: data/resources/ui/media_properties.blp:50
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #. Translators: File location row in the media properties window.
 #: data/resources/ui/media_properties.blp:58
 msgid "Location"
-msgstr ""
+msgstr "位置"
 
 #. Translators: Section in the media properties window.
 #: data/resources/ui/media_properties.blp:65
 msgid "Media"
-msgstr ""
+msgstr "媒體"
 
 #. Translators: Pixel-resolution row in the media properties window.
 #: data/resources/ui/media_properties.blp:71
 msgid "Resolution"
-msgstr ""
+msgstr "解析度"
 
 #. Translators: Primary menu entry that opens the media properties window.
 #: data/resources/ui/window.blp:14
 msgid "_Media Properties"
-msgstr ""
+msgstr "媒體屬性(_M)"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown.
-#: src/page.rs:229
+#: src/page.rs:255 src/window.rs:373 src/window.rs:383 src/window.rs:393
 msgid "N/A"
 msgstr ""
+
+#. Translators: Frame-rate row in the media properties window.
+#: data/resources/ui/media_properties.blp:79
+msgid "Frame Rate"
+msgstr "影格率"
+
+#. Translators: Codec row in the media properties window.
+#: data/resources/ui/media_properties.blp:87
+msgid "Codec"
+msgstr "編碼格式"
+
+#. Translators: Container-format row in the media properties window.
+#: data/resources/ui/media_properties.blp:95
+msgid "Container"
+msgstr "封裝格式"
 
