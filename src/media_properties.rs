@@ -3,6 +3,7 @@ use gtk::{gio, glib};
 mod imp {
     use adw::prelude::*;
     use adw::subclass::prelude::*;
+    use gtk::gdk::{Key, ModifierType};
     use gtk::CompositeTemplate;
     use once_cell::sync::Lazy;
 
@@ -36,6 +37,8 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
+
+            klass.add_binding_action(Key::Escape, ModifierType::empty(), "window.close", None);
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
