@@ -248,6 +248,10 @@ mod imp {
                 // Concat translated strings to reuse the metainfo translations.
                 let list_points = [
                     gettext(
+                        "Added a media properties dialog which will display information about \
+the currently open file.",
+                    ),
+                    gettext(
                         "Tab tooltips now show full file paths, which is useful when \
 comparing files with identical names.",
                     ),
@@ -265,8 +269,8 @@ to drag-and-drop from Files on Flatpak and a refreshed About dialog.",
                 ];
                 let release_notes = String::from("<p>")
                     + &gettext(
-                        "This release adds file-path tooltips and \
-updates Identity to the GNOME 43 platform.",
+                        "This release adds a media properties dialog and updates Identity to the \
+GNOME 43 platform.",
                     )
                     + "</p><ul><li>"
                     + &list_points.join("</li><li>")
