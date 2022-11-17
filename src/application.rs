@@ -25,13 +25,13 @@ mod imp {
     impl ObjectImpl for Application {}
 
     impl ApplicationImpl for Application {
-        fn activate(&self, obj: &Self::Type) {
+        fn activate(&self) {
             debug!("activate");
-            self.parent_activate(obj);
-            obj.open_new_window();
+            self.parent_activate();
+            self.obj().open_new_window();
         }
 
-        fn open(&self, obj: &Self::Type, files: &[gio::File], _hint: &str) {
+        fn open(&self, files: &[gio::File], _hint: &str) {
             debug!(
                 "open: {:?}",
                 files
@@ -40,16 +40,17 @@ mod imp {
                     .collect::<Vec<String>>()
             );
 
-            let window = obj.create_new_window();
+            let window = self.obj().create_new_window();
 
             for file in files {
                 window.open_file(file);
             }
         }
 
-        fn startup(&self, obj: &Self::Type) {
-            self.parent_startup(obj);
+        fn startup(&self) {
+            self.parent_startup();
 
+            let obj = self.obj();
             obj.style_manager()
                 .set_color_scheme(adw::ColorScheme::PreferDark);
 
@@ -78,12 +79,11 @@ glib::wrapper! {
 impl Application {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        glib::Object::new(&[
-            ("application-id", &config::APP_ID),
-            ("flags", &gio::ApplicationFlags::HANDLES_OPEN),
-            ("resource-base-path", &"/org/gnome/gitlab/YaLTeR/Identity"),
-        ])
-        .expect("could not create `Application`")
+        glib::Object::builder()
+            .property("application-id", &config::APP_ID)
+            .property("flags", &gio::ApplicationFlags::HANDLES_OPEN)
+            .property("resource-base-path", &"/org/gnome/gitlab/YaLTeR/Identity")
+            .build()
     }
 
     pub fn create_new_window(&self) -> Window {

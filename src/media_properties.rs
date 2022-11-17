@@ -47,11 +47,11 @@ mod imp {
     }
 
     impl ObjectImpl for MediaProperties {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
 
             if config::PROFILE == "Devel" {
-                obj.add_css_class("devel");
+                self.obj().add_css_class("devel");
             }
         }
 
@@ -113,13 +113,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "show-empty-state" => {
                     let value: bool = value.get().unwrap();
@@ -138,7 +132,7 @@ mod imp {
             }
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "show-empty-state" => {
                     (self.stack.visible_child_name().unwrap() == "empty").to_value()

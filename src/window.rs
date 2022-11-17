@@ -304,8 +304,9 @@ GNOME 43 platform.",
     }
 
     impl ObjectImpl for Window {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            let obj = self.obj();
+            self.parent_constructed();
 
             if config::PROFILE == "Devel" {
                 obj.add_css_class("devel");
@@ -313,11 +314,11 @@ GNOME 43 platform.",
 
             // FIXME: Remove when https://github.com/gtk-rs/gtk4-rs/issues/934 is fixed.
             self.tab_view.connect_page_detached(
-                clone!(@weak obj => move |_, tab_page, _| obj.imp().on_page_detached(tab_page)),
+                clone!(@weak self as imp => move |_, tab_page, _| imp.on_page_detached(tab_page)),
             );
             self.tab_view.connect_notify_local(
                 Some("selected-page"),
-                clone!(@weak obj => move |_, _| obj.imp().on_selected_page_notify()),
+                clone!(@weak self as imp => move |_, _| imp.on_selected_page_notify()),
             );
 
             // Bind properties of the media properties dialog.
@@ -488,7 +489,7 @@ GNOME 43 platform.",
             }
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             if let Some(pipeline) = self.pipeline.get() {
                 // I got this to return Err once by opening a file GStreamer couldn't play and a
                 // regular video file.
@@ -530,13 +531,7 @@ GNOME 43 platform.",
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "scale-request" => {
                     let value: f64 = value.get().expect("invalid `scale-request` value type");
@@ -554,7 +549,7 @@ GNOME 43 platform.",
             }
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "scale-request" => self.scale_request.get().into_value().to_value(),
                 "best-fit" => {
@@ -762,7 +757,7 @@ GNOME 43 platform.",
             };
 
             pipeline.send_event(gst::event::Step::new(
-                gst::format::Buffers(1),
+                gst::format::Buffers::from_u64(1),
                 1.,
                 true,
                 false,
@@ -1127,8 +1122,7 @@ GNOME 43 platform.",
 
                 let binding = page
                     .bind_property("scale", &*self.scale_entry, "text")
-                    .transform_to(|_, value| {
-                        let scale: f64 = value.get().expect("wrong `scale` property type");
+                    .transform_to(|_, scale: f64| {
                         let text = if scale != 0. {
                             format_scale(scale).to_value()
                         } else {
@@ -1339,7 +1333,7 @@ glib::wrapper! {
 #[gtk::template_callbacks]
 impl Window {
     pub fn new(app: &impl IsA<gtk::Application>) -> Self {
-        glib::Object::new(&[("application", app)]).expect("could not create `Window`")
+        glib::Object::builder().property("application", app).build()
     }
 
     pub fn open_file(&self, file: &gio::File) {

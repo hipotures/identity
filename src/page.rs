@@ -180,13 +180,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "file" => {
                     let file: gio::File = value
@@ -209,7 +203,7 @@ mod imp {
             }
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "file" => self.file.get().to_value(),
                 "playbin" => self.playbin().to_value(),
@@ -261,8 +255,8 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            self.parent_constructed();
 
             self.constructed_at
                 .set(Instant::now())
@@ -271,15 +265,15 @@ mod imp {
             self.is_loading.set(true);
 
             glib::MainContext::default().spawn_local(
-                clone!(@strong obj => async move { obj.imp().retrieve_display_name(&obj).await; }),
+                clone!(@to-owned self as imp => async move { imp.retrieve_display_name().await; }),
             );
 
             glib::MainContext::default().spawn_local(
-                clone!(@strong obj => async move { obj.imp().prepare_playbin(&obj).await; }),
+                clone!(@to-owned self as imp => async move { imp.prepare_playbin().await; }),
             );
         }
 
-        fn dispose(&self, _obj: &Self::Type) {
+        fn dispose(&self) {
             if let Some(playbin) = self.playbin.get() {
                 let _ = playbin.set_state(gst::State::Null);
             }
@@ -358,7 +352,7 @@ mod imp {
             self.scrolled_window.grab_focus();
         }
 
-        async fn retrieve_display_name(&self, obj: &super::Page) {
+        async fn retrieve_display_name(&self) {
             let file = self.file.get().expect("unexpected unset `file`");
 
             // glib::timeout_future_seconds(1).await;
@@ -382,15 +376,18 @@ mod imp {
             self.display_name
                 .set(name.into())
                 .expect("`display_name` set more than once");
-            obj.notify("display-name");
+            self.obj().notify("display-name");
         }
 
-        async fn prepare_playbin(&self, obj: &super::Page) {
+        async fn prepare_playbin(&self) {
+            let obj = self.obj();
+
             let file = self.file.get().expect("unexpected unset `file`");
 
             // glib::timeout_future_seconds(1).await;
 
-            let sink = gst::ElementFactory::make("gtk4paintablesink", None)
+            let sink = gst::ElementFactory::make("gtk4paintablesink")
+                .build()
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
             paintable.connect_invalidate_size(clone!(@weak obj => move |_| {
@@ -398,7 +395,8 @@ mod imp {
             }));
             self.picture.set_paintable(Some(paintable));
 
-            let playbin = gst::ElementFactory::make("playbin3", None)
+            let playbin = gst::ElementFactory::make("playbin3")
+                .build()
                 .expect("could not create a `playbin3` GStreamer element");
             playbin.set_property("video-sink", &sink);
             playbin.set_property("uri", file.uri());
@@ -418,7 +416,7 @@ mod imp {
             playbin.set_property("flags", flags);
 
             // videoflip takes care of applying the rotation tag.
-            match gst::ElementFactory::make("videoflip", None) {
+            match gst::ElementFactory::make("videoflip").build() {
                 Ok(videoflip) => {
                     videoflip.set_property("video-direction", &VideoOrientationMethod::Auto);
                     playbin.set_property("video-filter", &videoflip);
@@ -577,7 +575,7 @@ glib::wrapper! {
 #[gtk::template_callbacks]
 impl Page {
     pub fn new(file: &gio::File) -> Self {
-        glib::Object::new(&[("file", file)]).expect("could not create a `Page`")
+        glib::Object::builder().property("file", file).build()
     }
 
     pub fn playbin(&self) -> Option<&gst::Element> {

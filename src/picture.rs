@@ -91,8 +91,10 @@ mod imp {
     }
 
     impl ObjectImpl for Picture {
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            let obj = self.obj();
+
+            self.parent_constructed();
 
             obj.set_overflow(gtk::Overflow::Hidden);
 
@@ -218,13 +220,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn set_property(
-            &self,
-            _obj: &Self::Type,
-            _id: usize,
-            value: &glib::Value,
-            pspec: &glib::ParamSpec,
-        ) {
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             match pspec.name() {
                 "scale-request" => {
                     let value: f64 = value.get().expect("invalid `scale-request` value type");
@@ -246,7 +242,7 @@ mod imp {
             }
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             match pspec.name() {
                 "scale-request" => self.scale_request().into_value().to_value(),
                 "scale" => self.scale().to_value(),
@@ -262,16 +258,11 @@ mod imp {
     }
 
     impl WidgetImpl for Picture {
-        fn request_mode(&self, _widget: &Self::Type) -> gtk::SizeRequestMode {
+        fn request_mode(&self) -> gtk::SizeRequestMode {
             gtk::SizeRequestMode::ConstantSize
         }
 
-        fn measure(
-            &self,
-            widget: &Self::Type,
-            orientation: gtk::Orientation,
-            _for_size: i32,
-        ) -> (i32, i32, i32, i32) {
+        fn measure(&self, orientation: gtk::Orientation, _for_size: i32) -> (i32, i32, i32, i32) {
             let scale = match self.scale_request.get() {
                 ScaleRequest::FitToAllocation => return (0, 0, -1, -1),
                 ScaleRequest::Set(x) => x,
@@ -297,17 +288,20 @@ mod imp {
                 gtk::Orientation::Horizontal => (paintable_width as f64 * scale).ceil() as i32,
                 gtk::Orientation::Vertical => (paintable_height as f64 * scale).ceil() as i32,
                 _ => unreachable!(),
-            }) / widget.scale_factor();
+            }) / self.obj().scale_factor();
 
             (size, size, -1, -1)
         }
 
-        fn size_allocate(&self, widget: &Self::Type, width: i32, height: i32, _baseline: i32) {
+        fn size_allocate(&self, width: i32, height: i32, _baseline: i32) {
+            let widget = self.obj();
             self.update_scale(width, height, widget.scale_factor());
             self.configure_adjustments(width, height, widget.scale_factor());
         }
 
-        fn snapshot(&self, widget: &Self::Type, snapshot: &gtk::Snapshot) {
+        fn snapshot(&self, snapshot: &gtk::Snapshot) {
+            let widget = self.obj();
+
             let paintable = self.paintable.borrow();
             let paintable = match &*paintable {
                 Some(x) => x,
@@ -325,11 +319,7 @@ mod imp {
             // If the paintable doesn't have an intrinsic size, we can only meaningfully fit to
             // allocation.
             if paintable_ratio == 0. || paintable_width == 0 || paintable_height == 0 {
-                paintable.snapshot(
-                    snapshot.upcast_ref(),
-                    widget_width as f64,
-                    widget_height as f64,
-                );
+                paintable.snapshot(snapshot, widget_width as f64, widget_height as f64);
 
                 return;
             }
@@ -375,7 +365,7 @@ mod imp {
 
             snapshot.save();
             snapshot.translate(&graphene::Point::new(x as f32, y as f32));
-            paintable.snapshot(snapshot.upcast_ref(), w, h);
+            paintable.snapshot(snapshot, w, h);
             snapshot.restore();
         }
     }
@@ -737,7 +727,7 @@ glib::wrapper! {
 
 impl Picture {
     pub fn new() -> Self {
-        glib::Object::new(&[]).expect("could not create a `Picture`")
+        glib::Object::builder().build()
     }
 
     pub fn paintable(&self) -> Option<gdk::Paintable> {
