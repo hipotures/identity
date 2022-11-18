@@ -165,9 +165,8 @@ mod imp {
             klass.install_action("win.open", None, |obj, _, _| obj.on_open_clicked());
             klass.add_binding_action(Key::o, ModifierType::CONTROL_MASK, "win.open", None);
 
-            klass.install_action("win.paste", None, |obj, _, _| {
-                glib::MainContext::default()
-                    .spawn_local(clone!(@weak obj => async move { obj.paste().await; }));
+            klass.install_action_async("win.paste", None, |obj, _, _| async move {
+                obj.paste().await;
             });
             klass.add_binding_action(Key::v, ModifierType::CONTROL_MASK, "win.paste", None);
 
