@@ -889,13 +889,13 @@ GNOME 43 platform.",
             let tab_page = self.tab_view.append(&page);
 
             page.bind_property("display-name", &tab_page, "title")
-                .flags(glib::BindingFlags::SYNC_CREATE)
+                .sync_create()
                 .build();
             page.bind_property("is-loading", &tab_page, "loading")
-                .flags(glib::BindingFlags::SYNC_CREATE)
+                .sync_create()
                 .build();
             page.bind_property("path", &tab_page, "tooltip")
-                .flags(glib::BindingFlags::SYNC_CREATE)
+                .sync_create()
                 .build();
 
             page.property_expression("is-error")
@@ -1123,7 +1123,7 @@ GNOME 43 platform.",
                         };
                         Some(text)
                     })
-                    .flags(glib::BindingFlags::SYNC_CREATE)
+                    .sync_create()
                     .build();
                 self.scale_binding.replace(Some(binding));
 
