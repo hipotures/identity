@@ -149,8 +149,8 @@ mod imp {
         type ParentType = adw::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
-            Self::bind_template_callbacks(klass);
+            klass.bind_template();
+            klass.bind_template_callbacks();
             Self::Type::bind_template_callbacks(klass);
 
             klass.install_action("win.play-pause", None, |obj, _, _| obj.imp().play_pause());
