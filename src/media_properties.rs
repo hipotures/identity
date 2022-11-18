@@ -58,55 +58,34 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<[glib::ParamSpec; 7]> = Lazy::new(|| {
                 [
-                    glib::ParamSpecBoolean::new(
-                        "show-empty-state",
-                        "",
-                        "",
-                        true,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "file-name",
-                        "",
-                        "",
-                        Some(""),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "file-location",
-                        "",
-                        "",
-                        Some(""),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "resolution",
-                        "",
-                        "",
-                        Some(""),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "frame-rate",
-                        "",
-                        "",
-                        Some(""),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "codec",
-                        "",
-                        "",
-                        Some(""),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "container",
-                        "",
-                        "",
-                        Some(""),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecBoolean::builder("show-empty-state")
+                        .default_value(true)
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("file-name")
+                        .default_value("")
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("file-location")
+                        .default_value("")
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("resolution")
+                        .default_value("")
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("frame-rate")
+                        .default_value("")
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("codec")
+                        .default_value("")
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("container")
+                        .default_value("")
+                        .explicit_notify()
+                        .build(),
                 ]
             });
 

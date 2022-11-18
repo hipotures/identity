@@ -174,42 +174,25 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<[glib::ParamSpec; 8]> = Lazy::new(|| {
                 [
-                    glib::ParamSpecDouble::new(
-                        "scale-request",
-                        "",
-                        "",
-                        0.,
-                        10.,
-                        0.,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "scale",
-                        "",
-                        "",
-                        0.,
-                        f64::MAX,
-                        0.,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "h-scroll-pos",
-                        "",
-                        "",
-                        0.,
-                        1.,
-                        0.,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "v-scroll-pos",
-                        "",
-                        "",
-                        0.,
-                        1.,
-                        0.,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecDouble::builder("scale-request")
+                        .minimum(0.)
+                        .maximum(10.)
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecDouble::builder("scale")
+                        .minimum(0.)
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecDouble::builder("h-scroll-pos")
+                        .minimum(0.)
+                        .maximum(1.)
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecDouble::builder("v-scroll-pos")
+                        .minimum(0.)
+                        .maximum(1.)
+                        .explicit_notify()
+                        .build(),
                     glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("hadjustment"),
                     glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("vadjustment"),
                     glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("hscroll-policy"),

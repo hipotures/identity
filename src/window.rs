@@ -509,22 +509,15 @@ GNOME 43 platform.",
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<[glib::ParamSpec; 2]> = Lazy::new(|| {
                 [
-                    glib::ParamSpecDouble::new(
-                        "scale-request",
-                        "",
-                        "",
-                        0.,
-                        10.,
-                        0.,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "best-fit",
-                        "",
-                        "",
-                        true,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecDouble::builder("scale-request")
+                        .minimum(0.)
+                        .maximum(10.)
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecBoolean::builder("best-fit")
+                        .default_value(true)
+                        .explicit_notify()
+                        .build(),
                 ]
             });
 

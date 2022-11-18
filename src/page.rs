@@ -66,114 +66,65 @@ mod imp {
         fn properties() -> &'static [glib::ParamSpec] {
             static PROPERTIES: Lazy<[glib::ParamSpec; 14]> = Lazy::new(|| {
                 [
-                    glib::ParamSpecObject::new(
-                        "file",
-                        "",
-                        "",
-                        gio::File::static_type(),
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::CONSTRUCT_ONLY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "display-name",
-                        "",
-                        "",
-                        None,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "path",
-                        "",
-                        "",
-                        None,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "is-loading",
-                        "",
-                        "",
-                        true,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecBoolean::new(
-                        "is-error",
-                        "",
-                        "",
-                        false,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecObject::new(
-                        "playbin",
-                        "",
-                        "",
-                        gst::Element::static_type(),
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "scale-request",
-                        "",
-                        "",
-                        0.,
-                        10.,
-                        0.,
-                        glib::ParamFlags::READWRITE,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "scale",
-                        "",
-                        "",
-                        0.,
-                        f64::MAX,
-                        0.,
-                        glib::ParamFlags::READABLE,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "h-scroll-pos",
-                        "",
-                        "",
-                        0.,
-                        1.,
-                        0.,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecDouble::new(
-                        "v-scroll-pos",
-                        "",
-                        "",
-                        0.,
-                        1.,
-                        0.,
-                        glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "resolution",
-                        "",
-                        "",
-                        None,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecFloat::new(
-                        "framerate",
-                        "",
-                        "",
-                        0.,
-                        f32::MAX,
-                        0.,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "video-codec",
-                        "",
-                        "",
-                        None,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
-                    glib::ParamSpecString::new(
-                        "container-format",
-                        "",
-                        "",
-                        None,
-                        glib::ParamFlags::READABLE | glib::ParamFlags::EXPLICIT_NOTIFY,
-                    ),
+                    glib::ParamSpecObject::builder::<gio::File>("file")
+                        .construct_only()
+                        .build(),
+                    glib::ParamSpecString::builder("display-name")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("path")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecBoolean::builder("is-loading")
+                        .default_value(true)
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecBoolean::builder("is-error")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecObject::builder::<gst::Element>("playbin")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecDouble::builder("scale-request")
+                        .minimum(0.)
+                        .maximum(10.)
+                        .build(),
+                    glib::ParamSpecDouble::builder("scale")
+                        .minimum(0.)
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecDouble::builder("h-scroll-pos")
+                        .minimum(0.)
+                        .maximum(1.)
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecDouble::builder("v-scroll-pos")
+                        .minimum(0.)
+                        .maximum(1.)
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("resolution")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecFloat::builder("framerate")
+                        .minimum(0.)
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("video-codec")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
+                    glib::ParamSpecString::builder("container-format")
+                        .read_only()
+                        .explicit_notify()
+                        .build(),
                 ]
             });
 
