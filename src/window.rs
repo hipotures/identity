@@ -932,7 +932,7 @@ GNOME 43 platform.",
 
             self.refresh_controls();
             self.stack.set_visible_child_name("content");
-            self.instance().present_if_not_visible();
+            self.obj().present_if_not_visible();
         }
 
         fn detach_playbin(&self, playbin: &gst::Element) {
@@ -966,11 +966,11 @@ GNOME 43 platform.",
 
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
-                self.instance().present_if_not_visible();
+                self.obj().present_if_not_visible();
             } else if let Some(playbin) = page.playbin() {
                 self.attach_playbin(playbin);
             } else {
-                let obj = self.instance();
+                let obj = self.obj();
                 let id = page.connect_notify_local(
                     Some("is-loading"),
                     clone!(@weak obj => move |page, _| {
@@ -1020,7 +1020,7 @@ GNOME 43 platform.",
             debug!("create-window");
 
             let application: Application = self
-                .instance()
+                .obj()
                 .application()
                 .expect("application was not set")
                 .downcast()
@@ -1033,7 +1033,7 @@ GNOME 43 platform.",
             if let Some(page) = self.tab_view.selected_page() {
                 self.tab_view.close_page(&page);
             } else {
-                self.instance().close();
+                self.obj().close();
             }
         }
 
@@ -1050,7 +1050,7 @@ GNOME 43 platform.",
                 return;
             }
 
-            let obj = self.instance();
+            let obj = self.obj();
             *source_id = Some(glib::timeout_add_local_once(
                 Duration::from_millis(300),
                 clone!(@weak obj => move || {
@@ -1079,7 +1079,7 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_selected_page_notify(&self) {
-            let obj = self.instance();
+            let obj = self.obj();
 
             if let Some(binding) = self.scale_binding.take() {
                 binding.unbind();
@@ -1170,8 +1170,8 @@ GNOME 43 platform.",
             }
 
             self.scale_request.set(scale_request);
-            self.instance().notify("scale-request");
-            self.instance().notify("best-fit");
+            self.obj().notify("scale-request");
+            self.obj().notify("best-fit");
 
             if let Some(tab_page) = self.tab_view.selected_page() {
                 let page = tab_page

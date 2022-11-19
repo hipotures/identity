@@ -251,7 +251,7 @@ mod imp {
                 error!("set_error: is-loading is true, called too early?");
             }
 
-            let obj = self.instance();
+            let obj = self.obj();
             let _guard = obj.freeze_notify();
 
             self.is_error.set(true);
@@ -497,14 +497,14 @@ mod imp {
                                 "video-codec" => match value.get() {
                                     Ok(value) => {
                                         self.video_codec.replace(Some(value));
-                                        self.instance().notify("video-codec");
+                                        self.obj().notify("video-codec");
                                     }
                                     Err(err) => warn!("error retrieving tag value: {err:?}"),
                                 },
                                 "container-format" => match value.get() {
                                     Ok(value) => {
                                         self.container_format.replace(Some(value));
-                                        self.instance().notify("container-format");
+                                        self.obj().notify("container-format");
                                     }
                                     Err(err) => warn!("error retrieving tag value: {err:?}"),
                                 },

@@ -361,7 +361,7 @@ mod imp {
         }
 
         pub fn set_paintable(&self, paintable: Option<impl IsA<gdk::Paintable>>) {
-            let obj = self.instance();
+            let obj = self.obj();
 
             let paintable = paintable.map(|p| p.upcast());
 
@@ -394,7 +394,7 @@ mod imp {
         }
 
         pub fn update_scale_request(&self, scale_request: ScaleRequest) {
-            let obj = self.instance();
+            let obj = self.obj();
 
             if self.scale_request.get() != scale_request {
                 self.scale_request.set(scale_request);
@@ -426,7 +426,7 @@ mod imp {
             let scale = self.compute_scale(width, height, scale_factor);
             if self.scale.get() != scale {
                 self.scale.set(scale);
-                self.instance().notify("scale");
+                self.obj().notify("scale");
             }
         }
 
@@ -467,8 +467,8 @@ mod imp {
 
             if self.h_scroll_pos.get() != value {
                 self.h_scroll_pos.set(value);
-                self.instance().notify("h-scroll-pos");
-                self.instance().queue_allocate();
+                self.obj().notify("h-scroll-pos");
+                self.obj().queue_allocate();
             }
         }
 
@@ -481,8 +481,8 @@ mod imp {
 
             if self.v_scroll_pos.get() != value {
                 self.v_scroll_pos.set(value);
-                self.instance().notify("v-scroll-pos");
-                self.instance().queue_allocate();
+                self.obj().notify("v-scroll-pos");
+                self.obj().queue_allocate();
             }
         }
 
@@ -492,7 +492,7 @@ mod imp {
             }
 
             if let Some(adj) = adj {
-                let obj = self.instance();
+                let obj = self.obj();
 
                 let handler_id = adj.connect_value_changed(clone!(@weak obj => move |adj| {
                     obj.set_h_scroll_pos(normalized_adjustment_value(adj));
@@ -508,7 +508,7 @@ mod imp {
             }
 
             if let Some(adj) = adj {
-                let obj = self.instance();
+                let obj = self.obj();
 
                 let handler_id = adj.connect_value_changed(clone!(@weak obj => move |adj| {
                     obj.set_v_scroll_pos(normalized_adjustment_value(adj));
@@ -601,7 +601,7 @@ mod imp {
             let paintable = self.paintable.borrow();
             let paintable = paintable.as_ref()?;
 
-            let obj = self.instance();
+            let obj = self.obj();
             let widget_width = obj.width();
             let widget_height = obj.height();
             let paintable_width = paintable.intrinsic_width();
@@ -637,7 +637,7 @@ mod imp {
         }
 
         fn zoom_begin(&self, pivot_pointer_pos: Option<(f64, f64)>) {
-            let obj = self.instance();
+            let obj = self.obj();
             let pivot_pointer_pos = pivot_pointer_pos
                 .unwrap_or_else(|| (obj.width() as f64 / 2., obj.height() as f64 / 2.));
             self.zoom_pivot_image_pos
@@ -645,7 +645,7 @@ mod imp {
         }
 
         fn zoom_update(&self, pivot_pointer_pos: Option<(f64, f64)>, new_scale: f64) {
-            let obj = self.instance();
+            let obj = self.obj();
 
             self.update_scale_request(ScaleRequest::from_value(new_scale));
 
