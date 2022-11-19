@@ -54,20 +54,20 @@ mod imp {
             obj.style_manager()
                 .set_color_scheme(adw::ColorScheme::PreferDark);
 
-            let action = gio::ActionEntry::builder("quit")
-                .activate(|obj: &Self::Type, _, _| obj.quit())
-                .build();
-            obj.add_action_entries([action]).unwrap();
+            obj.add_action_entries([
+                gio::ActionEntry::builder("quit")
+                    .activate(|obj: &Self::Type, _, _| obj.quit())
+                    .build(),
+                gio::ActionEntry::builder("new-window")
+                    .activate(|obj: &Self::Type, _, _| {
+                        obj.open_new_window();
+                    })
+                    .build(),
+            ])
+            .unwrap();
+
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
-
-            let action = gio::ActionEntry::builder("new-window")
-                .activate(|obj: &Self::Type, _, _| {
-                    obj.open_new_window();
-                })
-                .build();
-            obj.add_action_entries([action]).unwrap();
             obj.set_accels_for_action("app.new-window", &["<primary>n"]);
-
             obj.set_accels_for_action("win.play-pause", &["p", "<primary>space"]);
             obj.set_accels_for_action("win.open", &["<primary>o"]);
             obj.set_accels_for_action("win.paste", &["<primary>v"]);
