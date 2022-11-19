@@ -59,9 +59,7 @@ mod imp {
                     .activate(|obj: &Self::Type, _, _| obj.quit())
                     .build(),
                 gio::ActionEntry::builder("new-window")
-                    .activate(|obj: &Self::Type, _, _| {
-                        obj.open_new_window();
-                    })
+                    .activate(|obj: &Self::Type, _, _| drop(obj.open_new_window()))
                     .build(),
             ])
             .unwrap();
