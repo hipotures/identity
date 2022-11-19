@@ -7,7 +7,7 @@ use crate::window::Window;
 mod imp {
     use adw::prelude::AdwApplicationExt;
     use adw::subclass::prelude::*;
-    use glib::{clone, debug};
+    use glib::debug;
 
     use super::*;
     use crate::G_LOG_DOMAIN;
@@ -54,14 +54,18 @@ mod imp {
             obj.style_manager()
                 .set_color_scheme(adw::ColorScheme::PreferDark);
 
-            let action = gio::SimpleAction::new("quit", None);
-            action.connect_activate(clone!(@weak obj => move |_, _| obj.quit()));
-            obj.add_action(&action);
+            let action = gio::ActionEntry::builder("quit")
+                .activate(|obj: &Self::Type, _, _| obj.quit())
+                .build();
+            obj.add_action_entries([action]).unwrap();
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
 
-            let action = gio::SimpleAction::new("new-window", None);
-            action.connect_activate(clone!(@weak obj => move |_, _| { obj.open_new_window(); }));
-            obj.add_action(&action);
+            let action = gio::ActionEntry::builder("new-window")
+                .activate(|obj: &Self::Type, _, _| {
+                    obj.open_new_window();
+                })
+                .build();
+            obj.add_action_entries([action]).unwrap();
             obj.set_accels_for_action("app.new-window", &["<primary>n"]);
         }
     }
