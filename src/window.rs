@@ -154,32 +154,15 @@ mod imp {
             klass.bind_template_instance_callbacks();
 
             klass.install_action("win.play-pause", None, |obj, _, _| obj.imp().play_pause());
-            klass.add_binding_action(
-                Key::space,
-                ModifierType::CONTROL_MASK,
-                "win.play-pause",
-                None,
-            );
-            klass.add_binding_action(Key::p, ModifierType::empty(), "win.play-pause", None);
-
             klass.install_action("win.open", None, |obj, _, _| obj.on_open_clicked());
-            klass.add_binding_action(Key::o, ModifierType::CONTROL_MASK, "win.open", None);
-
             klass.install_action_async("win.paste", None, |obj, _, _| async move {
                 obj.paste().await;
             });
-            klass.add_binding_action(Key::v, ModifierType::CONTROL_MASK, "win.paste", None);
-
             klass.install_action("win.close-tab", None, |obj, _, _| obj.imp().close_tab());
-            klass.add_binding_action(Key::w, ModifierType::CONTROL_MASK, "win.close-tab", None);
-
             klass.install_action("win.step-forward", None, |obj, _, _| {
                 obj.imp().step_forward()
             });
-            klass.add_binding_action(Key::period, ModifierType::empty(), "win.step-forward", None);
-
             klass.install_action("win.step-back", None, |obj, _, _| obj.imp().step_back());
-            klass.add_binding_action(Key::comma, ModifierType::empty(), "win.step-back", None);
 
             klass.install_action(
                 "win.focus-tab",
@@ -209,7 +192,6 @@ mod imp {
             }
 
             klass.install_property_action("win.set-best-fit", "best-fit");
-            klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit", None);
 
             klass.install_action(
                 "win.set-scale-request",
@@ -226,18 +208,9 @@ mod imp {
             klass.install_action("win.zoom-in", None, |obj, _, _| obj.imp().zoom_in());
             klass.install_action("win.zoom-out", None, |obj, _, _| obj.imp().zoom_out());
 
-            klass.add_binding_action(
-                Key::_0,
-                ModifierType::CONTROL_MASK,
-                "win.set-scale-request",
-                Some(&1f64.to_variant()),
-            );
+            // Add these two here so they don't show up in the shortcuts window.
             klass.add_binding_action(Key::equal, ModifierType::empty(), "win.zoom-in", None);
             klass.add_binding_action(Key::equal, ModifierType::CONTROL_MASK, "win.zoom-in", None);
-            klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in", None);
-            klass.add_binding_action(Key::plus, ModifierType::CONTROL_MASK, "win.zoom-in", None);
-            klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out", None);
-            klass.add_binding_action(Key::minus, ModifierType::CONTROL_MASK, "win.zoom-out", None);
 
             klass.install_action("win.media-properties", None, |window, _, _| {
                 window.imp().media_properties.present();

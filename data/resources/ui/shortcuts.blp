@@ -12,17 +12,17 @@ ShortcutsWindow help_overlay {
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Open videos or images");
-        accelerator: "<ctrl>o";
+        action-name: "win.open";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Open file from clipboard");
-        accelerator: "<ctrl>v";
+        action-name: "win.paste";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Close selected file");
-        accelerator: "<ctrl>w";
+        action-name: "win.close-tab";
       }
 
       ShortcutsShortcut {
@@ -46,17 +46,17 @@ ShortcutsWindow help_overlay {
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Play / Pause");
-        accelerator: "p <ctrl>space";
+        action-name: "win.play-pause";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Step forward one frame");
-        accelerator: "period";
+        action-name: "win.step-forward";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Step back one frame");
-        accelerator: "comma";
+        action-name: "win.step-back";
       }
     }
 
@@ -75,22 +75,22 @@ ShortcutsWindow help_overlay {
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Zoom in");
-        accelerator: "<ctrl>plus plus";
+        action-name: "win.zoom-in";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Zoom out");
-        accelerator: "<ctrl>minus minus";
+        action-name: "win.zoom-out";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Zoom 1:1");
-        accelerator: "<ctrl>0";
+        action-name: "win.set-scale-request(1.)";
       }
 
       ShortcutsShortcut {
         title: C_("shortcut window", "Best fit");
-        accelerator: "f";
+        action-name: "win.set-best-fit";
       }
     }
   }
