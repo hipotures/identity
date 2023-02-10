@@ -1,7 +1,7 @@
 use std::env;
 
 use gettextrs::*;
-use glib::{info, warn, GlibLogger, GlibLoggerDomain, GlibLoggerFormat};
+use glib::{info, warn, ExitCode, GlibLogger, GlibLoggerDomain, GlibLoggerFormat};
 use gtk::prelude::*;
 use gtk::{gio, glib};
 
@@ -16,7 +16,7 @@ mod window;
 
 const G_LOG_DOMAIN: &str = "Identity";
 
-fn main() {
+fn main() -> ExitCode {
     static GLIB_LOGGER: GlibLogger =
         GlibLogger::new(GlibLoggerFormat::LineAndFile, GlibLoggerDomain::CrateTarget);
 
@@ -58,5 +58,5 @@ fn main() {
     gst::init().expect("could not initialize GStreamer");
     gstgtk4::plugin_register_static().expect("could not initialize gst-plugin-gtk4");
 
-    std::process::exit(Application::new().run());
+    Application::new().run()
 }

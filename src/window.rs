@@ -250,15 +250,15 @@ GNOME 43 platform.",
 
                 let about_window = adw::AboutWindow::builder()
                     .transient_for(window)
-                    .application_name(&gettext("Identity"))
+                    .application_name(gettext("Identity"))
                     .application_icon(config::APP_ID)
                     .version(config::VERSION)
                     .license_type(gtk::License::Gpl30)
                     .developers(vec!["Ivan Molodetskikh".to_owned()])
                     .issue_url("https://gitlab.gnome.org/YaLTeR/identity/-/issues/new")
                     // Translators: shown in the About dialog, put your name here.
-                    .translator_credits(&gettext("translator-credits"))
-                    .release_notes(&release_notes)
+                    .translator_credits(gettext("translator-credits"))
+                    .release_notes(release_notes)
                     .build();
 
                 about_window.add_link(
@@ -384,7 +384,7 @@ GNOME 43 platform.",
                     false
                 }),
             );
-            self.stack.add_controller(&drop_target);
+            self.stack.add_controller(drop_target);
 
             // Set up the scale menu model.
             let menu = gio::Menu::new();
@@ -449,7 +449,7 @@ GNOME 43 platform.",
                                 if let Ok(trigger) = trigger.downcast::<gtk::KeyvalTrigger>() {
                                     match trigger.keyval() {
                                         gdk::Key::plus | gdk::Key::minus => {
-                                            shortcut.set_trigger(None::<&gtk::ShortcutTrigger>);
+                                            shortcut.set_trigger(None::<gtk::ShortcutTrigger>);
                                         }
                                         _ => (),
                                     }
@@ -544,7 +544,7 @@ GNOME 43 platform.",
             use gst::MessageView;
             match msg.view() {
                 MessageView::StateChanged(state_changed)
-                    if state_changed.src().as_ref() == Some(pipeline.upcast_ref()) =>
+                    if state_changed.src() == Some(pipeline.upcast_ref()) =>
                 {
                     debug!(
                         "bus: StateChanged old: {:?}, current: {:?}, pending: {:?}",
@@ -585,7 +585,9 @@ GNOME 43 platform.",
                     // it from the pipeline. Note that find_immediate_child() can fail if an element
                     // throws multiple errors at once since playbin will be removed from the
                     // pipeline the first time around.
-                    if let Some(playbin) = err.src().and_then(|obj| self.find_immediate_child(obj))
+                    if let Some(playbin) = err
+                        .src()
+                        .and_then(|obj| self.find_immediate_child(obj.clone()))
                     {
                         let playbin = playbin
                             .downcast::<gst::Element>()
@@ -1354,7 +1356,7 @@ impl Window {
             .action(gtk::FileChooserAction::Open)
             .select_multiple(true)
             // Translators: file chooser dialog title.
-            .title(&gettext("Open videos or images to compare"))
+            .title(gettext("Open videos or images to compare"))
             .build();
 
         file_chooser.add_filter(&filter);

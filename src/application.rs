@@ -61,8 +61,7 @@ mod imp {
                 gio::ActionEntry::builder("new-window")
                     .activate(|obj: &Self::Type, _, _| drop(obj.open_new_window()))
                     .build(),
-            ])
-            .unwrap();
+            ]);
 
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
             obj.set_accels_for_action("app.new-window", &["<primary>n"]);

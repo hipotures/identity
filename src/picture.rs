@@ -113,7 +113,7 @@ mod imp {
             motion_controller.connect_leave(clone!(@weak obj => move |_| {
                 obj.imp().pointer_position.set(None);
             }));
-            obj.add_controller(&motion_controller);
+            obj.add_controller(motion_controller);
 
             // Set up scroll to zoom.
             let scroll_controller =
@@ -139,7 +139,7 @@ mod imp {
                     gtk::Inhibit(false)
                 }),
             );
-            obj.add_controller(&scroll_controller);
+            obj.add_controller(scroll_controller);
 
             let gesture_zoom = gtk::GestureZoom::new();
             gesture_zoom.connect_begin(clone!(@weak obj => move |gesture, _| {
@@ -168,7 +168,7 @@ mod imp {
             gesture_zoom.connect_end(clone!(@weak obj => move |_, _| {
                 obj.imp().zoom_initial_scale.set(None);
             }));
-            obj.add_controller(&gesture_zoom);
+            obj.add_controller(gesture_zoom);
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

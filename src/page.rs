@@ -472,7 +472,7 @@ mod imp {
                         break false;
                     }
                     gst::MessageView::StateChanged(state_changed)
-                        if state_changed.src().as_ref() == Some(playbin.upcast_ref()) =>
+                        if state_changed.src() == Some(playbin.upcast_ref()) =>
                     {
                         debug!(
                             "preroll: playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
@@ -493,7 +493,7 @@ mod imp {
                         debug!("tags: {tags:?}");
 
                         for (name, value) in tags.iter() {
-                            match name {
+                            match name.as_str() {
                                 "video-codec" => match value.get() {
                                     Ok(value) => {
                                         self.video_codec.replace(Some(value));
