@@ -835,9 +835,9 @@ GNOME 43 platform.",
                 minutes %= 60;
 
                 let time = if hours == 0 {
-                    format!("{}:{:02}", minutes, seconds)
+                    format!("{minutes}:{seconds:02}")
                 } else {
-                    format!("{}:{:02}:{:02}", hours, minutes, seconds)
+                    format!("{hours}:{minutes:02}:{seconds:02}")
                 };
 
                 self.time_label.set_label(&time);
