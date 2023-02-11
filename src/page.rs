@@ -1,4 +1,3 @@
-use glib::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
@@ -6,25 +5,26 @@ use crate::picture::ScaleRequest;
 
 mod imp {
     use std::cell::{Cell, RefCell};
+    use std::marker::PhantomData;
     use std::time::Instant;
 
     use adw::subclass::prelude::*;
     use futures_util::StreamExt;
     use gettextrs::gettext;
-    use glib::{clone, debug, error, warn};
+    use glib::{clone, debug, error, warn, Properties};
     use gst::prelude::*;
     use gst_video::VideoOrientationMethod;
     use gtk::prelude::*;
     use gtk::{gdk, CompositeTemplate};
-    use once_cell::sync::Lazy;
     use once_cell::unsync::OnceCell;
 
     use super::*;
     use crate::picture::Picture;
     use crate::G_LOG_DOMAIN;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/page.ui")]
+    #[properties(wrapper_type = super::Page)]
     pub struct Page {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
@@ -33,14 +33,47 @@ mod imp {
         #[template_child]
         scrolled_window: TemplateChild<gtk::ScrolledWindow>,
 
+        #[property(get, set, construct_only)]
         file: OnceCell<gio::File>,
-        playbin: OnceCell<gst::Element>,
-        display_name: OnceCell<String>,
+        #[property(get = Self::path)]
+        path: PhantomData<Option<String>>,
+        #[property(
+            get = |_| self.picture.scale_request(),
+            set = |_, val: ScaleRequest| self.picture.set_scale_request(val),
+            minimum = 0.,
+            maximum = 10.,
+        )]
+        scale_request: PhantomData<ScaleRequest>,
+        #[property(get = |_| self.picture.scale())]
+        scale: PhantomData<f64>,
+        #[property(
+            get = |_| self.picture.h_scroll_pos(),
+            set = |_, val: f64| self.picture.set_h_scroll_pos(val),
+        )]
+        h_scroll_pos: PhantomData<f64>,
+        #[property(
+            get = |_| self.picture.v_scroll_pos(),
+            set = |_, val: f64| self.picture.set_v_scroll_pos(val),
+        )]
+        v_scroll_pos: PhantomData<f64>,
+        // This can be a OnceCell<gst::Element>, but then #[property] assumes it's not nullable.
+        #[property(get)]
+        playbin: RefCell<Option<gst::Element>>,
+        // This can be a OnceCell<String>, but then #[property] assumes it's not nullable.
+        #[property(get = Self::display_name)]
+        display_name: RefCell<Option<glib::GString>>,
+        #[property(get, default_value = true)]
         is_loading: Cell<bool>,
+        #[property(get)]
         is_error: Cell<bool>,
+        #[property(get, minimum = 0.)]
         framerate: Cell<f32>,
+        #[property(get)]
         video_codec: RefCell<Option<String>>,
+        #[property(get)]
         container_format: RefCell<Option<String>>,
+        #[property(get = Self::resolution)]
+        resolution: PhantomData<String>,
 
         constructed_at: OnceCell<Instant>,
     }
@@ -64,146 +97,15 @@ mod imp {
 
     impl ObjectImpl for Page {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 14]> = Lazy::new(|| {
-                [
-                    glib::ParamSpecObject::builder::<gio::File>("file")
-                        .construct_only()
-                        .build(),
-                    glib::ParamSpecString::builder("display-name")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("path")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("is-loading")
-                        .default_value(true)
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("is-error")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<gst::Element>("playbin")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecDouble::builder("scale-request")
-                        .minimum(0.)
-                        .maximum(10.)
-                        .build(),
-                    glib::ParamSpecDouble::builder("scale")
-                        .minimum(0.)
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecDouble::builder("h-scroll-pos")
-                        .minimum(0.)
-                        .maximum(1.)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecDouble::builder("v-scroll-pos")
-                        .minimum(0.)
-                        .maximum(1.)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("resolution")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecFloat::builder("framerate")
-                        .minimum(0.)
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("video-codec")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("container-format")
-                        .read_only()
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "file" => {
-                    let file: gio::File = value
-                        .get()
-                        .expect("tried to set `file` property to an invalid value");
-                    self.file
-                        .set(file)
-                        .expect("tried to set `file` more than once");
-                }
-                "scale-request" => self.picture.set_property("scale-request", value),
-                "h-scroll-pos" => {
-                    let value: f64 = value.get().expect("invalid `h-scroll-pos` value type");
-                    self.set_h_scroll_pos(value);
-                }
-                "v-scroll-pos" => {
-                    let value: f64 = value.get().expect("invalid `v-scroll-pos` value type");
-                    self.set_v_scroll_pos(value);
-                }
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec)
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "file" => self.file.get().to_value(),
-                "playbin" => self.playbin().to_value(),
-                "display-name" => {
-                    if let Some(display_name) = self.display_name.get() {
-                        display_name.to_value()
-                    } else {
-                        self.file.get().map(|file| file.uri()).to_value()
-                    }
-                }
-                "path" => self
-                    .file
-                    .get()
-                    .map(|file| {
-                        file.path()
-                            .map(|path| path.to_string_lossy().into_owned())
-                            .unwrap_or_else(|| file.uri().into())
-                    })
-                    .to_value(),
-                "is-loading" => self.is_loading.get().to_value(),
-                "is-error" => self.is_error().to_value(),
-                "scale-request" => self.picture.property("scale-request"),
-                "scale" => self.picture.property("scale"),
-                "h-scroll-pos" => self.h_scroll_pos().to_value(),
-                "v-scroll-pos" => self.v_scroll_pos().to_value(),
-                "resolution" => self
-                    .picture
-                    .paintable()
-                    .and_then(|p| {
-                        let width = p.intrinsic_width();
-                        let height = p.intrinsic_height();
-                        if width != 0 && height != 0 {
-                            // Translators: Pixel-resolution format string for the media properties
-                            // window. `{}` are replaced with pixel width and height. For example,
-                            // 1920 × 1080.
-                            Some(gettext!("{} × {}", width, height))
-                        } else {
-                            None
-                        }
-                    })
-                    // Translators: "Not applicable" string for the media properties dialog when a
-                    // given property is unknown or missing (e.g. images don't have frame rate).
-                    .unwrap_or_else(|| gettext("N/A"))
-                    .to_value(),
-                "framerate" => self.framerate.get().to_value(),
-                "video-codec" => self.video_codec.borrow().to_value(),
-                "container-format" => self.container_format.borrow().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -225,7 +127,7 @@ mod imp {
         }
 
         fn dispose(&self) {
-            if let Some(playbin) = self.playbin.get() {
+            if let Some(playbin) = &*self.playbin.borrow() {
                 let _ = playbin.set_state(gst::State::Null);
             }
         }
@@ -236,12 +138,20 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl Page {
-        pub fn playbin(&self) -> Option<&gst::Element> {
-            self.playbin.get()
+        fn path(&self) -> Option<String> {
+            self.file.get().map(|file| {
+                file.path()
+                    .map(|path| path.to_string_lossy().into_owned())
+                    .unwrap_or_else(|| file.uri().into())
+            })
         }
 
-        pub fn is_error(&self) -> bool {
-            self.is_error.get()
+        fn display_name(&self) -> Option<glib::GString> {
+            if let Some(display_name) = &*self.display_name.borrow() {
+                Some(display_name.clone())
+            } else {
+                self.file.get().map(|file| file.uri())
+            }
         }
 
         pub fn set_error(&self) {
@@ -255,43 +165,35 @@ mod imp {
             let _guard = obj.freeze_notify();
 
             self.is_error.set(true);
-            obj.notify("is-error");
+            obj.notify_is_error();
 
             self.stack.set_visible_child_name("error");
 
-            if let Some(playbin) = self.playbin.get() {
+            if let Some(playbin) = &*self.playbin.borrow() {
                 if let Err(err) = playbin.set_state(gst::State::Null) {
                     warn!("error setting playbin state to Null: {err:?}");
                 }
             }
         }
 
-        pub fn scale_request(&self) -> ScaleRequest {
-            self.picture.scale_request()
-        }
-
-        pub fn set_scale_request(&self, scale_request: ScaleRequest) {
-            self.picture.set_scale_request(scale_request);
-        }
-
-        pub fn scale(&self) -> f64 {
-            self.picture.scale()
-        }
-
-        pub fn h_scroll_pos(&self) -> f64 {
-            self.picture.h_scroll_pos()
-        }
-
-        pub fn set_h_scroll_pos(&self, value: f64) {
-            self.picture.set_h_scroll_pos(value);
-        }
-
-        pub fn v_scroll_pos(&self) -> f64 {
-            self.picture.v_scroll_pos()
-        }
-
-        pub fn set_v_scroll_pos(&self, value: f64) {
-            self.picture.set_v_scroll_pos(value);
+        fn resolution(&self) -> String {
+            self.picture
+                .paintable()
+                .and_then(|p| {
+                    let width = p.intrinsic_width();
+                    let height = p.intrinsic_height();
+                    if width != 0 && height != 0 {
+                        // Translators: Pixel-resolution format string for the media properties
+                        // window. `{}` are replaced with pixel width and height. For example,
+                        // 1920 × 1080.
+                        Some(gettext!("{} × {}", width, height))
+                    } else {
+                        None
+                    }
+                })
+                // Translators: "Not applicable" string for the media properties dialog when a
+                // given property is unknown or missing (e.g. images don't have frame rate).
+                .unwrap_or_else(|| gettext("N/A"))
         }
 
         pub fn reset_kinetic_scrolling(&self) {
@@ -324,10 +226,8 @@ mod imp {
                 }
             };
 
-            self.display_name
-                .set(name.into())
-                .expect("`display_name` set more than once");
-            self.obj().notify("display-name");
+            assert_eq!(self.display_name.replace(Some(name)), None);
+            self.obj().notify_display_name();
         }
 
         async fn prepare_playbin(&self) {
@@ -342,7 +242,7 @@ mod imp {
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
             paintable.connect_invalidate_size(clone!(@weak obj => move |_| {
-                obj.notify("resolution");
+                obj.notify_resolution();
             }));
             self.picture.set_paintable(Some(paintable));
 
@@ -386,13 +286,11 @@ mod imp {
                         .elapsed()
                 );
 
-                self.playbin
-                    .set(playbin)
-                    .expect("trying to set `playbin` more than once");
-                obj.notify("playbin");
+                assert_eq!(self.playbin.replace(Some(playbin)), None);
+                obj.notify_playbin();
 
                 self.is_loading.set(false);
-                obj.notify("is-loading");
+                obj.notify_is_loading();
 
                 if let Some(sink_pad) = sink.static_pad("sink") {
                     if let Some(caps) = sink_pad.current_caps() {
@@ -407,7 +305,7 @@ mod imp {
                                             self.framerate.set(
                                                 framerate.numer() as f32 / framerate.denom() as f32,
                                             );
-                                            obj.notify("framerate");
+                                            obj.notify_framerate();
                                         }
                                     }
                                     Err(err) => warn!("error getting framerate cap: {err:?}"),
@@ -430,10 +328,10 @@ mod imp {
                 let _guard = obj.freeze_notify();
 
                 self.is_loading.set(false);
-                obj.notify("is-loading");
+                obj.notify_is_loading();
 
                 self.is_error.set(true);
-                obj.notify("is-error");
+                obj.notify_is_error();
 
                 self.stack.set_visible_child_name("error");
             }
@@ -497,14 +395,14 @@ mod imp {
                                 "video-codec" => match value.get() {
                                     Ok(value) => {
                                         self.video_codec.replace(Some(value));
-                                        self.obj().notify("video-codec");
+                                        self.obj().notify_video_codec();
                                     }
                                     Err(err) => warn!("error retrieving tag value: {err:?}"),
                                 },
                                 "container-format" => match value.get() {
                                     Ok(value) => {
                                         self.container_format.replace(Some(value));
-                                        self.obj().notify("container-format");
+                                        self.obj().notify_container_format();
                                     }
                                     Err(err) => warn!("error retrieving tag value: {err:?}"),
                                 },
@@ -529,64 +427,28 @@ impl Page {
         glib::Object::builder().property("file", file).build()
     }
 
-    pub fn playbin(&self) -> Option<&gst::Element> {
-        self.imp().playbin()
-    }
-
-    pub fn is_error(&self) -> bool {
-        self.imp().is_error()
-    }
-
     pub fn set_error(&self) {
         self.imp().set_error();
     }
 
-    pub fn scale_request(&self) -> ScaleRequest {
-        self.imp().scale_request()
-    }
-
-    pub fn set_scale_request(&self, scale_request: ScaleRequest) {
-        self.imp().set_scale_request(scale_request);
-    }
-
-    pub fn scale(&self) -> f64 {
-        self.imp().scale()
-    }
-
     #[template_callback]
     fn on_scale_request_changed(&self) {
-        self.notify("scale-request");
+        self.notify_scale_request();
     }
 
     #[template_callback]
     fn on_scale_changed(&self) {
-        self.notify("scale");
-    }
-
-    pub fn h_scroll_pos(&self) -> f64 {
-        self.imp().h_scroll_pos()
-    }
-
-    pub fn set_h_scroll_pos(&self, value: f64) {
-        self.imp().set_h_scroll_pos(value);
+        self.notify_scale();
     }
 
     #[template_callback]
     fn on_h_scroll_pos_notify(&self) {
-        self.notify("h-scroll-pos");
-    }
-
-    pub fn v_scroll_pos(&self) -> f64 {
-        self.imp().v_scroll_pos()
-    }
-
-    pub fn set_v_scroll_pos(&self, value: f64) {
-        self.imp().set_v_scroll_pos(value);
+        self.notify_h_scroll_pos();
     }
 
     #[template_callback]
     fn on_v_scroll_pos_notify(&self) {
-        self.notify("v-scroll-pos");
+        self.notify_v_scroll_pos();
     }
 
     pub fn reset_kinetic_scrolling(&self) {

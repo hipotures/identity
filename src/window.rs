@@ -81,14 +81,14 @@ const MIME_TYPES: &[&str] = &[
 mod imp {
     use std::cell::Cell;
     use std::collections::HashMap;
+    use std::marker::PhantomData;
     use std::time::Duration;
 
     use adw::subclass::prelude::*;
-    use glib::{clone, closure, error, SignalHandlerId, SourceId};
+    use glib::{clone, closure, error, Properties, SignalHandlerId, SourceId};
     use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::{glib, CompositeTemplate};
-    use once_cell::sync::Lazy;
     use once_cell::unsync::OnceCell;
 
     use super::*;
@@ -98,8 +98,9 @@ mod imp {
     use crate::page::Page;
     use crate::picture::ScaleRequest;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/window.ui")]
+    #[properties(wrapper_type = super::Window)]
     pub struct Window {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
@@ -132,8 +133,21 @@ mod imp {
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         scale_binding: RefCell<Option<glib::Binding>>,
+        #[property(get, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
         scale_request_notify_id: RefCell<Option<SignalHandlerId>>,
+
+        #[property(
+            get = |_| self.scale_request.get() == ScaleRequest::FitToAllocation,
+            set = |_, val: bool| self.set_scale_request(if val {
+                ScaleRequest::FitToAllocation
+            } else {
+                ScaleRequest::Set(1.)
+            }),
+            default_value = true,
+            explicit_notify,
+        )]
+        best_fit: PhantomData<bool>,
 
         h_scroll_pos: Cell<f64>,
         v_scroll_pos: Cell<f64>,
@@ -197,11 +211,11 @@ mod imp {
                 "win.set-scale-request",
                 Some(f64::static_variant_type().as_str()),
                 |obj, _, param| {
-                    let value = param
+                    let value: f64 = param
                         .expect("missing parameter")
                         .get()
                         .expect("wrong parameter type");
-                    obj.imp().set_scale_request(ScaleRequest::from_value(value));
+                    obj.imp().set_scale_request(ScaleRequest::from(value));
                 },
             );
 
@@ -479,49 +493,15 @@ GNOME 43 platform.",
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 2]> = Lazy::new(|| {
-                [
-                    glib::ParamSpecDouble::builder("scale-request")
-                        .minimum(0.)
-                        .maximum(10.)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("best-fit")
-                        .default_value(true)
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "scale-request" => {
-                    let value: f64 = value.get().expect("invalid `scale-request` value type");
-                    self.set_scale_request(ScaleRequest::from_value(value));
-                }
-                "best-fit" => {
-                    let best_fit: bool = value.get().expect("invalid `best-fit` value type");
-                    self.set_scale_request(if best_fit {
-                        ScaleRequest::FitToAllocation
-                    } else {
-                        ScaleRequest::Set(1.)
-                    });
-                }
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "scale-request" => self.scale_request.get().into_value().to_value(),
-                "best-fit" => {
-                    (self.scale_request.get() == ScaleRequest::FitToAllocation).to_value()
-                }
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
@@ -633,7 +613,7 @@ GNOME 43 platform.",
                 let page = page
                     .downcast::<Page>()
                     .expect("unexpected widget type in tab view");
-                if page.playbin() == Some(playbin) {
+                if page.playbin().as_ref() == Some(playbin) {
                     return Some(page);
                 }
             }
@@ -943,14 +923,14 @@ GNOME 43 platform.",
                 self.stack.set_visible_child_name("content");
                 self.obj().present_if_not_visible();
             } else if let Some(playbin) = page.playbin() {
-                self.attach_playbin(playbin);
+                self.attach_playbin(&playbin);
             } else {
                 let obj = self.obj();
                 let id = page.connect_notify_local(
                     Some("is-loading"),
                     clone!(@weak obj => move |page, _| {
                         if let Some(playbin) = page.playbin() {
-                            obj.imp().attach_playbin(playbin);
+                            obj.imp().attach_playbin(&playbin);
                         } else {
                             // attach_playbin does this for us in the good case.
                             obj.imp().stack.set_visible_child_name("content");
@@ -984,7 +964,7 @@ GNOME 43 platform.",
                 .expect("tab page child has wrong type");
 
             if let Some(playbin) = page.playbin() {
-                self.detach_playbin(playbin);
+                self.detach_playbin(&playbin);
             } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
                 page.disconnect(id);
             }
@@ -1109,8 +1089,8 @@ GNOME 43 platform.",
                     Some("scale-request"),
                     clone!(@weak obj => move |page, _| {
                         obj.imp().scale_request.set(page.scale_request());
-                        obj.notify("scale-request");
-                        obj.notify("best-fit");
+                        obj.notify_scale_request();
+                        obj.notify_best_fit();
                     }),
                 );
                 self.scale_request_notify_id.replace(Some(id));
@@ -1145,8 +1125,7 @@ GNOME 43 platform.",
             }
 
             self.scale_request.set(scale_request);
-            self.obj().notify("scale-request");
-            self.obj().notify("best-fit");
+            self.obj().notify_best_fit();
 
             if let Some(tab_page) = self.tab_view.selected_page() {
                 let page = tab_page
@@ -1176,7 +1155,7 @@ GNOME 43 platform.",
                 None => return,
             };
 
-            self.set_scale_request(ScaleRequest::from_value(scale));
+            self.set_scale_request(ScaleRequest::from(scale));
         }
 
         fn zoom_in(&self) {
@@ -1189,7 +1168,7 @@ GNOME 43 platform.",
                 let scale = page.scale();
                 if scale != 0. {
                     let new_scale = scale + 0.25;
-                    self.set_scale_request(ScaleRequest::from_value(new_scale));
+                    self.set_scale_request(ScaleRequest::from(new_scale));
                 }
             }
         }
@@ -1205,7 +1184,7 @@ GNOME 43 platform.",
                 if scale != 0. {
                     // Max with 0.1 here so it doesn't become 0 (fit to allocation).
                     let new_scale = (scale - 0.25).max(0.1);
-                    self.set_scale_request(ScaleRequest::from_value(new_scale));
+                    self.set_scale_request(ScaleRequest::from(new_scale));
                 }
             }
         }

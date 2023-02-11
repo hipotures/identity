@@ -8,20 +8,51 @@ pub enum ScaleRequest {
     Set(f64),
 }
 
-impl ScaleRequest {
-    pub fn from_value(value: f64) -> Self {
+impl From<f64> for ScaleRequest {
+    fn from(value: f64) -> Self {
         if value == 0. {
             ScaleRequest::FitToAllocation
         } else {
             ScaleRequest::Set(value.clamp(0., 10.))
         }
     }
+}
 
-    pub fn into_value(self) -> f64 {
-        match self {
+impl glib::HasParamSpec for ScaleRequest {
+    type ParamSpec = glib::ParamSpecDouble;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecDoubleBuilder;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
+    }
+}
+
+impl From<ScaleRequest> for glib::Value {
+    fn from(value: ScaleRequest) -> Self {
+        value.to_value()
+    }
+}
+
+impl glib::ToValue for ScaleRequest {
+    fn to_value(&self) -> glib::Value {
+        match *self {
             ScaleRequest::FitToAllocation => 0.,
             ScaleRequest::Set(scale) => scale,
         }
+        .to_value()
+    }
+
+    fn value_type(&self) -> glib::Type {
+        f64::static_type()
+    }
+}
+
+unsafe impl<'a> glib::value::FromValue<'a> for ScaleRequest {
+    type Checker = glib::value::GenericValueTypeChecker<f64>;
+
+    unsafe fn from_value(value: &'a glib::Value) -> Self {
+        f64::from_value(value).into()
     }
 }
 
@@ -33,22 +64,25 @@ impl Default for ScaleRequest {
 
 mod imp {
     use std::cell::{Cell, RefCell};
+    use std::marker::PhantomData;
 
-    use glib::clone;
+    use glib::{clone, Properties};
     use gtk::graphene;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
-    use once_cell::sync::Lazy;
 
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::Picture)]
     pub struct Picture {
         paintable: RefCell<Option<gdk::Paintable>>,
         invalidate_size_id: RefCell<Option<glib::SignalHandlerId>>,
         invalidate_contents_id: RefCell<Option<glib::SignalHandlerId>>,
 
+        #[property(get, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
+        #[property(get)]
         scale: Cell<f64>,
 
         // These two properties contain a normalized scroll position. They range from 0 to 1, which
@@ -66,11 +100,38 @@ mod imp {
         // scale factor when the picture is scrolled up-left will preserve this up-left scroll
         // position, and resizing the window or changing the scale factor when the picture is
         // scrolled down-right will also preserve this down-right scroll position.
+        #[property(get, set = Self::set_h_scroll_pos, minimum = 0., maximum = 1., explicit_notify)]
         h_scroll_pos: Cell<f64>,
+        #[property(get, set = Self::set_v_scroll_pos, minimum = 0., maximum = 1., explicit_notify)]
         v_scroll_pos: Cell<f64>,
 
+        #[property(
+            type = Option<gtk::Adjustment>,
+            override_interface = gtk::Scrollable,
+            get = |_| self.hadjustment.borrow().as_ref().map(|x| x.0.clone()),
+            set = Self::set_hadjustment,
+        )]
         hadjustment: RefCell<Option<(gtk::Adjustment, glib::SignalHandlerId)>>,
+        #[property(
+            type = Option<gtk::Adjustment>,
+            override_interface = gtk::Scrollable,
+            get = |_| self.vadjustment.borrow().as_ref().map(|x| x.0.clone()),
+            set = Self::set_vadjustment,
+        )]
         vadjustment: RefCell<Option<(gtk::Adjustment, glib::SignalHandlerId)>>,
+
+        #[property(
+            override_interface = gtk::Scrollable,
+            get = |_| gtk::ScrollablePolicy::Minimum,
+            set = |_, _: gtk::ScrollablePolicy| (),
+        )]
+        hscroll_policy: PhantomData<gtk::ScrollablePolicy>,
+        #[property(
+            override_interface = gtk::Scrollable,
+            get = |_| gtk::ScrollablePolicy::Minimum,
+            set = |_, _: gtk::ScrollablePolicy| (),
+        )]
+        vscroll_policy: PhantomData<gtk::ScrollablePolicy>,
 
         zoom_initial_scale: Cell<Option<f64>>,
         zoom_pivot_image_pos: Cell<Option<(f64, f64)>>,
@@ -172,71 +233,15 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 8]> = Lazy::new(|| {
-                [
-                    glib::ParamSpecDouble::builder("scale-request")
-                        .minimum(0.)
-                        .maximum(10.)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecDouble::builder("scale")
-                        .minimum(0.)
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecDouble::builder("h-scroll-pos")
-                        .minimum(0.)
-                        .maximum(1.)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecDouble::builder("v-scroll-pos")
-                        .minimum(0.)
-                        .maximum(1.)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("hadjustment"),
-                    glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("vadjustment"),
-                    glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("hscroll-policy"),
-                    glib::ParamSpecOverride::for_interface::<gtk::Scrollable>("vscroll-policy"),
-                ]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "scale-request" => {
-                    let value: f64 = value.get().expect("invalid `scale-request` value type");
-                    self.set_scale_request(ScaleRequest::from_value(value));
-                }
-                "h-scroll-pos" => {
-                    let value: f64 = value.get().expect("invalid `h-scroll-pos` value type");
-                    self.set_h_scroll_pos(value);
-                }
-                "v-scroll-pos" => {
-                    let value: f64 = value.get().expect("invalid `v-scroll-pos` value type");
-                    self.set_v_scroll_pos(value);
-                }
-                "hadjustment" => self.set_hadjustment(value.get().unwrap()),
-                "vadjustment" => self.set_vadjustment(value.get().unwrap()),
-                "hscroll-policy" => (),
-                "vscroll-policy" => (),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "scale-request" => self.scale_request().into_value().to_value(),
-                "scale" => self.scale().to_value(),
-                "h-scroll-pos" => self.h_scroll_pos().to_value(),
-                "v-scroll-pos" => self.v_scroll_pos().to_value(),
-                "hadjustment" => self.hadjustment.borrow().as_ref().map(|x| &x.0).to_value(),
-                "vadjustment" => self.vadjustment.borrow().as_ref().map(|x| &x.0).to_value(),
-                "hscroll-policy" => gtk::ScrollablePolicy::Minimum.to_value(),
-                "vscroll-policy" => gtk::ScrollablePolicy::Minimum.to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
@@ -389,17 +394,13 @@ mod imp {
             obj.queue_resize();
         }
 
-        pub fn scale_request(&self) -> ScaleRequest {
-            self.scale_request.get()
-        }
-
         pub fn update_scale_request(&self, scale_request: ScaleRequest) {
             let obj = self.obj();
 
             if self.scale_request.get() != scale_request {
                 self.scale_request.set(scale_request);
                 obj.queue_resize();
-                obj.notify("scale-request");
+                obj.notify_scale_request();
             }
         }
 
@@ -418,15 +419,11 @@ mod imp {
             }
         }
 
-        pub fn scale(&self) -> f64 {
-            self.scale.get()
-        }
-
         fn update_scale(&self, width: i32, height: i32, scale_factor: i32) {
             let scale = self.compute_scale(width, height, scale_factor);
             if self.scale.get() != scale {
                 self.scale.set(scale);
-                self.obj().notify("scale");
+                self.obj().notify_scale();
             }
         }
 
@@ -458,22 +455,14 @@ mod imp {
             }) * scale_factor as f64
         }
 
-        pub fn h_scroll_pos(&self) -> f64 {
-            self.h_scroll_pos.get()
-        }
-
         pub fn set_h_scroll_pos(&self, mut value: f64) {
             value = value.clamp(0., 1.);
 
             if self.h_scroll_pos.get() != value {
                 self.h_scroll_pos.set(value);
-                self.obj().notify("h-scroll-pos");
+                self.obj().notify_h_scroll_pos();
                 self.obj().queue_allocate();
             }
-        }
-
-        pub fn v_scroll_pos(&self) -> f64 {
-            self.v_scroll_pos.get()
         }
 
         pub fn set_v_scroll_pos(&self, mut value: f64) {
@@ -481,7 +470,7 @@ mod imp {
 
             if self.v_scroll_pos.get() != value {
                 self.v_scroll_pos.set(value);
-                self.obj().notify("v-scroll-pos");
+                self.obj().notify_v_scroll_pos();
                 self.obj().queue_allocate();
             }
         }
@@ -529,7 +518,7 @@ mod imp {
             if let Some((adj, handler_id)) = &*adj {
                 adj.block_signal(handler_id);
                 adj.configure(
-                    self.h_scroll_pos() * (content_width - width) as f64,
+                    self.h_scroll_pos.get() * (content_width - width) as f64,
                     0.,
                     content_width as f64,
                     width as f64 * 0.1,
@@ -543,7 +532,7 @@ mod imp {
             if let Some((adj, handler_id)) = &*adj {
                 adj.block_signal(handler_id);
                 adj.configure(
-                    self.v_scroll_pos() * (content_height - height) as f64,
+                    self.v_scroll_pos.get() * (content_height - height) as f64,
                     0.,
                     content_height as f64,
                     height as f64 * 0.1,
@@ -622,12 +611,12 @@ mod imp {
             let content_x = if w < widget_width as f64 {
                 ((widget_width as f64 - w) / 2.).floor()
             } else {
-                -(self.h_scroll_pos() * (w.ceil() as i32 - widget_width) as f64)
+                -(self.h_scroll_pos.get() * (w.ceil() as i32 - widget_width) as f64)
             };
             let content_y = if h < widget_height as f64 {
                 ((widget_height as f64 - h) / 2.).floor()
             } else {
-                -(self.v_scroll_pos() * (h.ceil() as i32 - widget_height) as f64)
+                -(self.v_scroll_pos.get() * (h.ceil() as i32 - widget_height) as f64)
             };
 
             let x = (pointer_x - content_x) * (paintable_width as f64 / w);
@@ -641,13 +630,13 @@ mod imp {
             let pivot_pointer_pos = pivot_pointer_pos
                 .unwrap_or_else(|| (obj.width() as f64 / 2., obj.height() as f64 / 2.));
             self.zoom_pivot_image_pos
-                .set(self.image_pos_for_pointer_pos(pivot_pointer_pos, self.scale()));
+                .set(self.image_pos_for_pointer_pos(pivot_pointer_pos, self.scale.get()));
         }
 
         fn zoom_update(&self, pivot_pointer_pos: Option<(f64, f64)>, new_scale: f64) {
             let obj = self.obj();
 
-            self.update_scale_request(ScaleRequest::from_value(new_scale));
+            self.update_scale_request(ScaleRequest::from(new_scale));
 
             let (image_x, image_y) = match self.zoom_pivot_image_pos.get() {
                 Some(x) => x,
@@ -683,12 +672,12 @@ mod imp {
 
             if (obj.width() as f64) < content_w {
                 let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
-                self.set_h_scroll_pos(self.h_scroll_pos() - image_dx_norm / h_scroll_pos_frac);
+                self.set_h_scroll_pos(self.h_scroll_pos.get() - image_dx_norm / h_scroll_pos_frac);
             }
 
             if (obj.height() as f64) < content_h {
                 let v_scroll_pos_frac = 1. - obj.height() as f64 / content_h;
-                self.set_v_scroll_pos(self.v_scroll_pos() - image_dy_norm / v_scroll_pos_frac);
+                self.set_v_scroll_pos(self.v_scroll_pos.get() - image_dy_norm / v_scroll_pos_frac);
             }
         }
     }
@@ -719,34 +708,6 @@ impl Picture {
 
     pub fn set_paintable(&self, paintable: Option<impl IsA<gdk::Paintable>>) {
         self.imp().set_paintable(paintable);
-    }
-
-    pub fn scale_request(&self) -> ScaleRequest {
-        self.imp().scale_request()
-    }
-
-    pub fn set_scale_request(&self, scale_request: ScaleRequest) {
-        self.imp().set_scale_request(scale_request);
-    }
-
-    pub fn scale(&self) -> f64 {
-        self.imp().scale()
-    }
-
-    pub fn h_scroll_pos(&self) -> f64 {
-        self.imp().h_scroll_pos()
-    }
-
-    pub fn set_h_scroll_pos(&self, value: f64) {
-        self.imp().set_h_scroll_pos(value);
-    }
-
-    pub fn v_scroll_pos(&self) -> f64 {
-        self.imp().v_scroll_pos()
-    }
-
-    pub fn set_v_scroll_pos(&self, value: f64) {
-        self.imp().set_v_scroll_pos(value);
     }
 }
 

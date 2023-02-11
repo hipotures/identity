@@ -1,17 +1,20 @@
 use gtk::{gio, glib};
 
 mod imp {
+    use std::marker::PhantomData;
+
     use adw::prelude::*;
     use adw::subclass::prelude::*;
+    use glib::Properties;
     use gtk::gdk::{Key, ModifierType};
     use gtk::CompositeTemplate;
-    use once_cell::sync::Lazy;
 
     use super::*;
     use crate::config;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/media_properties.ui")]
+    #[properties(wrapper_type = super::MediaProperties)]
     pub struct MediaProperties {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
@@ -27,6 +30,45 @@ mod imp {
         codec_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         container_row: TemplateChild<adw::ActionRow>,
+
+        #[property(
+            get = |_| self.stack.visible_child_name().unwrap() == "empty",
+            set = |_, val: bool| {
+                let name = if val { "empty" } else { "content" };
+                self.stack.set_visible_child_name(name);
+            },
+        )]
+        show_empty_state: PhantomData<bool>,
+        #[property(
+            get = |_| self.file_name_row.subtitle(),
+            set = |_, val: Option<&str>| self.file_name_row.set_subtitle(val.unwrap_or("")),
+        )]
+        file_name: PhantomData<Option<glib::GString>>,
+        #[property(
+            get = |_| self.file_location_row.subtitle(),
+            set = |_, val: Option<&str>| self.file_location_row.set_subtitle(val.unwrap_or("")),
+        )]
+        file_location: PhantomData<Option<glib::GString>>,
+        #[property(
+            get = |_| self.resolution_row.subtitle(),
+            set = |_, val: Option<&str>| self.resolution_row.set_subtitle(val.unwrap_or("")),
+        )]
+        resolution: PhantomData<Option<glib::GString>>,
+        #[property(
+            get = |_| self.frame_rate_row.subtitle(),
+            set = |_, val: Option<&str>| self.frame_rate_row.set_subtitle(val.unwrap_or("")),
+        )]
+        frame_rate: PhantomData<Option<glib::GString>>,
+        #[property(
+            get = |_| self.codec_row.subtitle(),
+            set = |_, val: Option<&str>| self.codec_row.set_subtitle(val.unwrap_or("")),
+        )]
+        codec: PhantomData<Option<glib::GString>>,
+        #[property(
+            get = |_| self.container_row.subtitle(),
+            set = |_, val: Option<&str>| self.container_row.set_subtitle(val.unwrap_or("")),
+        )]
+        container: PhantomData<Option<glib::GString>>,
     }
 
     #[glib::object_subclass]
@@ -56,74 +98,15 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<[glib::ParamSpec; 7]> = Lazy::new(|| {
-                [
-                    glib::ParamSpecBoolean::builder("show-empty-state")
-                        .default_value(true)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("file-name")
-                        .default_value("")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("file-location")
-                        .default_value("")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("resolution")
-                        .default_value("")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("frame-rate")
-                        .default_value("")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("codec")
-                        .default_value("")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("container")
-                        .default_value("")
-                        .explicit_notify()
-                        .build(),
-                ]
-            });
-
-            PROPERTIES.as_ref()
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "show-empty-state" => {
-                    let value: bool = value.get().unwrap();
-                    let name = if value { "empty" } else { "content" };
-                    self.stack.set_visible_child_name(name);
-                }
-                "file-name" => self.file_name_row.set_subtitle(value.get().unwrap_or("")),
-                "file-location" => self
-                    .file_location_row
-                    .set_subtitle(value.get().unwrap_or("")),
-                "resolution" => self.resolution_row.set_subtitle(value.get().unwrap_or("")),
-                "frame-rate" => self.frame_rate_row.set_subtitle(value.get().unwrap_or("")),
-                "codec" => self.codec_row.set_subtitle(value.get().unwrap_or("")),
-                "container" => self.container_row.set_subtitle(value.get().unwrap_or("")),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "show-empty-state" => {
-                    (self.stack.visible_child_name().unwrap() == "empty").to_value()
-                }
-                "file-name" => self.file_name_row.subtitle().to_value(),
-                "file-location" => self.file_location_row.subtitle().to_value(),
-                "resolution" => self.resolution_row.subtitle().to_value(),
-                "frame-rate" => self.frame_rate_row.subtitle().to_value(),
-                "codec" => self.codec_row.subtitle().to_value(),
-                "container" => self.container_row.subtitle().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
