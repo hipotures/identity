@@ -1,7 +1,7 @@
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
-use crate::picture::ScaleRequest;
+use crate::scale_request::ScaleRequest;
 
 mod imp {
     use std::cell::{Cell, RefCell};

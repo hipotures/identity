@@ -12,6 +12,7 @@ mod config;
 mod media_properties;
 mod page;
 mod picture;
+mod scale_request;
 mod window;
 
 const G_LOG_DOMAIN: &str = "Identity";

@@ -96,7 +96,7 @@ mod imp {
     use crate::config;
     use crate::media_properties::MediaProperties;
     use crate::page::Page;
-    use crate::picture::ScaleRequest;
+    use crate::scale_request::ScaleRequest;
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/window.ui")]
