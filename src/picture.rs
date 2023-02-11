@@ -159,9 +159,7 @@ mod imp {
 
             obj.set_overflow(gtk::Overflow::Hidden);
 
-            obj.connect_notify_local(Some("scale-factor"), |obj, _| {
-                obj.queue_resize();
-            });
+            obj.connect_scale_factor_notify(|obj| obj.queue_resize());
 
             // Track the cursor position for zooming.
             let motion_controller = gtk::EventControllerMotion::new();
