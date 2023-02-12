@@ -8,6 +8,9 @@ use gtk::{gdk, gio};
 
 use crate::G_LOG_DOMAIN;
 
+// Copied from Loupe.
+const HOTKEY_SCALE_FACTOR: f64 = 1.5;
+
 /// MIME types for the file chooser filter.
 const MIME_TYPES: &[&str] = &[
     "image/bmp",
@@ -1171,7 +1174,7 @@ GNOME 43 platform.",
 
                 let scale = page.scale();
                 if scale != 0. {
-                    let new_scale = scale + 0.25;
+                    let new_scale = scale * HOTKEY_SCALE_FACTOR;
                     self.set_scale_request(ScaleRequest::from(new_scale));
                 }
             }
@@ -1187,7 +1190,7 @@ GNOME 43 platform.",
                 let scale = page.scale();
                 if scale != 0. {
                     // Max with 0.1 here so it doesn't become 0 (fit to allocation).
-                    let new_scale = (scale - 0.25).max(0.1);
+                    let new_scale = (scale / HOTKEY_SCALE_FACTOR).max(0.1);
                     self.set_scale_request(ScaleRequest::from(new_scale));
                 }
             }
