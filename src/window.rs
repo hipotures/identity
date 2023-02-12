@@ -843,7 +843,7 @@ GNOME 43 platform.",
             page.bind_property("is-loading", &tab_page, "loading")
                 .sync_create()
                 .build();
-            page.bind_property("path", &tab_page, "tooltip")
+            page.bind_property("display-path", &tab_page, "tooltip")
                 .sync_create()
                 .build();
 

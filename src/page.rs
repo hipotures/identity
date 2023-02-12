@@ -35,8 +35,8 @@ mod imp {
 
         #[property(get, set, construct_only)]
         file: OnceCell<gio::File>,
-        #[property(get = Self::path)]
-        path: PhantomData<Option<String>>,
+        #[property(get = Self::display_path)]
+        display_path: PhantomData<Option<String>>,
         // I like single lines and rustfmt ignores this attribute so I declare this one as allowed.
         #[property(get = Self::scale_request, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
         scale_request: PhantomData<ScaleRequest>,
@@ -128,7 +128,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl Page {
-        fn path(&self) -> Option<String> {
+        fn display_path(&self) -> Option<String> {
             self.file.get().map(|file| {
                 file.path()
                     .map(|path| path.to_string_lossy().into_owned())
