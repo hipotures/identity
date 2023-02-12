@@ -126,8 +126,14 @@ mod imp {
                     }
 
                     if event.current_event_state().contains(gdk::ModifierType::CONTROL_MASK) {
+                        // The factor of 1.3× per scroll was copied from Loupe.
+                        let factor = if delta_y > 0. {
+                            1. / (delta_y * 1.3)
+                        } else {
+                            delta_y * -1.3
+                        };
                         // Max with 0.1 here so it doesn't become 0 (fit to allocation).
-                        let new_scale = (-delta_y * 0.1 + scale).max(0.1);
+                        let new_scale = (factor * scale).max(0.1);
 
                         let pointer_pos = obj.imp().pointer_position.get();
                         obj.imp().zoom_begin(pointer_pos);
