@@ -589,7 +589,10 @@ mod imp {
         fn zoom_update(&self, pivot_pointer_pos: Option<(f64, f64)>, new_scale: f64) {
             let obj = self.obj();
 
-            self.update_scale_request(ScaleRequest::from(new_scale));
+            // Convert to ScaleRequest and back to ensure correct clamping.
+            let scale_request = ScaleRequest::from(new_scale);
+            self.update_scale_request(scale_request);
+            let new_scale: f64 = scale_request.into();
 
             let (image_x, image_y) = match self.zoom_pivot_image_pos.get() {
                 Some(x) => x,
