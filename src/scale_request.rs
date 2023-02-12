@@ -6,6 +6,15 @@ pub enum ScaleRequest {
     Set(f64),
 }
 
+impl From<ScaleRequest> for f64 {
+    fn from(value: ScaleRequest) -> Self {
+        match value {
+            ScaleRequest::FitToAllocation => 0.,
+            ScaleRequest::Set(scale) => scale,
+        }
+    }
+}
+
 impl From<f64> for ScaleRequest {
     fn from(value: f64) -> Self {
         if value == 0. {
@@ -34,11 +43,8 @@ impl From<ScaleRequest> for glib::Value {
 
 impl glib::ToValue for ScaleRequest {
     fn to_value(&self) -> glib::Value {
-        match *self {
-            ScaleRequest::FitToAllocation => 0.,
-            ScaleRequest::Set(scale) => scale,
-        }
-        .to_value()
+        let value: f64 = (*self).into();
+        value.to_value()
     }
 
     fn value_type(&self) -> glib::Type {
