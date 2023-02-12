@@ -31,43 +31,19 @@ mod imp {
         #[template_child]
         container_row: TemplateChild<adw::ActionRow>,
 
-        #[property(
-            get = |_| self.stack.visible_child_name().unwrap() == "empty",
-            set = |_, val: bool| {
-                let name = if val { "empty" } else { "content" };
-                self.stack.set_visible_child_name(name);
-            },
-        )]
+        #[property(get = Self::show_empty_state, set = Self::set_show_empty_state)]
         show_empty_state: PhantomData<bool>,
-        #[property(
-            get = |_| self.file_name_row.subtitle(),
-            set = |_, val: Option<&str>| self.file_name_row.set_subtitle(val.unwrap_or("")),
-        )]
+        #[property(get = Self::file_name, set = Self::set_file_name)]
         file_name: PhantomData<Option<glib::GString>>,
-        #[property(
-            get = |_| self.file_location_row.subtitle(),
-            set = |_, val: Option<&str>| self.file_location_row.set_subtitle(val.unwrap_or("")),
-        )]
+        #[property(get = Self::file_location, set = Self::set_file_location)]
         file_location: PhantomData<Option<glib::GString>>,
-        #[property(
-            get = |_| self.resolution_row.subtitle(),
-            set = |_, val: Option<&str>| self.resolution_row.set_subtitle(val.unwrap_or("")),
-        )]
+        #[property(get = Self::resolution, set = Self::set_resolution)]
         resolution: PhantomData<Option<glib::GString>>,
-        #[property(
-            get = |_| self.frame_rate_row.subtitle(),
-            set = |_, val: Option<&str>| self.frame_rate_row.set_subtitle(val.unwrap_or("")),
-        )]
+        #[property(get = Self::frame_rate, set = Self::set_frame_rate)]
         frame_rate: PhantomData<Option<glib::GString>>,
-        #[property(
-            get = |_| self.codec_row.subtitle(),
-            set = |_, val: Option<&str>| self.codec_row.set_subtitle(val.unwrap_or("")),
-        )]
+        #[property(get = Self::codec, set = Self::set_codec)]
         codec: PhantomData<Option<glib::GString>>,
-        #[property(
-            get = |_| self.container_row.subtitle(),
-            set = |_, val: Option<&str>| self.container_row.set_subtitle(val.unwrap_or("")),
-        )]
+        #[property(get = Self::container, set = Self::set_container)]
         container: PhantomData<Option<glib::GString>>,
     }
 
@@ -113,6 +89,65 @@ mod imp {
     impl WidgetImpl for MediaProperties {}
     impl WindowImpl for MediaProperties {}
     impl AdwWindowImpl for MediaProperties {}
+
+    impl MediaProperties {
+        fn show_empty_state(&self) -> bool {
+            self.stack.visible_child_name().unwrap() == "empty"
+        }
+
+        fn set_show_empty_state(&self, val: bool) {
+            let name = if val { "empty" } else { "content" };
+            self.stack.set_visible_child_name(name);
+        }
+
+        fn file_name(&self) -> Option<glib::GString> {
+            self.file_name_row.subtitle()
+        }
+
+        fn set_file_name(&self, val: Option<&str>) {
+            self.file_name_row.set_subtitle(val.unwrap_or(""))
+        }
+
+        fn file_location(&self) -> Option<glib::GString> {
+            self.file_location_row.subtitle()
+        }
+
+        fn set_file_location(&self, val: Option<&str>) {
+            self.file_location_row.set_subtitle(val.unwrap_or(""))
+        }
+
+        fn resolution(&self) -> Option<glib::GString> {
+            self.resolution_row.subtitle()
+        }
+
+        fn set_resolution(&self, val: Option<&str>) {
+            self.resolution_row.set_subtitle(val.unwrap_or(""))
+        }
+
+        fn frame_rate(&self) -> Option<glib::GString> {
+            self.frame_rate_row.subtitle()
+        }
+
+        fn set_frame_rate(&self, val: Option<&str>) {
+            self.frame_rate_row.set_subtitle(val.unwrap_or(""))
+        }
+
+        fn codec(&self) -> Option<glib::GString> {
+            self.codec_row.subtitle()
+        }
+
+        fn set_codec(&self, val: Option<&str>) {
+            self.codec_row.set_subtitle(val.unwrap_or(""))
+        }
+
+        fn container(&self) -> Option<glib::GString> {
+            self.container_row.subtitle()
+        }
+
+        fn set_container(&self, val: Option<&str>) {
+            self.container_row.set_subtitle(val.unwrap_or(""))
+        }
+    }
 }
 
 glib::wrapper! {

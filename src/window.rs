@@ -137,16 +137,8 @@ mod imp {
         scale_request: Cell<ScaleRequest>,
         scale_request_notify_id: RefCell<Option<SignalHandlerId>>,
 
-        #[property(
-            get = |_| self.scale_request.get() == ScaleRequest::FitToAllocation,
-            set = |_, val: bool| self.set_scale_request(if val {
-                ScaleRequest::FitToAllocation
-            } else {
-                ScaleRequest::Set(1.)
-            }),
-            default_value = true,
-            explicit_notify,
-        )]
+        // I like single lines and rustfmt ignores this attribute so I declare this one as allowed.
+        #[property(get = Self::best_fit, set = Self::set_best_fit, default_value = true, explicit_notify)]
         best_fit: PhantomData<bool>,
 
         h_scroll_pos: Cell<f64>,
@@ -1134,6 +1126,18 @@ GNOME 43 platform.",
                     .expect("unexpected widget type in tab view");
                 page.set_scale_request(self.scale_request.get());
             }
+        }
+
+        fn best_fit(&self) -> bool {
+            self.scale_request.get() == ScaleRequest::FitToAllocation
+        }
+
+        fn set_best_fit(&self, val: bool) {
+            self.set_scale_request(if val {
+                ScaleRequest::FitToAllocation
+            } else {
+                ScaleRequest::Set(1.)
+            })
         }
 
         #[template_callback]

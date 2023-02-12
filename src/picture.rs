@@ -49,14 +49,14 @@ mod imp {
         #[property(
             type = Option<gtk::Adjustment>,
             override_interface = gtk::Scrollable,
-            get = |_| self.hadjustment.borrow().as_ref().map(|x| x.0.clone()),
+            get = Self::hadjustment,
             set = Self::set_hadjustment,
         )]
         hadjustment: RefCell<Option<(gtk::Adjustment, glib::SignalHandlerId)>>,
         #[property(
             type = Option<gtk::Adjustment>,
             override_interface = gtk::Scrollable,
-            get = |_| self.vadjustment.borrow().as_ref().map(|x| x.0.clone()),
+            get = Self::vadjustment,
             set = Self::set_vadjustment,
         )]
         vadjustment: RefCell<Option<(gtk::Adjustment, glib::SignalHandlerId)>>,
@@ -414,6 +414,10 @@ mod imp {
             }
         }
 
+        fn hadjustment(&self) -> Option<gtk::Adjustment> {
+            self.hadjustment.borrow().as_ref().map(|x| x.0.clone())
+        }
+
         pub fn set_hadjustment(&self, adj: Option<gtk::Adjustment>) {
             if let Some((old_adj, handler_id)) = self.hadjustment.take() {
                 old_adj.disconnect(handler_id);
@@ -428,6 +432,10 @@ mod imp {
 
                 self.hadjustment.replace(Some((adj, handler_id)));
             }
+        }
+
+        fn vadjustment(&self) -> Option<gtk::Adjustment> {
+            self.vadjustment.borrow().as_ref().map(|x| x.0.clone())
         }
 
         pub fn set_vadjustment(&self, adj: Option<gtk::Adjustment>) {

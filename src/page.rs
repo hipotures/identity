@@ -37,24 +37,14 @@ mod imp {
         file: OnceCell<gio::File>,
         #[property(get = Self::path)]
         path: PhantomData<Option<String>>,
-        #[property(
-            get = |_| self.picture.scale_request(),
-            set = |_, val: ScaleRequest| self.picture.set_scale_request(val),
-            minimum = 0.,
-            maximum = 10.,
-        )]
+        // I like single lines and rustfmt ignores this attribute so I declare this one as allowed.
+        #[property(get = Self::scale_request, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
         scale_request: PhantomData<ScaleRequest>,
-        #[property(get = |_| self.picture.scale())]
+        #[property(get = Self::scale)]
         scale: PhantomData<f64>,
-        #[property(
-            get = |_| self.picture.h_scroll_pos(),
-            set = |_, val: f64| self.picture.set_h_scroll_pos(val),
-        )]
+        #[property(get = Self::h_scroll_pos, set = Self::set_h_scroll_pos)]
         h_scroll_pos: PhantomData<f64>,
-        #[property(
-            get = |_| self.picture.v_scroll_pos(),
-            set = |_, val: f64| self.picture.set_v_scroll_pos(val),
-        )]
+        #[property(get = Self::v_scroll_pos, set = Self::set_v_scroll_pos)]
         v_scroll_pos: PhantomData<f64>,
         // This can be a OnceCell<gst::Element>, but then #[property] assumes it's not nullable.
         #[property(get)]
@@ -144,6 +134,34 @@ mod imp {
                     .map(|path| path.to_string_lossy().into_owned())
                     .unwrap_or_else(|| file.uri().into())
             })
+        }
+
+        fn scale_request(&self) -> ScaleRequest {
+            self.picture.scale_request()
+        }
+
+        fn set_scale_request(&self, val: ScaleRequest) {
+            self.picture.set_scale_request(val)
+        }
+
+        fn scale(&self) -> f64 {
+            self.picture.scale()
+        }
+
+        fn h_scroll_pos(&self) -> f64 {
+            self.picture.h_scroll_pos()
+        }
+
+        fn set_h_scroll_pos(&self, val: f64) {
+            self.picture.set_h_scroll_pos(val);
+        }
+
+        fn v_scroll_pos(&self) -> f64 {
+            self.picture.v_scroll_pos()
+        }
+
+        fn set_v_scroll_pos(&self, val: f64) {
+            self.picture.set_v_scroll_pos(val);
         }
 
         fn display_name(&self) -> Option<glib::GString> {
