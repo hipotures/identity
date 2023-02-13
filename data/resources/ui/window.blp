@@ -29,6 +29,22 @@ menu primary_menu {
   }
 }
 
+menu tab_menu {
+  section {
+    item {
+      /* Translators: Tab menu entry that moves it to a new window. */
+      label: _("Move to New Window");
+      action: "win.move-tab-to-new-window";
+    }
+
+    item {
+      /* Translators: Tab menu entry that closes it. */
+      label: _("Close File");
+      action: "win.close-tab";
+    }
+  }
+}
+
 .IdMediaProperties media_properties {
   transient-for: IdWindow;
   destroy-with-parent: true;
@@ -150,11 +166,13 @@ template IdWindow : Adw.ApplicationWindow {
 
         Adw.TabView tab_view {
           vexpand: true;
+          menu-model: tab_menu;
 
           page-attached => on_page_attached() swapped;
           /* page-detached => on_page_detached() swapped; */
           create-window => on_create_window() swapped;
           /* notify::selected-page => on_selected_page_notify() swapped; */
+          setup-menu => on_setup_menu() swapped;
         }
 
         Revealer controls_revealer {

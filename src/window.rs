@@ -149,6 +149,9 @@ mod imp {
         h_scroll_pos_notify_id: RefCell<Option<SignalHandlerId>>,
         v_scroll_pos_notify_id: RefCell<Option<SignalHandlerId>>,
         prev_selected_page: RefCell<glib::WeakRef<Page>>,
+
+        /// If a tab menu is open for a page, this is that page, otherwise `None`.
+        menu_page: RefCell<glib::WeakRef<adw::TabPage>>,
     }
 
     #[glib::object_subclass]
@@ -168,6 +171,9 @@ mod imp {
                 obj.paste().await;
             });
             klass.install_action("win.close-tab", None, |obj, _, _| obj.imp().close_tab());
+            klass.install_action("win.move-tab-to-new-window", None, |obj, _, _| {
+                obj.imp().move_tab_to_new_window()
+            });
             klass.install_action("win.step-forward", None, |obj, _, _| {
                 obj.imp().step_forward()
             });
@@ -979,11 +985,43 @@ GNOME 43 platform.",
             new_window.imp().tab_view.clone()
         }
 
+        #[template_callback]
+        fn on_setup_menu(&self, tab_page: Option<&adw::TabPage>) {
+            debug!("setup-menu {tab_page:?}");
+
+            let page = tab_page
+                .map(|tab_page| tab_page.downgrade())
+                .unwrap_or_else(glib::WeakRef::new);
+            self.menu_page.replace(page);
+        }
+
+        fn menu_or_selected_page(&self) -> Option<adw::TabPage> {
+            self.menu_page
+                .borrow()
+                .upgrade()
+                .or_else(|| self.tab_view.selected_page())
+        }
+
         pub fn close_tab(&self) {
-            if let Some(page) = self.tab_view.selected_page() {
+            if let Some(page) = self.menu_or_selected_page() {
                 self.tab_view.close_page(&page);
             } else {
                 self.obj().close();
+            }
+        }
+
+        pub fn move_tab_to_new_window(&self) {
+            if let Some(page) = self.menu_or_selected_page() {
+                let application: Application = self
+                    .obj()
+                    .application()
+                    .expect("application was not set")
+                    .downcast()
+                    .expect("application has wrong type");
+                let new_window = application.create_new_window();
+                self.tab_view
+                    .transfer_page(&page, &new_window.imp().tab_view, 0);
+                new_window.present();
             }
         }
 
