@@ -13,6 +13,6 @@ glib = { version = "0.17.0", features = ["log", "log_macros"] }
 gst = { version = "0.20.0", package = "gstreamer" }
 gst-video = { version = "0.20.0", package = "gstreamer-video" }
 gst-plugin-gtk4 = "0.10.0"
-gtk = { version = "0.6.0", package = "gtk4", features = ["v4_6"] }
+gtk = { version = "0.6.0", package = "gtk4", features = ["v4_8"] }
 log = "0.4.17"
 once_cell = "1.17.0"
