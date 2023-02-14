@@ -84,10 +84,12 @@ const MIME_TYPES: &[&str] = &[
 mod imp {
     use std::cell::Cell;
     use std::collections::HashMap;
+    use std::fs::File;
     use std::marker::PhantomData;
     use std::time::Duration;
 
     use adw::subclass::prelude::*;
+    use ashpd::desktop::open_uri::OpenDirectoryRequest;
     use glib::{clone, closure, error, Properties, SignalHandlerId, SourceId};
     use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
@@ -169,6 +171,9 @@ mod imp {
             klass.install_action("win.open", None, |obj, _, _| obj.on_open_clicked());
             klass.install_action_async("win.paste", None, |obj, _, _| async move {
                 obj.paste().await;
+            });
+            klass.install_action_async("win.show-in-files", None, |obj, _, _| async move {
+                obj.imp().show_in_files().await;
             });
             klass.install_action("win.close-tab", None, |obj, _, _| obj.imp().close_tab());
             klass.install_action("win.move-tab-to-new-window", None, |obj, _, _| {
@@ -993,6 +998,18 @@ GNOME 43 platform.",
                 .map(|tab_page| tab_page.downgrade())
                 .unwrap_or_else(glib::WeakRef::new);
             self.menu_page.replace(page);
+
+            if let Some(tab_page) = tab_page {
+                let page: Page = tab_page
+                    .child()
+                    .downcast()
+                    .expect("tab page child has wrong type");
+
+                let has_path = page.file().path().is_some();
+                self.obj().action_set_enabled("win.show-in-files", has_path);
+            } else {
+                self.obj().action_set_enabled("win.show-in-files", true);
+            }
         }
 
         fn menu_or_selected_page(&self) -> Option<adw::TabPage> {
@@ -1000,6 +1017,63 @@ GNOME 43 platform.",
                 .borrow()
                 .upgrade()
                 .or_else(|| self.tab_view.selected_page())
+        }
+
+        pub async fn show_in_files(&self) {
+            let Some(tab_page) = self.menu_or_selected_page() else { return };
+
+            let page: Page = tab_page
+                .child()
+                .downcast()
+                .expect("tab page child has wrong type");
+
+            // The OpenDirectory portal wants a file descriptor. There's a way to get it without
+            // leaving gio:
+            //
+            // 1. Get an input stream with page.file().read_future().await,
+            // 2. Try to cast it to gio::FileDescriptorBased with dynamic_cast(),
+            // 3. That object implements AsRawFd and can be passed straight to the portal.
+            //
+            // However, for files from remote mounts, the stream will not actually be a
+            // gio::FileDescriptorBased. Despite simulating a local file system with GVFS, gio will
+            // still open those files with non-FD-based streams, which is understandable, but alas
+            // incompatible with the OpenDirectory portal. In fact, gio will go as far as detecting
+            // when you try to open a gio::File from a GVFS-emulated local path, and still giving
+            // you a non-FD-based stream.
+            //
+            // Thus, to support OpenDirectory on files from remote mounts, we use the plain old
+            // std::fs::File::open(). Since it blocks, we do it on a different thread with
+            // gio::spawn_blocking(). This actually works even better than gio::File::read_future()
+            // because the latter seems to still block for a fraction of a second for files on
+            // remote mounts, resulting in a visible UI freeze. That's likely a gio bug, but still
+            // there's that.
+            let Some(path) = page.file().path() else {
+                debug!("file has no local path");
+                return;
+            };
+
+            // Open the file in a separate thread because it blocks for remote-mounted files.
+            let file = match gio::spawn_blocking(move || File::open(path)).await.unwrap() {
+                Ok(file) => file,
+                Err(err) => {
+                    warn!("error opening file: {err:?}");
+                    return;
+                }
+            };
+
+            let Some(native) = self.obj().native() else {
+                warn!("self.obj().native() returned None");
+                return;
+            };
+
+            let identifier = ashpd::WindowIdentifier::from_native(&native).await;
+            if let Err(err) = OpenDirectoryRequest::default()
+                .identifier(identifier)
+                .build(&file)
+                .await
+            {
+                warn!("OpenDirectory returned an error: {:?}", err);
+            }
         }
 
         pub fn close_tab(&self) {

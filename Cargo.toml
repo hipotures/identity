@@ -6,6 +6,7 @@ edition = "2021"
 
 [dependencies]
 adw = { version = "0.3.0", package = "libadwaita", features = ["v1_2"] }
+ashpd = { version = "0.4.0-alpha.4", features = ["gtk4"] }
 futures-util = "0.3.26"
 gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
 glib = { version = "0.17.0", features = ["log", "log_macros"] }
