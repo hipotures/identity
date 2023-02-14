@@ -172,6 +172,7 @@ mod imp {
             klass.install_action_async("win.paste", None, |obj, _, _| async move {
                 obj.paste().await;
             });
+            klass.install_action("win.copy", None, |obj, _, _| obj.imp().copy_file());
             klass.install_action_async("win.show-in-files", None, |obj, _, _| async move {
                 obj.imp().show_in_files().await;
             });
@@ -1017,6 +1018,21 @@ GNOME 43 platform.",
                 .borrow()
                 .upgrade()
                 .or_else(|| self.tab_view.selected_page())
+        }
+
+        pub fn copy_file(&self) {
+            let Some(tab_page) = self.menu_or_selected_page() else { return };
+
+            let page: Page = tab_page
+                .child()
+                .downcast()
+                .expect("tab page child has wrong type");
+
+            let file_list = gdk::FileList::from_array(&[page.file()]);
+            let content_provider = gdk::ContentProvider::for_value(&file_list.to_value());
+            if let Err(err) = self.obj().clipboard().set_content(Some(&content_provider)) {
+                error!("error copying: {err:?}");
+            }
         }
 
         pub async fn show_in_files(&self) {

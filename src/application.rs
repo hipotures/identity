@@ -68,6 +68,7 @@ mod imp {
             obj.set_accels_for_action("win.play-pause", &["p", "<primary>space"]);
             obj.set_accels_for_action("win.open", &["<primary>o"]);
             obj.set_accels_for_action("win.paste", &["<primary>v"]);
+            obj.set_accels_for_action("win.copy", &["<primary>c"]);
             obj.set_accels_for_action("win.close-tab", &["<primary>w"]);
             obj.set_accels_for_action("win.step-forward", &["period"]);
             obj.set_accels_for_action("win.step-back", &["comma"]);
