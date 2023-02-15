@@ -311,9 +311,8 @@ GNOME 43 platform.",
             self.tab_view.connect_page_detached(
                 clone!(@weak self as imp => move |_, tab_page, _| imp.on_page_detached(tab_page)),
             );
-            self.tab_view.connect_notify_local(
-                Some("selected-page"),
-                clone!(@weak self as imp => move |_, _| imp.on_selected_page_notify()),
+            self.tab_view.connect_selected_page_notify(
+                clone!(@weak self as imp => move |_| imp.on_selected_page_notify()),
             );
 
             // Bind properties of the media properties dialog.
@@ -975,18 +974,15 @@ GNOME 43 platform.",
                 self.attach_playbin(&playbin);
             } else {
                 let obj = self.obj();
-                let id = page.connect_notify_local(
-                    Some("is-loading"),
-                    clone!(@weak obj => move |page, _| {
-                        if let Some(playbin) = page.playbin() {
-                            obj.imp().attach_playbin(&playbin);
-                        } else {
-                            // attach_playbin does this for us in the good case.
-                            obj.imp().stack.set_visible_child_name("content");
-                            obj.present_if_not_visible();
-                        }
-                    }),
-                );
+                let id = page.connect_is_loading_notify(clone!(@weak obj => move |page| {
+                    if let Some(playbin) = page.playbin() {
+                        obj.imp().attach_playbin(&playbin);
+                    } else {
+                        // attach_playbin does this for us in the good case.
+                        obj.imp().stack.set_visible_child_name("content");
+                        obj.present_if_not_visible();
+                    }
+                }));
 
                 if self
                     .page_is_loading_notify_id
@@ -1256,30 +1252,21 @@ GNOME 43 platform.",
                 page.set_h_scroll_pos(self.h_scroll_pos.get());
                 page.set_v_scroll_pos(self.v_scroll_pos.get());
 
-                let id = page.connect_notify_local(
-                    Some("scale-request"),
-                    clone!(@weak obj => move |page, _| {
-                        obj.imp().scale_request.set(page.scale_request());
-                        obj.notify_scale_request();
-                        obj.notify_best_fit();
-                    }),
-                );
+                let id = page.connect_scale_request_notify(clone!(@weak obj => move |page| {
+                    obj.imp().scale_request.set(page.scale_request());
+                    obj.notify_scale_request();
+                    obj.notify_best_fit();
+                }));
                 self.scale_request_notify_id.replace(Some(id));
 
-                let id = page.connect_notify_local(
-                    Some("h-scroll-pos"),
-                    clone!(@weak obj => move |page, _| {
-                        obj.imp().h_scroll_pos.set(page.h_scroll_pos());
-                    }),
-                );
+                let id = page.connect_h_scroll_pos_notify(clone!(@weak obj => move |page| {
+                    obj.imp().h_scroll_pos.set(page.h_scroll_pos());
+                }));
                 self.h_scroll_pos_notify_id.replace(Some(id));
 
-                let id = page.connect_notify_local(
-                    Some("v-scroll-pos"),
-                    clone!(@weak obj => move |page, _| {
-                        obj.imp().v_scroll_pos.set(page.v_scroll_pos());
-                    }),
-                );
+                let id = page.connect_v_scroll_pos_notify(clone!(@weak obj => move |page| {
+                    obj.imp().v_scroll_pos.set(page.v_scroll_pos());
+                }));
                 self.v_scroll_pos_notify_id.replace(Some(id));
             } else {
                 self.prev_selected_page.replace(glib::WeakRef::new());
