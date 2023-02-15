@@ -56,6 +56,8 @@ mod imp {
         is_loading: Cell<bool>,
         #[property(get)]
         is_error: Cell<bool>,
+        #[property(get)]
+        position: Cell<u64>, // TODO replace with ClockTime wiht gst 0.20.2
         #[property(get, minimum = 0.)]
         framerate: Cell<f32>,
         #[property(get)]
@@ -263,6 +265,51 @@ mod imp {
                 obj.notify_resolution();
             }));
             self.picture.set_paintable(Some(paintable));
+
+            let (time_tx, time_rx) = glib::MainContext::channel(glib::Priority::default());
+
+            let imp = self.downgrade();
+            time_rx.attach(None, move |time: Option<gst::ClockTime>| {
+                let Some(imp) = imp.upgrade() else { return glib::Continue(false) };
+                let value = if let Some(time) = time {
+                    *time
+                } else {
+                    gst::ffi::GST_CLOCK_TIME_NONE
+                };
+                imp.position.set(value);
+                imp.obj().notify_position();
+
+                glib::Continue(true)
+            });
+
+            if let Some(sink_pad) = sink.static_pad("sink") {
+                sink_pad.add_probe(gst::PadProbeType::BUFFER, move |pad, probe_info| {
+                    if let Some(gst::PadProbeData::Buffer(buffer)) = &probe_info.data {
+                        if let Some(pts) = buffer.pts() {
+                            if let Some(segment_event) = pad.sticky_event::<gst::event::Segment>(0)
+                            {
+                                let segment = segment_event.segment();
+                                if let Some(segment) = segment.downcast_ref::<gst::ClockTime>() {
+                                    let stream_time = segment.to_stream_time(pts);
+                                    if time_tx.send(stream_time).is_err() {
+                                        return gst::PadProbeReturn::Remove;
+                                    }
+                                } else {
+                                    warn!("segment sticky event is not time-based");
+                                }
+                            } else {
+                                warn!("received buffer but there's no segment sticky event");
+                            }
+                        } else {
+                            warn!("received buffer without pts");
+                        }
+                    }
+
+                    gst::PadProbeReturn::Ok
+                });
+            } else {
+                warn!("could not find sink pad, position tracking won't work");
+            }
 
             let playbin = gst::ElementFactory::make("playbin3")
                 .build()
