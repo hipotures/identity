@@ -130,11 +130,13 @@ mod imp {
         media_properties: TemplateChild<MediaProperties>,
 
         pipeline: OnceCell<gst::Pipeline>,
+        duration: Cell<Option<gst::ClockTime>>,
 
         is_playing: Cell<bool>,
         is_backward: Cell<bool>,
 
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        page_position_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         scale_binding: RefCell<Option<glib::Binding>>,
@@ -450,14 +452,6 @@ GNOME 43 platform.",
                 ))
                 .unwrap();
 
-            glib::timeout_add_local(
-                Duration::from_millis(100),
-                clone!(@weak obj => @default-return glib::Continue(false), move || {
-                    obj.imp().refresh_controls();
-                    glib::Continue(true)
-                }),
-            );
-
             // Big hack: disable some GtkScale shortcuts that we want to use ourselves.
             for controller in self.time_scale.observe_controllers().snapshot() {
                 if let Ok(controller) = controller.downcast::<gtk::ShortcutController>() {
@@ -554,6 +548,10 @@ GNOME 43 platform.",
                         }
                         (_, _) => (),
                     }
+                }
+                MessageView::DurationChanged(_) => {
+                    debug!("bus: DurationChanged");
+                    self.update_duration();
                 }
                 MessageView::Eos(_) => {
                     debug!("bus: Eos");
@@ -684,7 +682,7 @@ GNOME 43 platform.",
                 }
             };
 
-            if let Some(duration) = pipeline.query_duration::<gst::ClockTime>() {
+            if let Some(duration) = self.duration.get() {
                 let time =
                     gst::ClockTime::from_nseconds((value * duration.nseconds() as f64) as u64);
 
@@ -794,52 +792,32 @@ GNOME 43 platform.",
             }
         }
 
-        fn refresh_controls(&self) {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("refresh_controls: unexpected unset `pipeline`");
-                    return;
-                }
+        fn refresh_controls(&self, position: gst::ClockTime) {
+            let nanoseconds = position.nseconds();
+            let mut seconds = nanoseconds / 1_000_000_000;
+            let mut minutes = seconds / 60;
+            let hours = minutes / 60;
+            seconds %= 60;
+            minutes %= 60;
+
+            let time = if hours == 0 {
+                format!("{minutes}:{seconds:02}")
+            } else {
+                format!("{hours}:{minutes:02}:{seconds:02}")
             };
 
-            let duration = pipeline.query_duration::<gst::ClockTime>();
+            self.time_label.set_label(&time);
 
-            // If we've opened something with a duration, show the controls.
-            //
-            // Do this outside the position check because when attaching a new playbin to the
-            // pipeline the position query might still return `None` even though the duration is
-            // already set. We rely on `refresh_controls` to reveal the controls as soon as possible
-            // for smooth animation.
-            self.controls_revealer.set_reveal_child(duration.is_some());
+            if let Some(duration) = self.duration.get() {
+                let value = position.nseconds() as f64 / duration.nseconds() as f64;
 
-            if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
-                let nanoseconds = position.nseconds();
-                let mut seconds = nanoseconds / 1_000_000_000;
-                let mut minutes = seconds / 60;
-                let hours = minutes / 60;
-                seconds %= 60;
-                minutes %= 60;
-
-                let time = if hours == 0 {
-                    format!("{minutes}:{seconds:02}")
-                } else {
-                    format!("{hours}:{minutes:02}:{seconds:02}")
-                };
-
-                self.time_label.set_label(&time);
-
-                if let Some(duration) = duration {
-                    let value = position.nseconds() as f64 / duration.nseconds() as f64;
-
-                    let value_changed = self
-                        .time_adjustment_value_changed
-                        .get()
-                        .expect("unexpected unset `time_adjustment_value_changed`");
-                    self.time_adjustment.block_signal(value_changed);
-                    self.time_adjustment.set_value(value);
-                    self.time_adjustment.unblock_signal(value_changed);
-                }
+                let value_changed = self
+                    .time_adjustment_value_changed
+                    .get()
+                    .expect("unexpected unset `time_adjustment_value_changed`");
+                self.time_adjustment.block_signal(value_changed);
+                self.time_adjustment.set_value(value);
+                self.time_adjustment.unblock_signal(value_changed);
             }
         }
 
@@ -872,6 +850,54 @@ GNOME 43 platform.",
                 .bind(&tab_page, "icon", None::<&Page>);
         }
 
+        fn update_duration(&self) {
+            let pipeline = match self.pipeline.get() {
+                Some(x) => x,
+                None => {
+                    error!("update_duration: unexpected unset `pipeline`");
+                    return;
+                }
+            };
+
+            let duration = pipeline.query_duration::<gst::ClockTime>();
+            debug!("update_duration: duration = {duration:?}");
+
+            if self.duration.get() != duration {
+                self.duration.set(duration);
+
+                // If we've opened something with a duration, show the controls.
+                //
+                // Do this outside the position check in `update_position` because when attaching a
+                // new playbin to the pipeline the position query might still return `None` even
+                // though the duration is already set. We rely on `update_duration` to reveal the
+                // controls as soon as possible for smooth animation.
+                self.controls_revealer.set_reveal_child(duration.is_some());
+
+                self.update_position();
+            }
+        }
+
+        fn update_position(&self) {
+            let position = self
+                .tab_view
+                .pages()
+                .iter()
+                .filter_map(|tab_page: Result<adw::TabPage, _>| {
+                    let page: Page = tab_page
+                        .unwrap()
+                        .child()
+                        .downcast()
+                        .expect("tab page child has wrong type");
+
+                    let position = page.position();
+                    gst::ClockTime::try_from(position).ok()
+                })
+                .max()
+                .unwrap_or(gst::ClockTime::ZERO);
+
+            self.refresh_controls(position);
+        }
+
         fn attach_playbin(&self, playbin: &gst::Element) {
             let pipeline = match self.pipeline.get() {
                 Some(x) => x,
@@ -886,13 +912,15 @@ GNOME 43 platform.",
                 return;
             }
 
+            self.update_duration();
+
             if let Err(err) = playbin.sync_state_with_parent() {
                 warn!("error syncing playbin state with parent: {err:?}");
             }
 
             self.seek(self.time_adjustment.value());
 
-            self.refresh_controls();
+            self.update_position();
             self.stack.set_visible_child_name("content");
             self.obj().present_if_not_visible();
         }
@@ -910,6 +938,8 @@ GNOME 43 platform.",
                 error!("error removing playbin from pipeline: {err:?}");
             }
 
+            self.update_duration();
+
             if let Err(err) = playbin.set_state(gst::State::Paused) {
                 warn!("error setting playbin state to Paused: {err:?}");
             }
@@ -925,6 +955,18 @@ GNOME 43 platform.",
                 .child()
                 .downcast()
                 .expect("tab page child has wrong type");
+
+            let id = page.connect_position_notify(clone!(@weak self as imp => move |_| {
+                imp.update_position();
+            }));
+            if self
+                .page_position_notify_id
+                .borrow_mut()
+                .insert(page.clone(), id)
+                .is_some()
+            {
+                error!("`page_position_notify_id` already had an entry for this page");
+            }
 
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
@@ -974,6 +1016,12 @@ GNOME 43 platform.",
                 self.detach_playbin(&playbin);
             } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
                 page.disconnect(id);
+            }
+
+            if let Some(id) = self.page_position_notify_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            } else {
+                error!("unexpected missing position notify id");
             }
         }
 
