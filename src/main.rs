@@ -12,6 +12,7 @@ mod config;
 mod media_properties;
 mod page;
 mod picture;
+mod player;
 mod scale_request;
 mod window;
 

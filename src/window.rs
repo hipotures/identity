@@ -94,13 +94,13 @@ mod imp {
     use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::{glib, CompositeTemplate};
-    use once_cell::unsync::OnceCell;
 
     use super::*;
     use crate::application::Application;
     use crate::config;
     use crate::media_properties::MediaProperties;
     use crate::page::Page;
+    use crate::player::Player;
     use crate::scale_request::ScaleRequest;
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
@@ -121,7 +121,6 @@ mod imp {
         time_scale: TemplateChild<gtk::Scale>,
         #[template_child]
         time_adjustment: TemplateChild<gtk::Adjustment>,
-        time_adjustment_value_changed: OnceCell<SignalHandlerId>,
         #[template_child]
         scale_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -129,14 +128,12 @@ mod imp {
         #[template_child]
         media_properties: TemplateChild<MediaProperties>,
 
-        pipeline: OnceCell<gst::Pipeline>,
-        duration: Cell<Option<gst::ClockTime>>,
-
+        #[property(get, set)]
         is_playing: Cell<bool>,
-        is_backward: Cell<bool>,
+
+        player: Player,
 
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
-        page_position_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         scale_binding: RefCell<Option<glib::Binding>>,
@@ -169,7 +166,7 @@ mod imp {
             klass.bind_template_callbacks();
             klass.bind_template_instance_callbacks();
 
-            klass.install_action("win.play-pause", None, |obj, _, _| obj.imp().play_pause());
+            klass.install_property_action("win.play-pause", "is-playing");
             klass.install_action("win.open", None, |obj, _, _| obj.on_open_clicked());
             klass.install_action_async("win.paste", None, |obj, _, _| async move {
                 obj.paste().await;
@@ -183,9 +180,11 @@ mod imp {
                 obj.imp().move_tab_to_new_window()
             });
             klass.install_action("win.step-forward", None, |obj, _, _| {
-                obj.imp().step_forward()
+                obj.imp().player.step_forward()
             });
-            klass.install_action("win.step-back", None, |obj, _, _| obj.imp().step_back());
+            klass.install_action("win.step-back", None, |obj, _, _| {
+                obj.imp().player.step_back()
+            });
 
             klass.install_action(
                 "win.focus-tab",
@@ -428,28 +427,58 @@ GNOME 43 platform.",
 
             self.scale_button.set_menu_model(Some(&menu));
 
-            // Set up the pipeline.
-            let pipeline = gst::Pipeline::new(None);
-            self.pipeline.set(pipeline.clone()).unwrap();
+            // Bind the player properties.
+            self.player
+                .bind_property("is-playing", &*obj, "is-playing")
+                .bidirectional()
+                .sync_create()
+                .build();
 
-            let bus = pipeline.bus().unwrap();
-            bus.add_watch_local(
-                clone!(@weak obj => @default-return glib::Continue(false), move |_, msg| {
-                    obj.imp().on_bus_message(msg);
-                    glib::Continue(true)
+            self.player
+                .bind_property("progress", &*self.time_adjustment, "value")
+                .bidirectional()
+                .sync_create()
+                .build();
+
+            self.player
+                .bind_property("has-duration", &*self.controls_revealer, "reveal-child")
+                .sync_create()
+                .build();
+
+            self.player
+                .bind_property("position", &*self.time_label, "label")
+                .transform_to(|_, position: Option<gst::ClockTime>| {
+                    Some(format_position(position.unwrap_or(gst::ClockTime::ZERO)))
+                })
+                .sync_create()
+                .build();
+
+            self.player
+                .bind_property("is-playing", &*self.play_pause_button, "icon-name")
+                .transform_to(|_, is_playing| {
+                    Some(if is_playing {
+                        "media-playback-pause-symbolic"
+                    } else {
+                        "media-playback-start-symbolic"
+                    })
+                })
+                .sync_create()
+                .build();
+
+            self.player.connect_local(
+                "source-error",
+                false,
+                clone!(@weak self as imp => @default-return None, move |args: &[glib::Value]| {
+                    let playbin: gst::Element = args[1].get().unwrap();
+                    if let Some(page) = imp.find_page_for_playbin(&playbin) {
+                        page.set_error();
+                    } else {
+                        error!("couldn't find page for playbin");
+                    }
+
+                    None
                 }),
-            )
-            .expect("could not add pipeline bus watch");
-
-            pipeline
-                .set_state(gst::State::Paused)
-                .expect("error setting pipeline state to Paused");
-
-            self.time_adjustment_value_changed
-                .set(self.time_adjustment.connect_value_changed(
-                    clone!(@weak obj => move |adj| obj.imp().seek(adj.value())),
-                ))
-                .unwrap();
+            );
 
             // Big hack: disable some GtkScale shortcuts that we want to use ourselves.
             for controller in self.time_scale.observe_controllers().snapshot() {
@@ -475,23 +504,6 @@ GNOME 43 platform.",
             }
         }
 
-        fn dispose(&self) {
-            if let Some(pipeline) = self.pipeline.get() {
-                // I got this to return Err once by opening a file GStreamer couldn't play and a
-                // regular video file.
-                if let Err(err) = pipeline.set_state(gst::State::Null) {
-                    warn!("error setting pipeline state to Null: {err:?}");
-                }
-
-                // This returns Err if called multiple times.
-                if let Err(err) = pipeline.bus().unwrap().remove_watch() {
-                    warn!("error removing pipeline bus watch: {err:?}");
-                }
-            } else {
-                warn!("unexpected unset `pipeline`");
-            }
-        }
-
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -512,105 +524,6 @@ GNOME 43 platform.",
 
     #[gtk::template_callbacks]
     impl Window {
-        fn on_bus_message(&self, msg: &gst::Message) {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("received bus message {msg:?} without `pipeline` set");
-                    return;
-                }
-            };
-
-            use gst::MessageView;
-            match msg.view() {
-                MessageView::StateChanged(state_changed)
-                    if state_changed.src() == Some(pipeline.upcast_ref()) =>
-                {
-                    debug!(
-                        "bus: StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                        state_changed.old(),
-                        state_changed.current(),
-                        state_changed.pending(),
-                    );
-
-                    use gst::State::*;
-                    match (state_changed.current(), state_changed.pending()) {
-                        (Playing, VoidPending) => {
-                            self.is_playing.set(true);
-                            self.play_pause_button
-                                .set_icon_name("media-playback-pause-symbolic");
-                        }
-                        (Paused, VoidPending) => {
-                            self.is_playing.set(false);
-                            self.play_pause_button
-                                .set_icon_name("media-playback-start-symbolic");
-                        }
-                        (_, _) => (),
-                    }
-                }
-                MessageView::DurationChanged(_) => {
-                    debug!("bus: DurationChanged");
-                    self.update_duration();
-                }
-                MessageView::Eos(_) => {
-                    debug!("bus: Eos");
-
-                    self.seek(0.);
-                }
-                MessageView::Error(err) => {
-                    warn!(
-                        "bus: Error from {:?}: {} ({:?})",
-                        err.src(),
-                        err.error(),
-                        err.debug(),
-                    );
-
-                    // Upon getting an error, find the playbin the error originates from and remove
-                    // it from the pipeline. Note that find_immediate_child() can fail if an element
-                    // throws multiple errors at once since playbin will be removed from the
-                    // pipeline the first time around.
-                    if let Some(playbin) = err
-                        .src()
-                        .and_then(|obj| self.find_immediate_child(obj.clone()))
-                    {
-                        let playbin = playbin
-                            .downcast::<gst::Element>()
-                            .expect("immediate child didn't downcast to `gst::Element`");
-
-                        if let Err(err) = pipeline.remove(&playbin) {
-                            warn!("error removing playbin from pipeline: {err:?}");
-                        }
-
-                        if let Some(page) = self.find_page_for_playbin(&playbin) {
-                            page.set_error();
-                        } else {
-                            error!("couldn't find page for playbin");
-                        }
-                    }
-                }
-                _ => (),
-            }
-        }
-
-        fn find_immediate_child(&self, mut object: gst::Object) -> Option<gst::Object> {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("find_immediate_child: unexpected unset `pipeline`");
-                    return None;
-                }
-            };
-
-            loop {
-                let parent = object.parent()?;
-                if &parent == pipeline {
-                    return Some(object);
-                }
-
-                object = parent;
-            }
-        }
-
         fn find_page_for_playbin(&self, playbin: &gst::Element) -> Option<Page> {
             for i in 0..self.tab_view.n_pages() {
                 let page = self.tab_view.nth_page(i).child();
@@ -623,201 +536,6 @@ GNOME 43 platform.",
             }
 
             None
-        }
-
-        #[template_callback]
-        fn play_pause(&self) {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("play_pause: unexpected unset `pipeline`");
-                    return;
-                }
-            };
-
-            let target_state = if self.is_playing.get() {
-                gst::State::Paused
-            } else {
-                gst::State::Playing
-            };
-
-            debug!(
-                "play_pause: target_state: {:?}, is_backward: {}",
-                target_state,
-                self.is_backward.get()
-            );
-
-            if target_state == gst::State::Playing && self.is_backward.get() {
-                let position = pipeline.query_position::<gst::ClockTime>();
-                if position.is_none() {
-                    return;
-                }
-
-                if let Err(err) = pipeline.seek(
-                    1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    position,
-                    gst::SeekType::End,
-                    Some(gst::ClockTime::ZERO),
-                ) {
-                    warn!("error seeking: {err:?}");
-                }
-
-                self.is_backward.set(false);
-            }
-
-            pipeline.set_state(target_state).unwrap();
-        }
-
-        fn seek(&self, value: f64) {
-            debug!("seek({value:.02})");
-
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("seek: unexpected unset `pipeline`");
-                    return;
-                }
-            };
-
-            if let Some(duration) = self.duration.get() {
-                let time =
-                    gst::ClockTime::from_nseconds((value * duration.nseconds() as f64) as u64);
-
-                if let Err(err) = pipeline.seek_simple(gst::SeekFlags::FLUSH, time) {
-                    // This can happen if there's a broken playbin in the pipeline that nevertheless
-                    // hasn't sent an error to the bus yet.
-                    warn!("error seeking: {err:?}");
-                }
-
-                self.is_backward.set(false);
-            }
-        }
-
-        /// Steps one frame into the current playback direction.
-        fn step_frame(&self) {
-            debug!("step_frame()");
-
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("step_frame: unexpected unset `pipeline`");
-                    return;
-                }
-            };
-
-            pipeline.send_event(gst::event::Step::new(
-                gst::format::Buffers::from_u64(1),
-                1.,
-                true,
-                false,
-            ));
-        }
-
-        fn step_forward(&self) {
-            if self.is_playing.get() {
-                // Only step while paused.
-                return;
-            }
-
-            debug!("step_forward: is_backward: {}", self.is_backward.get());
-
-            if self.is_backward.get() {
-                let pipeline = match self.pipeline.get() {
-                    Some(x) => x,
-                    None => {
-                        error!("step_forward: unexpected unset `pipeline`");
-                        return;
-                    }
-                };
-
-                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
-                    // Reversing playback direction already steps 1 frame in most cases.
-                    // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                    if let Err(err) = pipeline.seek(
-                        1.,
-                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                        gst::SeekType::Set,
-                        position,
-                        gst::SeekType::End,
-                        gst::ClockTime::ZERO,
-                    ) {
-                        warn!("step_forward: error seeking: {err:?}");
-                    }
-
-                    self.is_backward.set(false);
-                }
-            } else {
-                self.step_frame();
-            }
-        }
-
-        fn step_back(&self) {
-            if self.is_playing.get() {
-                // Only step while paused.
-                return;
-            }
-
-            debug!("step_back: is_backward: {}", self.is_backward.get());
-
-            if self.is_backward.get() {
-                self.step_frame();
-            } else {
-                let pipeline = match self.pipeline.get() {
-                    Some(x) => x,
-                    None => {
-                        error!("step_back: unexpected unset `pipeline`");
-                        return;
-                    }
-                };
-
-                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
-                    // Reversing playback direction already steps 1 frame in most cases.
-                    // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                    if let Err(err) = pipeline.seek(
-                        -1.,
-                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                        gst::SeekType::Set,
-                        gst::ClockTime::ZERO,
-                        gst::SeekType::Set,
-                        position,
-                    ) {
-                        warn!("step_back: error seeking: {err:?}");
-                    }
-
-                    self.is_backward.set(true);
-                }
-            }
-        }
-
-        fn refresh_controls(&self, position: gst::ClockTime) {
-            let nanoseconds = position.nseconds();
-            let mut seconds = nanoseconds / 1_000_000_000;
-            let mut minutes = seconds / 60;
-            let hours = minutes / 60;
-            seconds %= 60;
-            minutes %= 60;
-
-            let time = if hours == 0 {
-                format!("{minutes}:{seconds:02}")
-            } else {
-                format!("{hours}:{minutes:02}:{seconds:02}")
-            };
-
-            self.time_label.set_label(&time);
-
-            if let Some(duration) = self.duration.get() {
-                let value = position.nseconds() as f64 / duration.nseconds() as f64;
-
-                let value_changed = self
-                    .time_adjustment_value_changed
-                    .get()
-                    .expect("unexpected unset `time_adjustment_value_changed`");
-                self.time_adjustment.block_signal(value_changed);
-                self.time_adjustment.set_value(value);
-                self.time_adjustment.unblock_signal(value_changed);
-            }
         }
 
         pub fn open_file(&self, file: &gio::File) {
@@ -849,101 +567,6 @@ GNOME 43 platform.",
                 .bind(&tab_page, "icon", None::<&Page>);
         }
 
-        fn update_duration(&self) {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("update_duration: unexpected unset `pipeline`");
-                    return;
-                }
-            };
-
-            let duration = pipeline.query_duration::<gst::ClockTime>();
-            debug!("update_duration: duration = {duration:?}");
-
-            if self.duration.get() != duration {
-                self.duration.set(duration);
-
-                // If we've opened something with a duration, show the controls.
-                //
-                // Do this outside the position check in `update_position` because when attaching a
-                // new playbin to the pipeline the position query might still return `None` even
-                // though the duration is already set. We rely on `update_duration` to reveal the
-                // controls as soon as possible for smooth animation.
-                self.controls_revealer.set_reveal_child(duration.is_some());
-
-                self.update_position();
-            }
-        }
-
-        fn update_position(&self) {
-            let position = self
-                .tab_view
-                .pages()
-                .iter()
-                .filter_map(|tab_page: Result<adw::TabPage, _>| {
-                    let page: Page = tab_page
-                        .unwrap()
-                        .child()
-                        .downcast()
-                        .expect("tab page child has wrong type");
-
-                    let position = page.position();
-                    gst::ClockTime::try_from(position).ok()
-                })
-                .max()
-                .unwrap_or(gst::ClockTime::ZERO);
-
-            self.refresh_controls(position);
-        }
-
-        fn attach_playbin(&self, playbin: &gst::Element) {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("attach_playbin: unexpected unset `pipeline`");
-                    return;
-                }
-            };
-
-            if let Err(err) = pipeline.add(playbin) {
-                error!("error adding playbin to pipeline: {err:?}");
-                return;
-            }
-
-            self.update_duration();
-
-            if let Err(err) = playbin.sync_state_with_parent() {
-                warn!("error syncing playbin state with parent: {err:?}");
-            }
-
-            self.seek(self.time_adjustment.value());
-
-            self.update_position();
-            self.stack.set_visible_child_name("content");
-            self.obj().present_if_not_visible();
-        }
-
-        fn detach_playbin(&self, playbin: &gst::Element) {
-            let pipeline = match self.pipeline.get() {
-                Some(x) => x,
-                None => {
-                    error!("detach_playbin: unexpected unset `pipeline`");
-                    return;
-                }
-            };
-
-            if let Err(err) = pipeline.remove(playbin) {
-                error!("error removing playbin from pipeline: {err:?}");
-            }
-
-            self.update_duration();
-
-            if let Err(err) = playbin.set_state(gst::State::Paused) {
-                warn!("error setting playbin state to Paused: {err:?}");
-            }
-        }
-
         #[template_callback]
         fn on_page_attached(&self, tab_page: &adw::TabPage) {
             debug!("page-attached");
@@ -955,33 +578,21 @@ GNOME 43 platform.",
                 .downcast()
                 .expect("tab page child has wrong type");
 
-            let id = page.connect_position_notify(clone!(@weak self as imp => move |_| {
-                imp.update_position();
-            }));
-            if self
-                .page_position_notify_id
-                .borrow_mut()
-                .insert(page.clone(), id)
-                .is_some()
-            {
-                error!("`page_position_notify_id` already had an entry for this page");
-            }
-
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
                 self.obj().present_if_not_visible();
             } else if let Some(playbin) = page.playbin() {
-                self.attach_playbin(&playbin);
+                self.player.attach_source(&playbin);
+                self.stack.set_visible_child_name("content");
+                self.obj().present_if_not_visible();
             } else {
-                let obj = self.obj();
-                let id = page.connect_is_loading_notify(clone!(@weak obj => move |page| {
+                let id = page.connect_is_loading_notify(clone!(@weak self as imp => move |page| {
                     if let Some(playbin) = page.playbin() {
-                        obj.imp().attach_playbin(&playbin);
-                    } else {
-                        // attach_playbin does this for us in the good case.
-                        obj.imp().stack.set_visible_child_name("content");
-                        obj.present_if_not_visible();
+                        imp.player.attach_source(&playbin);
                     }
+
+                    imp.stack.set_visible_child_name("content");
+                    imp.obj().present_if_not_visible();
                 }));
 
                 if self
@@ -1009,15 +620,9 @@ GNOME 43 platform.",
                 .expect("tab page child has wrong type");
 
             if let Some(playbin) = page.playbin() {
-                self.detach_playbin(&playbin);
+                self.player.detach_source(&playbin);
             } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
                 page.disconnect(id);
-            }
-
-            if let Some(id) = self.page_position_notify_id.borrow_mut().remove(&page) {
-                page.disconnect(id);
-            } else {
-                error!("unexpected missing position notify id");
             }
         }
 
@@ -1358,6 +963,23 @@ GNOME 43 platform.",
                 }
             }
         }
+    }
+
+    fn format_position(position: gst::ClockTime) -> String {
+        let nanoseconds = position.nseconds();
+        let mut seconds = nanoseconds / 1_000_000_000;
+        let mut minutes = seconds / 60;
+        let hours = minutes / 60;
+        seconds %= 60;
+        minutes %= 60;
+
+        let label = if hours == 0 {
+            format!("{minutes}:{seconds:02}")
+        } else {
+            format!("{hours}:{minutes:02}:{seconds:02}")
+        };
+
+        label
     }
 
     fn parse_scale(mut text: &str) -> Option<f64> {
