@@ -260,6 +260,7 @@ mod imp {
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
 
+            let mut glvideoflip = None;
             let sink = if paintable
                 .property::<Option<gdk::GLContext>>("gl-context")
                 .is_some()
@@ -270,7 +271,28 @@ mod imp {
                     .property("sink", &sink)
                     .build()
                 {
-                    Ok(glsinkbin) => glsinkbin,
+                    Ok(glsinkbin) => {
+                        match gst::ElementFactory::make("glvideoflip")
+                            .property("video-direction", VideoOrientationMethod::Auto)
+                            .build()
+                        {
+                            Ok(flip) => match gst::ElementFactory::make("glfilterbin")
+                                .property("filter", flip)
+                                .build()
+                            {
+                                Ok(filter) => glvideoflip = Some(filter),
+                                Err(err) => warn!(
+                                    "could not create a `glfilterbin` GStreamer element, \
+                                    using regular `videoflip`: {err:?}"
+                                ),
+                            },
+                            Err(err) => warn!(
+                                "could not create a `glvideoflip` GStreamer element, \
+                                using regular `videoflip`: {err:?}"
+                            ),
+                        }
+                        glsinkbin
+                    }
                     Err(err) => {
                         warn!(
                             "could not create a `glsinkbin` GStreamer element, \
@@ -311,12 +333,18 @@ mod imp {
             playbin.set_property("flags", flags);
 
             // videoflip takes care of applying the rotation tag.
-            match gst::ElementFactory::make("videoflip").build() {
-                Ok(videoflip) => {
-                    videoflip.set_property("video-direction", &VideoOrientationMethod::Auto);
-                    playbin.set_property("video-filter", &videoflip);
+            let make_videoflip = || match gst::ElementFactory::make("videoflip")
+                .property("video-direction", VideoOrientationMethod::Auto)
+                .build()
+            {
+                Ok(flip) => Some(flip),
+                Err(err) => {
+                    warn!("could not create a `videoflip` GStreamer element: {err:?}");
+                    None
                 }
-                Err(err) => warn!("could not create a `videoflip` GStreamer element: {err:?}"),
+            };
+            if let Some(videoflip) = glvideoflip.or_else(make_videoflip) {
+                playbin.set_property("video-filter", &videoflip);
             }
 
             if self.preroll(&playbin).await {
