@@ -259,6 +259,23 @@ mod imp {
                 .build()
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
+
+            let sink = if paintable
+                .property::<Option<gdk::GLContext>>("gl-context")
+                .is_some()
+            {
+                debug!("paintable has gl-context, creating a glsinkbin");
+
+                gst::ElementFactory::make("glsinkbin")
+                    .property("sink", &sink)
+                    .build()
+                    .expect("could not create a `glsinkbin` GStreamer element")
+            } else {
+                debug!("paintable does not have gl-context, using sink as is");
+
+                sink
+            };
+
             paintable.connect_invalidate_size(clone!(@weak obj => move |_| {
                 obj.notify_resolution();
             }));
