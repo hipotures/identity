@@ -5,7 +5,6 @@ use gtk::glib;
 mod imp {
     use std::cell::Cell;
     use std::marker::PhantomData;
-    use std::time::Duration;
 
     use glib::subclass::Signal;
     use glib::{clone, debug, error, warn, Properties};
@@ -25,14 +24,14 @@ mod imp {
         is_playing: Cell<bool>,
         /// Current playback position normalized from 0 to 1.
         ///
-        /// Updates on a timer.
+        /// Updates when `query_and_update_position` is called.
         ///
         /// Set to seek.
         #[property(get, set = Self::seek, minimum = 0., maximum = 1., explicit_notify)]
         progress: Cell<f64>,
         /// Current playback position.
         ///
-        /// Updates on a timer.
+        /// Updates when `query_and_update_position` is called.
         #[property(get)]
         position: Cell<gst::ClockTime>,
         /// Whether the player has a duration (i.e. some source is a video).
@@ -65,15 +64,6 @@ mod imp {
                 }),
             )
             .unwrap();
-
-            // Update position properties on a timer.
-            glib::timeout_add_local(
-                Duration::from_millis(100),
-                clone!(@weak self as imp => @default-return glib::Continue(false), move || {
-                    imp.query_and_update_position();
-                    glib::Continue(true)
-                }),
-            );
 
             // Pre-roll the (empty) pipeline.
             self.pipeline.set_state(gst::State::Paused).unwrap();
@@ -262,7 +252,7 @@ mod imp {
             self.recompute_progress();
         }
 
-        fn query_and_update_position(&self) {
+        pub fn query_and_update_position(&self) {
             // We don't update the position if we get a `None`. This way, whenever the last video
             // tab is closed, the time label stays where it is as the controls revealer is closing.
             // Also, this way, during seeks, the position does not flash to zero momentarily.
@@ -441,6 +431,14 @@ impl Player {
     /// Steps one frame back.
     pub fn step_back(&self) {
         self.imp().step_back();
+    }
+
+    /// Updates the position and progress properties to the latest values.
+    ///
+    /// This function should be called periodically (i.e. every frame) to ensure the latest position
+    /// is available for display.
+    pub fn query_and_update_position(&self) {
+        self.imp().query_and_update_position();
     }
 }
 

@@ -478,6 +478,12 @@ GNOME 43 platform.",
                 }),
             );
 
+            // Update playback position every frame.
+            obj.add_tick_callback(|obj, _| {
+                obj.imp().player.query_and_update_position();
+                glib::Continue(true)
+            });
+
             // Big hack: disable some GtkScale shortcuts that we want to use ourselves.
             for controller in self.time_scale.observe_controllers().snapshot() {
                 if let Ok(controller) = controller.downcast::<gtk::ShortcutController>() {
