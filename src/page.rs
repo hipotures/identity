@@ -266,10 +266,19 @@ mod imp {
             {
                 debug!("paintable has gl-context, creating a glsinkbin");
 
-                gst::ElementFactory::make("glsinkbin")
+                match gst::ElementFactory::make("glsinkbin")
                     .property("sink", &sink)
                     .build()
-                    .expect("could not create a `glsinkbin` GStreamer element")
+                {
+                    Ok(glsinkbin) => glsinkbin,
+                    Err(err) => {
+                        warn!(
+                            "could not create a `glsinkbin` GStreamer element, \
+                            using sink as is: {err:?}"
+                        );
+                        sink
+                    }
+                }
             } else {
                 debug!("paintable does not have gl-context, using sink as is");
 
