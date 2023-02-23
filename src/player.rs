@@ -34,7 +34,7 @@ mod imp {
         ///
         /// Updates on a timer.
         #[property(get)]
-        position: Cell<u64>, // TODO ClockTime
+        position: Cell<gst::ClockTime>,
         /// Whether the player has a duration (i.e. some source is a video).
         #[property(get = Self::has_duration)]
         has_duration: PhantomData<bool>,
@@ -115,14 +115,6 @@ mod imp {
     }
 
     impl Player {
-        fn position(&self) -> gst::ClockTime {
-            gst::ClockTime::try_from(self.position.get()).unwrap()
-        }
-
-        fn set_position(&self, value: gst::ClockTime) {
-            self.position.set(*value);
-        }
-
         fn query_position(&self) -> Option<gst::ClockTime> {
             self.pipeline.query_position::<gst::ClockTime>()
         }
@@ -276,18 +268,20 @@ mod imp {
             // Also, this way, during seeks, the position does not flash to zero momentarily.
             let Some(position) = self.query_position() else { return };
 
-            if self.position() == position {
+            if self.position.get() == position {
                 return;
             }
 
-            self.set_position(position);
+            self.position.set(position);
             self.obj().notify_position();
             self.recompute_progress();
         }
 
         fn recompute_progress(&self) {
             let progress = match self.duration.get() {
-                Some(duration) => self.position().nseconds() as f64 / duration.nseconds() as f64,
+                Some(duration) => {
+                    self.position.get().nseconds() as f64 / duration.nseconds() as f64
+                }
                 _ => 0.,
             };
 

@@ -447,9 +447,7 @@ GNOME 43 platform.",
 
             self.player
                 .bind_property("position", &*self.time_label, "label")
-                .transform_to(|_, position: Option<gst::ClockTime>| {
-                    Some(format_position(position.unwrap_or(gst::ClockTime::ZERO)))
-                })
+                .transform_to(|_, position| Some(format_position(position)))
                 .sync_create()
                 .build();
 
