@@ -611,7 +611,7 @@ mod imp {
                     }
                 };
 
-            let paintable = obj.imp().paintable.borrow();
+            let paintable = self.paintable.borrow();
             let paintable = paintable.as_ref().expect("zooming without a paintable");
 
             // To match pivot image position, compute the difference in image pixels, convert it to
