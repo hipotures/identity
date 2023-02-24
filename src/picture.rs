@@ -138,6 +138,7 @@ mod imp {
                         let pointer_pos = obj.imp().pointer_position.get();
                         obj.imp().zoom_begin(pointer_pos);
                         obj.imp().zoom_update(pointer_pos, new_scale);
+                        obj.imp().zoom_end();
 
                         return gtk::Inhibit(true);
                     }
@@ -173,6 +174,7 @@ mod imp {
             }));
             gesture_zoom.connect_end(clone!(@weak obj => move |_, _| {
                 obj.imp().zoom_initial_scale.set(None);
+                obj.imp().zoom_end();
             }));
             obj.add_controller(gesture_zoom);
         }
@@ -360,6 +362,7 @@ mod imp {
                     // Use zoom methods to zoom with a center pivot point.
                     self.zoom_begin(None);
                     self.zoom_update(None, new_scale);
+                    self.zoom_end();
                 }
             }
         }
@@ -586,6 +589,10 @@ mod imp {
                 .set(self.image_pos_for_pointer_pos(pivot_pointer_pos, self.scale.get()));
         }
 
+        fn zoom_end(&self) {
+            self.zoom_pivot_image_pos.set(None);
+        }
+
         fn zoom_update(&self, pivot_pointer_pos: Option<(f64, f64)>, new_scale: f64) {
             let obj = self.obj();
 
@@ -606,7 +613,7 @@ mod imp {
                 match self.image_pos_for_pointer_pos(pivot_pointer_pos, new_scale) {
                     Some(x) => x,
                     None => {
-                        self.zoom_pivot_image_pos.set(None);
+                        self.zoom_end();
                         return;
                     }
                 };
