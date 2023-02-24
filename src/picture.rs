@@ -148,6 +148,7 @@ mod imp {
             );
             obj.add_controller(scroll_controller);
 
+            // Set up the pinch zoom gesture.
             let gesture_zoom = gtk::GestureZoom::new();
             gesture_zoom.connect_begin(clone!(@weak obj => move |gesture, _| {
                 let scale = obj.scale();
