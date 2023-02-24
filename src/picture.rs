@@ -6,10 +6,12 @@ mod imp {
     use std::cell::{Cell, RefCell};
     use std::marker::PhantomData;
 
+    use glib::subclass::Signal;
     use glib::{clone, Properties};
     use gtk::graphene;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
+    use once_cell::sync::Lazy;
 
     use super::*;
     use crate::scale_request::ScaleRequest;
@@ -77,6 +79,9 @@ mod imp {
         zoom_initial_scale: Cell<Option<f64>>,
         zoom_pivot_image_pos: Cell<Option<(f64, f64)>>,
 
+        pan_pivot_pointer_pos: Cell<Option<(f64, f64)>>,
+        pan_pivot_image_pos: Cell<Option<(f64, f64)>>,
+
         pointer_position: Cell<Option<(f64, f64)>>,
     }
 
@@ -121,7 +126,7 @@ mod imp {
             scroll_controller.connect_scroll(
                 clone!(@weak obj => @default-return gtk::Inhibit(false), move |event, _, delta_y| {
                     let scale = obj.scale();
-                    if scale == 0. {
+                    if scale == 0. || obj.imp().is_panning() {
                         return gtk::Inhibit(false);
                     }
 
@@ -152,7 +157,7 @@ mod imp {
             let gesture_zoom = gtk::GestureZoom::new();
             gesture_zoom.connect_begin(clone!(@weak obj => move |gesture, _| {
                 let scale = obj.scale();
-                if scale == 0. {
+                if scale == 0. || obj.imp().is_panning() {
                     gesture.set_state(gtk::EventSequenceState::Denied);
                     return;
                 }
@@ -178,6 +183,39 @@ mod imp {
                 obj.imp().zoom_end();
             }));
             obj.add_controller(gesture_zoom);
+
+            // Set up click and drag to pan.
+            let gesture_drag = gtk::GestureDrag::new();
+            gesture_drag.connect_drag_begin(
+                clone!(@weak self as imp => move |gesture, start_x, start_y| {
+                    if imp.is_zooming() {
+                        gesture.set_state(gtk::EventSequenceState::Denied);
+                        return;
+                    }
+
+                    imp.pan_begin(start_x, start_y);
+
+                    // Tell Page to stop the kinetic scrolling.
+                    imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+                }),
+            );
+            gesture_drag.connect_drag_update(
+                clone!(@weak self as imp => move |_, offset_x, offset_y| {
+                    if imp.pan_update(offset_x, offset_y).is_none() {
+                        imp.pan_end();
+                    }
+                }),
+            );
+            gesture_drag.connect_drag_end(clone!(@weak self as imp => move |_, _, _| {
+                imp.pan_end();
+            }));
+            obj.add_controller(gesture_drag);
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("stop-kinetic-scrolling").build()]);
+            SIGNALS.as_ref()
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
@@ -582,6 +620,10 @@ mod imp {
             Some((x, y))
         }
 
+        fn is_zooming(&self) -> bool {
+            self.zoom_pivot_image_pos.get().is_some()
+        }
+
         fn zoom_begin(&self, pivot_pointer_pos: Option<(f64, f64)>) {
             let obj = self.obj();
             let pivot_pointer_pos = pivot_pointer_pos
@@ -643,6 +685,58 @@ mod imp {
                 let v_scroll_pos_frac = 1. - obj.height() as f64 / content_h;
                 self.set_v_scroll_pos(self.v_scroll_pos.get() - image_dy_norm / v_scroll_pos_frac);
             }
+        }
+
+        fn is_panning(&self) -> bool {
+            self.pan_pivot_pointer_pos.get().is_some()
+        }
+
+        fn pan_begin(&self, start_x: f64, start_y: f64) {
+            self.pan_pivot_pointer_pos.set(Some((start_x, start_y)));
+            self.pan_pivot_image_pos
+                .set(self.image_pos_for_pointer_pos((start_x, start_y), self.scale.get()));
+        }
+
+        fn pan_end(&self) {
+            self.pan_pivot_pointer_pos.set(None);
+            self.pan_pivot_image_pos.set(None);
+        }
+
+        fn pan_update(&self, offset_x: f64, offset_y: f64) -> Option<()> {
+            let obj = self.obj();
+            let scale = self.scale.get();
+
+            let (start_x, start_y) = self.pan_pivot_pointer_pos.get()?;
+            let new_pivot_pointer_pos = (start_x + offset_x, start_y + offset_y);
+
+            let (image_x, image_y) = self.pan_pivot_image_pos.get()?;
+            let (new_image_x, new_image_y) =
+                self.image_pos_for_pointer_pos(new_pivot_pointer_pos, scale)?;
+
+            let paintable = self.paintable.borrow();
+            let paintable = paintable.as_ref().expect("panning without a paintable");
+
+            // To match pivot image position, compute the difference in image pixels, convert it to
+            // h_scroll_pos and v_scroll_pos units post-scaling, and add to h_scroll_pos and
+            // v_scroll_pos. Then during the next size_allocate() the adjustment values will be set
+            // in accordance with the new h_scroll_pos and v_scroll_pos values.
+            let image_dx_norm = (new_image_x - image_x) / paintable.intrinsic_width() as f64;
+            let image_dy_norm = (new_image_y - image_y) / paintable.intrinsic_height() as f64;
+
+            let content_w = paintable.intrinsic_width() as f64 * scale / obj.scale_factor() as f64;
+            let content_h = paintable.intrinsic_height() as f64 * scale / obj.scale_factor() as f64;
+
+            if (obj.width() as f64) < content_w {
+                let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
+                self.set_h_scroll_pos(self.h_scroll_pos.get() - image_dx_norm / h_scroll_pos_frac);
+            }
+
+            if (obj.height() as f64) < content_h {
+                let v_scroll_pos_frac = 1. - obj.height() as f64 / content_h;
+                self.set_v_scroll_pos(self.v_scroll_pos.get() - image_dy_norm / v_scroll_pos_frac);
+            }
+
+            Some(())
         }
     }
 

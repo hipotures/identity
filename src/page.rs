@@ -523,6 +523,7 @@ impl Page {
         self.notify_v_scroll_pos();
     }
 
+    #[template_callback]
     pub fn reset_kinetic_scrolling(&self) {
         self.imp().reset_kinetic_scrolling();
     }
