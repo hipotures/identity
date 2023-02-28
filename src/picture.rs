@@ -130,25 +130,35 @@ mod imp {
                         return gtk::Inhibit(false);
                     }
 
-                    if event.current_event_state().contains(gdk::ModifierType::CONTROL_MASK) {
-                        // The factor of 1.3× per scroll was copied from Loupe.
-                        let factor = if delta_y > 0. {
-                            1. / (delta_y * 1.3)
-                        } else {
-                            delta_y * -1.3
-                        };
-                        // Max with 0.1 here so it doesn't become 0 (fit to allocation).
-                        let new_scale = (factor * scale).max(0.1);
-
-                        let pointer_pos = obj.imp().pointer_position.get();
-                        obj.imp().zoom_begin(pointer_pos);
-                        obj.imp().zoom_update(pointer_pos, new_scale);
-                        obj.imp().zoom_end();
-
-                        return gtk::Inhibit(true);
+                    // Don't trigger scroll gesture on touchpads, it's too fast and impresize on
+                    // them. Touchpads have pinch zoom for this.
+                    if event.current_event_device().map(|x| x.source())
+                        == Some(gdk::InputSource::Touchpad)
+                    {
+                        return gtk::Inhibit(false);
                     }
 
-                    gtk::Inhibit(false)
+                    // Leave Control and Shift scrolling for the scrolled window.
+                    if event.current_event_state().contains(gdk::ModifierType::CONTROL_MASK)
+                        || event.current_event_state().contains(gdk::ModifierType::SHIFT_MASK) {
+                        return gtk::Inhibit(false);
+                    }
+
+                    // The factor of 1.3× per scroll was copied from Loupe.
+                    let factor = if delta_y > 0. {
+                        1. / (delta_y * 1.3)
+                    } else {
+                        delta_y * -1.3
+                    };
+                    // Max with 0.1 here so it doesn't become 0 (fit to allocation).
+                    let new_scale = (factor * scale).max(0.1);
+
+                    let pointer_pos = obj.imp().pointer_position.get();
+                    obj.imp().zoom_begin(pointer_pos);
+                    obj.imp().zoom_update(pointer_pos, new_scale);
+                    obj.imp().zoom_end();
+
+                    gtk::Inhibit(true)
                 }),
             );
             obj.add_controller(scroll_controller);
