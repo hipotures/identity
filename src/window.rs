@@ -890,8 +890,6 @@ GNOME 43 platform.",
         }
 
         fn set_scale_request(&self, scale_request: ScaleRequest) {
-            debug!("set_scale_request({scale_request:?})");
-
             if self.scale_request.get() == scale_request {
                 return;
             }
