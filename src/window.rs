@@ -133,22 +133,23 @@ mod imp {
 
         player: Player,
 
+        page_bindings: RefCell<HashMap<Page, Vec<glib::Binding>>>,
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         scale_binding: RefCell<Option<glib::Binding>>,
         #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
-        scale_request_notify_id: RefCell<Option<SignalHandlerId>>,
 
         // I like single lines and rustfmt ignores this attribute so I declare this one as allowed.
         #[property(get = Self::best_fit, set = Self::set_best_fit, default_value = true, explicit_notify)]
         best_fit: PhantomData<bool>,
 
+        #[property(get, set = Self::set_h_scroll_pos, explicit_notify, minimum = 0., maximum = 1.)]
         h_scroll_pos: Cell<f64>,
+        #[property(get, set = Self::set_v_scroll_pos, explicit_notify, minimum = 0., maximum = 1.)]
         v_scroll_pos: Cell<f64>,
-        h_scroll_pos_notify_id: RefCell<Option<SignalHandlerId>>,
-        v_scroll_pos_notify_id: RefCell<Option<SignalHandlerId>>,
+
         prev_selected_page: RefCell<glib::WeakRef<Page>>,
 
         /// If a tab menu is open for a page, this is that page, otherwise `None`.
@@ -308,7 +309,7 @@ GNOME 43 platform.",
 
             // FIXME: Remove when https://github.com/gtk-rs/gtk4-rs/issues/934 is fixed.
             self.tab_view.connect_page_detached(
-                clone!(@weak self as imp => move |_, tab_page, _| imp.on_page_detached(tab_page)),
+                clone!(@weak self as imp => move |_, tab_page, _| imp.on_tab_page_detached(tab_page)),
             );
             self.tab_view.connect_selected_page_notify(
                 clone!(@weak self as imp => move |_| imp.on_selected_page_notify()),
@@ -571,16 +572,32 @@ GNOME 43 platform.",
                 .bind(&tab_page, "icon", None::<&Page>);
         }
 
-        #[template_callback]
-        fn on_page_attached(&self, tab_page: &adw::TabPage) {
-            debug!("page-attached");
-
-            self.switch_to_content_after_timeout();
-
-            let page: Page = tab_page
-                .child()
-                .downcast()
-                .expect("tab page child has wrong type");
+        fn on_page_attached(&self, page: Page) {
+            let bindings = vec![
+                self.obj()
+                    .bind_property("scale-request", &page, "scale-request")
+                    .bidirectional()
+                    .sync_create()
+                    .build(),
+                self.obj()
+                    .bind_property("h-scroll-pos", &page, "h-scroll-pos")
+                    .bidirectional()
+                    .sync_create()
+                    .build(),
+                self.obj()
+                    .bind_property("v-scroll-pos", &page, "v-scroll-pos")
+                    .bidirectional()
+                    .sync_create()
+                    .build(),
+            ];
+            if self
+                .page_bindings
+                .borrow_mut()
+                .insert(page.clone(), bindings)
+                .is_some()
+            {
+                error!("just attached page should not have property bindings");
+            }
 
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
@@ -610,8 +627,38 @@ GNOME 43 platform.",
             }
         }
 
+        fn on_page_detached(&self, page: Page) {
+            if let Some(bindings) = self.page_bindings.borrow_mut().remove(&page) {
+                for binding in bindings {
+                    binding.unbind();
+                }
+            } else {
+                error!("detached page should have property bindings");
+            }
+
+            if let Some(playbin) = page.playbin() {
+                self.player.detach_source(&playbin);
+            } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            }
+        }
+
         #[template_callback]
-        fn on_page_detached(&self, tab_page: &adw::TabPage) {
+        fn on_tab_page_attached(&self, tab_page: &adw::TabPage) {
+            debug!("page-attached");
+
+            self.switch_to_content_after_timeout();
+
+            let page: Page = tab_page
+                .child()
+                .downcast()
+                .expect("tab page child has wrong type");
+
+            self.on_page_attached(page);
+        }
+
+        #[template_callback]
+        fn on_tab_page_detached(&self, tab_page: &adw::TabPage) {
             debug!("page-detached");
 
             if self.tab_view.n_pages() == 0 {
@@ -623,11 +670,7 @@ GNOME 43 platform.",
                 .downcast()
                 .expect("tab page child has wrong type");
 
-            if let Some(playbin) = page.playbin() {
-                self.player.detach_source(&playbin);
-            } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
-                page.disconnect(id);
-            }
+            self.on_page_detached(page);
         }
 
         #[template_callback]
@@ -810,25 +853,8 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_selected_page_notify(&self) {
-            let obj = self.obj();
-
             if let Some(binding) = self.scale_binding.take() {
                 binding.unbind();
-            }
-            if let Some(id) = self.scale_request_notify_id.take() {
-                if let Some(page) = self.prev_selected_page.borrow().upgrade() {
-                    page.disconnect(id);
-                }
-            }
-            if let Some(id) = self.h_scroll_pos_notify_id.take() {
-                if let Some(page) = self.prev_selected_page.borrow().upgrade() {
-                    page.disconnect(id);
-                }
-            }
-            if let Some(id) = self.v_scroll_pos_notify_id.take() {
-                if let Some(page) = self.prev_selected_page.borrow().upgrade() {
-                    page.disconnect(id);
-                }
             }
 
             if let Some(page) = self.prev_selected_page.borrow().upgrade() {
@@ -856,27 +882,6 @@ GNOME 43 platform.",
                     .sync_create()
                     .build();
                 self.scale_binding.replace(Some(binding));
-
-                page.set_scale_request(self.scale_request.get());
-                page.set_h_scroll_pos(self.h_scroll_pos.get());
-                page.set_v_scroll_pos(self.v_scroll_pos.get());
-
-                let id = page.connect_scale_request_notify(clone!(@weak obj => move |page| {
-                    obj.imp().scale_request.set(page.scale_request());
-                    obj.notify_scale_request();
-                    obj.notify_best_fit();
-                }));
-                self.scale_request_notify_id.replace(Some(id));
-
-                let id = page.connect_h_scroll_pos_notify(clone!(@weak obj => move |page| {
-                    obj.imp().h_scroll_pos.set(page.h_scroll_pos());
-                }));
-                self.h_scroll_pos_notify_id.replace(Some(id));
-
-                let id = page.connect_v_scroll_pos_notify(clone!(@weak obj => move |page| {
-                    obj.imp().v_scroll_pos.set(page.v_scroll_pos());
-                }));
-                self.v_scroll_pos_notify_id.replace(Some(id));
             } else {
                 self.prev_selected_page.replace(glib::WeakRef::new());
 
@@ -914,6 +919,28 @@ GNOME 43 platform.",
             } else {
                 ScaleRequest::Set(1.)
             })
+        }
+
+        fn set_h_scroll_pos(&self, mut value: f64) {
+            value = value.clamp(0., 1.);
+
+            if self.h_scroll_pos.get() == value {
+                return;
+            }
+
+            self.h_scroll_pos.set(value);
+            self.obj().notify_h_scroll_pos();
+        }
+
+        fn set_v_scroll_pos(&self, mut value: f64) {
+            value = value.clamp(0., 1.);
+
+            if self.v_scroll_pos.get() == value {
+                return;
+            }
+
+            self.v_scroll_pos.set(value);
+            self.obj().notify_v_scroll_pos();
         }
 
         #[template_callback]
