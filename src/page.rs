@@ -38,13 +38,13 @@ mod imp {
         #[property(get = Self::display_path)]
         display_path: PhantomData<Option<String>>,
         // I like single lines and rustfmt ignores this attribute so I declare this one as allowed.
-        #[property(get = Self::scale_request, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
+        #[property(get = Self::scale_request, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: PhantomData<ScaleRequest>,
         #[property(get = Self::scale)]
         scale: PhantomData<f64>,
-        #[property(get = Self::h_scroll_pos, set = Self::set_h_scroll_pos)]
+        #[property(get = Self::h_scroll_pos, set = Self::set_h_scroll_pos, explicit_notify)]
         h_scroll_pos: PhantomData<f64>,
-        #[property(get = Self::v_scroll_pos, set = Self::set_v_scroll_pos)]
+        #[property(get = Self::v_scroll_pos, set = Self::set_v_scroll_pos, explicit_notify)]
         v_scroll_pos: PhantomData<f64>,
         // This can be a OnceCell<gst::Element>, but then #[property] assumes it's not nullable.
         #[property(get)]
