@@ -197,6 +197,8 @@ mod imp {
 
                     // Tell Page to stop the kinetic scrolling.
                     imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+
+                    imp.obj().set_cursor(gdk::Cursor::from_name("grabbing", None).as_ref());
                 }),
             );
             gesture_drag.connect_drag_update(
@@ -208,6 +210,8 @@ mod imp {
             );
             gesture_drag.connect_drag_end(clone!(@weak self as imp => move |_, _, _| {
                 imp.pan_end();
+
+                imp.obj().set_cursor(None);
             }));
             obj.add_controller(gesture_drag);
         }
