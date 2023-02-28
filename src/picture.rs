@@ -188,7 +188,7 @@ mod imp {
             let gesture_drag = gtk::GestureDrag::new();
             gesture_drag.connect_drag_begin(
                 clone!(@weak self as imp => move |gesture, start_x, start_y| {
-                    if imp.is_zooming() {
+                    if imp.is_zooming() || !(imp.is_hscrollable() || imp.is_vscrollable()) {
                         gesture.set_state(gtk::EventSequenceState::Denied);
                         return;
                     }
@@ -741,6 +741,16 @@ mod imp {
             }
 
             Some(())
+        }
+
+        fn is_hscrollable(&self) -> bool {
+            let Some((adj, _)) = &*self.hadjustment.borrow() else { return false };
+            adj.upper() - adj.page_size() > 0.
+        }
+
+        fn is_vscrollable(&self) -> bool {
+            let Some((adj, _)) = &*self.vadjustment.borrow() else { return false };
+            adj.upper() - adj.page_size() > 0.
         }
     }
 
