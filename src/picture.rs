@@ -79,6 +79,7 @@ mod imp {
         zoom_initial_scale: Cell<Option<f64>>,
         zoom_pivot_image_pos: Cell<Option<(f64, f64)>>,
 
+        gesture_drag: gtk::GestureDrag,
         pan_pivot_pointer_pos: Cell<Option<(f64, f64)>>,
         pan_pivot_image_pos: Cell<Option<(f64, f64)>>,
 
@@ -195,8 +196,7 @@ mod imp {
             obj.add_controller(gesture_zoom);
 
             // Set up click and drag to pan.
-            let gesture_drag = gtk::GestureDrag::new();
-            gesture_drag.connect_drag_begin(
+            self.gesture_drag.connect_drag_begin(
                 clone!(@weak self as imp => move |gesture, start_x, start_y| {
                     if imp.is_zooming() || !(imp.is_hscrollable() || imp.is_vscrollable()) {
                         gesture.set_state(gtk::EventSequenceState::Denied);
@@ -211,19 +211,20 @@ mod imp {
                     imp.obj().set_cursor(gdk::Cursor::from_name("grabbing", None).as_ref());
                 }),
             );
-            gesture_drag.connect_drag_update(
+            self.gesture_drag.connect_drag_update(
                 clone!(@weak self as imp => move |_, offset_x, offset_y| {
                     if imp.pan_update(offset_x, offset_y).is_none() {
                         imp.pan_end();
                     }
                 }),
             );
-            gesture_drag.connect_drag_end(clone!(@weak self as imp => move |_, _, _| {
-                imp.pan_end();
+            self.gesture_drag
+                .connect_drag_end(clone!(@weak self as imp => move |_, _, _| {
+                    imp.pan_end();
 
-                imp.obj().set_cursor(None);
-            }));
-            obj.add_controller(gesture_drag);
+                    imp.obj().set_cursor(None);
+                }));
+            obj.add_controller(self.gesture_drag.clone());
         }
 
         fn signals() -> &'static [Signal] {
@@ -355,6 +356,12 @@ mod imp {
             snapshot.translate(&graphene::Point::new(x as f32, y as f32));
             paintable.snapshot(snapshot, w, h);
             snapshot.restore();
+        }
+
+        fn unmap(&self) {
+            self.gesture_drag.set_state(gtk::EventSequenceState::Denied);
+
+            self.parent_unmap();
         }
     }
 
