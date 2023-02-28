@@ -137,7 +137,7 @@ mod imp {
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         scale_binding: RefCell<Option<glib::Binding>>,
-        #[property(get, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
+        #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
         scale_request_notify_id: RefCell<Option<SignalHandlerId>>,
 
@@ -892,6 +892,7 @@ GNOME 43 platform.",
             }
 
             self.scale_request.set(scale_request);
+            self.obj().notify_scale_request();
             self.obj().notify_best_fit();
 
             if let Some(tab_page) = self.tab_view.selected_page() {
