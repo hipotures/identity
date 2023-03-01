@@ -897,14 +897,6 @@ GNOME 43 platform.",
             self.scale_request.set(scale_request);
             self.obj().notify_scale_request();
             self.obj().notify_best_fit();
-
-            if let Some(tab_page) = self.tab_view.selected_page() {
-                let page = tab_page
-                    .child()
-                    .downcast::<Page>()
-                    .expect("unexpected widget type in tab view");
-                page.set_scale_request(self.scale_request.get());
-            }
         }
 
         fn best_fit(&self) -> bool {
