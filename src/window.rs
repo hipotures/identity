@@ -137,7 +137,6 @@ mod imp {
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
-        scale_binding: RefCell<Option<glib::Binding>>,
         #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
 
@@ -150,7 +149,8 @@ mod imp {
         #[property(get, set = Self::set_v_scroll_pos, explicit_notify, minimum = 0., maximum = 1.)]
         v_scroll_pos: Cell<f64>,
 
-        prev_selected_page: RefCell<glib::WeakRef<Page>>,
+        #[property(get, set = Self::set_selected_page, explicit_notify)]
+        selected_page: RefCell<Option<Page>>,
 
         /// If a tab menu is open for a page, this is that page, otherwise `None`.
         menu_page: RefCell<glib::WeakRef<adw::TabPage>>,
@@ -311,31 +311,47 @@ GNOME 43 platform.",
             self.tab_view.connect_page_detached(
                 clone!(@weak self as imp => move |_, tab_page, _| imp.on_tab_page_detached(tab_page)),
             );
-            self.tab_view.connect_selected_page_notify(
-                clone!(@weak self as imp => move |_| imp.on_selected_page_notify()),
-            );
+            self.tab_view
+                .bind_property("selected-page", &*obj, "selected-page")
+                .transform_to(|_, tab_page: Option<adw::TabPage>| {
+                    Some(tab_page.map(|tab_page| {
+                        tab_page
+                            .child()
+                            .downcast::<Page>()
+                            .expect("tab page child has wrong type")
+                    }))
+                })
+                .sync_create()
+                .build();
+
+            // Bind the scale entry text.
+            obj.property_expression("selected-page")
+                .chain_property::<Page>("scale")
+                .chain_closure::<String>(closure!(|_: Option<glib::Object>, scale: f64| {
+                    if scale == 0. {
+                        "".into()
+                    } else {
+                        format_scale(scale).to_value()
+                    }
+                }))
+                .bind(&*self.scale_entry, "text", None::<&Self::Type>);
 
             // Bind properties of the media properties dialog.
-            self.tab_view
-                .property_expression("selected-page")
+            obj.property_expression("selected-page")
                 .chain_closure::<bool>(closure!(
-                    |_: Option<glib::Object>, selected_page: Option<adw::TabPage>| {
+                    |_: Option<glib::Object>, selected_page: Option<Page>| {
                         selected_page.is_none()
                     }
                 ))
                 .bind(
                     &*self.media_properties,
                     "show-empty-state",
-                    None::<&adw::TabView>,
+                    None::<&Self::Type>,
                 );
-            self.tab_view
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
+            obj.property_expression("selected-page")
                 .chain_property::<Page>("display-name")
-                .bind(&*self.media_properties, "file-name", None::<&adw::TabView>);
-            self.tab_view
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
+                .bind(&*self.media_properties, "file-name", None::<&Self::Type>);
+            obj.property_expression("selected-page")
                 .chain_property::<Page>("file")
                 .chain_closure::<Option<String>>(closure!(
                     |_: Option<glib::Object>, file: Option<gio::File>| {
@@ -350,16 +366,12 @@ GNOME 43 platform.",
                 .bind(
                     &*self.media_properties,
                     "file-location",
-                    None::<&adw::TabView>,
+                    None::<&Self::Type>,
                 );
-            self.tab_view
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
+            obj.property_expression("selected-page")
                 .chain_property::<Page>("resolution")
-                .bind(&*self.media_properties, "resolution", None::<&adw::TabView>);
-            self.tab_view
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
+                .bind(&*self.media_properties, "resolution", None::<&Self::Type>);
+            obj.property_expression("selected-page")
                 .chain_property::<Page>("framerate")
                 .chain_closure::<String>(closure!(|_: Option<glib::Object>, framerate: f32| {
                     if framerate != 0. {
@@ -368,27 +380,23 @@ GNOME 43 platform.",
                         gettext("N/A")
                     }
                 }))
-                .bind(&*self.media_properties, "frame-rate", None::<&adw::TabView>);
-            self.tab_view
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
+                .bind(&*self.media_properties, "frame-rate", None::<&Self::Type>);
+            obj.property_expression("selected-page")
                 .chain_property::<Page>("video-codec")
                 .chain_closure::<String>(closure!(
                     |_: Option<glib::Object>, video_codec: Option<String>| {
                         video_codec.unwrap_or_else(|| gettext("N/A"))
                     }
                 ))
-                .bind(&*self.media_properties, "codec", None::<&adw::TabView>);
-            self.tab_view
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
+                .bind(&*self.media_properties, "codec", None::<&Self::Type>);
+            obj.property_expression("selected-page")
                 .chain_property::<Page>("container-format")
                 .chain_closure::<String>(closure!(
                     |_: Option<glib::Object>, container_format: Option<String>| {
                         container_format.unwrap_or_else(|| gettext("N/A"))
                     }
                 ))
-                .bind(&*self.media_properties, "container", None::<&adw::TabView>);
+                .bind(&*self.media_properties, "container", None::<&Self::Type>);
 
             // Set up the drop target.
             let drop_target =
@@ -709,20 +717,28 @@ GNOME 43 platform.",
             }
         }
 
-        fn menu_or_selected_page(&self) -> Option<adw::TabPage> {
+        fn menu_or_selected_tab_page(&self) -> Option<adw::TabPage> {
             self.menu_page
                 .borrow()
                 .upgrade()
                 .or_else(|| self.tab_view.selected_page())
         }
 
-        pub fn copy_file(&self) {
-            let Some(tab_page) = self.menu_or_selected_page() else { return };
+        fn menu_or_selected_page(&self) -> Option<Page> {
+            self.menu_page
+                .borrow()
+                .upgrade()
+                .map(|tab_page| {
+                    tab_page
+                        .child()
+                        .downcast()
+                        .expect("tab page child has wrong type")
+                })
+                .or_else(|| self.selected_page())
+        }
 
-            let page: Page = tab_page
-                .child()
-                .downcast()
-                .expect("tab page child has wrong type");
+        pub fn copy_file(&self) {
+            let Some(page) = self.menu_or_selected_page() else { return };
 
             let file_list = gdk::FileList::from_array(&[page.file()]);
             let content_provider = gdk::ContentProvider::for_value(&file_list.to_value());
@@ -732,12 +748,7 @@ GNOME 43 platform.",
         }
 
         pub async fn show_in_files(&self) {
-            let Some(tab_page) = self.menu_or_selected_page() else { return };
-
-            let page: Page = tab_page
-                .child()
-                .downcast()
-                .expect("tab page child has wrong type");
+            let Some(page) = self.menu_or_selected_page() else { return };
 
             // The OpenDirectory portal wants a file descriptor. There's a way to get it without
             // leaving gio:
@@ -789,7 +800,7 @@ GNOME 43 platform.",
         }
 
         pub fn close_tab(&self) {
-            if let Some(page) = self.menu_or_selected_page() {
+            if let Some(page) = self.menu_or_selected_tab_page() {
                 self.tab_view.close_page(&page);
             } else {
                 self.obj().close();
@@ -797,7 +808,7 @@ GNOME 43 platform.",
         }
 
         pub fn move_tab_to_new_window(&self) {
-            if let Some(page) = self.menu_or_selected_page() {
+            if let Some(page) = self.menu_or_selected_tab_page() {
                 let application: Application = self
                     .obj()
                     .application()
@@ -851,44 +862,6 @@ GNOME 43 platform.",
             }
         }
 
-        #[template_callback]
-        fn on_selected_page_notify(&self) {
-            if let Some(binding) = self.scale_binding.take() {
-                binding.unbind();
-            }
-
-            if let Some(page) = self.prev_selected_page.borrow().upgrade() {
-                page.reset_kinetic_scrolling();
-            }
-
-            if let Some(tab_page) = self.tab_view.selected_page() {
-                let page = tab_page
-                    .child()
-                    .downcast::<Page>()
-                    .expect("unexpected widget type in tab view");
-
-                self.prev_selected_page.replace(page.downgrade());
-
-                let binding = page
-                    .bind_property("scale", &*self.scale_entry, "text")
-                    .transform_to(|_, scale: f64| {
-                        let text = if scale != 0. {
-                            format_scale(scale).to_value()
-                        } else {
-                            "".into()
-                        };
-                        Some(text)
-                    })
-                    .sync_create()
-                    .build();
-                self.scale_binding.replace(Some(binding));
-            } else {
-                self.prev_selected_page.replace(glib::WeakRef::new());
-
-                self.scale_entry.set_text("");
-            }
-        }
-
         fn set_scale_request(&self, scale_request: ScaleRequest) {
             if self.scale_request.get() == scale_request {
                 return;
@@ -931,6 +904,22 @@ GNOME 43 platform.",
 
             self.v_scroll_pos.set(value);
             self.obj().notify_v_scroll_pos();
+        }
+
+        fn selected_page(&self) -> Option<Page> {
+            self.selected_page.borrow().clone()
+        }
+
+        fn set_selected_page(&self, page: Option<Page>) {
+            if *self.selected_page.borrow() == page {
+                return;
+            }
+
+            if let Some(old_page) = self.selected_page.replace(page) {
+                old_page.reset_kinetic_scrolling();
+            }
+
+            self.obj().notify_selected_page();
         }
 
         #[template_callback]
