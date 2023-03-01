@@ -573,6 +573,10 @@ GNOME 43 platform.",
         }
 
         fn on_page_attached(&self, page: Page) {
+            debug!("page-attached");
+
+            self.switch_to_content_after_timeout();
+
             let bindings = vec![
                 self.obj()
                     .bind_property("scale-request", &page, "scale-request")
@@ -628,6 +632,8 @@ GNOME 43 platform.",
         }
 
         fn on_page_detached(&self, page: Page) {
+            debug!("page-detached");
+
             if let Some(bindings) = self.page_bindings.borrow_mut().remove(&page) {
                 for binding in bindings {
                     binding.unbind();
@@ -645,10 +651,6 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_tab_page_attached(&self, tab_page: &adw::TabPage) {
-            debug!("page-attached");
-
-            self.switch_to_content_after_timeout();
-
             let page: Page = tab_page
                 .child()
                 .downcast()
@@ -659,8 +661,6 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_tab_page_detached(&self, tab_page: &adw::TabPage) {
-            debug!("page-detached");
-
             if self.tab_view.n_pages() == 0 {
                 self.stack.set_visible_child_name("empty");
             }
