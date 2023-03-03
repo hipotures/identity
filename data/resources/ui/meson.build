@@ -1,6 +1,7 @@
 blps = [
   'media_properties.blp',
   'page.blp',
+  'page_grid.blp',
   'shortcuts.blp',
   'window.blp',
 ]

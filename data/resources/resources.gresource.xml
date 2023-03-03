@@ -5,10 +5,15 @@
     <file compressed="true" preprocess="xml-stripblanks">ui/media_properties.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/window.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">ui/page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/page_grid.ui</file>
     <file compressed="true">style.css</file>
+    <file compressed="true">style-dark.css</file>
     <file compressed="true">style-hc.css</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/broken-playback-symbolic.svg">../icons/broken-playback-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/error-symbolic.svg">../icons/error-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/horizontal-symbolic.svg">../icons/horizontal-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/tab-symbolic.svg">../icons/tab-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/vertical-symbolic.svg">../icons/vertical-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/identity-symbolic.svg">../icons/org.gnome.gitlab.YaLTeR.Identity-symbolic.svg</file>
   </gresource>
 </gresources>

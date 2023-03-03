@@ -86,6 +86,7 @@ mod imp {
     use std::collections::HashMap;
     use std::fs::File;
     use std::marker::PhantomData;
+    use std::str::FromStr;
     use std::time::Duration;
 
     use adw::subclass::prelude::*;
@@ -100,8 +101,41 @@ mod imp {
     use crate::config;
     use crate::media_properties::MediaProperties;
     use crate::page::Page;
+    use crate::page_grid::PageGrid;
     use crate::player::Player;
     use crate::scale_request::ScaleRequest;
+
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+    enum DisplayMode {
+        #[default]
+        Tabbed,
+        HTile,
+        VTile,
+    }
+
+    impl ToString for DisplayMode {
+        fn to_string(&self) -> String {
+            match self {
+                Self::Tabbed => "tabbed",
+                Self::HTile => "htile",
+                Self::VTile => "vtile",
+            }
+            .to_string()
+        }
+    }
+
+    impl FromStr for DisplayMode {
+        type Err = ();
+
+        fn from_str(s: &str) -> Result<Self, Self::Err> {
+            match s {
+                "tabbed" => Ok(Self::Tabbed),
+                "htile" => Ok(Self::HTile),
+                "vtile" => Ok(Self::VTile),
+                _ => Err(()),
+            }
+        }
+    }
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/window.ui")]
@@ -111,6 +145,8 @@ mod imp {
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
         tab_view: TemplateChild<adw::TabView>,
+        #[template_child]
+        page_grid: TemplateChild<PageGrid>,
         #[template_child]
         controls_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
@@ -127,6 +163,14 @@ mod imp {
         scale_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         media_properties: TemplateChild<MediaProperties>,
+        #[template_child]
+        tabbed_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        htile_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        vtile_button: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        display_mode_stack: TemplateChild<gtk::Stack>,
 
         #[property(get, set)]
         is_playing: Cell<bool>,
@@ -136,6 +180,13 @@ mod imp {
         page_bindings: RefCell<HashMap<Page, Vec<glib::Binding>>>,
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
+
+        #[property(type = String, get = Self::display_mode_str, set = Self::set_display_mode_str, explicit_notify)]
+        display_mode: Cell<DisplayMode>,
+        // Set to true during a display mode transition, disables on_tab_page_attached/detached
+        // handlers, because we're not detaching and attaching pages to the window, but merely
+        // moving them from one container to another.
+        in_display_mode_transition: Cell<bool>,
 
         #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
@@ -239,6 +290,8 @@ mod imp {
                 window.imp().media_properties.present();
             });
 
+            klass.install_property_action("win.set-display-mode", "display-mode");
+
             klass.install_action("win.about", None, |window, _, _| {
                 // Concat translated strings to reuse the metainfo translations.
                 let list_points = [
@@ -321,7 +374,10 @@ GNOME 43 platform.",
                             .expect("tab page child has wrong type")
                     }))
                 })
-                .sync_create()
+                .build();
+
+            self.page_grid
+                .bind_property("selected-page", &*obj, "selected-page")
                 .build();
 
             // Bind the scale entry text.
@@ -538,13 +594,25 @@ GNOME 43 platform.",
     #[gtk::template_callbacks]
     impl Window {
         fn find_page_for_playbin(&self, playbin: &gst::Element) -> Option<Page> {
-            for i in 0..self.tab_view.n_pages() {
-                let page = self.tab_view.nth_page(i).child();
-                let page = page
-                    .downcast::<Page>()
-                    .expect("unexpected widget type in tab view");
-                if page.playbin().as_ref() == Some(playbin) {
-                    return Some(page);
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    for i in 0..self.tab_view.n_pages() {
+                        let page = self.tab_view.nth_page(i).child();
+                        let page = page
+                            .downcast::<Page>()
+                            .expect("unexpected widget type in tab view");
+                        if page.playbin().as_ref() == Some(playbin) {
+                            return Some(page);
+                        }
+                    }
+                }
+                DisplayMode::HTile | DisplayMode::VTile => {
+                    for i in 0..self.page_grid.n_pages() {
+                        let page = self.page_grid.nth_page(i);
+                        if page.playbin().as_ref() == Some(playbin) {
+                            return Some(page);
+                        }
+                    }
                 }
             }
 
@@ -555,29 +623,38 @@ GNOME 43 platform.",
             debug!("open_file(\"{}\")", file.uri());
 
             let page = Page::new(file);
-            let tab_page = self.tab_view.append(&page);
 
-            page.bind_property("display-name", &tab_page, "title")
-                .sync_create()
-                .build();
-            page.bind_property("is-loading", &tab_page, "loading")
-                .sync_create()
-                .build();
-            page.bind_property("display-path", &tab_page, "tooltip")
-                .sync_create()
-                .build();
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    let tab_page = self.tab_view.append(&page);
 
-            page.property_expression("is-error")
-                .chain_closure::<Option<gio::Icon>>(closure!(
-                    |_: Option<glib::Object>, is_error: bool| {
-                        if is_error {
-                            Some(gio::ThemedIcon::new("error-symbolic"))
-                        } else {
-                            None
-                        }
-                    }
-                ))
-                .bind(&tab_page, "icon", None::<&Page>);
+                    page.bind_property("display-name", &tab_page, "title")
+                        .sync_create()
+                        .build();
+                    page.bind_property("is-loading", &tab_page, "loading")
+                        .sync_create()
+                        .build();
+                    page.bind_property("display-path", &tab_page, "tooltip")
+                        .sync_create()
+                        .build();
+
+                    page.property_expression("is-error")
+                        .chain_closure::<Option<gio::Icon>>(closure!(
+                            |_: Option<glib::Object>, is_error: bool| {
+                                if is_error {
+                                    Some(gio::ThemedIcon::new("error-symbolic"))
+                                } else {
+                                    None
+                                }
+                            }
+                        ))
+                        .bind(&tab_page, "icon", None::<&Page>);
+                }
+                DisplayMode::HTile | DisplayMode::VTile => {
+                    self.page_grid.append(page.clone());
+                    self.on_page_attached(page);
+                }
+            }
         }
 
         fn on_page_attached(&self, page: Page) {
@@ -659,6 +736,10 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_tab_page_attached(&self, tab_page: &adw::TabPage) {
+            if self.in_display_mode_transition.get() {
+                return;
+            }
+
             let page: Page = tab_page
                 .child()
                 .downcast()
@@ -669,6 +750,10 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_tab_page_detached(&self, tab_page: &adw::TabPage) {
+            if self.in_display_mode_transition.get() {
+                return;
+            }
+
             if self.tab_view.n_pages() == 0 {
                 self.stack.set_visible_child_name("empty");
             }
@@ -800,11 +885,27 @@ GNOME 43 platform.",
         }
 
         pub fn close_tab(&self) {
-            if let Some(page) = self.menu_or_selected_tab_page() {
-                self.tab_view.close_page(&page);
-            } else {
-                self.obj().close();
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    if let Some(page) = self.menu_or_selected_tab_page() {
+                        self.tab_view.close_page(&page);
+                        return;
+                    }
+                }
+                DisplayMode::HTile | DisplayMode::VTile => {
+                    if let Some(page) = self.menu_or_selected_page() {
+                        self.page_grid.close_page(&page);
+
+                        if self.page_grid.n_pages() == 0 {
+                            self.stack.set_visible_child_name("empty");
+                        }
+
+                        return;
+                    }
+                }
             }
+
+            self.obj().close();
         }
 
         pub fn move_tab_to_new_window(&self) {
@@ -920,6 +1021,136 @@ GNOME 43 platform.",
             }
 
             self.obj().notify_selected_page();
+        }
+
+        fn display_mode_str(&self) -> String {
+            self.display_mode.get().to_string()
+        }
+
+        fn set_display_mode(&self, value: DisplayMode) {
+            let old_value = self.display_mode.get();
+            if old_value == value {
+                return;
+            }
+
+            self.display_mode.set(value);
+            self.obj().notify_display_mode();
+
+            // Actually switch the display mode.
+            self.in_display_mode_transition.set(true);
+
+            // Activate the correct ToggleButton.
+            let button = match value {
+                DisplayMode::Tabbed => &self.tabbed_button,
+                DisplayMode::HTile => &self.htile_button,
+                DisplayMode::VTile => &self.vtile_button,
+            };
+            button.set_active(true);
+
+            // Transfer the pages between widgets if necessary.
+            match value {
+                DisplayMode::Tabbed => {
+                    match old_value {
+                        DisplayMode::Tabbed => (),
+                        DisplayMode::HTile | DisplayMode::VTile => {
+                            let selected = self.selected_page();
+                            self.page_grid.set_selected_page_(None);
+
+                            // Close all pages first as it messes with selected page.
+                            let n_pages = self.page_grid.n_pages();
+                            let mut pages = vec![];
+                            for _ in 0..n_pages {
+                                let page = self.page_grid.nth_page(0);
+                                self.page_grid.close_page(&page);
+                                pages.push(page);
+                            }
+
+                            for page in pages {
+                                // TODO: extract method
+                                let tab_page = self.tab_view.append(&page);
+
+                                page.bind_property("display-name", &tab_page, "title")
+                                    .sync_create()
+                                    .build();
+                                page.bind_property("is-loading", &tab_page, "loading")
+                                    .sync_create()
+                                    .build();
+                                page.bind_property("display-path", &tab_page, "tooltip")
+                                    .sync_create()
+                                    .build();
+
+                                page.property_expression("is-error")
+                                    .chain_closure::<Option<gio::Icon>>(closure!(
+                                        |_: Option<glib::Object>, is_error: bool| {
+                                            if is_error {
+                                                Some(gio::ThemedIcon::new("error-symbolic"))
+                                            } else {
+                                                None
+                                            }
+                                        }
+                                    ))
+                                    .bind(&tab_page, "icon", None::<&Page>);
+
+                                if selected == Some(page) {
+                                    self.tab_view.set_selected_page(&tab_page);
+                                }
+                            }
+                        }
+                    }
+                }
+                DisplayMode::HTile | DisplayMode::VTile => {
+                    match old_value {
+                        DisplayMode::Tabbed => {
+                            let selected = self.selected_page();
+
+                            // Close all pages first as it messes with selected page.
+                            let n_pages = self.tab_view.n_pages();
+                            let mut pages = vec![];
+                            for _ in 0..n_pages {
+                                let tab_page = self.tab_view.nth_page(0);
+                                self.tab_view.close_page(&tab_page);
+
+                                let page = tab_page
+                                    .child()
+                                    .downcast::<Page>()
+                                    .expect("unexpected widget type in tab view");
+                                pages.push(page);
+                            }
+
+                            for page in pages {
+                                self.page_grid.append(page);
+                            }
+
+                            self.page_grid.set_selected_page_(selected);
+                        }
+                        DisplayMode::HTile | DisplayMode::VTile => (),
+                    }
+
+                    // Set the correct orientation.
+                    let orientation = match value {
+                        DisplayMode::HTile => gtk::Orientation::Horizontal,
+                        DisplayMode::VTile => gtk::Orientation::Vertical,
+                        _ => unreachable!(),
+                    };
+                    self.page_grid.set_orientation(orientation);
+                }
+            }
+
+            // Switch to the correct stack page.
+            let visible_child_name = match value {
+                DisplayMode::Tabbed => "tabbed",
+                DisplayMode::HTile | DisplayMode::VTile => "grid",
+            };
+            self.display_mode_stack
+                .set_visible_child_name(visible_child_name);
+
+            self.in_display_mode_transition.set(false);
+        }
+
+        fn set_display_mode_str(&self, value: &str) {
+            if let Ok(value) = value.parse() {
+                self.set_display_mode(value);
+            }
         }
 
         #[template_callback]

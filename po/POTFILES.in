@@ -2,6 +2,7 @@ data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in
 data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in
 data/resources/ui/media_properties.blp
 data/resources/ui/page.blp
+data/resources/ui/page_grid.blp
 data/resources/ui/shortcuts.blp
 data/resources/ui/window.blp
 src/application.rs

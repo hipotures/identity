@@ -136,6 +136,35 @@ template IdWindow : Adw.ApplicationWindow {
             clicked => on_open_clicked() swapped;
           }
 
+          [start]
+          Box {
+            styles ["linked"]
+
+            ToggleButton tabbed_button {
+              icon-name: "tab-symbolic";
+              active: true;
+
+              action-target: "\"tabbed\"";
+              action-name: "win.set-display-mode";
+            }
+
+            ToggleButton htile_button {
+              icon-name: "horizontal-symbolic";
+              group: tabbed_button;
+
+              action-target: "\"htile\"";
+              action-name: "win.set-display-mode";
+            }
+
+            ToggleButton vtile_button {
+              icon-name: "vertical-symbolic";
+              group: tabbed_button;
+
+              action-target: "\"vtile\"";
+              action-name: "win.set-display-mode";
+            }
+          }
+
           title-widget: Adw.WindowTitle {
             title: bind IdWindow.title;
           };
@@ -171,19 +200,43 @@ template IdWindow : Adw.ApplicationWindow {
           }
         }
 
-        Adw.TabBar {
-          autohide: false;
-          view: tab_view;
-        }
+        Stack display_mode_stack {
+          // This stack intentionally has no transition. This is because the way
+          // the display modes are currently implemented is by removing all
+          // pages from the TabView and adding them into the PageGrid. Since
+          // Stack keeps drawing the previous visible child during a transition,
+          // you see the pages disappear during the crossfade, resulting in a
+          // not perfectly smooth animation. Therefore, use no transition until
+          // the display mode switching is implemented in a different way.
 
-        Adw.TabView tab_view {
-          vexpand: true;
-          menu-model: tab_menu;
+          StackPage {
+            name: "tabbed";
 
-          page-attached => on_tab_page_attached() swapped;
-          /* page-detached => on_tab_page_detached() swapped; */
-          create-window => on_create_window() swapped;
-          setup-menu => on_setup_menu() swapped;
+            child: Box {
+              orientation: vertical;
+
+              Adw.TabBar {
+                autohide: false;
+                view: tab_view;
+              }
+
+              Adw.TabView tab_view {
+                vexpand: true;
+                menu-model: tab_menu;
+
+                page-attached => on_tab_page_attached() swapped;
+                /* page-detached => on_tab_page_detached() swapped; */
+                create-window => on_create_window() swapped;
+                setup-menu => on_setup_menu() swapped;
+              }
+            };
+          }
+
+          StackPage {
+            name: "grid";
+
+            child: .IdPageGrid page_grid {};
+          }
         }
 
         Revealer controls_revealer {

@@ -11,11 +11,13 @@ mod imp {
     use adw::subclass::prelude::*;
     use futures_util::StreamExt;
     use gettextrs::gettext;
+    use glib::subclass::Signal;
     use glib::{clone, debug, error, warn, Properties};
     use gst::prelude::*;
     use gst_video::VideoOrientationMethod;
     use gtk::prelude::*;
     use gtk::{gdk, CompositeTemplate};
+    use once_cell::sync::Lazy;
     use once_cell::unsync::OnceCell;
 
     use super::*;
@@ -75,6 +77,20 @@ mod imp {
         type ParentType = adw::Bin;
 
         fn class_init(klass: &mut Self::Class) {
+            klass.set_css_name("id-page");
+
+            // Copied from gtkbutton.c.
+            const ACTIVATE_KEYS: [gdk::Key; 5] = [
+                gdk::Key::space,
+                gdk::Key::KP_Space,
+                gdk::Key::Return,
+                gdk::Key::ISO_Enter,
+                gdk::Key::KP_Enter,
+            ];
+            for key in ACTIVATE_KEYS {
+                klass.add_binding_signal(key, gdk::ModifierType::empty(), "activate", None);
+            }
+
             klass.bind_template();
             klass.bind_template_callbacks();
             klass.bind_template_instance_callbacks();
@@ -96,6 +112,12 @@ mod imp {
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: Lazy<Vec<Signal>> =
+                Lazy::new(|| vec![Signal::builder("activate").action().build()]);
+            SIGNALS.as_ref()
         }
 
         fn constructed(&self) {

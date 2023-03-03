@@ -11,6 +11,7 @@ use application::Application;
 mod config;
 mod media_properties;
 mod page;
+mod page_grid;
 mod picture;
 mod player;
 mod scale_request;

@@ -1,3 +1,11 @@
+tabview scrolledwindow:focus:focus-visible {
+  outline-color: alpha(@accent_color, 0.8);
+}
+
+id-page-grid scrolledwindow:focus:focus-visible {
+  outline-color: alpha(@accent_color, 0.8);
+}
+
 row.property label.title {
   opacity: 0.9;
 }
