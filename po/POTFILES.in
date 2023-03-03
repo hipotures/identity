@@ -9,4 +9,5 @@ src/main.rs
 src/media_properties.rs
 src/page.rs
 src/picture.rs
+src/player.rs
 src/window.rs
