@@ -34,6 +34,8 @@ mod imp {
         picture: TemplateChild<Picture>,
         #[template_child]
         scrolled_window: TemplateChild<gtk::ScrolledWindow>,
+        #[template_child]
+        title_label: TemplateChild<gtk::Label>,
 
         #[property(get, set, construct_only)]
         file: OnceCell<gio::File>,
@@ -138,6 +140,14 @@ mod imp {
             glib::MainContext::default().spawn_local(
                 clone!(@to-owned self as imp => async move { imp.prepare_playbin().await; }),
             );
+
+            // Bind this here instead of the .blp because the .blp binding seems to happen before
+            // `file` is set, and adding manual `file` setter that notifies `display-path` correctly
+            // is a little more involved.
+            self.obj()
+                .bind_property("display-path", &*self.title_label, "tooltip-text")
+                .sync_create()
+                .build();
         }
 
         fn dispose(&self) {
