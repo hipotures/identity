@@ -66,6 +66,8 @@ mod imp {
         container_format: RefCell<Option<String>>,
         #[property(get = Self::resolution)]
         resolution: PhantomData<String>,
+        #[property(get, set)]
+        show_overlay: Cell<bool>,
 
         constructed_at: OnceCell<Instant>,
     }

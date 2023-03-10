@@ -2,44 +2,58 @@ using Gtk 4.0;
 using Adw 1;
 
 template IdPage : Adw.Bin {
-  child: Stack stack {
-    transition-type: crossfade;
+  child: Overlay {
+    child: Stack stack {
+      transition-type: crossfade;
 
-    Spinner spinner {
-      spinning: true;
+      Spinner spinner {
+        spinning: true;
 
-      width-request: 32;
-      height-request: 32;
-      halign: center;
-      valign: center;
-    }
+        width-request: 32;
+        height-request: 32;
+        halign: center;
+        valign: center;
+      }
 
-    StackPage {
-      name: "content";
+      StackPage {
+        name: "content";
 
-      child: ScrolledWindow scrolled_window {
-        child: .IdPicture picture {
-          notify::scale-request => on_scale_request_changed() swapped;
-          notify::scale => on_scale_changed() swapped;
-          notify::h-scroll-pos => on_h_scroll_pos_notify() swapped;
-          notify::v-scroll-pos => on_v_scroll_pos_notify() swapped;
-          stop-kinetic-scrolling => reset_kinetic_scrolling() swapped;
+        child: ScrolledWindow scrolled_window {
+          child: .IdPicture picture {
+            notify::scale-request => on_scale_request_changed() swapped;
+            notify::scale => on_scale_changed() swapped;
+            notify::h-scroll-pos => on_h_scroll_pos_notify() swapped;
+            notify::v-scroll-pos => on_v_scroll_pos_notify() swapped;
+            stop-kinetic-scrolling => reset_kinetic_scrolling() swapped;
+          };
         };
-      };
-    }
+      }
 
-    StackPage {
-      name: "error";
+      StackPage {
+        name: "error";
 
-      child: Adw.StatusPage {
-        icon-name: "broken-playback-symbolic";
+        child: Adw.StatusPage {
+          icon-name: "broken-playback-symbolic";
 
-        /* Translators: Title that is shown upon video or image loading error. */
-        title: _("File Failed to Load");
+          /* Translators: Title that is shown upon video or image loading error. */
+          title: _("File Failed to Load");
 
-        /* Translators: Label shown when a video or image has failed to load. */
-        description: _("Could not display the file.\n\nIf you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work.");
-      };
+          /* Translators: Label shown when a video or image has failed to load. */
+          description: _("Could not display the file.\n\nIf you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work.");
+        };
+      }
+    };
+
+    [overlay]
+    Label title_label {
+      styles ["osd"]
+
+      name: "overlay-title";
+      label: bind IdPage.display-name;
+      visible: bind IdPage.show-overlay;
+      ellipsize: middle;
+      halign: start;
+      valign: start;
     }
   };
 }

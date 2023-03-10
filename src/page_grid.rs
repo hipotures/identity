@@ -65,6 +65,8 @@ mod imp {
         pub fn append(&self, page: Page) {
             self.box_.append(&page);
 
+            page.set_show_overlay(true);
+
             let id = page.connect_local(
                 "activate",
                 false,
@@ -104,6 +106,8 @@ mod imp {
                 .map(|widget| widget.downcast().unwrap());
 
             self.box_.remove(page);
+
+            page.set_show_overlay(false);
 
             if let Some(id) = self.pages.borrow_mut().remove(page) {
                 page.disconnect(id);
