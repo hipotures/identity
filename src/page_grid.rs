@@ -86,14 +86,14 @@ mod imp {
             }
         }
 
-        pub fn n_pages(&self) -> u32 {
-            self.box_.observe_children().n_items()
+        pub fn n_pages(&self) -> i32 {
+            self.box_.observe_children().n_items().try_into().unwrap()
         }
 
-        pub fn nth_page(&self, n: u32) -> Page {
+        pub fn nth_page(&self, n: i32) -> Page {
             self.box_
                 .observe_children()
-                .item(n)
+                .item(n.try_into().unwrap())
                 .unwrap()
                 .downcast()
                 .unwrap()
@@ -165,11 +165,11 @@ impl PageGrid {
         self.imp().append(page);
     }
 
-    pub fn n_pages(&self) -> u32 {
+    pub fn n_pages(&self) -> i32 {
         self.imp().n_pages()
     }
 
-    pub fn nth_page(&self, n: u32) -> Page {
+    pub fn nth_page(&self, n: i32) -> Page {
         self.imp().nth_page(n)
     }
 
