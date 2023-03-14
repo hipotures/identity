@@ -933,9 +933,19 @@ GNOME 43 platform.",
         }
 
         pub fn focus_tab(&self, index: i32) {
-            if index < self.tab_view.n_pages() {
-                let page = self.tab_view.nth_page(index);
-                self.tab_view.set_selected_page(&page);
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    if index < self.tab_view.n_pages() {
+                        let page = self.tab_view.nth_page(index);
+                        self.tab_view.set_selected_page(&page);
+                    }
+                }
+                DisplayMode::HTile | DisplayMode::VTile => {
+                    if index < self.page_grid.n_pages() {
+                        let page = self.page_grid.nth_page(index);
+                        self.page_grid.set_selected_page_(Some(page));
+                    }
+                }
             }
         }
 
@@ -1164,11 +1174,7 @@ GNOME 43 platform.",
 
         #[template_callback]
         fn on_scale_entry_activate(&self) {
-            if let Some(tab_page) = self.tab_view.selected_page() {
-                let page = tab_page
-                    .child()
-                    .downcast::<Page>()
-                    .expect("unexpected widget type in tab view");
+            if let Some(page) = self.selected_page() {
                 page.grab_focus_();
             }
 
@@ -1185,12 +1191,7 @@ GNOME 43 platform.",
         }
 
         fn zoom_in(&self) {
-            if let Some(tab_page) = self.tab_view.selected_page() {
-                let page = tab_page
-                    .child()
-                    .downcast::<Page>()
-                    .expect("unexpected widget type in tab view");
-
+            if let Some(page) = self.selected_page() {
                 let scale = page.scale();
                 if scale != 0. {
                     let new_scale = scale * HOTKEY_SCALE_FACTOR;
@@ -1200,12 +1201,7 @@ GNOME 43 platform.",
         }
 
         fn zoom_out(&self) {
-            if let Some(tab_page) = self.tab_view.selected_page() {
-                let page = tab_page
-                    .child()
-                    .downcast::<Page>()
-                    .expect("unexpected widget type in tab view");
-
+            if let Some(page) = self.selected_page() {
                 let scale = page.scale();
                 if scale != 0. {
                     // Max with 0.1 here so it doesn't become 0 (fit to allocation).
