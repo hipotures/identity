@@ -171,6 +171,10 @@ mod imp {
         vtile_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         display_mode_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        display_mode_selector: TemplateChild<gtk::Widget>,
+        #[template_child]
+        primary_menu_button_content: TemplateChild<gtk::MenuButton>,
 
         #[property(get, set)]
         is_playing: Cell<bool>,
@@ -491,6 +495,11 @@ GNOME 43 platform.",
             menu.append_section(None, &section);
 
             self.scale_button.set_menu_model(Some(&menu));
+
+            // Set up custom widgets in the primary menu.
+            let popover = self.primary_menu_button_content.popover().unwrap();
+            let popover_menu: gtk::PopoverMenu = popover.downcast().unwrap();
+            popover_menu.add_child(&*self.display_mode_selector, "display-mode-selector");
 
             // Bind the player properties.
             self.player

@@ -1,7 +1,41 @@
 using Gtk 4.0;
 using Adw 1;
 
-menu primary_menu {
+menu primary_menu_empty {
+  section {
+    item {
+      /* Translators: Primary menu entry that opens a new window. */
+      label: _("_New Window");
+      action: "app.new-window";
+    }
+
+    item {
+      /* Translators: Primary menu entry that opens the media properties window. */
+      label: _("_Media Properties");
+      action: "win.media-properties";
+    }
+
+    item {
+      /* Translators: Primary menu entry that opens the keyboard shortcuts window. */
+      label: _("_Keyboard Shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      /* Translators: Primary menu entry that opens the About dialog. */
+      label: _("_About Identity");
+      action: "win.about";
+    }
+  }
+}
+
+menu primary_menu_content {
+  section {
+    item {
+      custom: "display-mode-selector";
+    }
+  }
+
   section {
     item {
       /* Translators: Primary menu entry that opens a new window. */
@@ -57,6 +91,42 @@ menu tab_menu {
   }
 }
 
+Box display_mode_selector {
+  styles ["linked"]
+  hexpand: true;
+  homogeneous: true;
+
+  ToggleButton tabbed_button {
+    icon-name: "tab-symbolic";
+    /* Translators: Tooltip for the primary menu button that selects the tabbed display mode. */
+    tooltip-text: _("Arrange as Tabs");
+    active: true;
+
+    action-target: "\"tabbed\"";
+    action-name: "win.set-display-mode";
+  }
+
+  ToggleButton htile_button {
+    icon-name: "horizontal-symbolic";
+    /* Translators: Tooltip for the primary menu button that selects the tiled in a row display mode. */
+    tooltip-text: _("Arrange in a Row");
+    group: tabbed_button;
+
+    action-target: "\"htile\"";
+    action-name: "win.set-display-mode";
+  }
+
+  ToggleButton vtile_button {
+    icon-name: "vertical-symbolic";
+    /* Translators: Tooltip for the primary menu button that selects the tiled in a column display mode. */
+    tooltip-text: _("Arrange in a Column");
+    group: tabbed_button;
+
+    action-target: "\"vtile\"";
+    action-name: "win.set-display-mode";
+  }
+}
+
 .IdMediaProperties media_properties {
   transient-for: IdWindow;
   destroy-with-parent: true;
@@ -100,7 +170,7 @@ template IdWindow : Adw.ApplicationWindow {
             [end]
             MenuButton {
               icon-name: "open-menu-symbolic";
-              menu-model: primary_menu;
+              menu-model: primary_menu_empty;
               primary: true;
 
               /* Translators: Primary menu tooltip. */
@@ -137,43 +207,14 @@ template IdWindow : Adw.ApplicationWindow {
             clicked => on_open_clicked() swapped;
           }
 
-          [start]
-          Box {
-            styles ["linked"]
-
-            ToggleButton tabbed_button {
-              icon-name: "tab-symbolic";
-              active: true;
-
-              action-target: "\"tabbed\"";
-              action-name: "win.set-display-mode";
-            }
-
-            ToggleButton htile_button {
-              icon-name: "horizontal-symbolic";
-              group: tabbed_button;
-
-              action-target: "\"htile\"";
-              action-name: "win.set-display-mode";
-            }
-
-            ToggleButton vtile_button {
-              icon-name: "vertical-symbolic";
-              group: tabbed_button;
-
-              action-target: "\"vtile\"";
-              action-name: "win.set-display-mode";
-            }
-          }
-
           title-widget: Adw.WindowTitle {
             title: bind IdWindow.title;
           };
 
           [end]
-          MenuButton {
+          MenuButton primary_menu_button_content {
             icon-name: "open-menu-symbolic";
-            menu-model: primary_menu;
+            menu-model: primary_menu_content;
             primary: true;
 
             /* Translators: Primary menu tooltip. */
