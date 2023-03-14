@@ -98,5 +98,24 @@ ShortcutsWindow help_overlay {
         action-name: "win.set-best-fit";
       }
     }
+
+    ShortcutsGroup {
+      title: C_("shortcut window", "Display Mode");
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Arrange as tabs");
+        action-name: "win.set-display-mode('tabbed')";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Arrange in a row");
+        action-name: "win.set-display-mode('htile')";
+      }
+
+      ShortcutsShortcut {
+        title: C_("shortcut window", "Arrange in a column");
+        action-name: "win.set-display-mode('vtile')";
+      }
+    }
   }
 }
