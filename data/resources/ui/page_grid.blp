@@ -2,9 +2,8 @@ using Gtk 4.0;
 using Adw 1;
 
 template IdPageGrid : Adw.Bin {
-  child: Box box_ {
+  layout-manager: BoxLayout box_layout {
     homogeneous: true;
-    hexpand: true;
     spacing: 2;
   };
 }

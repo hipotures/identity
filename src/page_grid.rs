@@ -5,7 +5,6 @@ use crate::page::Page;
 
 mod imp {
     use std::cell::RefCell;
-    use std::collections::HashMap;
 
     use glib::{clone, error, Properties, SignalHandlerId};
     use gtk::prelude::*;
@@ -19,12 +18,12 @@ mod imp {
     #[properties(wrapper_type = super::PageGrid)]
     pub struct PageGrid {
         #[template_child]
-        box_: TemplateChild<gtk::Box>,
+        box_layout: TemplateChild<gtk::BoxLayout>,
 
         #[property(get, set = Self::set_selected_page, explicit_notify)]
         selected_page: RefCell<Option<Page>>,
 
-        pages: RefCell<HashMap<Page, SignalHandlerId>>,
+        pages: RefCell<Vec<(Page, SignalHandlerId)>>,
     }
 
     #[glib::object_subclass]
@@ -63,8 +62,7 @@ mod imp {
 
     impl PageGrid {
         pub fn append(&self, page: Page) {
-            self.box_.append(&page);
-
+            page.set_parent(&*self.obj());
             page.set_show_overlay(true);
 
             let id = page.connect_local(
@@ -76,10 +74,7 @@ mod imp {
                     None
                 }),
             );
-            let old = self.pages.borrow_mut().insert(page.clone(), id);
-            if old.is_some() {
-                error!("`pages` should not have entry for a new page");
-            }
+            self.pages.borrow_mut().push((page.clone(), id));
 
             if self.selected_page.borrow().is_none() {
                 self.set_selected_page(Some(page));
@@ -87,16 +82,11 @@ mod imp {
         }
 
         pub fn n_pages(&self) -> i32 {
-            self.box_.observe_children().n_items().try_into().unwrap()
+            self.pages.borrow().len().try_into().unwrap()
         }
 
         pub fn nth_page(&self, n: i32) -> Page {
-            self.box_
-                .observe_children()
-                .item(n.try_into().unwrap())
-                .unwrap()
-                .downcast()
-                .unwrap()
+            self.pages.borrow()[n as usize].0.clone()
         }
 
         pub fn close_page(&self, page: &Page) {
@@ -105,15 +95,18 @@ mod imp {
                 .or_else(|| page.next_sibling())
                 .map(|widget| widget.downcast().unwrap());
 
-            self.box_.remove(page);
-
-            page.set_show_overlay(false);
-
-            if let Some(id) = self.pages.borrow_mut().remove(page) {
-                page.disconnect(id);
-            } else {
-                error!("`pages` should have entry for a page being removed");
+            {
+                let mut pages = self.pages.borrow_mut();
+                if let Some(idx) = pages.iter().position(|(p, _)| p == page) {
+                    let id = pages.remove(idx).1;
+                    page.disconnect(id);
+                } else {
+                    error!("`pages` should have entry for a page being removed");
+                }
             }
+
+            page.unparent();
+            page.set_show_overlay(false);
 
             {
                 let selected_page = &mut *self.selected_page.borrow_mut();
@@ -125,7 +118,7 @@ mod imp {
         }
 
         pub fn set_orientation(&self, value: gtk::Orientation) {
-            self.box_.set_orientation(value);
+            self.box_layout.set_orientation(value);
         }
 
         pub fn set_selected_page(&self, value: Option<Page>) {
