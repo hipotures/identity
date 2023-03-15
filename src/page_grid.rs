@@ -44,6 +44,12 @@ mod imp {
     }
 
     impl ObjectImpl for PageGrid {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().add_css_class("row");
+        }
+
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -119,6 +125,18 @@ mod imp {
 
         pub fn set_orientation(&self, value: gtk::Orientation) {
             self.box_layout.set_orientation(value);
+
+            match value {
+                gtk::Orientation::Horizontal => {
+                    self.obj().remove_css_class("column");
+                    self.obj().add_css_class("row");
+                }
+                gtk::Orientation::Vertical => {
+                    self.obj().remove_css_class("row");
+                    self.obj().add_css_class("column");
+                }
+                _ => unreachable!(),
+            }
         }
 
         pub fn set_selected_page(&self, value: Option<Page>) {
