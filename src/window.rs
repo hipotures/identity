@@ -904,6 +904,7 @@ GNOME 43 platform.",
                 DisplayMode::Row | DisplayMode::Column => {
                     if let Some(page) = self.menu_or_selected_page() {
                         self.page_grid.close_page(&page);
+                        self.on_page_detached(page);
 
                         if self.page_grid.n_pages() == 0 {
                             self.stack.set_visible_child_name("empty");
