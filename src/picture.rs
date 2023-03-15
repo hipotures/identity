@@ -225,11 +225,43 @@ mod imp {
                     imp.obj().set_cursor(None);
                 }));
             obj.add_controller(self.gesture_drag.clone());
+
+            let drag_source = gtk::DragSource::new();
+            drag_source.set_exclusive(true);
+            drag_source.connect_prepare(
+                clone!(@weak self as imp => @default-return None, move |source, _, _| {
+                    if imp.is_zooming() || (imp.is_hscrollable() || imp.is_vscrollable()) {
+                        source.set_state(gtk::EventSequenceState::Denied);
+                        return None;
+                    }
+
+                    imp.obj().emit_by_name::<Option<gdk::ContentProvider>>("get-content-provider", &[])
+                }),
+            );
+            drag_source.connect_drag_begin(clone!(@weak self as imp => move |source, drag| {
+                if let Some(paintable) = imp.thumbnail() {
+                    let hot_x = paintable.intrinsic_width() / 2 + 16;
+                    let hot_y = paintable.intrinsic_height() / 2 + 16;
+                    source.set_icon(Some(&paintable), hot_x, hot_y);
+
+                    let icon = gtk::DragIcon::for_drag(drag);
+                    icon.add_css_class("drag-thumbnail");
+                    // So border-radius works.
+                    icon.set_overflow(gtk::Overflow::Hidden);
+                }
+            }));
+            obj.add_controller(drag_source);
         }
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("stop-kinetic-scrolling").build()]);
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![
+                    Signal::builder("stop-kinetic-scrolling").build(),
+                    Signal::builder("get-content-provider")
+                        .return_type::<gdk::ContentProvider>()
+                        .build(),
+                ]
+            });
             SIGNALS.as_ref()
         }
 
@@ -768,6 +800,22 @@ mod imp {
         fn is_vscrollable(&self) -> bool {
             let Some((adj, _)) = &*self.vadjustment.borrow() else { return false };
             adj.upper() - adj.page_size() > 0.
+        }
+
+        fn thumbnail(&self) -> Option<gdk::Paintable> {
+            const THUMBNAIL_SIZE: f32 = 128.;
+
+            let paintable = self.paintable()?;
+
+            let width = paintable.intrinsic_width();
+            let height = paintable.intrinsic_height();
+            let long_side = i32::max(width, height);
+            let scale = f32::min(1., THUMBNAIL_SIZE / long_side as f32);
+
+            let snapshot = gtk::Snapshot::new();
+            snapshot.scale(scale, scale);
+            paintable.snapshot(&snapshot, width as f64, height as f64);
+            snapshot.to_paintable(None)
         }
     }
 

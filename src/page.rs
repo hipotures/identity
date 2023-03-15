@@ -282,6 +282,12 @@ mod imp {
             self.obj().notify_display_name();
         }
 
+        #[template_callback]
+        fn get_content_provider(&self) -> gdk::ContentProvider {
+            let file_list = gdk::FileList::from_array(&[self.file.get().unwrap().clone()]);
+            gdk::ContentProvider::for_value(&file_list.to_value())
+        }
+
         async fn prepare_playbin(&self) {
             let obj = self.obj();
 

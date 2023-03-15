@@ -25,6 +25,7 @@ template IdPage : Adw.Bin {
             notify::h-scroll-pos => on_h_scroll_pos_notify() swapped;
             notify::v-scroll-pos => on_v_scroll_pos_notify() swapped;
             stop-kinetic-scrolling => reset_kinetic_scrolling() swapped;
+            get-content-provider => get_content_provider() swapped;
           };
         };
       }
