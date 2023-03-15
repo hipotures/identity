@@ -288,6 +288,8 @@ mod imp {
         }
 
         pub fn attach_source(&self, source: &gst::Element) {
+            debug!("Player::attach_source");
+
             if let Err(err) = self.pipeline.add(source) {
                 error!("error adding source to pipeline: {err:?}");
                 return;
@@ -308,6 +310,8 @@ mod imp {
         }
 
         pub fn detach_source(&self, source: &gst::Element) {
+            debug!("Player::detach_source");
+
             if let Err(err) = self.pipeline.remove(source) {
                 // This can happen for example if the source was already removed after it errored,
                 // and then the page was closed, which calls detach_source again.
