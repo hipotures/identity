@@ -15,6 +15,7 @@ mod page_grid;
 mod picture;
 mod player;
 mod scale_request;
+mod thumbnail_paintable;
 mod window;
 
 const G_LOG_DOMAIN: &str = "Identity";

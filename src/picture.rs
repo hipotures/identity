@@ -15,6 +15,7 @@ mod imp {
 
     use super::*;
     use crate::scale_request::ScaleRequest;
+    use crate::thumbnail_paintable::ThumbnailPaintable;
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Picture)]
@@ -803,19 +804,8 @@ mod imp {
         }
 
         fn thumbnail(&self) -> Option<gdk::Paintable> {
-            const THUMBNAIL_SIZE: f32 = 128.;
-
             let paintable = self.paintable()?;
-
-            let width = paintable.intrinsic_width();
-            let height = paintable.intrinsic_height();
-            let long_side = i32::max(width, height);
-            let scale = f32::min(1., THUMBNAIL_SIZE / long_side as f32);
-
-            let snapshot = gtk::Snapshot::new();
-            snapshot.scale(scale, scale);
-            paintable.snapshot(&snapshot, width as f64, height as f64);
-            snapshot.to_paintable(None)
+            Some(ThumbnailPaintable::new(&paintable).upcast())
         }
     }
 
