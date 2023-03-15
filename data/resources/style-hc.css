@@ -1,7 +1,4 @@
-tabview scrolledwindow:focus:focus-visible {
-  outline-color: alpha(@accent_color, 0.8);
-}
-
+tabview scrolledwindow:focus:focus-visible,
 id-page-grid scrolledwindow:focus:focus-visible {
   outline-color: alpha(@accent_color, 0.8);
 }
