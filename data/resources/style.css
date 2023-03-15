@@ -32,6 +32,40 @@ id-page-grid id-page.selected {
   outline-color: alpha(@window_fg_color, 0.6);
 }
 
+/* Border radius to match the window bottom corners when there's no controls revealer. */
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:first-child:dir(ltr),
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:last-child:dir(rtl),
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:first-child:dir(ltr) scrolledwindow,
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:last-child:dir(rtl) scrolledwindow
+{
+  border-bottom-left-radius: 11px;
+}
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:last-child:dir(ltr),
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:first-child:dir(rtl),
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:last-child:dir(ltr) scrolledwindow,
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.row id-page:first-child:dir(rtl) scrolledwindow
+{
+  border-bottom-right-radius: 11px;
+}
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.column id-page:last-child,
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+id-page-grid.column id-page:last-child scrolledwindow,
+window:not(.controls-visible):not(.tiled):not(.tiled-top):not(.tiled-bottom):not(.tiled-left):not(.tiled-right):not(.fullscreen):not(.maximized):not(.solid-csd)
+tabview scrolledwindow
+{
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+}
+
 #overlay-title {
   border-radius: 6px;
   margin: 6px;

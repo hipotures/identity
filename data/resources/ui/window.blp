@@ -244,6 +244,8 @@ template IdWindow : Adw.ApplicationWindow {
         }
 
         Stack display_mode_stack {
+          name: "display-mode-stack";
+
           // This stack intentionally has no transition. This is because the way
           // the display modes are currently implemented is by removing all
           // pages from the TabView and adding them into the PageGrid. Since
