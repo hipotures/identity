@@ -364,6 +364,16 @@ GNOME 43 platform.",
                 obj.add_css_class("devel");
             }
 
+            self.controls_revealer.connect_reveal_child_notify(
+                clone!(@weak obj => move |revealer| {
+                    if revealer.reveals_child() {
+                        obj.add_css_class("controls-visible");
+                    } else {
+                        obj.remove_css_class("controls-visible");
+                    }
+                }),
+            );
+
             // FIXME: Remove when https://github.com/gtk-rs/gtk4-rs/issues/934 is fixed.
             self.tab_view.connect_page_detached(
                 clone!(@weak self as imp => move |_, tab_page, _| imp.on_tab_page_detached(tab_page)),
