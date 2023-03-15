@@ -148,6 +148,9 @@ mod imp {
                 .bind_property("display-path", &*self.title_label, "tooltip-text")
                 .sync_create()
                 .build();
+
+            // For border-radius.
+            self.obj().set_overflow(gtk::Overflow::Hidden);
         }
 
         fn dispose(&self) {
