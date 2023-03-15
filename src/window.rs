@@ -109,16 +109,16 @@ mod imp {
     enum DisplayMode {
         #[default]
         Tabbed,
-        HTile,
-        VTile,
+        Row,
+        Column,
     }
 
     impl ToString for DisplayMode {
         fn to_string(&self) -> String {
             match self {
                 Self::Tabbed => "tabbed",
-                Self::HTile => "htile",
-                Self::VTile => "vtile",
+                Self::Row => "row",
+                Self::Column => "column",
             }
             .to_string()
         }
@@ -130,8 +130,8 @@ mod imp {
         fn from_str(s: &str) -> Result<Self, Self::Err> {
             match s {
                 "tabbed" => Ok(Self::Tabbed),
-                "htile" => Ok(Self::HTile),
-                "vtile" => Ok(Self::VTile),
+                "row" => Ok(Self::Row),
+                "column" => Ok(Self::Column),
                 _ => Err(()),
             }
         }
@@ -166,9 +166,9 @@ mod imp {
         #[template_child]
         tabbed_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        htile_button: TemplateChild<gtk::ToggleButton>,
+        row_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        vtile_button: TemplateChild<gtk::ToggleButton>,
+        column_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         display_mode_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -615,7 +615,7 @@ GNOME 43 platform.",
                         }
                     }
                 }
-                DisplayMode::HTile | DisplayMode::VTile => {
+                DisplayMode::Row | DisplayMode::Column => {
                     for i in 0..self.page_grid.n_pages() {
                         let page = self.page_grid.nth_page(i);
                         if page.playbin().as_ref() == Some(playbin) {
@@ -659,7 +659,7 @@ GNOME 43 platform.",
                         ))
                         .bind(&tab_page, "icon", None::<&Page>);
                 }
-                DisplayMode::HTile | DisplayMode::VTile => {
+                DisplayMode::Row | DisplayMode::Column => {
                     self.page_grid.append(page.clone());
                     self.on_page_attached(page);
                 }
@@ -901,7 +901,7 @@ GNOME 43 platform.",
                         return;
                     }
                 }
-                DisplayMode::HTile | DisplayMode::VTile => {
+                DisplayMode::Row | DisplayMode::Column => {
                     if let Some(page) = self.menu_or_selected_page() {
                         self.page_grid.close_page(&page);
 
@@ -940,7 +940,7 @@ GNOME 43 platform.",
                         self.tab_view.set_selected_page(&page);
                     }
                 }
-                DisplayMode::HTile | DisplayMode::VTile => {
+                DisplayMode::Row | DisplayMode::Column => {
                     if index < self.page_grid.n_pages() {
                         let page = self.page_grid.nth_page(index);
                         self.page_grid.set_selected_page_(Some(page));
@@ -1061,8 +1061,8 @@ GNOME 43 platform.",
             // Activate the correct ToggleButton.
             let button = match value {
                 DisplayMode::Tabbed => &self.tabbed_button,
-                DisplayMode::HTile => &self.htile_button,
-                DisplayMode::VTile => &self.vtile_button,
+                DisplayMode::Row => &self.row_button,
+                DisplayMode::Column => &self.column_button,
             };
             button.set_active(true);
 
@@ -1071,7 +1071,7 @@ GNOME 43 platform.",
                 DisplayMode::Tabbed => {
                     match old_value {
                         DisplayMode::Tabbed => (),
-                        DisplayMode::HTile | DisplayMode::VTile => {
+                        DisplayMode::Row | DisplayMode::Column => {
                             let selected = self.selected_page();
                             self.page_grid.set_selected_page_(None);
 
@@ -1117,7 +1117,7 @@ GNOME 43 platform.",
                         }
                     }
                 }
-                DisplayMode::HTile | DisplayMode::VTile => {
+                DisplayMode::Row | DisplayMode::Column => {
                     match old_value {
                         DisplayMode::Tabbed => {
                             let selected = self.selected_page();
@@ -1142,13 +1142,13 @@ GNOME 43 platform.",
 
                             self.page_grid.set_selected_page_(selected);
                         }
-                        DisplayMode::HTile | DisplayMode::VTile => (),
+                        DisplayMode::Row | DisplayMode::Column => (),
                     }
 
                     // Set the correct orientation.
                     let orientation = match value {
-                        DisplayMode::HTile => gtk::Orientation::Horizontal,
-                        DisplayMode::VTile => gtk::Orientation::Vertical,
+                        DisplayMode::Row => gtk::Orientation::Horizontal,
+                        DisplayMode::Column => gtk::Orientation::Vertical,
                         _ => unreachable!(),
                     };
                     self.page_grid.set_orientation(orientation);
@@ -1158,7 +1158,7 @@ GNOME 43 platform.",
             // Switch to the correct stack page.
             let visible_child_name = match value {
                 DisplayMode::Tabbed => "tabbed",
-                DisplayMode::HTile | DisplayMode::VTile => "grid",
+                DisplayMode::Row | DisplayMode::Column => "grid",
             };
             self.display_mode_stack
                 .set_visible_child_name(visible_child_name);

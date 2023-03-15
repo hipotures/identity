@@ -106,23 +106,23 @@ Box display_mode_selector {
     action-name: "win.set-display-mode";
   }
 
-  ToggleButton htile_button {
+  ToggleButton row_button {
     icon-name: "horizontal-symbolic";
     /* Translators: Tooltip for the primary menu button that selects the tiled in a row display mode. */
     tooltip-text: _("Arrange in a Row");
     group: tabbed_button;
 
-    action-target: "\"htile\"";
+    action-target: "\"row\"";
     action-name: "win.set-display-mode";
   }
 
-  ToggleButton vtile_button {
+  ToggleButton column_button {
     icon-name: "vertical-symbolic";
     /* Translators: Tooltip for the primary menu button that selects the tiled in a column display mode. */
     tooltip-text: _("Arrange in a Column");
     group: tabbed_button;
 
-    action-target: "\"vtile\"";
+    action-target: "\"column\"";
     action-name: "win.set-display-mode";
   }
 }
