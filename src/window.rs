@@ -471,6 +471,28 @@ GNOME 43 platform.",
             // Set up the drop target.
             let drop_target =
                 gtk::DropTarget::new(gdk::FileList::static_type(), gdk::DragAction::COPY);
+            drop_target.connect_accept(clone!(@weak obj => @default-return false, move |_, drop| {
+                // Checks from the default handler.
+                if !drop.actions().contains(gdk::DragAction::COPY) {
+                    return false;
+                }
+
+                if !drop.formats().contains_type(gdk::FileList::static_type()) {
+                    return false;
+                }
+
+                // Reject the drop if it comes from our own window. Otherwise it's too easy to
+                // accidentally duplicate the files.
+                if let Some(drag) = drop.drag() {
+                    if let Some(native) = obj.native() {
+                        if drag.surface() == native.surface() {
+                            return false;
+                        }
+                    }
+                }
+
+                true
+            }));
             drop_target.connect_drop(
                 clone!(@weak obj => @default-return false, move |_, data, _, _| {
                     if let Ok(file_list) = data.get::<gdk::FileList>() {
