@@ -125,6 +125,7 @@ mod imp {
         }
 
         fn constructed(&self) {
+            let obj = self.obj();
             self.parent_constructed();
 
             self.constructed_at
@@ -144,13 +145,12 @@ mod imp {
             // Bind this here instead of the .blp because the .blp binding seems to happen before
             // `file` is set, and adding manual `file` setter that notifies `display-path` correctly
             // is a little more involved.
-            self.obj()
-                .bind_property("display-path", &*self.title_label, "tooltip-text")
+            obj.bind_property("display-path", &*self.title_label, "tooltip-text")
                 .sync_create()
                 .build();
 
             // For border-radius.
-            self.obj().set_overflow(gtk::Overflow::Hidden);
+            obj.set_overflow(gtk::Overflow::Hidden);
         }
 
         fn dispose(&self) {
