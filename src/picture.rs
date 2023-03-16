@@ -198,24 +198,43 @@ mod imp {
 
             // Set up click and drag to pan.
             self.gesture_drag.connect_drag_begin(
-                clone!(@weak self as imp => move |gesture, start_x, start_y| {
+                clone!(@weak self as imp => move |gesture, _, _| {
                     if imp.is_zooming() || !(imp.is_hscrollable() || imp.is_vscrollable()) {
                         gesture.set_state(gtk::EventSequenceState::Denied);
                         return;
                     }
 
-                    imp.pan_begin(start_x, start_y);
-
                     // Tell Page to stop the kinetic scrolling.
                     imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
-
-                    imp.obj().set_cursor(gdk::Cursor::from_name("grabbing", None).as_ref());
                 }),
             );
             self.gesture_drag.connect_drag_update(
-                clone!(@weak self as imp => move |_, offset_x, offset_y| {
-                    if imp.pan_update(offset_x, offset_y).is_none() {
-                        imp.pan_end();
+                clone!(@weak self as imp => move |gesture, offset_x, offset_y| {
+                    if imp.is_panning() {
+                        if imp.pan_update(offset_x, offset_y).is_none() {
+                            imp.pan_end();
+                        }
+                    } else {
+                        let reached_threshold = imp.obj().drag_check_threshold(0, 0, offset_x.ceil() as i32, offset_y.ceil() as i32);
+                        if !reached_threshold {
+                            return;
+                        }
+
+                        if imp.is_zooming() {
+                            // Started zooming in the meantime...
+                            gesture.set_state(gtk::EventSequenceState::Denied);
+                            return;
+                        }
+
+                        let Some((start_x, start_y)) = gesture.start_point() else {
+                            // Not sure when this can fail.
+                            gesture.set_state(gtk::EventSequenceState::Denied);
+                            return;
+                        };
+
+                        gesture.set_state(gtk::EventSequenceState::Claimed);
+                        imp.pan_begin(start_x, start_y);
+                        imp.obj().set_cursor(gdk::Cursor::from_name("grabbing", None).as_ref());
                     }
                 }),
             );
