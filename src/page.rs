@@ -151,6 +151,13 @@ mod imp {
 
             // For border-radius.
             obj.set_overflow(gtk::Overflow::Hidden);
+
+            // Click to activate.
+            let gesture = gtk::GestureClick::new();
+            gesture.connect_released(clone!(@weak obj => move |_, _, _, _| {
+                obj.emit_by_name::<()>("activate", &[]);
+            }));
+            obj.add_controller(gesture);
         }
 
         fn dispose(&self) {
