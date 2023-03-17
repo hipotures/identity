@@ -177,6 +177,9 @@ mod imp {
 
                 gesture.set_state(gtk::EventSequenceState::Claimed);
 
+                // Tell Page to stop the kinetic scrolling.
+                obj.emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+
                 obj.imp().zoom_initial_scale.set(Some(scale));
                 obj.imp().zoom_begin(gesture.bounding_box_center());
             }));
