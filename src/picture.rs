@@ -4,6 +4,7 @@ use gtk::{gdk, glib};
 
 mod imp {
     use std::cell::{Cell, RefCell};
+    use std::cmp;
     use std::marker::PhantomData;
 
     use glib::subclass::Signal;
@@ -596,7 +597,7 @@ mod imp {
                 adj.configure(
                     self.h_scroll_pos.get() * (content_width - width) as f64,
                     0.,
-                    content_width as f64,
+                    cmp::max(content_width, width) as f64,
                     width as f64 * 0.1,
                     width as f64 * 0.9,
                     width as f64,
@@ -610,7 +611,7 @@ mod imp {
                 adj.configure(
                     self.v_scroll_pos.get() * (content_height - height) as f64,
                     0.,
-                    content_height as f64,
+                    cmp::max(content_height, height) as f64,
                     height as f64 * 0.1,
                     height as f64 * 0.9,
                     height as f64,
