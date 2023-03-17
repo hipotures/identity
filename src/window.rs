@@ -345,7 +345,8 @@ GNOME 43 platform.",
                     .application_icon(config::APP_ID)
                     .version(config::VERSION)
                     .license_type(gtk::License::Gpl30)
-                    .developer_name("Ivan Molodetskikh")
+                    // Translators: name of the developer of the application.
+                    .developer_name(gettext("Ivan Molodetskikh"))
                     .issue_url("https://gitlab.gnome.org/YaLTeR/identity/-/issues/new")
                     // Translators: shown in the About dialog, put your name here.
                     .translator_credits(gettext("translator-credits"))
