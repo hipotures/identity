@@ -9,6 +9,9 @@ src/application.rs
 src/main.rs
 src/media_properties.rs
 src/page.rs
+src/page_grid.rs
 src/picture.rs
 src/player.rs
+src/scale_request.rs
+src/thumbnail_paintable.rs
 src/window.rs
