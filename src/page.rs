@@ -31,6 +31,8 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        spinner: TemplateChild<gtk::Spinner>,
+        #[template_child]
         picture: TemplateChild<Picture>,
         #[template_child]
         scrolled_window: TemplateChild<gtk::ScrolledWindow>,
@@ -230,6 +232,7 @@ mod imp {
             obj.notify_is_error();
 
             self.stack.set_visible_child_name("error");
+            self.spinner.set_spinning(false);
 
             if let Some(playbin) = &*self.playbin.borrow() {
                 if let Err(err) = playbin.set_state(gst::State::Null) {
@@ -446,6 +449,7 @@ mod imp {
                 }
 
                 self.stack.set_visible_child_name("content");
+                self.spinner.set_spinning(false);
             } else {
                 let _guard = obj.freeze_notify();
 
@@ -456,6 +460,7 @@ mod imp {
                 obj.notify_is_error();
 
                 self.stack.set_visible_child_name("error");
+                self.spinner.set_spinning(false);
             }
         }
 
