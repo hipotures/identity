@@ -296,6 +296,17 @@ mod imp {
 
             klass.install_property_action("win.set-display-mode", "display-mode");
 
+            // Add these here instead of set_accels_for_action so that they don't override typing in
+            // the scale entry.
+            klass.add_binding_action(Key::p, ModifierType::empty(), "win.play-pause", None);
+            klass.add_binding_action(Key::v, ModifierType::CONTROL_MASK, "win.paste", None);
+            klass.add_binding_action(Key::c, ModifierType::CONTROL_MASK, "win.copy", None);
+            klass.add_binding_action(Key::period, ModifierType::empty(), "win.step-forward", None);
+            klass.add_binding_action(Key::comma, ModifierType::empty(), "win.step-back", None);
+            klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit", None);
+            klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in", None);
+            klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out", None);
+
             klass.install_action("win.about", None, |window, _, _| {
                 // Concat translated strings to reuse the metainfo translations.
                 let list_points = [

@@ -65,16 +65,11 @@ mod imp {
 
             obj.set_accels_for_action("app.quit", &["<primary>q"]);
             obj.set_accels_for_action("app.new-window", &["<primary>n"]);
-            obj.set_accels_for_action("win.play-pause", &["p", "<primary>space"]);
+            obj.set_accels_for_action("win.play-pause", &["<primary>space"]);
             obj.set_accels_for_action("win.open", &["<primary>o"]);
-            obj.set_accels_for_action("win.paste", &["<primary>v"]);
-            obj.set_accels_for_action("win.copy", &["<primary>c"]);
             obj.set_accels_for_action("win.close-tab", &["<primary>w"]);
-            obj.set_accels_for_action("win.step-forward", &["period"]);
-            obj.set_accels_for_action("win.step-back", &["comma"]);
-            obj.set_accels_for_action("win.set-best-fit", &["f"]);
-            obj.set_accels_for_action("win.zoom-in", &["<primary>plus", "plus"]);
-            obj.set_accels_for_action("win.zoom-out", &["<primary>minus", "minus"]);
+            obj.set_accels_for_action("win.zoom-in", &["<primary>plus"]);
+            obj.set_accels_for_action("win.zoom-out", &["<primary>minus"]);
             obj.set_accels_for_action("win.set-scale-request(1.)", &["<primary>0"]);
             obj.set_accels_for_action("win.set-display-mode('tabbed')", &["<ctrl><alt>t"]);
             obj.set_accels_for_action("win.set-display-mode('row')", &["<ctrl><alt>r"]);
