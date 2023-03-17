@@ -206,6 +206,12 @@ mod imp {
                         return;
                     }
 
+                    if gesture.device().map(|x| x.source()) == Some(gdk::InputSource::Touchscreen) {
+                        // Touchscreens use ScrolledWindow's panning.
+                        gesture.set_state(gtk::EventSequenceState::Denied);
+                        return;
+                    }
+
                     // Tell Page to stop the kinetic scrolling.
                     imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
                 }),
