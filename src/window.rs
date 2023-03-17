@@ -183,6 +183,7 @@ mod imp {
 
         page_bindings: RefCell<HashMap<Page, Vec<glib::Binding>>>,
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        page_stop_kinetic_scrolling_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         #[property(type = String, get = Self::display_mode_str, set = Self::set_display_mode_str, explicit_notify)]
@@ -730,6 +731,23 @@ mod imp {
                 error!("just attached page should not have property bindings");
             }
 
+            let id = page.connect_local(
+                "stop-kinetic-scrolling",
+                false,
+                clone!(@weak self as imp => @default-return None, move |_| {
+                    imp.reset_kinetic_scrolling();
+                    None
+                }),
+            );
+            if self
+                .page_stop_kinetic_scrolling_id
+                .borrow_mut()
+                .insert(page.clone(), id)
+                .is_some()
+            {
+                error!("`page_stop_kinetic_scrolling_id` already had an entry for this page");
+            };
+
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
                 self.obj().present_if_not_visible();
@@ -767,6 +785,16 @@ mod imp {
                 }
             } else {
                 error!("detached page should have property bindings");
+            }
+
+            if let Some(id) = self
+                .page_stop_kinetic_scrolling_id
+                .borrow_mut()
+                .remove(&page)
+            {
+                page.disconnect(id);
+            } else {
+                error!("detached page should have `page_stop_kinetic_scrolling_id` entry");
             }
 
             if let Some(playbin) = page.playbin() {
@@ -1241,6 +1269,26 @@ mod imp {
                     // Max with 0.1 here so it doesn't become 0 (fit to allocation).
                     let new_scale = (scale / HOTKEY_SCALE_FACTOR).max(0.1);
                     self.set_scale_request(ScaleRequest::from(new_scale));
+                }
+            }
+        }
+
+        fn reset_kinetic_scrolling(&self) {
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    for i in 0..self.tab_view.n_pages() {
+                        let page = self.tab_view.nth_page(i).child();
+                        let page = page
+                            .downcast::<Page>()
+                            .expect("unexpected widget type in tab view");
+                        page.reset_kinetic_scrolling();
+                    }
+                }
+                DisplayMode::Row | DisplayMode::Column => {
+                    for i in 0..self.page_grid.n_pages() {
+                        let page = self.page_grid.nth_page(i);
+                        page.reset_kinetic_scrolling();
+                    }
                 }
             }
         }

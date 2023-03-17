@@ -1,3 +1,4 @@
+use glib::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
@@ -121,8 +122,12 @@ mod imp {
         }
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> =
-                Lazy::new(|| vec![Signal::builder("activate").action().build()]);
+            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+                vec![
+                    Signal::builder("activate").action().build(),
+                    Signal::builder("stop-kinetic-scrolling").build(),
+                ]
+            });
             SIGNALS.as_ref()
         }
 
@@ -580,6 +585,10 @@ impl Page {
     }
 
     #[template_callback]
+    fn on_stop_kinetic_scrolling(&self) {
+        self.emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+    }
+
     pub fn reset_kinetic_scrolling(&self) {
         self.imp().reset_kinetic_scrolling();
     }
