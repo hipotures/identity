@@ -19,6 +19,24 @@
   <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="0.5.0" date="2023-03-16">
+      <description>
+        <p>This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity.</p>
+        <ul>
+          <li>Added row and column tiled display modes for side-by-side comparison.</li>
+          <li>Changed mouse scroll and hotkey zoom to have consistent speed regardless of the current zoom level.</li>
+          <li>Changed mouse scroll to zoom by default instead of panning, and to pan when Ctrl is held.</li>
+          <li>Added panning by holding down the left mouse button and dragging when zoomed-in.</li>
+          <li>Changed the playback position to update smoothly.</li>
+          <li>You can now drag-and-drop a file out of Identity when it is not zoomed-in.</li>
+          <li>Added Ctrl+C to copy the current file to clipboard.</li>
+          <li>Added a context menu to tabs with a few common actions.</li>
+          <li>Optimized video playback performance by enabling OpenGL video processing on compatible setups.</li>
+          <li>Updated to the GNOME 44 platform.</li>
+          <li>Updated translations.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.0" date="2022-10-21">
       <description>
         <p>This release adds a media properties dialog and updates Identity to the GNOME 43 platform.</p>
