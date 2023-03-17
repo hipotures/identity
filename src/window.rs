@@ -310,31 +310,20 @@ mod imp {
             klass.install_action("win.about", None, |window, _, _| {
                 // Concat translated strings to reuse the metainfo translations.
                 let list_points = [
-                    gettext(
-                        "Added a media properties dialog which will display information about \
-the currently open file.",
-                    ),
-                    gettext(
-                        "Tab tooltips now show full file paths, which is useful when \
-comparing files with identical names.",
-                    ),
-                    gettext(
-                        "Updated to the GNOME 43 platform, which brings the ability \
-to drag-and-drop from Files on Flatpak and a refreshed About dialog.",
-                    ),
-                    gettext("Added WebP images to the list of supported file types."),
-                    gettext("Added Occitan translation (thanks Quentin PAGÈS)."),
-                    gettext("Added Serbian Cyrillic translation (thanks Јован Здравковић)."),
-                    gettext("Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."),
-                    gettext("Added Turkish translation (thanks Sabri Ünal)."),
-                    gettext("Added Chinese Traditional translation (thanks Kisaragi Hiu)."),
+                    gettext("Added row and column tiled display modes for side-by-side comparison."),
+                    gettext("Changed mouse scroll and hotkey zoom to have consistent speed regardless of the current zoom level."),
+                    gettext("Changed mouse scroll to zoom by default instead of panning, and to pan when Ctrl is held."),
+                    gettext("Added panning by holding down the left mouse button and dragging when zoomed-in."),
+                    gettext("Changed the playback position to update smoothly."),
+                    gettext("You can now drag-and-drop a file out of Identity when it is not zoomed-in."),
+                    gettext("Added Ctrl+C to copy the current file to clipboard."),
+                    gettext("Added a context menu to tabs with a few common actions."),
+                    gettext("Optimized video playback performance by enabling OpenGL video processing on compatible setups."),
+                    gettext("Updated to the GNOME 44 platform."),
                     gettext("Updated translations."),
                 ];
                 let release_notes = String::from("<p>")
-                    + &gettext(
-                        "This release adds a media properties dialog and updates Identity to the \
-GNOME 43 platform.",
-                    )
+                    + &gettext("This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity.")
                     + "</p><ul><li>"
                     + &list_points.join("</li><li>")
                     + "</li></ul>";
