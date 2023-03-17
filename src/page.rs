@@ -156,7 +156,8 @@ mod imp {
 
             // Click to activate.
             let gesture = gtk::GestureClick::new();
-            gesture.connect_released(clone!(@weak obj => move |_, _, _, _| {
+            gesture.connect_released(clone!(@weak obj => move |gesture, _, _, _| {
+                gesture.set_state(gtk::EventSequenceState::Claimed);
                 obj.emit_by_name::<()>("activate", &[]);
             }));
             obj.add_controller(gesture);
