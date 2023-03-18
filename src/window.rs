@@ -210,6 +210,8 @@ mod imp {
 
         /// If a tab menu is open for a page, this is that page, otherwise `None`.
         menu_page: RefCell<glib::WeakRef<adw::TabPage>>,
+
+        last_scale_factor: Cell<i32>,
     }
 
     #[glib::object_subclass]
@@ -365,6 +367,8 @@ mod imp {
             if config::PROFILE == "Devel" {
                 obj.add_css_class("devel");
             }
+
+            self.last_scale_factor.set(obj.scale_factor());
 
             self.controls_revealer.connect_reveal_child_notify(
                 clone!(@weak obj => move |revealer| {
@@ -1273,6 +1277,22 @@ mod imp {
                     self.set_scale_request(ScaleRequest::from(new_scale));
                 }
             }
+        }
+
+        #[template_callback]
+        fn on_scale_factor_notify(&self) {
+            let value = self.obj().scale_factor();
+
+            if self.last_scale_factor.get() == value {
+                return;
+            }
+
+            if let ScaleRequest::Set(scale) = self.scale_request.get() {
+                let new_scale = scale / self.last_scale_factor.get() as f64 * value as f64;
+                self.set_scale_request(ScaleRequest::Set(new_scale));
+            }
+
+            self.last_scale_factor.set(value);
         }
 
         fn reset_kinetic_scrolling(&self) {
