@@ -713,10 +713,28 @@ mod imp {
             self.zoom_pivot_image_pos.get().is_some()
         }
 
-        fn zoom_begin(&self, pivot_pointer_pos: Option<(f64, f64)>) {
+        fn zoom_pivot_pointer_pos(&self, pivot_pointer_pos: Option<(f64, f64)>) -> (f64, f64) {
             let obj = self.obj();
-            let pivot_pointer_pos = pivot_pointer_pos
-                .unwrap_or_else(|| (obj.width() as f64 / 2., obj.height() as f64 / 2.));
+            match pivot_pointer_pos {
+                Some(x) => x,
+                None => {
+                    let pivot_x = if self.is_hscrollable() {
+                        self.h_scroll_pos.get()
+                    } else {
+                        0.5
+                    };
+                    let pivot_y = if self.is_vscrollable() {
+                        self.v_scroll_pos.get()
+                    } else {
+                        0.5
+                    };
+                    (obj.width() as f64 * pivot_x, obj.height() as f64 * pivot_y)
+                }
+            }
+        }
+
+        fn zoom_begin(&self, pivot_pointer_pos: Option<(f64, f64)>) {
+            let pivot_pointer_pos = self.zoom_pivot_pointer_pos(pivot_pointer_pos);
             self.zoom_pivot_image_pos
                 .set(self.image_pos_for_pointer_pos(pivot_pointer_pos, self.scale.get()));
         }
@@ -738,8 +756,7 @@ mod imp {
                 None => return,
             };
 
-            let pivot_pointer_pos = pivot_pointer_pos
-                .unwrap_or_else(|| (obj.width() as f64 / 2., obj.height() as f64 / 2.));
+            let pivot_pointer_pos = self.zoom_pivot_pointer_pos(pivot_pointer_pos);
 
             let (new_image_x, new_image_y) =
                 match self.image_pos_for_pointer_pos(pivot_pointer_pos, new_scale) {
