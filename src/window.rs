@@ -797,6 +797,8 @@ mod imp {
                 error!("detached page should have `page_stop_kinetic_scrolling_id` entry");
             }
 
+            page.reset_kinetic_scrolling();
+
             if let Some(playbin) = page.playbin() {
                 self.player.detach_source(&playbin);
             } else if let Some(id) = self.page_is_loading_notify_id.borrow_mut().remove(&page) {
