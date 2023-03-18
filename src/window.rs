@@ -309,6 +309,24 @@ mod imp {
             klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit", None);
             klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in", None);
             klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out", None);
+            klass.add_binding_action(
+                Key::t,
+                ModifierType::empty(),
+                "win.set-display-mode",
+                Some(&"tabbed".to_variant()),
+            );
+            klass.add_binding_action(
+                Key::r,
+                ModifierType::empty(),
+                "win.set-display-mode",
+                Some(&"row".to_variant()),
+            );
+            klass.add_binding_action(
+                Key::c,
+                ModifierType::empty(),
+                "win.set-display-mode",
+                Some(&"column".to_variant()),
+            );
 
             klass.install_action("win.about", None, |window, _, _| {
                 // Concat translated strings to reuse the metainfo translations.
