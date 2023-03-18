@@ -140,6 +140,7 @@ mod imp {
                     if event.current_event_device().map(|x| x.source())
                         == Some(gdk::InputSource::Touchpad)
                     {
+                        obj.emit_by_name::<()>("stop-kinetic-scrolling", &[]);
                         return gtk::Inhibit(false);
                     }
 
@@ -212,14 +213,15 @@ mod imp {
                         return;
                     }
 
+                    // Stop kinetic scrolling even if we're about to get denied due to touchscreen,
+                    // because if touchscreen tries to pan a different scrolled window than the one
+                    // with kinetic scrolling, it needs the kinetic scrolling stopped everywhere.
+                    imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+
                     if gesture.device().map(|x| x.source()) == Some(gdk::InputSource::Touchscreen) {
                         // Touchscreens use ScrolledWindow's panning.
                         gesture.set_state(gtk::EventSequenceState::Denied);
-                        return;
                     }
-
-                    // Tell Page to stop the kinetic scrolling.
-                    imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
                 }),
             );
             self.gesture_drag.connect_drag_update(
