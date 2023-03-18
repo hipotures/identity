@@ -129,9 +129,9 @@ mod imp {
             scroll_controller.connect_scroll(
                 clone!(@weak obj => @default-return gtk::Inhibit(false), move |event, _, delta_y| {
                     let scale = obj.scale();
-                    if scale == 0. || obj.imp().is_panning() {
+                    if scale == 0. || obj.imp().is_panning() || obj.imp().is_zooming() {
                         // Inhibit because we don't want the scroll to come through if we're in the
-                        // middle of a pan.
+                        // middle of a pan or a pinch zoom.
                         return gtk::Inhibit(true);
                     }
 
