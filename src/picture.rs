@@ -130,7 +130,9 @@ mod imp {
                 clone!(@weak obj => @default-return gtk::Inhibit(false), move |event, _, delta_y| {
                     let scale = obj.scale();
                     if scale == 0. || obj.imp().is_panning() {
-                        return gtk::Inhibit(false);
+                        // Inhibit because we don't want the scroll to come through if we're in the
+                        // middle of a pan.
+                        return gtk::Inhibit(true);
                     }
 
                     // Don't trigger scroll gesture on touchpads, it's too fast and impresize on
