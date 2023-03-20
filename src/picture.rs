@@ -140,7 +140,7 @@ mod imp {
                     if event.current_event_device().map(|x| x.source())
                         == Some(gdk::InputSource::Touchpad)
                     {
-                        obj.emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+                        obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
                         return gtk::Inhibit(false);
                     }
 
@@ -181,7 +181,7 @@ mod imp {
                 gesture.set_state(gtk::EventSequenceState::Claimed);
 
                 // Tell Page to stop the kinetic scrolling.
-                obj.emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+                obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
 
                 obj.imp().zoom_initial_scale.set(Some(scale));
                 obj.imp().zoom_begin(gesture.bounding_box_center());
@@ -213,15 +213,23 @@ mod imp {
                         return;
                     }
 
-                    // Stop kinetic scrolling even if we're about to get denied due to touchscreen,
-                    // because if touchscreen tries to pan a different scrolled window than the one
-                    // with kinetic scrolling, it needs the kinetic scrolling stopped everywhere.
-                    imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[]);
-
                     if gesture.device().map(|x| x.source()) == Some(gdk::InputSource::Touchscreen) {
                         // Touchscreens use ScrolledWindow's panning.
                         gesture.set_state(gtk::EventSequenceState::Denied);
+
+                        // Stop kinetic scrolling even if we're about to get denied due to
+                        // touchscreen, because if touchscreen tries to pan a different scrolled
+                        // window than the one with kinetic scrolling, it needs the kinetic
+                        // scrolling stopped everywhere.
+                        //
+                        // We pass this picture to ignore its scrolled window for resetting, because
+                        // if we don't, then the touchscreen pan gesture will break.
+                        imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[&*imp.obj()]);
+
+                        return;
                     }
+
+                    imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
                 }),
             );
             self.gesture_drag.connect_drag_update(
@@ -292,7 +300,9 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
                 vec![
-                    Signal::builder("stop-kinetic-scrolling").build(),
+                    Signal::builder("stop-kinetic-scrolling")
+                        .param_types([super::Picture::static_type()])
+                        .build(),
                     Signal::builder("get-content-provider")
                         .return_type::<gdk::ContentProvider>()
                         .build(),

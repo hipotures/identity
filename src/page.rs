@@ -2,6 +2,7 @@ use glib::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
+use crate::picture::Picture;
 use crate::scale_request::ScaleRequest;
 
 mod imp {
@@ -22,7 +23,6 @@ mod imp {
     use once_cell::unsync::OnceCell;
 
     use super::*;
-    use crate::picture::Picture;
     use crate::G_LOG_DOMAIN;
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
@@ -125,7 +125,9 @@ mod imp {
             static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
                 vec![
                     Signal::builder("activate").action().build(),
-                    Signal::builder("stop-kinetic-scrolling").build(),
+                    Signal::builder("stop-kinetic-scrolling")
+                        .param_types([super::Picture::static_type()])
+                        .build(),
                 ]
             });
             SIGNALS.as_ref()
@@ -267,9 +269,17 @@ mod imp {
                 .unwrap_or_else(|| gettext("N/A"))
         }
 
-        pub fn reset_kinetic_scrolling(&self) {
+        pub fn reset_kinetic_scrolling(&self, except_picture: Option<&Picture>) {
+            if except_picture == Some(&*self.picture) {
+                return;
+            }
+
             self.scrolled_window.set_kinetic_scrolling(false);
             self.scrolled_window.set_kinetic_scrolling(true);
+
+            // Resetting kinetic scrolling breaks touchscreen pan gesture starting for horizontal
+            // pans. Reallocating the scrolled window seems to fix that. Don't ask me why.
+            self.scrolled_window.queue_allocate();
         }
 
         pub fn grab_focus_(&self) {
@@ -585,12 +595,12 @@ impl Page {
     }
 
     #[template_callback]
-    fn on_stop_kinetic_scrolling(&self) {
-        self.emit_by_name::<()>("stop-kinetic-scrolling", &[]);
+    fn on_stop_kinetic_scrolling(&self, except_picture: Option<Picture>) {
+        self.emit_by_name::<()>("stop-kinetic-scrolling", &[&except_picture]);
     }
 
-    pub fn reset_kinetic_scrolling(&self) {
-        self.imp().reset_kinetic_scrolling();
+    pub fn reset_kinetic_scrolling(&self, except_picture: Option<&Picture>) {
+        self.imp().reset_kinetic_scrolling(except_picture);
     }
 
     pub fn grab_focus_(&self) {

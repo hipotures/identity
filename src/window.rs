@@ -102,6 +102,7 @@ mod imp {
     use crate::media_properties::MediaProperties;
     use crate::page::Page;
     use crate::page_grid::PageGrid;
+    use crate::picture::Picture;
     use crate::player::Player;
     use crate::scale_request::ScaleRequest;
 
@@ -756,8 +757,9 @@ mod imp {
             let id = page.connect_local(
                 "stop-kinetic-scrolling",
                 false,
-                clone!(@weak self as imp => @default-return None, move |_| {
-                    imp.reset_kinetic_scrolling();
+                clone!(@weak self as imp => @default-return None, move |args| {
+                    let except_picture: Option<Picture> = args[1].get().unwrap();
+                    imp.reset_kinetic_scrolling(except_picture.as_ref());
                     None
                 }),
             );
@@ -819,7 +821,7 @@ mod imp {
                 error!("detached page should have `page_stop_kinetic_scrolling_id` entry");
             }
 
-            page.reset_kinetic_scrolling();
+            page.reset_kinetic_scrolling(None);
 
             if let Some(playbin) = page.playbin() {
                 self.player.detach_source(&playbin);
@@ -1122,7 +1124,7 @@ mod imp {
             }
 
             if let Some(old_page) = self.selected_page.replace(page) {
-                old_page.reset_kinetic_scrolling();
+                old_page.reset_kinetic_scrolling(None);
             }
 
             self.obj().notify_selected_page();
@@ -1313,7 +1315,7 @@ mod imp {
             self.last_scale_factor.set(value);
         }
 
-        fn reset_kinetic_scrolling(&self) {
+        fn reset_kinetic_scrolling(&self, except_picture: Option<&Picture>) {
             match self.display_mode.get() {
                 DisplayMode::Tabbed => {
                     for i in 0..self.tab_view.n_pages() {
@@ -1321,13 +1323,13 @@ mod imp {
                         let page = page
                             .downcast::<Page>()
                             .expect("unexpected widget type in tab view");
-                        page.reset_kinetic_scrolling();
+                        page.reset_kinetic_scrolling(except_picture);
                     }
                 }
                 DisplayMode::Row | DisplayMode::Column => {
                     for i in 0..self.page_grid.n_pages() {
                         let page = self.page_grid.nth_page(i);
-                        page.reset_kinetic_scrolling();
+                        page.reset_kinetic_scrolling(except_picture);
                     }
                 }
             }
