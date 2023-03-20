@@ -124,8 +124,11 @@ mod imp {
             obj.add_controller(motion_controller);
 
             // Set up scroll to zoom.
+            //
+            // Both axes because we rely on this scroll controller to stop kinetic scrolling on
+            // other pages when attemtping a touchpad pan.
             let scroll_controller =
-                gtk::EventControllerScroll::new(gtk::EventControllerScrollFlags::VERTICAL);
+                gtk::EventControllerScroll::new(gtk::EventControllerScrollFlags::BOTH_AXES);
             scroll_controller.connect_scroll(
                 clone!(@weak obj => @default-return gtk::Inhibit(false), move |event, _, delta_y| {
                     let scale = obj.scale();
@@ -140,7 +143,9 @@ mod imp {
                     if event.current_event_device().map(|x| x.source())
                         == Some(gdk::InputSource::Touchpad)
                     {
-                        obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
+                        // Take this opportunity to stop other scrolled windows' kinetic scrolling
+                        // though.
+                        obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&obj]);
                         return gtk::Inhibit(false);
                     }
 
