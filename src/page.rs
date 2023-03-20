@@ -157,6 +157,11 @@ mod imp {
             obj.bind_property("display-path", &*self.title_label, "tooltip-text")
                 .sync_create()
                 .build();
+            // Same as above, but for the case when retrieving the display name fails (e.g. the file
+            // does not exist) in which case it should use file's URI.
+            obj.bind_property("display-name", &*self.title_label, "label")
+                .sync_create()
+                .build();
 
             // For border-radius.
             obj.set_overflow(gtk::Overflow::Hidden);
