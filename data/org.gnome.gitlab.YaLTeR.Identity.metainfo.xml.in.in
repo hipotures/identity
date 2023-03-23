@@ -32,7 +32,7 @@
   <url type="translate">https://poeditor.com/join/project?hash=5nahahJe7Z</url>
   <content_rating type="oars-1.0" />
   <releases>
-    <release version="0.5.0" date="2023-03-16">
+    <release version="0.5.0" date="2023-03-22">
       <description>
         <p>This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity.</p>
         <ul>
