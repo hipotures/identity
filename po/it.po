@@ -448,116 +448,116 @@ msgstr "Contenitore"
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
 #: src/window.rs:348
 msgid "This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity."
-msgstr ""
+msgstr "Questa versione aggiunge modalità di visualizzazione in colonna e in riga e aggiunge la possibilità di trascinare da Identity."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
 #: src/window.rs:335
 msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
+msgstr "Aggiunte modalità di visualizzazione in colonna e in riga per comparazioni fianco a fianco."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 #: src/window.rs:336
 msgid "Changed mouse scroll and hotkey zoom to have consistent speed regardless of the current zoom level."
-msgstr ""
+msgstr "Migliorato lo spostamento dell'immagine mentre l'immagine è ingrandita."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
 #: src/window.rs:337
 msgid "Changed mouse scroll to zoom by default instead of panning, and to pan when Ctrl is held."
-msgstr ""
+msgstr "Se non viene premuto Ctrl, scorrere con il mouse ingrandisce le immagini anziché spostarle."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
 #: src/window.rs:338
 msgid "Added panning by holding down the left mouse button and dragging when zoomed-in."
-msgstr ""
+msgstr "Quando l'immagine è ingrandita, è possibile trascinare con il tasto sinistro del mouse per spostare le immagini."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
 #: src/window.rs:339
 msgid "Changed the playback position to update smoothly."
-msgstr ""
+msgstr "Cambiata la posizione della riproduzione."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
 #: src/window.rs:340
 msgid "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
+msgstr "È possibile trascinare un'immagine al di fuori di Identity se non è ingrandita."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
 #: src/window.rs:341
 msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr ""
+msgstr "Aggiunto Ctrl+C per copiare il file attuale negli appunti."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
 #: src/window.rs:342
 msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
+msgstr "Aggiunto un menu contestuale alle schede con alcune azioni comuni."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
 #: src/window.rs:343
 msgid "Optimized video playback performance by enabling OpenGL video processing on compatible setups."
-msgstr ""
+msgstr "Aggiunta la riproduzione OpenGL per maggiori prestazioni."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
 #: src/window.rs:344
 msgid "Updated to the GNOME 44 platform."
-msgstr ""
+msgstr "Aggiornamento alla piattaforma GNOME 44."
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
-msgstr ""
+msgstr "Copia file selezionato negli appunti"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
 #: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Display"
-msgstr ""
+msgstr "Visualizzazione"
 
 #: data/resources/ui/shortcuts.blp:107
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
-msgstr ""
+msgstr "Sistema come schede"
 
 #: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange in a row"
-msgstr ""
+msgstr "Sistema in riga"
 
 #: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a column"
-msgstr ""
+msgstr "Sistema in colonna"
 
 #. Translators: Tab menu entry that copies the file to the clipboard.
 #: data/resources/ui/window.blp:70
 msgid "Copy File"
-msgstr ""
+msgstr "Copia file"
 
 #. Translators: Tab menu entry that shows the file in the file manager.
 #: data/resources/ui/window.blp:76
 msgid "Show in Files"
-msgstr ""
+msgstr "Mostra in File"
 
 #. Translators: Tab menu entry that moves it to a new window.
 #: data/resources/ui/window.blp:82
 msgid "Move to New Window"
-msgstr ""
+msgstr "Sposta in una nuova finestra"
 
 #. Translators: Tab menu entry that closes it.
 #: data/resources/ui/window.blp:88
 msgid "Close File"
-msgstr ""
+msgstr "Chiudi file"
 
 #. Translators: Tooltip for the primary menu button that selects the tabbed display mode.
 #: data/resources/ui/window.blp:102
 msgid "Arrange as Tabs"
-msgstr ""
+msgstr "Sistema come schede"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
 #: data/resources/ui/window.blp:112
 msgid "Arrange in a Row"
-msgstr ""
+msgstr "Sistema in riga"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
 #: data/resources/ui/window.blp:122
 msgid "Arrange in a Column"
-msgstr ""
+msgstr "Sistema in colonna"
 
