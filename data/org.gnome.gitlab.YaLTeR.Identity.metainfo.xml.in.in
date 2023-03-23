@@ -11,7 +11,20 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://gitlab.gnome.org/YaLTeR/identity/-/raw/HEAD/data/resources/screenshots/screenshot1.png</image>
+      <image>https://gitlab.gnome.org/YaLTeR/identity/uploads/0876907d00c9737d5bb5376a82255baa/row.png</image>
+      <caption>You can arrange videos in a row</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://gitlab.gnome.org/YaLTeR/identity/uploads/7c5a7d2191b259f7c846226f7e074826/column.png</image>
+      <caption>You can arrange images in a column</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://gitlab.gnome.org/YaLTeR/identity/uploads/2c6d515c5a952d14829be99a1bada08c/tab.png</image>
+      <caption>You can open files as tabs</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://gitlab.gnome.org/YaLTeR/identity/uploads/fc69820af95cb95231936b185c4e061f/media-properties.png</image>
+      <caption>Inspect a few properties of a video in a dialog</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://gitlab.gnome.org/YaLTeR/identity</url>
