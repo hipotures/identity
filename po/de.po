@@ -461,7 +461,7 @@ msgstr ""
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
 #: src/window.rs:335
 msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
+msgstr "Reihen- und spaltenweise Kachelanzeigemodi für Seite-an-Seite-Vergleiche hinzugefügt."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 #: src/window.rs:336
@@ -481,7 +481,7 @@ msgstr ""
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
 #: src/window.rs:339
 msgid "Changed the playback position to update smoothly."
-msgstr ""
+msgstr "Die Wiedergabeposition wurde geändert, um eine reibungslose Aktualisierung zu gewährleisten."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
 #: src/window.rs:340
@@ -491,81 +491,81 @@ msgstr ""
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
 #: src/window.rs:341
 msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr ""
+msgstr "Strg+C hinzugefügt, um die aktuelle Datei in die Zwischenablage zu kopieren."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
 #: src/window.rs:342
 msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
+msgstr "Den Tabs wurde ein Kontextmenü mit einigen allgemeinen Aktionen hinzugefügt."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
 #: src/window.rs:343
 msgid "Optimized video playback performance by enabling OpenGL video processing on compatible setups."
-msgstr ""
+msgstr "Optimierte Videowiedergabeleistung durch Aktivierung der OpenGL-Videoverarbeitung auf kompatiblen Systemen."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
 #: src/window.rs:344
 msgid "Updated to the GNOME 44 platform."
-msgstr ""
+msgstr "Auf die GNOME 44-Plattform aktualisiert."
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
-msgstr ""
+msgstr "Ausgewählte Datei in die Zwischenablage kopieren"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
 #: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Display"
-msgstr ""
+msgstr "Anzeigen"
 
 #: data/resources/ui/shortcuts.blp:107
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
-msgstr ""
+msgstr "Als Tabs anordnen"
 
 #: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange in a row"
-msgstr ""
+msgstr "In einer Reihe anordnen"
 
 #: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a column"
-msgstr ""
+msgstr "In einer Spalte anordnen"
 
 #. Translators: Tab menu entry that copies the file to the clipboard.
 #: data/resources/ui/window.blp:70
 msgid "Copy File"
-msgstr ""
+msgstr "Datei kopieren"
 
 #. Translators: Tab menu entry that shows the file in the file manager.
 #: data/resources/ui/window.blp:76
 msgid "Show in Files"
-msgstr ""
+msgstr "In Dateien anzeigen"
 
 #. Translators: Tab menu entry that moves it to a new window.
 #: data/resources/ui/window.blp:82
 msgid "Move to New Window"
-msgstr ""
+msgstr "In neues Fenster verschieben"
 
 #. Translators: Tab menu entry that closes it.
 #: data/resources/ui/window.blp:88
 msgid "Close File"
-msgstr ""
+msgstr "Datei schließen"
 
 #. Translators: Tooltip for the primary menu button that selects the tabbed display mode.
 #: data/resources/ui/window.blp:102
 msgid "Arrange as Tabs"
-msgstr ""
+msgstr "Als Tabs anordnen"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
 #: data/resources/ui/window.blp:112
 msgid "Arrange in a Row"
-msgstr ""
+msgstr "In einer Reihe anordnen"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
 #: data/resources/ui/window.blp:122
 msgid "Arrange in a Column"
-msgstr ""
+msgstr "In einer Spalte anordnen"
 
