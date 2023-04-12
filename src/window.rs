@@ -367,7 +367,7 @@ mod imp {
                 about_window.add_link(
                     // Translators: link title in the About dialog.
                     &gettext("Contribute Translations"),
-                    "https://poeditor.com/join/project?hash=5nahahJe7Z",
+                    "https://l10n.gnome.org/module/Identity/",
                 );
                 about_window.present();
             });

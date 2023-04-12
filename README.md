@@ -28,7 +28,7 @@ Identity uses GStreamer, and therefore your system's or Flatpak GNOME Platform's
 
 ## Contributing translations
 
-You can help translate Identity on POEditor: https://poeditor.com/join/project?hash=5nahahJe7Z. Any help is appreciated!
+You can help translate Identity: https://l10n.gnome.org/module/Identity/. Any help is appreciated!
 
 ## Building
 
