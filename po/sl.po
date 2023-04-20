@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 14:53+0000\n"
-"PO-Revision-Date: 2023-04-12 21:46+0200\n"
+"POT-Creation-Date: 2023-04-12 19:47+0000\n"
+"PO-Revision-Date: 2023-04-20 12:23+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -54,7 +54,6 @@ msgid "You can open files as tabs"
 msgstr "Datoteke lahko odprete kot zavihke"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
-#, fuzzy
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Preverite nekatere lastnosti videoposnetka v pogovornem oknu"
 
@@ -391,7 +390,6 @@ msgid "Added Ctrl+C to copy the current file to clipboard."
 msgstr "Dodana bližnjica krmilka+C za kopiranje trenutne datoteke v odložišče."
 
 #: src/window.rs:342
-#, fuzzy
 msgid "Added a context menu to tabs with a few common actions."
 msgstr "Zavihkom je dodan kontekstni meni z nekaj pogostimi dejanji."
 
