@@ -2,14 +2,14 @@
 # Copyright (C) 2023 Identity's COPYRIGHT HOLDER
 # This file is distributed under the same license as the Identity package.
 #
-# Martin <miles@filmsi.net>, 2023.
+# Martin Srebotnjak <miles@filmsi.net>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 19:47+0000\n"
-"PO-Revision-Date: 2023-04-20 12:23+0200\n"
+"POT-Creation-Date: 2023-04-20 10:27+0000\n"
+"PO-Revision-Date: 2023-04-22 09:52+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -348,7 +348,6 @@ msgid "Added row and column tiled display modes for side-by-side comparison."
 msgstr "Dodani načini prikaza v vrsticah in stolpcih za primerjavo."
 
 #: src/window.rs:336
-#, fuzzy
 msgid ""
 "Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
 "the current zoom level."
@@ -357,7 +356,6 @@ msgstr ""
 "hitrost ne glede na trenutno raven povečave."
 
 #: src/window.rs:337
-#, fuzzy
 msgid ""
 "Changed mouse scroll to zoom by default instead of panning, and to pan when "
 "Ctrl is held."
@@ -366,15 +364,14 @@ msgstr ""
 "pomikanje, ko je krmilka pritisnjena."
 
 #: src/window.rs:338
-#, fuzzy
 msgid ""
 "Added panning by holding down the left mouse button and dragging when zoomed-"
 "in."
 msgstr ""
-"Dodano pomikanje tako, da držite levi gumb miške in povlečete, ko povečate."
+"Dodano pomikanje, da držite levi gumb miške in povlečete, ko približate "
+"pogled."
 
 #: src/window.rs:339
-#, fuzzy
 msgid "Changed the playback position to update smoothly."
 msgstr "Spremenjen položaj predvajanja, da se nemoteno posodobi."
 
