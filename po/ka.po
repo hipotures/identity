@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-05-16 09:59+0000\n"
-"PO-Revision-Date: 2023-06-17 06:06+0200\n"
+"POT-Creation-Date: 2023-06-17 04:07+0000\n"
+"PO-Revision-Date: 2023-06-19 20:26+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
@@ -51,7 +51,7 @@ msgstr "ფაილები შეგიძლიათ, ჩანართე
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Inspect a few properties of a video in a dialog"
-msgstr ""
+msgstr "შეამოწმეთ ვიდეოს რამდენიმე თვისება დიალოგში"
 
 #. Translators: name of the developer of the application.
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
@@ -127,6 +127,10 @@ msgid ""
 "If you're running Identity under Flatpak, note that opening files by drag-"
 "and-drop and by pasting may not work."
 msgstr ""
+"ფაილის ჩვენება შეუძლებელია.\n"
+"\n"
+"თუ Identity-ი Flatpak-ით გაქვთ გაშვებული, გადათრევა-და-დაგდება და ჩასმა "
+"შეიძლება არ მუშაობდეს."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -333,47 +337,57 @@ msgstr "N/A"
 #: src/window.rs:335
 msgid "Added row and column tiled display modes for side-by-side comparison."
 msgstr ""
+"გვერდიგვერდ შედარებისთვის დაემატა სვეტი და მწკრივის ტიპის ფილების ჩვენების "
+"რეჟიმი."
 
 #: src/window.rs:336
 msgid ""
 "Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
 "the current zoom level."
 msgstr ""
+"შეიცვალა თაგუნას გადახვევა და ცხელი ღილაკით გადიდება, რათა მიმდინარე "
+"გადიდების დონის მიუხედავად, გადიდების ერთი სიჩქარე ჰქონდეთ."
 
 #: src/window.rs:337
 msgid ""
 "Changed mouse scroll to zoom by default instead of panning, and to pan when "
 "Ctrl is held."
 msgstr ""
+"შეიცვალა თაგუნას გადახვევა გადიდებაზე ნაგულისხმევად, პანინგის მაგიერ. "
+"პანინგისთვის Ctrl ღილაკი გეჭიროთ."
 
 #: src/window.rs:338
 msgid ""
 "Added panning by holding down the left mouse button and dragging when zoomed-"
 "in."
 msgstr ""
+"დაემატა პანინგი მარცხენა თაგუნას ღილაკის დაჭერითა და გადათრევით, როცა "
+"გადიდებულია."
 
 #: src/window.rs:339
 msgid "Changed the playback position to update smoothly."
-msgstr ""
+msgstr "შეიცვალა დაკვრის მდებარეობის განახლების სირბილე."
 
 #: src/window.rs:340
 msgid ""
 "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
+msgstr "ახლა შეგიძიათ ფაილი Identity-ზე დააგდოთ, როცა ის დაპატარავებული არაა."
 
 #: src/window.rs:341
 msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr ""
+msgstr "დაემატა მიმდინარე ფაილის Ctrl-C-ით კოპირების მხარდაჭერა."
 
 #: src/window.rs:342
 msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
+msgstr "ჩანართებს დაემატა კონტექსტური მენიუ რამდენიმე საერთო ქმედებით."
 
 #: src/window.rs:343
 msgid ""
 "Optimized video playback performance by enabling OpenGL video processing on "
 "compatible setups."
 msgstr ""
+"თავსებადი კონფიგურაციის შემთხვევაში OpenGL ვიდეო დამუშავებით დაკვრის "
+"წარმადობის ოპტიმიზაცია."
 
 #: src/window.rs:344
 msgid "Updated to the GNOME 44 platform."
@@ -388,6 +402,8 @@ msgid ""
 "This release adds row and column display modes, reworks mouse gestures and "
 "adds drag-and-drop from Identity."
 msgstr ""
+"ეს რელიზი ამატებს მწკრივულ და სვეტურ ჩვენების რეჟიმებს, თავიდან გადავწერეთ "
+"თაგუნას ჟესტები და გადათრევის-და-დაგდების მხარდაჭერა დავამატეთ."
 
 #. Translators: shown in the About dialog, put your name here.
 #: src/window.rs:363
