@@ -3,8 +3,6 @@ include:
     file: 'flatpak/flatpak_ci_initiative.yml'
 
 flatpak:
-  except:
-    - poeditor
   extends: '.flatpak'
   variables:
     BUNDLE: "identity-nightly.flatpak"
@@ -14,8 +12,6 @@ flatpak:
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
 
 rustfmt:
-  except:
-    - poeditor
   image: "rust:slim"
   script:
     - rustup component add rustfmt
