@@ -367,7 +367,7 @@ mod imp {
                 about_window.add_link(
                     // Translators: link title in the About dialog.
                     &gettext("Contribute Translations"),
-                    "https://l10n.gnome.org/module/Identity/",
+                    "https://l10n.gnome.org/module/identity/",
                 );
                 about_window.present();
             });
