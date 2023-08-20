@@ -68,11 +68,6 @@ fn main() -> ExitCode {
 
     glib::log_set_default_handler(glib::rust_log_handler);
 
-    tracing_gstreamer::integrate_events();
-    gst::debug_remove_default_log_function();
-    gst::init().unwrap();
-    // tracing_gstreamer::integrate_spans();
-
     info!("Identity version {}", config::VERSION);
 
     setlocale(LocaleCategory::LcAll, "");
@@ -105,6 +100,7 @@ fn main() -> ExitCode {
     };
     gio::resources_register(&res);
 
+    gst::init().unwrap();
     gstgtk4::plugin_register_static().expect("could not initialize gst-plugin-gtk4");
 
     Application::new().run()
