@@ -1,12 +1,9 @@
 use std::cell::RefCell;
 
 use gettextrs::gettext;
-use glib::{debug, warn};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gdk, gio};
-
-use crate::G_LOG_DOMAIN;
 
 // Copied from Loupe.
 const HOTKEY_SCALE_FACTOR: f64 = 1.5;
@@ -91,7 +88,7 @@ mod imp {
 
     use adw::subclass::prelude::*;
     use ashpd::desktop::open_uri::OpenDirectoryRequest;
-    use glib::{clone, closure, error, ControlFlow, Properties, SignalHandlerId, SourceId};
+    use glib::{clone, closure, ControlFlow, Properties, SignalHandlerId, SourceId};
     use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::{glib, CompositeTemplate};

@@ -7,10 +7,8 @@ use crate::window::Window;
 mod imp {
     use adw::prelude::AdwApplicationExt;
     use adw::subclass::prelude::*;
-    use glib::debug;
 
     use super::*;
-    use crate::G_LOG_DOMAIN;
 
     #[derive(Default)]
     pub struct Application {}

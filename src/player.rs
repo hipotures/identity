@@ -7,13 +7,12 @@ mod imp {
     use std::marker::PhantomData;
 
     use glib::subclass::Signal;
-    use glib::{clone, debug, error, warn, ControlFlow, Properties};
+    use glib::{clone, ControlFlow, Properties};
     use gst::bus::BusWatchGuard;
     use gst::prelude::*;
     use once_cell::sync::Lazy;
 
     use super::*;
-    use crate::G_LOG_DOMAIN;
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Player)]
@@ -143,6 +142,7 @@ mod imp {
             self.pipeline.set_state(target_state).unwrap();
         }
 
+        #[instrument("Player::seek_to_time", skip_all)]
         fn seek_to_time(&self, time: gst::ClockTime) {
             debug!("seek_to_time({time})");
 
@@ -293,6 +293,7 @@ mod imp {
             self.obj().notify_progress();
         }
 
+        #[instrument("Player::attach_source", skip_all)]
         pub fn attach_source(&self, source: &gst::Element) {
             debug!("Player::attach_source");
 
@@ -315,6 +316,7 @@ mod imp {
             }
         }
 
+        #[instrument("Player::detach_source", skip_all)]
         pub fn detach_source(&self, source: &gst::Element) {
             debug!("Player::detach_source");
 

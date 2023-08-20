@@ -28,7 +28,7 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--device=dri",
-        "--env=G_MESSAGES_DEBUG=Identity",
+        "--env=RUST_LOG=identity=debug",
         "--env=RUST_BACKTRACE=1"
     ],
     "build-options": {

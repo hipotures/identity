@@ -1,9 +1,15 @@
+#[macro_use]
+extern crate tracing;
+
 use std::env;
 
 use gettextrs::*;
-use glib::{info, warn, ExitCode, GlibLogger, GlibLoggerDomain, GlibLoggerFormat};
+use glib::ExitCode;
 use gtk::prelude::*;
 use gtk::{gio, glib};
+use tracing_subscriber::filter::LevelFilter;
+use tracing_subscriber::prelude::*;
+use tracing_subscriber::EnvFilter;
 
 mod application;
 use application::Application;
@@ -18,14 +24,54 @@ mod scale_request;
 mod thumbnail_paintable;
 mod window;
 
-const G_LOG_DOMAIN: &str = "Identity";
-
 fn main() -> ExitCode {
-    static GLIB_LOGGER: GlibLogger =
-        GlibLogger::new(GlibLoggerFormat::LineAndFile, GlibLoggerDomain::CrateTarget);
+    let filter = EnvFilter::builder()
+        .with_default_directive(LevelFilter::INFO.into())
+        .from_env_lossy();
 
-    let _ = log::set_logger(&GLIB_LOGGER);
-    log::set_max_level(log::LevelFilter::Debug);
+    let only_message = tracing_subscriber::fmt::format::debug_fn(|writer, field, value| {
+        if field.name() == "message" {
+            write!(writer, "{value:?}")
+        } else {
+            Ok(())
+        }
+    });
+
+    let (chrome_layer, _guard) = if env::var_os("IDENTITY_PROFILE_CHROME").is_some() {
+        let (layer, guard) = tracing_chrome::ChromeLayerBuilder::new()
+            .file("trace.json")
+            .include_args(true)
+            .include_locations(false)
+            .trace_style(tracing_chrome::TraceStyle::Async)
+            .build();
+        (Some(layer), Some(guard))
+    } else {
+        (None, None)
+    };
+
+    let tracy_layer = if std::env::var_os("IDENTITY_PROFILE_TRACY").is_some() {
+        Some(tracing_tracy::TracyLayer::new())
+    } else {
+        None
+    };
+
+    let fmt_layer = tracing_subscriber::fmt::layer()
+        .with_target(false)
+        .fmt_fields(only_message);
+
+    tracing_subscriber::registry()
+        .with(filter)
+        .with(chrome_layer)
+        .with(tracy_layer)
+        .with(fmt_layer)
+        .init();
+
+    glib::log_set_default_handler(glib::rust_log_handler);
+
+    tracing_gstreamer::integrate_events();
+    gst::debug_remove_default_log_function();
+    gst::init().unwrap();
+    // tracing_gstreamer::integrate_spans();
 
     info!("Identity version {}", config::VERSION);
 
@@ -59,7 +105,6 @@ fn main() -> ExitCode {
     };
     gio::resources_register(&res);
 
-    gst::init().expect("could not initialize GStreamer");
     gstgtk4::plugin_register_static().expect("could not initialize gst-plugin-gtk4");
 
     Application::new().run()

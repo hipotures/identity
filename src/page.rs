@@ -14,7 +14,7 @@ mod imp {
     use futures_util::StreamExt;
     use gettextrs::gettext;
     use glib::subclass::Signal;
-    use glib::{clone, debug, error, warn, Properties};
+    use glib::{clone, Properties};
     use gst::prelude::*;
     use gst_video::VideoOrientationMethod;
     use gtk::prelude::*;
@@ -22,7 +22,6 @@ mod imp {
     use once_cell::sync::Lazy;
 
     use super::*;
-    use crate::G_LOG_DOMAIN;
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/page.ui")]
@@ -290,6 +289,7 @@ mod imp {
             self.scrolled_window.grab_focus();
         }
 
+        #[instrument("Page::retrieve_display_name", fields(file = self.display_path().unwrap()), skip_all)]
         async fn retrieve_display_name(&self) {
             let file = self.file.get().expect("unexpected unset `file`");
 
@@ -321,6 +321,7 @@ mod imp {
             gdk::ContentProvider::for_value(&file_list.to_value())
         }
 
+        #[instrument("Page::prepare_playbin", fields(file = self.display_path().unwrap()), skip_all)]
         async fn prepare_playbin(&self) {
             let obj = self.obj();
 
@@ -488,6 +489,7 @@ mod imp {
         ///
         /// Returns `true` when the `playbin` has been successfully pre-rolled and put in the paused
         /// state, and `false` on error.
+        #[instrument("Page::preroll", fields(file = self.display_path().unwrap()), skip_all)]
         async fn preroll(&self, playbin: &gst::Element) -> bool {
             let bus = playbin.bus().unwrap();
 

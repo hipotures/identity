@@ -6,12 +6,11 @@ use crate::page::Page;
 mod imp {
     use std::cell::RefCell;
 
-    use glib::{clone, error, Properties, SignalHandlerId};
+    use glib::{clone, Properties, SignalHandlerId};
     use gtk::prelude::*;
     use gtk::CompositeTemplate;
 
     use super::*;
-    use crate::G_LOG_DOMAIN;
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/page_grid.ui")]
