@@ -147,11 +147,14 @@ mod imp {
         fn seek_to_time(&self, time: gst::ClockTime) {
             debug!("seek_to_time({time})");
 
-            if let Err(err) = self.pipeline.seek_simple(gst::SeekFlags::FLUSH, time) {
-                // This can happen if there's a broken playbin in the pipeline that nevertheless
-                // hasn't sent an error to the bus yet.
-                warn!("error seeking: {err:?}");
-            }
+            // The seeking call takes a while, actually.
+            self.pipeline.call_async(move |pipeline| {
+                if let Err(err) = pipeline.seek_simple(gst::SeekFlags::FLUSH, time) {
+                    // This can happen if there's a broken playbin in the pipeline that nevertheless
+                    // hasn't sent an error to the bus yet.
+                    warn!("error seeking: {err:?}");
+                }
+            });
 
             self.is_backwards.set(false);
         }
