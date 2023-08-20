@@ -174,6 +174,7 @@ mod imp {
         }
 
         fn dispose(&self) {
+            debug!("Page::dispose");
             if let Some(playbin) = &*self.playbin.borrow() {
                 let _ = playbin.set_state(gst::State::Null);
             }

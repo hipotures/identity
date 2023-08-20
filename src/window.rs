@@ -647,6 +647,10 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+
+        fn dispose(&self) {
+            debug!("Window::dispose");
+        }
     }
 
     impl WidgetImpl for Window {}

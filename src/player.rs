@@ -74,6 +74,8 @@ mod imp {
         }
 
         fn dispose(&self) {
+            debug!("Player::dispose");
+
             // I got this to return Err once by opening a file GStreamer couldn't play and a regular
             // video file.
             if let Err(err) = self.pipeline.set_state(gst::State::Null) {
