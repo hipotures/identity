@@ -417,7 +417,7 @@ mod imp {
                 .build();
 
             // Bind the scale entry text.
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("scale")
                 .chain_closure::<String>(closure!(|_: Option<glib::Object>, scale: f64| {
                     if scale == 0. {
@@ -429,7 +429,7 @@ mod imp {
                 .bind(&*self.scale_entry, "text", None::<&Self::Type>);
 
             // Bind properties of the media properties dialog.
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_closure::<bool>(closure!(
                     |_: Option<glib::Object>, selected_page: Option<Page>| {
                         selected_page.is_none()
@@ -440,10 +440,10 @@ mod imp {
                     "show-empty-state",
                     None::<&Self::Type>,
                 );
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("display-name")
                 .bind(&*self.media_properties, "file-name", None::<&Self::Type>);
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("file")
                 .chain_closure::<Option<String>>(closure!(
                     |_: Option<glib::Object>, file: Option<gio::File>| {
@@ -460,10 +460,10 @@ mod imp {
                     "file-location",
                     None::<&Self::Type>,
                 );
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("resolution")
                 .bind(&*self.media_properties, "resolution", None::<&Self::Type>);
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("framerate")
                 .chain_closure::<String>(closure!(|_: Option<glib::Object>, framerate: f32| {
                     if framerate != 0. {
@@ -473,7 +473,7 @@ mod imp {
                     }
                 }))
                 .bind(&*self.media_properties, "frame-rate", None::<&Self::Type>);
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("video-codec")
                 .chain_closure::<String>(closure!(
                     |_: Option<glib::Object>, video_codec: Option<String>| {
@@ -481,7 +481,7 @@ mod imp {
                     }
                 ))
                 .bind(&*self.media_properties, "codec", None::<&Self::Type>);
-            obj.property_expression("selected-page")
+            obj.property_expression_weak("selected-page")
                 .chain_property::<Page>("container-format")
                 .chain_closure::<String>(closure!(
                     |_: Option<glib::Object>, container_format: Option<String>| {
