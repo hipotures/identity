@@ -300,7 +300,7 @@ mod imp {
                 .query_info_future(
                     "standard::display-name",
                     gio::FileQueryInfoFlags::NONE,
-                    glib::PRIORITY_DEFAULT,
+                    glib::Priority::DEFAULT,
                 )
                 .await;
 
@@ -396,7 +396,7 @@ mod imp {
             // application volume.
             let flags: glib::Value = playbin.property("flags");
             let flags_class =
-                glib::FlagsClass::new(flags.type_()).expect("could not create `FlagsClass`");
+                glib::FlagsClass::with_type(flags.type_()).expect("could not create `FlagsClass`");
             let flags = flags_class
                 .builder_with_value(flags)
                 .expect("could not create `FlagsBuilder`")

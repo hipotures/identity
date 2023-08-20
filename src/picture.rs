@@ -8,7 +8,7 @@ mod imp {
     use std::marker::PhantomData;
 
     use glib::subclass::Signal;
-    use glib::{clone, Properties};
+    use glib::{clone, Propagation, Properties};
     use gtk::graphene;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
@@ -130,12 +130,12 @@ mod imp {
             let scroll_controller =
                 gtk::EventControllerScroll::new(gtk::EventControllerScrollFlags::BOTH_AXES);
             scroll_controller.connect_scroll(
-                clone!(@weak obj => @default-return gtk::Inhibit(false), move |event, _, delta_y| {
+                clone!(@weak obj => @default-return Propagation::Proceed, move |event, _, delta_y| {
                     let scale = obj.scale();
                     if scale == 0. || obj.imp().is_panning() || obj.imp().is_zooming() {
-                        // Inhibit because we don't want the scroll to come through if we're in the
-                        // middle of a pan or a pinch zoom.
-                        return gtk::Inhibit(true);
+                        // Stop propagation because we don't want the scroll to come through if
+                        // we're in the middle of a pan or a pinch zoom.
+                        return Propagation::Stop;
                     }
 
                     // Don't trigger scroll gesture on touchpads, it's too fast and impresize on
@@ -146,13 +146,13 @@ mod imp {
                         // Take this opportunity to stop other scrolled windows' kinetic scrolling
                         // though.
                         obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&obj]);
-                        return gtk::Inhibit(false);
+                        return Propagation::Proceed;
                     }
 
                     // Leave Control and Shift scrolling for the scrolled window.
                     if event.current_event_state().contains(gdk::ModifierType::CONTROL_MASK)
                         || event.current_event_state().contains(gdk::ModifierType::SHIFT_MASK) {
-                        return gtk::Inhibit(false);
+                        return Propagation::Proceed;
                     }
 
                     // The factor of 1.3× per scroll was copied from Loupe.
@@ -169,7 +169,7 @@ mod imp {
                     obj.imp().zoom_update(pointer_pos, new_scale);
                     obj.imp().zoom_end();
 
-                    gtk::Inhibit(true)
+                    Propagation::Stop
                 }),
             );
             obj.add_controller(scroll_controller);
@@ -861,12 +861,16 @@ mod imp {
         }
 
         fn is_hscrollable(&self) -> bool {
-            let Some((adj, _)) = &*self.hadjustment.borrow() else { return false };
+            let Some((adj, _)) = &*self.hadjustment.borrow() else {
+                return false;
+            };
             adj.upper() - adj.page_size() > 0.
         }
 
         fn is_vscrollable(&self) -> bool {
-            let Some((adj, _)) = &*self.vadjustment.borrow() else { return false };
+            let Some((adj, _)) = &*self.vadjustment.borrow() else {
+                return false;
+            };
             adj.upper() - adj.page_size() > 0.
         }
 

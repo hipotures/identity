@@ -91,7 +91,7 @@ mod imp {
 
     use adw::subclass::prelude::*;
     use ashpd::desktop::open_uri::OpenDirectoryRequest;
-    use glib::{clone, closure, error, Properties, SignalHandlerId, SourceId};
+    use glib::{clone, closure, error, ControlFlow, Properties, SignalHandlerId, SourceId};
     use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::{glib, CompositeTemplate};
@@ -612,7 +612,7 @@ mod imp {
             // Update playback position every frame.
             obj.add_tick_callback(|obj, _| {
                 obj.imp().player.query_and_update_position();
-                glib::Continue(true)
+                ControlFlow::Continue
             });
 
             // Big hack: disable some GtkScale shortcuts that we want to use ourselves.
@@ -882,7 +882,7 @@ mod imp {
 
             let page = tab_page
                 .map(|tab_page| tab_page.downgrade())
-                .unwrap_or_else(glib::WeakRef::new);
+                .unwrap_or_default();
             self.menu_page.replace(page);
 
             if let Some(tab_page) = tab_page {
@@ -919,7 +919,9 @@ mod imp {
         }
 
         pub fn copy_file(&self) {
-            let Some(page) = self.menu_or_selected_page() else { return };
+            let Some(page) = self.menu_or_selected_page() else {
+                return;
+            };
 
             let file_list = gdk::FileList::from_array(&[page.file()]);
             let content_provider = gdk::ContentProvider::for_value(&file_list.to_value());
@@ -929,7 +931,9 @@ mod imp {
         }
 
         pub async fn show_in_files(&self) {
-            let Some(page) = self.menu_or_selected_page() else { return };
+            let Some(page) = self.menu_or_selected_page() else {
+                return;
+            };
 
             // The OpenDirectory portal wants a file descriptor. There's a way to get it without
             // leaving gio:
@@ -973,7 +977,7 @@ mod imp {
             let identifier = ashpd::WindowIdentifier::from_native(&native).await;
             if let Err(err) = OpenDirectoryRequest::default()
                 .identifier(identifier)
-                .build(&file)
+                .send(&file)
                 .await
             {
                 warn!("OpenDirectory returned an error: {:?}", err);
@@ -1344,13 +1348,11 @@ mod imp {
         seconds %= 60;
         minutes %= 60;
 
-        let label = if hours == 0 {
+        if hours == 0 {
             format!("{minutes}:{seconds:02}")
         } else {
             format!("{hours}:{minutes:02}:{seconds:02}")
-        };
-
-        label
+        }
     }
 
     fn parse_scale(mut text: &str) -> Option<f64> {
@@ -1460,7 +1462,7 @@ impl Window {
     async fn paste(&self) {
         let value = match self
             .clipboard()
-            .read_value_future(gdk::FileList::static_type(), glib::PRIORITY_DEFAULT)
+            .read_value_future(gdk::FileList::static_type(), glib::Priority::DEFAULT)
             .await
         {
             Ok(x) => x,

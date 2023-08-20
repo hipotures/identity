@@ -7,9 +7,11 @@ mod imp {
     use std::marker::PhantomData;
 
     use glib::subclass::Signal;
-    use glib::{clone, debug, error, warn, Properties};
+    use glib::{clone, debug, error, warn, ControlFlow, Properties};
+    use gst::bus::BusWatchGuard;
     use gst::prelude::*;
     use once_cell::sync::Lazy;
+    use once_cell::unsync::OnceCell;
 
     use super::*;
     use crate::G_LOG_DOMAIN;
@@ -40,6 +42,8 @@ mod imp {
 
         /// The pipeline containing the GStreamer playback sources.
         pipeline: gst::Pipeline,
+        /// The bus watch on the pipeline.
+        bus_watch_guard: OnceCell<BusWatchGuard>,
         /// Whether the pipeline is currently playing backwards.
         is_backwards: Cell<bool>,
         /// Combined (maximal) duration of the playback sources.
@@ -57,13 +61,15 @@ mod imp {
         fn constructed(&self) {
             // Subscribe to bus messages.
             let bus = self.pipeline.bus().unwrap();
-            bus.add_watch_local(
-                clone!(@weak self as imp => @default-return glib::Continue(false), move |_, msg| {
-                    imp.on_bus_message(msg);
-                    glib::Continue(true)
-                }),
-            )
-            .unwrap();
+            let watch = bus
+                .add_watch_local(
+                    clone!(@weak self as imp => @default-return ControlFlow::Break, move |_, msg| {
+                        imp.on_bus_message(msg);
+                        ControlFlow::Continue
+                    }),
+                )
+                .unwrap();
+            self.bus_watch_guard.set(watch).unwrap();
 
             // Pre-roll the (empty) pipeline.
             self.pipeline.set_state(gst::State::Paused).unwrap();
@@ -74,11 +80,6 @@ mod imp {
             // video file.
             if let Err(err) = self.pipeline.set_state(gst::State::Null) {
                 warn!("error setting pipeline state to Null: {err:?}");
-            }
-
-            // This returns Err if called multiple times.
-            if let Err(err) = self.pipeline.bus().unwrap().remove_watch() {
-                warn!("error removing pipeline bus watch: {err:?}");
             }
         }
 
@@ -117,7 +118,9 @@ mod imp {
             debug!("set_is_playing({play})");
 
             if play && self.is_backwards.get() {
-                let Some(position) = self.query_position() else { return };
+                let Some(position) = self.query_position() else {
+                    return;
+                };
 
                 if let Err(err) = self.pipeline.seek(
                     1.,
@@ -156,7 +159,9 @@ mod imp {
         pub fn seek(&self, to: f64) {
             debug!("seek({to:.02})");
 
-            let Some(duration) = self.duration.get() else { return };
+            let Some(duration) = self.duration.get() else {
+                return;
+            };
 
             let time = gst::ClockTime::from_nseconds((to * duration.nseconds() as f64) as u64);
             self.seek_to_time(time);
@@ -256,7 +261,9 @@ mod imp {
             // We don't update the position if we get a `None`. This way, whenever the last video
             // tab is closed, the time label stays where it is as the controls revealer is closing.
             // Also, this way, during seeks, the position does not flash to zero momentarily.
-            let Some(position) = self.query_position() else { return };
+            let Some(position) = self.query_position() else {
+                return;
+            };
 
             if self.position.get() == position {
                 return;

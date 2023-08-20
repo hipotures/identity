@@ -88,9 +88,9 @@ impl Application {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         glib::Object::builder()
-            .property("application-id", &config::APP_ID)
-            .property("flags", &gio::ApplicationFlags::HANDLES_OPEN)
-            .property("resource-base-path", &"/org/gnome/gitlab/YaLTeR/Identity")
+            .property("application-id", config::APP_ID)
+            .property("flags", gio::ApplicationFlags::HANDLES_OPEN)
+            .property("resource-base-path", "/org/gnome/gitlab/YaLTeR/Identity")
             .build()
     }
 
