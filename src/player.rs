@@ -76,11 +76,15 @@ mod imp {
         fn dispose(&self) {
             debug!("Player::dispose");
 
-            // I got this to return Err once by opening a file GStreamer couldn't play and a regular
-            // video file.
-            if let Err(err) = self.pipeline.set_state(gst::State::Null) {
-                warn!("error setting pipeline state to Null: {err:?}");
-            }
+            // When a lot of call_async() seeks are queued, this will block until all of them
+            // complete.
+            self.pipeline.call_async(|pipeline| {
+                // I got this to return Err once by opening a file GStreamer couldn't play and a
+                // regular video file.
+                if let Err(err) = pipeline.set_state(gst::State::Null) {
+                    warn!("error setting pipeline state to Null: {err:?}");
+                }
+            });
         }
 
         fn signals() -> &'static [Signal] {
