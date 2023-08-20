@@ -108,6 +108,7 @@ mod imp {
             self.pipeline.query_position::<gst::ClockTime>()
         }
 
+        #[instrument("Player::set_is_playing", skip_all)]
         pub fn set_is_playing(&self, play: bool) {
             if self.is_playing.get() == play {
                 return;
