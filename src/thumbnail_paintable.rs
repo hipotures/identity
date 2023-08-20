@@ -3,12 +3,11 @@ use glib::subclass::prelude::*;
 use gtk::{gdk, glib};
 
 mod imp {
-    use std::cell::Cell;
+    use std::cell::{Cell, OnceCell};
 
     use gdk::prelude::*;
     use gdk::subclass::prelude::*;
     use glib::{clone, Properties};
-    use once_cell::unsync::OnceCell;
 
     use super::*;
 

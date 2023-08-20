@@ -3,7 +3,7 @@ use glib::subclass::prelude::*;
 use gtk::glib;
 
 mod imp {
-    use std::cell::Cell;
+    use std::cell::{Cell, OnceCell};
     use std::marker::PhantomData;
 
     use glib::subclass::Signal;
@@ -11,7 +11,6 @@ mod imp {
     use gst::bus::BusWatchGuard;
     use gst::prelude::*;
     use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
 
     use super::*;
     use crate::G_LOG_DOMAIN;

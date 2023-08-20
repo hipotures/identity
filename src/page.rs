@@ -6,7 +6,7 @@ use crate::picture::Picture;
 use crate::scale_request::ScaleRequest;
 
 mod imp {
-    use std::cell::{Cell, RefCell};
+    use std::cell::{Cell, OnceCell, RefCell};
     use std::marker::PhantomData;
     use std::time::Instant;
 
@@ -20,7 +20,6 @@ mod imp {
     use gtk::prelude::*;
     use gtk::{gdk, CompositeTemplate};
     use once_cell::sync::Lazy;
-    use once_cell::unsync::OnceCell;
 
     use super::*;
     use crate::G_LOG_DOMAIN;
