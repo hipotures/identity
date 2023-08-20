@@ -778,6 +778,12 @@ mod imp {
                 self.obj().present_if_not_visible();
             } else {
                 let id = page.connect_is_loading_notify(clone!(@weak self as imp => move |page| {
+                    if let Some(id) = imp.page_is_loading_notify_id.borrow_mut().remove(page) {
+                        page.disconnect(id);
+                    } else {
+                        error!("`page_is_loading_notify_id` should have had an entry for this page");
+                    }
+
                     if let Some(playbin) = page.playbin() {
                         imp.player.attach_source(&playbin);
                     }
@@ -792,7 +798,7 @@ mod imp {
                     .insert(page, id)
                     .is_some()
                 {
-                    error!("`page_playbin_notify_id` already had an entry for this page");
+                    error!("`page_is_loading_notify_id` already had an entry for this page");
                 };
             }
         }
