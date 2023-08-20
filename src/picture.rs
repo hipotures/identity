@@ -41,10 +41,11 @@ mod imp {
         // allocated and before it has valid adjustments.
         //
         // Another important effect is that these properties are preserved across paintable size
-        // changes and across allocation changes. So for example resizing the window or changing the
-        // scale factor when the picture is scrolled up-left will preserve this up-left scroll
-        // position, and resizing the window or changing the scale factor when the picture is
-        // scrolled down-right will also preserve this down-right scroll position.
+        // changes and across allocation changes. So for example resizing the window or changing
+        // the scale factor when the picture is scrolled up-left will preserve this up-left
+        // scroll position, and resizing the window or changing the scale factor when the
+        // picture is scrolled down-right will also preserve this down-right scroll
+        // position.
         #[property(get, set = Self::set_h_scroll_pos, minimum = 0., maximum = 1., explicit_notify)]
         h_scroll_pos: Cell<f64>,
         #[property(get, set = Self::set_v_scroll_pos, minimum = 0., maximum = 1., explicit_notify)]
