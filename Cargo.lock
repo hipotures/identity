@@ -942,9 +942,8 @@ dependencies = [
 
 [[package]]
 name = "gst-plugin-gtk4"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3ee0132150ee059c35642b51c5d663eadb9fa4d21f83a56dd584b03c1c45ffd"
+version = "0.12.0-alpha.1"
+source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#b2b9c9808d1931c361f2a657e338dd98fdc66ce7"
 dependencies = [
  "gdk4-wayland",
  "gdk4-win32",
@@ -963,9 +962,8 @@ dependencies = [
 
 [[package]]
 name = "gst-plugin-version-helper"
-version = "0.7.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87921209945e5dc809848a100115fad65bd127671896f0206f45e272080cc4c9"
+version = "0.12.0-alpha.1"
+source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#b2b9c9808d1931c361f2a657e338dd98fdc66ce7"
 dependencies = [
  "chrono",
 ]

@@ -9,9 +9,9 @@ mod imp {
 
     use glib::subclass::Signal;
     use glib::{clone, Propagation, Properties};
-    use gtk::graphene;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
+    use gtk::{graphene, gsk};
     use once_cell::sync::Lazy;
 
     use super::*;
@@ -392,7 +392,12 @@ mod imp {
             // If the paintable doesn't have an intrinsic size, we can only meaningfully fit to
             // allocation.
             if paintable_ratio == 0. || paintable_width == 0 || paintable_height == 0 {
-                paintable.snapshot(snapshot, widget_width as f64, widget_height as f64);
+                self.snapshot_paintable(
+                    snapshot,
+                    paintable,
+                    widget_width as f64,
+                    widget_height as f64,
+                );
 
                 return;
             }
@@ -438,7 +443,7 @@ mod imp {
 
             snapshot.save();
             snapshot.translate(&graphene::Point::new(x as f32, y as f32));
-            paintable.snapshot(snapshot, w, h);
+            self.snapshot_paintable(snapshot, paintable, w, h);
             snapshot.restore();
         }
 
@@ -878,6 +883,26 @@ mod imp {
         fn thumbnail(&self) -> Option<gdk::Paintable> {
             let paintable = self.paintable()?;
             Some(ThumbnailPaintable::new(&paintable).upcast())
+        }
+
+        fn snapshot_paintable(
+            &self,
+            snapshot: &gtk::Snapshot,
+            paintable: &gdk::Paintable,
+            width: f64,
+            height: f64,
+        ) {
+            let scale = self.obj().scale_factor();
+            snapshot.scale(1. / scale as f32, 1. / scale as f32);
+
+            let filter = if self.scale.get() >= 1. {
+                gsk::ScalingFilter::Nearest
+            } else {
+                gsk::ScalingFilter::Trilinear
+            };
+            paintable.set_property("scaling-filter", filter);
+
+            paintable.snapshot(snapshot, width * scale as f64, height * scale as f64);
         }
     }
 
