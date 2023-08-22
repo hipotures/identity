@@ -1501,40 +1501,29 @@ impl Window {
             filter.add_mime_type(mime_type);
         }
 
-        let file_chooser = gtk::FileChooserNative::builder()
-            .transient_for(self)
+        let file_dialog = gtk::FileDialog::builder()
             .modal(true)
-            .action(gtk::FileChooserAction::Open)
-            .select_multiple(true)
             // Translators: file chooser dialog title.
             .title(gettext("Open videos or images to compare"))
+            .filters(&[filter].into_iter().collect::<gio::ListStore>())
             .build();
 
-        file_chooser.add_filter(&filter);
-
-        file_chooser.connect_response({
-            let obj = self.downgrade();
-            let file_chooser = RefCell::new(Some(file_chooser.clone()));
-            move |_, response| {
-                if let Some(obj) = obj.upgrade() {
-                    if let Some(file_chooser) = file_chooser.take() {
-                        if response == gtk::ResponseType::Accept {
-                            for file in file_chooser.files().snapshot().into_iter() {
-                                let file: gio::File = file
-                                    .downcast()
-                                    .expect("unexpected type returned from file chooser");
-                                obj.open_file(&file);
-                            }
-                        }
-                    } else {
-                        warn!("got file chooser response more than once");
+        let obj = self.clone();
+        let future = async move {
+            match file_dialog.open_multiple_future(Some(&obj)).await {
+                Ok(files) => {
+                    for file in files.iter::<gio::File>().map(Result::unwrap) {
+                        obj.open_file(&file);
                     }
-                } else {
-                    warn!("got file chooser response after window was freed");
+                }
+                Err(err) => {
+                    if !err.matches(gtk::DialogError::Dismissed) {
+                        warn!("file dialog error: {err:?}");
+                    }
                 }
             }
-        });
+        };
 
-        file_chooser.show();
+        glib::MainContext::default().spawn_local(future);
     }
 }
