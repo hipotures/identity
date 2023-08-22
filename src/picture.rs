@@ -898,7 +898,7 @@ mod imp {
             let filter = if self.scale.get() >= 1. {
                 gsk::ScalingFilter::Nearest
             } else {
-                gsk::ScalingFilter::Trilinear
+                gsk::ScalingFilter::Linear
             };
             paintable.set_property("scaling-filter", filter);
 
