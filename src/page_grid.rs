@@ -60,6 +60,12 @@ mod imp {
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
             self.derived_set_property(id, value, pspec);
         }
+
+        fn dispose(&self) {
+            for (page, _) in self.pages.borrow_mut().drain(..) {
+                page.unparent();
+            }
+        }
     }
 
     impl WidgetImpl for PageGrid {}
