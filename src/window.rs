@@ -608,7 +608,21 @@ mod imp {
 
             // Update playback position every frame.
             obj.add_tick_callback(|obj, _| {
-                obj.imp().player.query_and_update_position();
+                let imp = obj.imp();
+
+                // Don't update the position when the user is holding down the slider.
+                //
+                // This is not perfect (after a heavy seek the position may flicker to a previous
+                // value for a few frames). A more robust way would be to track when a seek is in
+                // progress. But we don't have that yet.
+                let dragging = imp
+                    .time_scale
+                    .state_flags()
+                    .contains(gtk::StateFlags::ACTIVE);
+                if !dragging {
+                    imp.player.query_and_update_position();
+                }
+
                 ControlFlow::Continue
             });
 
