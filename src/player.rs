@@ -4,7 +4,9 @@ use gtk::glib;
 
 mod imp {
     use std::cell::{Cell, OnceCell};
+    use std::iter;
     use std::marker::PhantomData;
+    use std::sync::mpsc::{channel, Receiver, Sender};
 
     use glib::subclass::Signal;
     use glib::{clone, ControlFlow, Properties};
@@ -13,6 +15,14 @@ mod imp {
     use once_cell::sync::Lazy;
 
     use super::*;
+
+    enum Request {
+        Seek(gst::ClockTime),
+        StepForwards,
+        StepBack,
+        SetPlaying(bool),
+        Exit,
+    }
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Player)]
@@ -42,10 +52,10 @@ mod imp {
         pipeline: gst::Pipeline,
         /// The bus watch on the pipeline.
         bus_watch_guard: OnceCell<BusWatchGuard>,
-        /// Whether the pipeline is currently playing backwards.
-        is_backwards: Cell<bool>,
         /// Combined (maximal) duration of the playback sources.
         duration: Cell<Option<gst::ClockTime>>,
+        /// Sender to the processing thread.
+        sender: OnceCell<Sender<Request>>,
     }
 
     #[glib::object_subclass]
@@ -71,20 +81,22 @@ mod imp {
 
             // Pre-roll the (empty) pipeline.
             self.pipeline.set_state(gst::State::Paused).unwrap();
+
+            // Start the processing thread.
+            let (sender, receiver) = channel();
+            std::thread::Builder::new()
+                .name("Processing Thread".to_owned())
+                .spawn({
+                    let pipeline = self.pipeline.clone();
+                    move || processing_thread(pipeline, receiver)
+                })
+                .unwrap();
+            self.sender.set(sender).unwrap();
         }
 
         fn dispose(&self) {
             debug!("Player::dispose");
-
-            // When a lot of call_async() seeks are queued, this will block until all of them
-            // complete.
-            self.pipeline.call_async(|pipeline| {
-                // I got this to return Err once by opening a file GStreamer couldn't play and a
-                // regular video file.
-                if let Err(err) = pipeline.set_state(gst::State::Null) {
-                    warn!("error setting pipeline state to Null: {err:?}");
-                }
-            });
+            self.send(Request::Exit);
         }
 
         fn signals() -> &'static [Signal] {
@@ -114,57 +126,19 @@ mod imp {
             self.pipeline.query_position::<gst::ClockTime>()
         }
 
-        #[instrument("Player::set_is_playing", skip_all)]
         pub fn set_is_playing(&self, play: bool) {
             if self.is_playing.get() == play {
                 return;
             }
 
-            debug!("set_is_playing({play})");
-
-            if play && self.is_backwards.get() {
-                let Some(position) = self.query_position() else {
-                    return;
-                };
-
-                if let Err(err) = self.pipeline.seek(
-                    1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    position,
-                    gst::SeekType::End,
-                    Some(gst::ClockTime::ZERO),
-                ) {
-                    warn!("set_is_playing: error seeking: {err:?}");
-                }
-
-                self.is_backwards.set(false);
-            }
-
-            let target_state = if play {
-                gst::State::Playing
-            } else {
-                gst::State::Paused
-            };
-            self.pipeline.set_state(target_state).unwrap();
+            self.send(Request::SetPlaying(play));
         }
 
-        #[instrument("Player::seek_to_time", skip_all)]
         fn seek_to_time(&self, time: gst::ClockTime) {
-            debug!("seek_to_time({time})");
-
-            if let Err(err) = self.pipeline.seek_simple(gst::SeekFlags::FLUSH, time) {
-                // This can happen if there's a broken playbin in the pipeline that nevertheless
-                // hasn't sent an error to the bus yet.
-                warn!("error seeking: {err:?}");
-            }
-
-            self.is_backwards.set(false);
+            self.send(Request::Seek(time));
         }
 
         pub fn seek(&self, to: f64) {
-            debug!("seek({to:.02})");
-
             let Some(duration) = self.duration.get() else {
                 return;
             };
@@ -344,48 +318,13 @@ mod imp {
             }
         }
 
-        /// Steps one frame into the current playback direction.
-        pub fn step_frame(&self) {
-            debug!("step_frame()");
-
-            self.pipeline.send_event(gst::event::Step::new(
-                gst::format::Buffers::from_u64(1),
-                1.,
-                true,
-                false,
-            ));
-        }
-
         pub fn step_forward(&self) {
             if self.is_playing.get() {
                 // Only step while paused.
                 return;
             }
 
-            debug!("step_forward: is_backwards: {}", self.is_backwards.get());
-
-            if !self.is_backwards.get() {
-                self.step_frame();
-                return;
-            }
-
-            // Get the most up-to-date position for the seek.
-            if let Some(position) = self.query_position() {
-                // Reversing playback direction already steps 1 frame in most cases.
-                // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                if let Err(err) = self.pipeline.seek(
-                    1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    position,
-                    gst::SeekType::End,
-                    gst::ClockTime::ZERO,
-                ) {
-                    warn!("step_forward: error seeking: {err:?}");
-                }
-
-                self.is_backwards.set(false);
-            }
+            self.send(Request::StepForwards);
         }
 
         pub fn step_back(&self) {
@@ -394,31 +333,143 @@ mod imp {
                 return;
             }
 
-            debug!("step_back: is_backwards: {}", self.is_backwards.get());
+            self.send(Request::StepBack);
+        }
 
-            if self.is_backwards.get() {
-                self.step_frame();
-                return;
+        fn send(&self, request: Request) {
+            if self.sender.get().unwrap().send(request).is_err() {
+                error!("processing thread shut down unexpectedly");
             }
+        }
+    }
 
-            // Get the most up-to-date position for the seek.
-            if let Some(position) = self.query_position() {
-                // Reversing playback direction already steps 1 frame in most cases.
-                // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
-                if let Err(err) = self.pipeline.seek(
-                    -1.,
-                    gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
-                    gst::SeekType::Set,
-                    gst::ClockTime::ZERO,
-                    gst::SeekType::Set,
-                    position,
-                ) {
-                    warn!("step_back: error seeking: {err:?}");
+    // Seeking and state changes happen on a thread because, with enough heavy videos in the
+    // pipeline, they will block for several frames. And we never want the UI thread to block.
+    fn processing_thread(pipeline: gst::Pipeline, receiver: Receiver<Request>) {
+        let mut is_backwards = false;
+
+        'outer: loop {
+            let mut seek_to = gst::ClockTime::NONE;
+            let mut step = 0i64;
+            let mut set_playing = None;
+
+            // Receive all requests thus far. Do one blocking recv and follow up with non-blocking
+            // ones to avoid busy-looping.
+            let Ok(request) = receiver.recv() else {
+                // The channel hung up.
+                break;
+            };
+
+            for request in iter::once(request).chain(receiver.try_iter()) {
+                match request {
+                    Request::Seek(to) => seek_to = Some(to),
+                    Request::StepForwards => step += 1,
+                    Request::StepBack => step -= 1,
+                    Request::SetPlaying(play) => set_playing = Some(play),
+                    Request::Exit => break 'outer,
                 }
-
-                // TODO: failed seeks will update this, but they shouldn't.
-                self.is_backwards.set(true);
             }
+
+            if seek_to.is_none() && step == 0 && set_playing.is_none() {
+                // Either the channel hung up, or the requests cancelled each other.
+                continue;
+            }
+
+            // Seek if requested.
+            if let Some(seek_to) = seek_to {
+                debug!("seeking to {seek_to:?}");
+
+                if let Err(err) = pipeline.seek_simple(gst::SeekFlags::FLUSH, seek_to) {
+                    // This can happen if there's a broken playbin in the pipeline that nevertheless
+                    // hasn't sent an error to the bus yet.
+                    warn!("error seeking: {err:?}");
+                }
+                // We change is_backwards unconditionally because one broken pipeline will cause an
+                // error to return, but for other pipelines the seek will still succeed.
+                is_backwards = false;
+            }
+
+            // If a backwards step is requested and we're not playing backwards, reverse direction.
+            if step < 0 && !is_backwards {
+                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
+                    debug!("changing playback direction to backwards");
+
+                    if let Err(err) = pipeline.seek(
+                        -1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        gst::ClockTime::ZERO,
+                        gst::SeekType::Set,
+                        position,
+                    ) {
+                        warn!("error seeking: {err:?}");
+                    }
+                    is_backwards = true;
+
+                    // Reversing playback direction already steps 1 frame in most cases.
+                    // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
+                    step += 1;
+                }
+            }
+
+            // If a forwards step, or playback, is requested and we're not playing forwards, reverse
+            // direction.
+            if (step > 0 || set_playing == Some(true)) && is_backwards {
+                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
+                    debug!("changing playback direction to forwards");
+
+                    if let Err(err) = pipeline.seek(
+                        1.,
+                        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                        gst::SeekType::Set,
+                        position,
+                        gst::SeekType::End,
+                        gst::ClockTime::ZERO,
+                    ) {
+                        warn!("error seeking: {err:?}");
+                    }
+                    is_backwards = false;
+
+                    // Reversing playback direction already steps 1 frame in most cases.
+                    // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
+                    step -= 1;
+                }
+            }
+
+            // Step if requested.
+            if step != 0 {
+                debug!("stepping by {step} frames");
+
+                pipeline.send_event(gst::event::Step::new(
+                    gst::format::Buffers::from_u64(step.unsigned_abs()),
+                    1.,
+                    true,
+                    false,
+                ));
+            }
+
+            // Play/pause if requested.
+            if let Some(play) = set_playing {
+                let target_state = if play {
+                    gst::State::Playing
+                } else {
+                    gst::State::Paused
+                };
+
+                debug!("setting state to {target_state:?}");
+
+                if let Err(err) = pipeline.set_state(target_state) {
+                    warn!("error setting pipeline state to {target_state:?}: {err:?}");
+                }
+            }
+        }
+
+        // Set the state to Null before exiting.
+        debug!("setting state to Null before exiting");
+        if let Err(err) = pipeline.set_state(gst::State::Null) {
+            // I got this to return Err once by opening a file GStreamer couldn't play and a
+            // regular video file.
+            warn!("error setting pipeline state to Null: {err:?}");
         }
     }
 }
