@@ -377,6 +377,7 @@ mod imp {
 
             // Seek if requested.
             if let Some(seek_to) = seek_to {
+                let _span = info_span!("seek").entered();
                 debug!("seeking to {seek_to:?}");
 
                 if let Err(err) = pipeline.seek_simple(gst::SeekFlags::FLUSH, seek_to) {
@@ -391,6 +392,7 @@ mod imp {
 
             // If a backwards step is requested and we're not playing backwards, reverse direction.
             if step < 0 && !is_backwards {
+                let _span = info_span!("set backwards").entered();
                 if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
                     debug!("changing playback direction to backwards");
 
@@ -415,6 +417,7 @@ mod imp {
             // If a forwards step, or playback, is requested and we're not playing forwards, reverse
             // direction.
             if (step > 0 || set_playing == Some(true)) && is_backwards {
+                let _span = info_span!("set forwards").entered();
                 if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
                     debug!("changing playback direction to forwards");
 
@@ -438,6 +441,7 @@ mod imp {
 
             // Step if requested.
             if step != 0 {
+                let _span = info_span!("step").entered();
                 debug!("stepping by {step} frames");
 
                 pipeline.send_event(gst::event::Step::new(
@@ -456,6 +460,7 @@ mod imp {
                     gst::State::Paused
                 };
 
+                let _span = info_span!("set state").entered();
                 debug!("setting state to {target_state:?}");
 
                 if let Err(err) = pipeline.set_state(target_state) {
@@ -466,6 +471,7 @@ mod imp {
 
         // Set the state to Null before exiting.
         debug!("setting state to Null before exiting");
+        let _span = info_span!("set state").entered();
         if let Err(err) = pipeline.set_state(gst::State::Null) {
             // I got this to return Err once by opening a file GStreamer couldn't play and a
             // regular video file.
