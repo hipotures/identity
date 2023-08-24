@@ -6,7 +6,9 @@ mod imp {
     use std::cell::{Cell, OnceCell};
     use std::iter;
     use std::marker::PhantomData;
+    use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::{channel, Receiver, Sender};
+    use std::sync::Arc;
 
     use glib::subclass::Signal;
     use glib::{clone, ControlFlow, Properties};
@@ -56,6 +58,8 @@ mod imp {
         duration: Cell<Option<gst::ClockTime>>,
         /// Sender to the processing thread.
         sender: OnceCell<Sender<Request>>,
+        /// Number of seeks queued for the processing thread to handle.
+        seeks_queued: Arc<AtomicUsize>,
     }
 
     #[glib::object_subclass]
@@ -88,7 +92,8 @@ mod imp {
                 .name("Processing Thread".to_owned())
                 .spawn({
                     let pipeline = self.pipeline.clone();
-                    move || processing_thread(pipeline, receiver)
+                    let seeks_queued = self.seeks_queued.clone();
+                    move || processing_thread(pipeline, seeks_queued, receiver)
                 })
                 .unwrap();
             self.sender.set(sender).unwrap();
@@ -337,19 +342,32 @@ mod imp {
         }
 
         fn send(&self, request: Request) {
+            if matches!(request, Request::Seek(_)) {
+                self.seeks_queued.fetch_add(1, Ordering::SeqCst);
+            }
+
             if self.sender.get().unwrap().send(request).is_err() {
                 error!("processing thread shut down unexpectedly");
             }
+        }
+
+        pub fn has_seeks_queued(&self) -> bool {
+            self.seeks_queued.load(Ordering::SeqCst) > 0
         }
     }
 
     // Seeking and state changes happen on a thread because, with enough heavy videos in the
     // pipeline, they will block for several frames. And we never want the UI thread to block.
-    fn processing_thread(pipeline: gst::Pipeline, receiver: Receiver<Request>) {
+    fn processing_thread(
+        pipeline: gst::Pipeline,
+        seeks_queued: Arc<AtomicUsize>,
+        receiver: Receiver<Request>,
+    ) {
         let mut is_backwards = false;
 
         'outer: loop {
             let mut seek_to = gst::ClockTime::NONE;
+            let mut seeks_batched = 0;
             let mut step = 0i64;
             let mut set_playing = None;
 
@@ -362,7 +380,10 @@ mod imp {
 
             for request in iter::once(request).chain(receiver.try_iter()) {
                 match request {
-                    Request::Seek(to) => seek_to = Some(to),
+                    Request::Seek(to) => {
+                        seek_to = Some(to);
+                        seeks_batched += 1;
+                    }
                     Request::StepForwards => step += 1,
                     Request::StepBack => step -= 1,
                     Request::SetPlaying(play) => set_playing = Some(play),
@@ -388,6 +409,7 @@ mod imp {
                 // We change is_backwards unconditionally because one broken pipeline will cause an
                 // error to return, but for other pipelines the seek will still succeed.
                 is_backwards = false;
+                seeks_queued.fetch_sub(seeks_batched, Ordering::SeqCst);
             }
 
             // If a backwards step is requested and we're not playing backwards, reverse direction.
@@ -515,6 +537,10 @@ impl Player {
     /// is available for display.
     pub fn query_and_update_position(&self) {
         self.imp().query_and_update_position();
+    }
+
+    pub fn has_seeks_queued(&self) -> bool {
+        self.imp().has_seeks_queued()
     }
 }
 
