@@ -76,14 +76,14 @@ dependencies = [
 
 [[package]]
 name = "async-executor"
-version = "1.5.2"
+version = "1.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "232344f51ca91edec473432f677c0f5ddf8deaa72f165d253ee19fb196f7d6f2"
+checksum = "6fa3dc5f2a8564f07759c008b9109dc0d39de92a88d5588b8a5036d286383afb"
 dependencies = [
  "async-lock",
  "async-task",
  "concurrent-queue",
- "fastrand 2.0.0",
+ "fastrand 1.9.0",
  "futures-lite",
  "slab",
 ]
@@ -315,9 +315,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.0.82"
+version = "1.0.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "305fe645edc1442a0fa8b6726ba61d422798d37a52e12eaecf4b022ebbb88f01"
+checksum = "f1174fb0b6ec23863f8b971027804a42614e347eafb0a95bf0b12cdae21fc4d0"
 dependencies = [
  "libc",
 ]
@@ -943,7 +943,7 @@ dependencies = [
 [[package]]
 name = "gst-plugin-gtk4"
 version = "0.12.0-alpha.1"
-source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#b2b9c9808d1931c361f2a657e338dd98fdc66ce7"
+source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#ca6bc179606c0ba4f07db7136468744b47952dc9"
 dependencies = [
  "gdk4-wayland",
  "gdk4-win32",
@@ -963,7 +963,7 @@ dependencies = [
 [[package]]
 name = "gst-plugin-version-helper"
 version = "0.12.0-alpha.1"
-source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#b2b9c9808d1931c361f2a657e338dd98fdc66ce7"
+source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#ca6bc179606c0ba4f07db7136468744b47952dc9"
 dependencies = [
  "chrono",
 ]
@@ -1897,18 +1897,18 @@ checksum = "b0293b4b29daaf487284529cc2f5675b8e57c61f70167ba415a463651fd6a918"
 
 [[package]]
 name = "serde"
-version = "1.0.183"
+version = "1.0.186"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32ac8da02677876d532745a130fc9d8e6edfa81a269b107c5b00829b91d8eb3c"
+checksum = "9f5db24220c009de9bd45e69fb2938f4b6d2df856aa9304ce377b3180f83b7c1"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.183"
+version = "1.0.186"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aafe972d60b0b9bee71a91b92fee2d4fb3c9d7e8f6b179aa99f27203d99a4816"
+checksum = "5ad697f7e0b65af4983a4ce8f56ed5b357e8d3c36651bf6a7e13639c17b8e670"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1987,9 +1987,9 @@ dependencies = [
 
 [[package]]
 name = "slab"
-version = "0.4.8"
+version = "0.4.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6528351c9bc8ab22353f9d776db39a20288e8d6c37ef8cfe3317cf875eecfc2d"
+checksum = "8f92a496fb766b417c996b9c5e57daf2f7ad3b0bebe1ccfca4856390e3d3bb67"
 dependencies = [
  "autocfg",
 ]
