@@ -327,40 +327,13 @@ mod imp {
             );
 
             klass.install_action("win.about", None, |window, _, _| {
-                // Concat translated strings to reuse the metainfo translations.
-                let list_points = [
-                    gettext("Added row and column tiled display modes for side-by-side comparison."),
-                    gettext("Changed mouse scroll and hotkey zoom to have consistent speed regardless of the current zoom level."),
-                    gettext("Changed mouse scroll to zoom by default instead of panning, and to pan when Ctrl is held."),
-                    gettext("Added panning by holding down the left mouse button and dragging when zoomed-in."),
-                    gettext("Changed the playback position to update smoothly."),
-                    gettext("You can now drag-and-drop a file out of Identity when it is not zoomed-in."),
-                    gettext("Added Ctrl+C to copy the current file to clipboard."),
-                    gettext("Added a context menu to tabs with a few common actions."),
-                    gettext("Optimized video playback performance by enabling OpenGL video processing on compatible setups."),
-                    gettext("Updated to the GNOME 44 platform."),
-                    gettext("Updated translations."),
-                ];
-                let release_notes = String::from("<p>")
-                    + &gettext("This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity.")
-                    + "</p><ul><li>"
-                    + &list_points.join("</li><li>")
-                    + "</li></ul>";
-
-                let about_window = adw::AboutWindow::builder()
-                    .transient_for(window)
-                    .application_name(gettext("Identity"))
-                    .application_icon(config::APP_ID)
-                    .version(config::VERSION)
-                    .license_type(gtk::License::Gpl30)
-                    // Translators: name of the developer of the application.
-                    .developer_name(gettext("Ivan Molodetskikh"))
-                    .issue_url("https://gitlab.gnome.org/YaLTeR/identity/-/issues/new")
-                    // Translators: shown in the About dialog, put your name here.
-                    .translator_credits(gettext("translator-credits"))
-                    .release_notes(release_notes)
-                    .build();
-
+                let resource_path = "/org/gnome/gitlab/YaLTeR/Identity/\
+                                     org.gnome.gitlab.YaLTeR.Identity.metainfo.xml";
+                let about_window = adw::AboutWindow::from_appdata(resource_path, Some("0.6.0"));
+                about_window.set_transient_for(Some(window));
+                about_window.set_version(config::VERSION);
+                // Translators: shown in the About dialog, put your name here.
+                about_window.set_translator_credits(&gettext("translator-credits"));
                 about_window.add_link(
                     // Translators: link title in the About dialog.
                     &gettext("Contribute Translations"),
