@@ -1,7 +1,7 @@
 project(
   'identity',
   'rust',
-  version: '0.5.0',
+  version: '0.6.0',
   meson_version: '>= 0.59',
   license: 'GPL3+',
 )
