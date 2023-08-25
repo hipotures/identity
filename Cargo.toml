@@ -25,4 +25,4 @@ tracing-tracy = "0.10.3"
 [dependencies.gst-plugin-gtk4]
 git = "https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git"
 branch = "gtk4-scaling-filter-stable"
-features = ["wayland", "x11egl", "x11glx", "scaling_filter", "gtk4_12"]
+features = ["wayland", "x11egl", "x11glx", "scaling_filter"]
