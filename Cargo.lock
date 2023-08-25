@@ -394,6 +394,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "dav1d"
+version = "0.9.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "87ca43c8e58ee931086b5fd9a4b6a8cc40c1346592246c4fe3d299eca1684c75"
+dependencies = [
+ "bitflags 2.4.0",
+ "dav1d-sys",
+]
+
+[[package]]
+name = "dav1d-sys"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "615542bb14c18b795f46aba92258902168218d714090f5fff47e68c9a352ea2d"
+dependencies = [
+ "libc",
+ "system-deps",
+]
+
+[[package]]
 name = "derivative"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -941,6 +961,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "gst-plugin-dav1d"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d8c337439958259aa248798efee09afeb5bd57d87af1c207a4be17e5234074fa"
+dependencies = [
+ "dav1d",
+ "gst-plugin-version-helper 0.7.5",
+ "gstreamer",
+ "gstreamer-base",
+ "gstreamer-video",
+ "num_cpus",
+]
+
+[[package]]
 name = "gst-plugin-gtk4"
 version = "0.12.0-alpha.1"
 source = "git+https://gitlab.freedesktop.org/YaLTeR/gst-plugins-rs.git?branch=gtk4-scaling-filter-stable#ca6bc179606c0ba4f07db7136468744b47952dc9"
@@ -948,7 +982,7 @@ dependencies = [
  "gdk4-wayland",
  "gdk4-win32",
  "gdk4-x11",
- "gst-plugin-version-helper",
+ "gst-plugin-version-helper 0.12.0-alpha.1",
  "gstreamer",
  "gstreamer-base",
  "gstreamer-gl",
@@ -958,6 +992,15 @@ dependencies = [
  "gstreamer-video",
  "gtk4",
  "windows-sys",
+]
+
+[[package]]
+name = "gst-plugin-version-helper"
+version = "0.7.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "87921209945e5dc809848a100115fad65bd127671896f0206f45e272080cc4c9"
+dependencies = [
+ "chrono",
 ]
 
 [[package]]
@@ -1273,6 +1316,7 @@ dependencies = [
  "futures-util",
  "gettext-rs",
  "glib",
+ "gst-plugin-dav1d",
  "gst-plugin-gtk4",
  "gstreamer",
  "gstreamer-video",
@@ -1549,6 +1593,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f30b0abd723be7e2ffca1272140fac1a2f084c77ec3e123c192b66af1ee9e6c2"
 dependencies = [
  "autocfg",
+]
+
+[[package]]
+name = "num_cpus"
+version = "1.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4161fcb6d602d4d2081af7c3a45852d875a03dd337a6bfdd6e06407b61342a43"
+dependencies = [
+ "hermit-abi",
+ "libc",
 ]
 
 [[package]]
