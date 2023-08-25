@@ -80,6 +80,7 @@ mod imp {
         vscroll_policy: PhantomData<gtk::ScrollablePolicy>,
 
         zoom_initial_scale: Cell<Option<f64>>,
+        zoom_initial_bbox_center: Cell<Option<(f64, f64)>>,
         zoom_pivot_image_pos: Cell<Option<(f64, f64)>>,
 
         gesture_drag: gtk::GestureDrag,
@@ -190,6 +191,7 @@ mod imp {
                 obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
 
                 obj.imp().zoom_initial_scale.set(Some(scale));
+                obj.imp().zoom_initial_bbox_center.set(gesture.bounding_box_center());
                 obj.imp().zoom_begin(gesture.bounding_box_center());
             }));
             gesture_zoom.connect_scale_changed(clone!(@weak obj => move |gesture, scale| {
@@ -202,11 +204,20 @@ mod imp {
                 // Max with 0.1 here so it doesn't become 0 (fit to allocation).
                 let new_scale = (initial_scale * scale).max(0.1);
 
-                obj.imp()
-                    .zoom_update(gesture.bounding_box_center(), new_scale);
+                // Pan while zooming only on touchscreen and not on touchpad.
+                let bbox_center = if gesture.device().map(|x| x.source())
+                    == Some(gdk::InputSource::Touchscreen)
+                {
+                    gesture.bounding_box_center()
+                } else {
+                    obj.imp().zoom_initial_bbox_center.get()
+                };
+
+                obj.imp().zoom_update(bbox_center, new_scale);
             }));
             gesture_zoom.connect_end(clone!(@weak obj => move |_, _| {
                 obj.imp().zoom_initial_scale.set(None);
+                obj.imp().zoom_initial_bbox_center.set(None);
                 obj.imp().zoom_end();
             }));
             obj.add_controller(gesture_zoom);
