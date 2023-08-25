@@ -11,6 +11,7 @@ futures-util = "0.3.28"
 gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
 glib = { version = "0.18.1", features = ["log"] }
 gst-plugin-dav1d = "0.11.0"
+gst-plugin-webp = "0.11.0"
 gst = { version = "0.21.0", package = "gstreamer" }
 gst-video = { version = "0.21.0", package = "gstreamer-video" }
 gtk = { version = "0.7.2", package = "gtk4", features = ["v4_12"] }

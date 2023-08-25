@@ -103,6 +103,7 @@ fn main() -> ExitCode {
     gst::init().unwrap();
     gstgtk4::plugin_register_static().expect("could not initialize gst-plugin-gtk4");
     gstdav1d::plugin_register_static().expect("could not initialize gst-plugin-dav1d");
+    gstrswebp::plugin_register_static().expect("could not initialize gst-plugin-webp");
 
     Application::new().run()
 }

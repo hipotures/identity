@@ -20,6 +20,7 @@ dependency('gtk4', version: '>= 4.12.0')
 dependency('gstreamer-1.0', version: '>= 1.14.0')
 dependency('libadwaita-1', version: '>= 1.4.beta')
 dependency('dav1d', version: '>= 1.0.0')
+dependency('libwebpdemux', version: '>= 0.5')
 
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)
 desktop_file_validate = find_program('desktop-file-validate', required: false)
