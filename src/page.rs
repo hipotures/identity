@@ -347,25 +347,62 @@ mod imp {
                     .build()
                 {
                     Ok(glsinkbin) => {
-                        match gst::ElementFactory::make("glvideoflip")
-                            .property("video-direction", VideoOrientationMethod::Auto)
-                            .build()
-                        {
-                            Ok(flip) => match gst::ElementFactory::make("glfilterbin")
-                                .property("filter", flip)
+                        (|| {
+                            let mut filter = match gst::ElementFactory::make("glvideoflip")
+                                .property("video-direction", VideoOrientationMethod::Auto)
+                                .build()
+                            {
+                                Ok(flip) => flip,
+                                Err(err) => {
+                                    warn!(
+                                        "could not create a `glvideoflip` GStreamer element, \
+                                         using regular `videoflip`: {err:?}"
+                                    );
+                                    return;
+                                }
+                            };
+
+                            match gst::ElementFactory::make("glshader")
+                                .property("fragment", include_str!("premultiply.frag"))
+                                .build()
+                            {
+                                Ok(shader) => {
+                                    // Link glvideoflip and glshader together in a bin.
+                                    let bin = gst::Bin::new();
+                                    bin.add_many(&[&filter, &shader]).unwrap();
+                                    gst::Element::link_many(&[&filter, &shader]).unwrap();
+
+                                    let sink_pad = gst::GhostPad::with_target(
+                                        &filter.static_pad("sink").unwrap(),
+                                    )
+                                    .unwrap();
+                                    let src_pad = gst::GhostPad::with_target(
+                                        &shader.static_pad("src").unwrap(),
+                                    )
+                                    .unwrap();
+                                    bin.add_pad(&sink_pad).unwrap();
+                                    bin.add_pad(&src_pad).unwrap();
+
+                                    filter = bin.upcast();
+                                }
+                                Err(err) => warn!(
+                                    "could not create a `glshader` GStreamer element, \
+                                     semitransparent media might not display properly: {err:?}"
+                                ),
+                            }
+
+                            match gst::ElementFactory::make("glfilterbin")
+                                .property("filter", filter)
                                 .build()
                             {
                                 Ok(filter) => glvideoflip = Some(filter),
                                 Err(err) => warn!(
                                     "could not create a `glfilterbin` GStreamer element, \
-                                    using regular `videoflip`: {err:?}"
+                                     using regular `videoflip`: {err:?}"
                                 ),
-                            },
-                            Err(err) => warn!(
-                                "could not create a `glvideoflip` GStreamer element, \
-                                using regular `videoflip`: {err:?}"
-                            ),
-                        }
+                            }
+                        })();
+
                         glsinkbin
                     }
                     Err(err) => {
