@@ -1049,7 +1049,7 @@ mod imp {
 
                     // The user could've closed the loading tab before the timeout fired or was
                     // cancelled. So check again here and only switch if there are open tabs.
-                    if self_.tab_view.n_pages() > 0 {
+                    if self_.tab_view.n_pages() > 0 || self_.page_grid.n_pages() > 0 {
                         self_.stack.set_visible_child_name("content");
                     }
 
