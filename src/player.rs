@@ -3,12 +3,13 @@ use glib::subclass::prelude::*;
 use gtk::glib;
 
 mod imp {
-    use std::cell::{Cell, OnceCell};
+    use std::cell::{Cell, OnceCell, RefCell};
     use std::iter;
     use std::marker::PhantomData;
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::{channel, Receiver, Sender};
     use std::sync::Arc;
+    use std::thread::JoinHandle;
 
     use glib::subclass::Signal;
     use glib::{clone, ControlFlow, Properties};
@@ -58,6 +59,8 @@ mod imp {
         duration: Cell<Option<gst::ClockTime>>,
         /// Sender to the processing thread.
         sender: OnceCell<Sender<Request>>,
+        /// Join handle for the processing thread.
+        join_handle: RefCell<Option<JoinHandle<()>>>,
         /// Number of seeks queued for the processing thread to handle.
         seeks_queued: Arc<AtomicUsize>,
     }
@@ -88,7 +91,7 @@ mod imp {
 
             // Start the processing thread.
             let (sender, receiver) = channel();
-            std::thread::Builder::new()
+            let join_handle = std::thread::Builder::new()
                 .name("Processing Thread".to_owned())
                 .spawn({
                     let pipeline = self.pipeline.clone();
@@ -97,11 +100,18 @@ mod imp {
                 })
                 .unwrap();
             self.sender.set(sender).unwrap();
+            self.join_handle.replace(Some(join_handle));
         }
 
         fn dispose(&self) {
             debug!("Player::dispose");
             self.send(Request::Exit);
+
+            let span = info_span!("join");
+            if let Err(err) = span.in_scope(|| self.join_handle.borrow_mut().take().unwrap().join())
+            {
+                warn!("error joining the processing thread: {err:?}");
+            }
         }
 
         fn signals() -> &'static [Signal] {
