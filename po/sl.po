@@ -8,22 +8,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-20 10:27+0000\n"
-"PO-Revision-Date: 2023-04-22 09:52+0200\n"
+"POT-Creation-Date: 2023-08-25 06:16+0000\n"
+"PO-Revision-Date: 2023-08-29 00:02+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
-"n%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Istovetnost"
 
@@ -57,9 +57,7 @@ msgstr "Datoteke lahko odprete kot zavihke"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Preverite nekatere lastnosti videoposnetka v pogovornem oknu"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:168
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -70,9 +68,8 @@ msgstr "Lastnosti"
 
 #. Translators: Title text in the media properties window when no files are open.
 #: data/resources/ui/media_properties.blp:22
-#, fuzzy
 msgid "No Media Open"
-msgstr "Ni odprtega medija"
+msgstr "Ni odprtega nosilca"
 
 #. Translators: Description on the media properties window when no files are open.
 #: data/resources/ui/media_properties.blp:24
@@ -96,9 +93,8 @@ msgstr "Mesto"
 
 #. Translators: Section in the media properties window.
 #: data/resources/ui/media_properties.blp:65
-#, fuzzy
 msgid "Media"
-msgstr "Nosilci"
+msgstr "Nosilec"
 
 #. Translators: Pixel-resolution row in the media properties window.
 #: data/resources/ui/media_properties.blp:71
@@ -256,9 +252,8 @@ msgstr "_Novo okno"
 
 #. Translators: Primary menu entry that opens the media properties window.
 #: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
-#, fuzzy
 msgid "_Media Properties"
-msgstr "_Lastnosti medija/nosilca"
+msgstr "_Lastnosti nosilca"
 
 #. Translators: Primary menu entry that opens the keyboard shortcuts window.
 #: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
@@ -339,103 +334,32 @@ msgstr "Izberite raven povečave"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:273 src/window.rs:445 src/window.rs:453 src/window.rs:461
 msgid "N/A"
 msgstr "N/D"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr "Dodani načini prikaza v vrsticah in stolpcih za primerjavo."
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-"Spremenjeno drsenje miške in povečava s hitrimi tipkami, da imajo dosledno "
-"hitrost ne glede na trenutno raven povečave."
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-"Spremenjeno drsenje miške za privzeto povečavo namesto pomikanja ter "
-"pomikanje, ko je krmilka pritisnjena."
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-"Dodano pomikanje, da držite levi gumb miške in povlečete, ko približate "
-"pogled."
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "Spremenjen položaj predvajanja, da se nemoteno posodobi."
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-"Zdaj lahko datoteko povlečete in spustite iz programa Istovetnost, ko ni "
-"povečana."
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "Dodana bližnjica krmilka+C za kopiranje trenutne datoteke v odložišče."
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr "Zavihkom je dodan kontekstni meni z nekaj pogostimi dejanji."
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr ""
-"Optimizirana učinkovitost predvajanja videoposnetkov z omogočanjem obdelave "
-"videoposnetkov OpenGL na združljivih sistemih."
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "Posodobljeno na platformo GNOME 44."
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "Posodobljeni prevodi."
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-"Ta izdaja dodaja načine prikaza v vrsticah in stolpcih, vsebuje predelane "
-"poteze miške ter dodaja funkcijo povleci-in-spusti iz programa Istovetnost."
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:336
 msgid "translator-credits"
 msgstr "Martin Srebotnjak <miles@filmsi.net>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:339
 msgid "Contribute Translations"
 msgstr "Prispevajte prevode"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:512
 msgid "Best Fit"
 msgstr "Najboljše prileganje"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1483
 msgid "Videos and images"
 msgstr "Videoposnetki in slike"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1491
 msgid "Open videos or images to compare"
 msgstr "Odprite videoposnetke ali slike za primerjavo"
