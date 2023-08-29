@@ -43,6 +43,7 @@
           <li>Fixed display of semitransparent images and videos.</li>
           <li>Fixed display of 16-bit color images.</li>
           <li>Removed panning from the touchpad pinch zoom gesture.</li>
+          <li>Fixed infinite loading spinner when opening certain files instead of error.</li>
           <li>Updated to the GNOME 45 platform.</li>
           <li>Updated translations.</li>
         </ul>
