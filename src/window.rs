@@ -760,10 +760,14 @@ mod imp {
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
                 self.obj().present_if_not_visible();
-            } else if let Some(playbin) = page.playbin() {
-                self.player.attach_source(&playbin);
-                self.stack.set_visible_child_name("content");
-                self.obj().present_if_not_visible();
+            } else if !page.is_loading() {
+                if let Some(playbin) = page.playbin() {
+                    self.player.attach_source(&playbin);
+                    self.stack.set_visible_child_name("content");
+                    self.obj().present_if_not_visible();
+                } else {
+                    error!("page isn't errored or loading, yet there's no playbin");
+                }
             } else {
                 let id = page.connect_is_loading_notify(clone!(@weak self as imp => move |page| {
                     if let Some(id) = imp.page_is_loading_notify_id.borrow_mut().remove(page) {

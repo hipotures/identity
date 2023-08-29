@@ -11,15 +11,16 @@ mod imp {
     use std::time::Instant;
 
     use adw::subclass::prelude::*;
-    use futures_util::StreamExt;
     use gettextrs::gettext;
     use glib::subclass::Signal;
-    use glib::{clone, Properties};
+    use glib::{clone, ControlFlow, Properties};
+    use gst::bus::BusWatchGuard;
     use gst::prelude::*;
     use gst_video::VideoOrientationMethod;
     use gtk::prelude::*;
     use gtk::{gdk, CompositeTemplate};
     use once_cell::sync::Lazy;
+    use tracing::{instrument, Span};
 
     use super::*;
 
@@ -51,7 +52,6 @@ mod imp {
         h_scroll_pos: PhantomData<f64>,
         #[property(get = Self::v_scroll_pos, set = Self::set_v_scroll_pos, explicit_notify)]
         v_scroll_pos: PhantomData<f64>,
-        // This can be a OnceCell<gst::Element>, but then #[property] assumes it's not nullable.
         #[property(get)]
         playbin: RefCell<Option<gst::Element>>,
         // This can be a OnceCell<String>, but then #[property] assumes it's not nullable.
@@ -73,6 +73,8 @@ mod imp {
         show_overlay: Cell<bool>,
 
         constructed_at: OnceCell<Instant>,
+        bus_watch_guard: RefCell<Option<BusWatchGuard>>,
+        preroll_span: RefCell<Option<Span>>,
     }
 
     #[glib::object_subclass]
@@ -145,10 +147,6 @@ mod imp {
                 clone!(@to-owned self as imp => async move { imp.retrieve_display_name().await; }),
             );
 
-            glib::MainContext::default().spawn_local(
-                clone!(@to-owned self as imp => async move { imp.prepare_playbin().await; }),
-            );
-
             // Bind this here instead of the .blp because the .blp binding seems to happen before
             // `file` is set, and adding manual `file` setter that notifies `display-path` correctly
             // is a little more involved.
@@ -171,12 +169,22 @@ mod imp {
                 obj.emit_by_name::<()>("activate", &[]);
             }));
             obj.add_controller(gesture);
+
+            self.prepare_playbin();
         }
 
         fn dispose(&self) {
             debug!("Page::dispose");
-            if let Some(playbin) = &*self.playbin.borrow() {
-                let _ = playbin.set_state(gst::State::Null);
+            if let Some(playbin) = self.playbin.take() {
+                debug!("setting to Null and dropping playbin and bus");
+
+                // Do it synchronously so that the main thread doesn't exit before
+                // gtk4paintablesink's Paintable is dropped.
+                if let Err(err) = playbin.set_state(gst::State::Null) {
+                    warn!("error setting playbin state to Null: {err:?}");
+                }
+
+                drop(self.bus_watch_guard.take());
             }
         }
     }
@@ -231,14 +239,17 @@ mod imp {
         }
 
         pub fn set_error(&self) {
-            debug!("set_error");
-
-            if self.is_loading.get() {
-                error!("set_error: is-loading is true, called too early?");
+            if self.is_error.get() {
+                return;
             }
 
             let obj = self.obj();
             let _guard = obj.freeze_notify();
+
+            if self.is_loading.get() {
+                self.is_loading.set(false);
+                obj.notify_is_loading();
+            }
 
             self.is_error.set(true);
             obj.notify_is_error();
@@ -246,11 +257,25 @@ mod imp {
             self.stack.set_visible_child_name("error");
             self.spinner.set_spinning(false);
 
-            if let Some(playbin) = &*self.playbin.borrow() {
+            if let Some(playbin) = self.playbin.take() {
+                if let Some(parent) = playbin.parent() {
+                    // Remove it from the parent pipeline.
+                    debug!("playbin parent is {parent:?}, removing playbin from it");
+                    parent
+                        .downcast::<gst::Bin>()
+                        .unwrap()
+                        .remove(&playbin)
+                        .unwrap();
+                }
+
+                debug!("setting to Null and dropping playbin and bus");
                 if let Err(err) = playbin.set_state(gst::State::Null) {
                     warn!("error setting playbin state to Null: {err:?}");
                 }
+
+                drop(self.bus_watch_guard.take());
             }
+            obj.notify_playbin();
         }
 
         fn resolution(&self) -> String {
@@ -322,13 +347,12 @@ mod imp {
             gdk::ContentProvider::for_value(&file_list.to_value())
         }
 
-        #[instrument("Page::prepare_playbin", fields(file = self.display_path().unwrap()), skip_all)]
-        async fn prepare_playbin(&self) {
+        /// Prepares the playbin for the file.
+        #[instrument("Page::prepare_playbin", skip_all)]
+        fn prepare_playbin(&self) {
             let obj = self.obj();
 
             let file = self.file.get().expect("unexpected unset `file`");
-
-            // glib::timeout_future_seconds(1).await;
 
             let sink = gst::ElementFactory::make("gtk4paintablesink")
                 .build()
@@ -369,8 +393,8 @@ mod imp {
                                 Ok(shader) => {
                                     // Link glvideoflip and glshader together in a bin.
                                     let bin = gst::Bin::new();
-                                    bin.add_many(&[&filter, &shader]).unwrap();
-                                    gst::Element::link_many(&[&filter, &shader]).unwrap();
+                                    bin.add_many([&filter, &shader]).unwrap();
+                                    gst::Element::link_many([&filter, &shader]).unwrap();
 
                                     let sink_pad = gst::GhostPad::with_target(
                                         &filter.static_pad("sink").unwrap(),
@@ -459,146 +483,165 @@ mod imp {
                 playbin.set_property("video-filter", &videoflip);
             }
 
-            if self.preroll(&playbin).await {
-                let _guard = obj.freeze_notify();
+            // Set the playbin property so it can be set to Null on the main thread on dispose.
+            assert!(self.playbin.replace(Some(playbin.clone())).is_none());
 
-                debug!(
-                    "ready in {:?}",
-                    self.constructed_at
-                        .get()
-                        .expect("unexpected unset `constructed_at`")
-                        .elapsed()
-                );
+            // Create a bus message stream.
+            let bus = playbin.bus().unwrap();
+            let guard = bus
+                .add_watch_local(
+                    clone!(@weak self as imp => @default-return ControlFlow::Break, move |_, msg| {
+                        imp.on_bus_message(msg);
+                        ControlFlow::Continue
+                    }),
+                )
+                .unwrap();
+            assert!(self.bus_watch_guard.replace(Some(guard)).is_none());
 
-                assert_eq!(self.playbin.replace(Some(playbin)), None);
-                obj.notify_playbin();
+            obj.notify_playbin();
 
-                self.is_loading.set(false);
-                obj.notify_is_loading();
+            // Pre-roll the playbin by trying to get it to the Paused state.
+            let span = info_span!(parent: None, "preroll");
+            span.follows_from(Span::current());
+            assert!(self.preroll_span.replace(Some(span.clone())).is_none());
 
-                if let Some(sink_pad) = sink.static_pad("sink") {
-                    if let Some(caps) = sink_pad.current_caps() {
-                        debug!("caps: {caps:?}");
+            playbin.call_async(|playbin| {
+                if let Err(err) = playbin.set_state(gst::State::Paused) {
+                    // Can fail when the file is inaccessible.
+                    warn!("error setting playbin state to Paused: {err:?}");
 
-                        let size = caps.size();
-                        if size == 1 {
-                            if let Some(structure) = caps.structure(0) {
-                                match structure.get::<gst::Fraction>("framerate") {
-                                    Ok(framerate) => {
-                                        if framerate.numer() != 0 && framerate.denom() != 0 {
-                                            self.framerate.set(
-                                                framerate.numer() as f32 / framerate.denom() as f32,
-                                            );
-                                            obj.notify_framerate();
-                                        }
-                                    }
-                                    Err(err) => warn!("error getting framerate cap: {err:?}"),
-                                }
-                            } else {
-                                warn!("unexpected missing structure at index 0");
-                            }
-                        } else {
-                            warn!("unexpected caps size: {size}");
-                        }
-                    } else {
-                        warn!("missing caps on the sink pad");
-                    }
-                } else {
-                    warn!("unexpected missing sink pad");
+                    // We'll get an error on the bus after this where we'll handle it.
                 }
+            });
+        }
 
-                self.stack.set_visible_child_name("content");
-                self.spinner.set_spinning(false);
-            } else {
-                let _guard = obj.freeze_notify();
+        fn on_bus_message(&self, msg: &gst::Message) {
+            let Some(playbin) = self.playbin.borrow().clone() else {
+                return;
+            };
+            let obj = self.obj();
 
-                self.is_loading.set(false);
-                obj.notify_is_loading();
+            use gst::MessageView;
+            match msg.view() {
+                MessageView::Error(err) => {
+                    // Can fail on missing codecs.
+                    warn!(
+                        "playbin bus: Error from {:?}: {} ({:?})",
+                        err.src(),
+                        err.error(),
+                        err.debug(),
+                    );
 
-                self.is_error.set(true);
-                obj.notify_is_error();
+                    drop(self.preroll_span.take());
 
-                self.stack.set_visible_child_name("error");
-                self.spinner.set_spinning(false);
+                    // The error does not necessarily bubble up all the way to the playbin
+                    // itself, so we must exit unconditionally.
+                    self.set_error();
+                }
+                MessageView::StateChanged(state_changed)
+                    if state_changed.src() == Some(playbin.upcast_ref()) =>
+                {
+                    debug!(
+                        "playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
+                        state_changed.old(),
+                        state_changed.current(),
+                        state_changed.pending(),
+                    );
+
+                    if state_changed.current() == gst::State::Paused
+                        && state_changed.pending() == gst::State::VoidPending
+                    {
+                        // Pre-rolled and ready to show.
+                        //
+                        // Sometimes a missing codec error may arrive a little later (looking at
+                        // you, AV1), but due to the multithreaded nature, it's not really possible
+                        // to predict. Even spawning the code below into an idle isn't always enough
+                        // (the error sometimes arrives even later). The best we can do is keep
+                        // listening to this bus to catch the error.
+                        if self.is_loading.get() {
+                            let _guard = obj.freeze_notify();
+
+                            drop(self.preroll_span.take());
+
+                            debug!(
+                                "ready in {:?}",
+                                self.constructed_at
+                                    .get()
+                                    .expect("unexpected unset `constructed_at`")
+                                    .elapsed()
+                            );
+
+                            self.is_loading.set(false);
+                            obj.notify_is_loading();
+
+                            self.refresh_caps_data(&playbin.property("video-sink"));
+
+                            self.stack.set_visible_child_name("content");
+                            self.spinner.set_spinning(false);
+                        }
+                    }
+                }
+                MessageView::Tag(tag) => {
+                    let tags = tag.tags();
+                    debug!("tags: {tags:?}");
+
+                    for (name, value) in tags.iter() {
+                        match name.as_str() {
+                            "video-codec" => match value.get() {
+                                Ok(value) => {
+                                    self.video_codec.replace(Some(value));
+                                    self.obj().notify_video_codec();
+                                }
+                                Err(err) => warn!("error retrieving tag value: {err:?}"),
+                            },
+                            "container-format" => match value.get() {
+                                Ok(value) => {
+                                    self.container_format.replace(Some(value));
+                                    self.obj().notify_container_format();
+                                }
+                                Err(err) => warn!("error retrieving tag value: {err:?}"),
+                            },
+                            _ => (),
+                        }
+                    }
+                }
+                _ => (),
             }
         }
 
-        /// Pre-rolls the `playbin`.
-        ///
-        /// Returns `true` when the `playbin` has been successfully pre-rolled and put in the paused
-        /// state, and `false` on error.
-        #[instrument("Page::preroll", fields(file = self.display_path().unwrap()), skip_all)]
-        async fn preroll(&self, playbin: &gst::Element) -> bool {
-            let bus = playbin.bus().unwrap();
+        fn refresh_caps_data(&self, sink: &gst::Element) {
+            let Some(sink_pad) = sink.static_pad("sink") else {
+                warn!("unexpected missing sink pad");
+                return;
+            };
 
-            // Create the stream first to not miss any messages.
-            let mut stream = bus.stream();
+            let Some(caps) = sink_pad.current_caps() else {
+                warn!("missing caps on the sink pad");
+                return;
+            };
 
-            if let Err(err) = playbin
-                .call_async_future(|playbin| playbin.set_state(gst::State::Paused))
-                .await
-            {
-                // Can fail when the file is inaccessible.
-                warn!("preroll: error setting playbin state: {err:?}");
-                playbin.call_async(|playbin| {
-                    let _ = playbin.set_state(gst::State::Null);
-                });
-                return false;
+            debug!("caps: {caps:?}");
+
+            let size = caps.size();
+            if size != 1 {
+                warn!("unexpected caps size: {size}");
+                return;
             }
 
-            loop {
-                match stream.next().await.unwrap().view() {
-                    gst::MessageView::Error(err) => {
-                        // Can fail on missing codecs.
-                        warn!("preroll: playbin Error: {err:?}");
-                        playbin.call_async(|playbin| {
-                            let _ = playbin.set_state(gst::State::Null);
-                        });
-                        break false;
-                    }
-                    gst::MessageView::StateChanged(state_changed)
-                        if state_changed.src() == Some(playbin.upcast_ref()) =>
-                    {
-                        debug!(
-                            "preroll: playbin StateChanged old: {:?}, current: {:?}, pending: {:?}",
-                            state_changed.old(),
-                            state_changed.current(),
-                            state_changed.pending(),
-                        );
+            let Some(structure) = caps.structure(0) else {
+                warn!("unexpected missing structure at index 0");
+                return;
+            };
 
-                        if state_changed.current() == gst::State::Paused
-                            && state_changed.pending() == gst::State::VoidPending
-                        {
-                            // Pre-rolled and ready to show.
-                            break true;
-                        }
+            match structure.get::<gst::Fraction>("framerate") {
+                Ok(framerate) => {
+                    if framerate.numer() != 0 && framerate.denom() != 0 {
+                        self.framerate
+                            .set(framerate.numer() as f32 / framerate.denom() as f32);
+                        self.obj().notify_framerate();
                     }
-                    gst::MessageView::Tag(tag) => {
-                        let tags = tag.tags();
-                        debug!("tags: {tags:?}");
-
-                        for (name, value) in tags.iter() {
-                            match name.as_str() {
-                                "video-codec" => match value.get() {
-                                    Ok(value) => {
-                                        self.video_codec.replace(Some(value));
-                                        self.obj().notify_video_codec();
-                                    }
-                                    Err(err) => warn!("error retrieving tag value: {err:?}"),
-                                },
-                                "container-format" => match value.get() {
-                                    Ok(value) => {
-                                        self.container_format.replace(Some(value));
-                                        self.obj().notify_container_format();
-                                    }
-                                    Err(err) => warn!("error retrieving tag value: {err:?}"),
-                                },
-                                _ => (),
-                            }
-                        }
-                    }
-                    _ => (),
                 }
+                Err(err) => warn!("error getting framerate cap: {err:?}"),
             }
         }
     }
