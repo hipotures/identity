@@ -180,7 +180,9 @@ mod imp {
 
                 // Do it synchronously so that the main thread doesn't exit before
                 // gtk4paintablesink's Paintable is dropped.
-                if let Err(err) = playbin.set_state(gst::State::Null) {
+                if let Err(err) =
+                    info_span!("set state").in_scope(|| playbin.set_state(gst::State::Null))
+                {
                     warn!("error setting playbin state to Null: {err:?}");
                 }
 
@@ -269,7 +271,9 @@ mod imp {
                 }
 
                 debug!("setting to Null and dropping playbin and bus");
-                if let Err(err) = playbin.set_state(gst::State::Null) {
+                if let Err(err) =
+                    info_span!("set state").in_scope(|| playbin.set_state(gst::State::Null))
+                {
                     warn!("error setting playbin state to Null: {err:?}");
                 }
 
