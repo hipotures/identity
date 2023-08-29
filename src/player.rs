@@ -224,6 +224,10 @@ mod imp {
                         self.obj().emit_by_name::<()>("source-error", &[&source]);
                     }
                 }
+                MessageView::Tag(tag) => {
+                    let tags = tag.tags();
+                    debug!("bus: got tags: {tags:?}");
+                }
                 _ => (),
             }
         }
