@@ -340,6 +340,23 @@ mod imp {
                     "https://l10n.gnome.org/module/identity/",
                 );
                 about_window.present();
+
+                // DL doesn't extract release notes from metainfo, so let's help it out with the
+                // ones shown in the dialog.
+                let gettext = |_| ();
+                gettext("Zoomed-in images and videos are now pixelated rather than blurry.");
+                gettext("Fixed memory usage not decreasing upon closing images and videos.");
+                gettext("Improved UI responsiveness with many open files.");
+                gettext("Improved performance on AV1 videos.");
+                gettext("Added support for WebP images.");
+                gettext("Fixed display of semitransparent images and videos.");
+                gettext("Fixed display of 16-bit color images.");
+                gettext("Removed panning from the touchpad pinch zoom gesture.");
+                gettext(
+                    "Fixed infinite loading spinner when opening certain files instead of error.",
+                );
+                gettext("Updated to the GNOME 45 platform.");
+                gettext("Updated translations.");
             });
         }
 
