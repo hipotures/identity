@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-17 19:04+0000\n"
-"PO-Revision-Date: 2023-04-18 10:12+0700\n"
+"POT-Creation-Date: 2023-08-30 06:04+0000\n"
+"PO-Revision-Date: 2023-08-30 14:38+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Identitas"
 
@@ -53,9 +53,7 @@ msgstr "Anda dapat membuka berkas sebagai tab"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Memeriksa beberapa properti video dalam dialog"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -330,105 +328,145 @@ msgstr "Pilih Tingkat Zum"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:463 src/window.rs:471 src/window.rs:479
 msgid "N/A"
 msgstr "T/A"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-"Menambahkan mode tampilan ubin baris dan kolom untuk perbandingan "
-"berdampingan."
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-"Mengubah gulir tikus dan zum hotkey untuk memiliki kecepatan yang konsisten "
-"terlepas dari tingkat zum saat ini."
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-"Mengubah gulir tetikus ke zum secara bawaan alih-alih panning, dan ke pan "
-"saat Ctrl ditahan."
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-"Menambahkan panning dengan menahan tombol kiri tetikus dan menyeret saat "
-"diperbesar."
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "Mengubah posisi pemutaran untuk memperbarui dengan lancar."
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-"Anda sekarang dapat menyeret dan jatuhkan berkas dari Identity saat tidak "
-"diperbesar."
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "Menambahkan Ctrl + C untuk menyalin berkas saat ini ke papan klip."
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr "Menambahkan menu konteks ke tab dengan beberapa tindakan umum."
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr ""
-"Kinerja pemutaran video yang dioptimalkan dengan mengaktifkan pemrosesan "
-"video OpenGL pada pengaturan yang kompatibel."
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "Dimutakhirkan ke platform GNOME 44."
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "Terjemahan yang diperbarui."
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-"Rilis ini menambahkan mode tampilan baris dan kolom, mengerjakan ulang "
-"gerakan tetikus, dan menambahkan seret dan jatuhkan dari Identity."
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:336
 msgid "translator-credits"
 msgstr "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2023."
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:339
 msgid "Contribute Translations"
 msgstr "Kontribusi Terjemahan"
 
+#: src/window.rs:347
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"Rilis ini menambahkan tampilan piksel untuk gambar dan video yang "
+"diperbesar, meningkatkan dukungan format, dan memperbaiki beberapa masalah."
+
+#: src/window.rs:348
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr "Gambar dan video yang diperbesar kini berbentuk piksel, bukan buram."
+
+#: src/window.rs:349
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+"Memperbaiki penggunaan memori yang tidak berkurang saat menutup gambar dan "
+"video."
+
+#: src/window.rs:350
+msgid "Improved UI responsiveness with many open files."
+msgstr "Peningkatan responsif antarmuka dengan banyak berkas terbuka."
+
+#: src/window.rs:351
+msgid "Improved performance on AV1 videos."
+msgstr "Peningkatan kinerja pada video AV1."
+
+#: src/window.rs:352
+msgid "Added support for WebP images."
+msgstr "Menambahkan dukungan untuk gambar WebP."
+
+#: src/window.rs:353
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Memperbaiki tampilan gambar dan video semitransparan."
+
+#: src/window.rs:354
+msgid "Fixed display of 16-bit color images."
+msgstr "Memperbaiki tampilan gambar berwarna 16-bit."
+
+#: src/window.rs:355
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "Menghapus panning dari gerakan pinch zoom pada touchpad."
+
+#: src/window.rs:357
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Memperbaiki pemintal pemuatan tak terbatas saat membuka berkas tertentu, "
+"alih-alih galat."
+
+#: src/window.rs:359
+msgid "Updated to the GNOME 45 platform."
+msgstr "Dimutakhirkan ke platform GNOME 45."
+
+#: src/window.rs:360
+msgid "Updated translations."
+msgstr "Terjemahan yang diperbarui."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:530
 msgid "Best Fit"
 msgstr "Pas Terbaik"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1505
 msgid "Videos and images"
 msgstr "Video dan gambar"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1513
 msgid "Open videos or images to compare"
 msgstr "Buka video atau gambar untuk dibandingkan"
+
+#~ msgid ""
+#~ "Added row and column tiled display modes for side-by-side comparison."
+#~ msgstr ""
+#~ "Menambahkan mode tampilan ubin baris dan kolom untuk perbandingan "
+#~ "berdampingan."
+
+#~ msgid ""
+#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
+#~ "of the current zoom level."
+#~ msgstr ""
+#~ "Mengubah gulir tikus dan zum hotkey untuk memiliki kecepatan yang "
+#~ "konsisten terlepas dari tingkat zum saat ini."
+
+#~ msgid ""
+#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
+#~ "when Ctrl is held."
+#~ msgstr ""
+#~ "Mengubah gulir tetikus ke zum secara bawaan alih-alih panning, dan ke pan "
+#~ "saat Ctrl ditahan."
+
+#~ msgid ""
+#~ "Added panning by holding down the left mouse button and dragging when "
+#~ "zoomed-in."
+#~ msgstr ""
+#~ "Menambahkan panning dengan menahan tombol kiri tetikus dan menyeret saat "
+#~ "diperbesar."
+
+#~ msgid "Changed the playback position to update smoothly."
+#~ msgstr "Mengubah posisi pemutaran untuk memperbarui dengan lancar."
+
+#~ msgid ""
+#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
+#~ msgstr ""
+#~ "Anda sekarang dapat menyeret dan jatuhkan berkas dari Identity saat tidak "
+#~ "diperbesar."
+
+#~ msgid "Added Ctrl+C to copy the current file to clipboard."
+#~ msgstr "Menambahkan Ctrl + C untuk menyalin berkas saat ini ke papan klip."
+
+#~ msgid "Added a context menu to tabs with a few common actions."
+#~ msgstr "Menambahkan menu konteks ke tab dengan beberapa tindakan umum."
+
+#~ msgid ""
+#~ "Optimized video playback performance by enabling OpenGL video processing "
+#~ "on compatible setups."
+#~ msgstr ""
+#~ "Kinerja pemutaran video yang dioptimalkan dengan mengaktifkan pemrosesan "
+#~ "video OpenGL pada pengaturan yang kompatibel."
+
+#~ msgid ""
+#~ "This release adds row and column display modes, reworks mouse gestures "
+#~ "and adds drag-and-drop from Identity."
+#~ msgstr ""
+#~ "Rilis ini menambahkan mode tampilan baris dan kolom, mengerjakan ulang "
+#~ "gerakan tetikus, dan menambahkan seret dan jatuhkan dari Identity."
