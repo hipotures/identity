@@ -344,6 +344,7 @@ mod imp {
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
                 // ones shown in the dialog.
                 let gettext = |_| ();
+                gettext("This release adds pixelated display for zoomed-in images and videos, improves format support and fixes several issues.");
                 gettext("Zoomed-in images and videos are now pixelated rather than blurry.");
                 gettext("Fixed memory usage not decreasing upon closing images and videos.");
                 gettext("Improved UI responsiveness with many open files.");
