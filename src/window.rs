@@ -86,10 +86,10 @@ mod imp {
     use std::str::FromStr;
     use std::time::Duration;
 
+    use adw::prelude::*;
     use adw::subclass::prelude::*;
     use ashpd::desktop::open_uri::OpenDirectoryRequest;
     use glib::{clone, closure, ControlFlow, Properties, SignalHandlerId, SourceId};
-    use gst::prelude::*;
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::{glib, CompositeTemplate};
 
@@ -397,8 +397,12 @@ mod imp {
                     Some(tab_page.map(|tab_page| {
                         tab_page
                             .child()
-                            .downcast::<Page>()
+                            .downcast::<adw::Bin>()
                             .expect("tab page child has wrong type")
+                            .child()
+                            .expect("tab page child bin has no child")
+                            .downcast::<Page>()
+                            .expect("tab page child bin child has wrong type")
                     }))
                 })
                 .build();
@@ -668,8 +672,12 @@ mod imp {
                     for i in 0..self.tab_view.n_pages() {
                         let page = self.tab_view.nth_page(i).child();
                         let page = page
+                            .downcast::<adw::Bin>()
+                            .expect("tab page child has wrong type")
+                            .child()
+                            .expect("tab page child bin has no child")
                             .downcast::<Page>()
-                            .expect("unexpected widget type in tab view");
+                            .expect("tab page child bin child has wrong type");
                         if page.playbin().as_ref() == Some(playbin) {
                             return Some(page);
                         }
@@ -695,7 +703,11 @@ mod imp {
 
             match self.display_mode.get() {
                 DisplayMode::Tabbed => {
-                    let tab_page = self.tab_view.append(&page);
+                    // Wrap our page in a bin because upon switching display modes, we want to
+                    // extract the page out of the adw::TabPage, but adw::TabPage's inner bin is not
+                    // always immediately disposed of for some reason.
+                    let bin = adw::Bin::builder().child(&page).build();
+                    let tab_page = self.tab_view.append(&bin);
 
                     page.bind_property("display-name", &tab_page, "title")
                         .sync_create()
@@ -851,8 +863,12 @@ mod imp {
 
             let page: Page = tab_page
                 .child()
+                .downcast::<adw::Bin>()
+                .expect("tab page child has wrong type")
+                .child()
+                .expect("tab page child bin has no child")
                 .downcast()
-                .expect("tab page child has wrong type");
+                .expect("tab page child bin child has wrong type");
 
             self.on_page_attached(page);
         }
@@ -869,8 +885,12 @@ mod imp {
 
             let page: Page = tab_page
                 .child()
+                .downcast::<adw::Bin>()
+                .expect("tab page child has wrong type")
+                .child()
+                .expect("tab page child bin has no child")
                 .downcast()
-                .expect("tab page child has wrong type");
+                .expect("tab page child bin child has wrong type");
 
             self.on_page_detached(page);
         }
@@ -901,8 +921,12 @@ mod imp {
             if let Some(tab_page) = tab_page {
                 let page: Page = tab_page
                     .child()
+                    .downcast::<adw::Bin>()
+                    .expect("tab page child has wrong type")
+                    .child()
+                    .expect("tab page child bin has no child")
                     .downcast()
-                    .expect("tab page child has wrong type");
+                    .expect("tab page child bin child has wrong type");
 
                 let has_path = page.file().path().is_some();
                 self.obj().action_set_enabled("win.show-in-files", has_path);
@@ -925,8 +949,12 @@ mod imp {
                 .map(|tab_page| {
                     tab_page
                         .child()
-                        .downcast()
+                        .downcast::<adw::Bin>()
                         .expect("tab page child has wrong type")
+                        .child()
+                        .expect("tab page child bin has no child")
+                        .downcast()
+                        .expect("tab page child bin child has wrong type")
                 })
                 .or_else(|| self.selected_page())
         }
@@ -1191,7 +1219,8 @@ mod imp {
 
                             for page in pages {
                                 // TODO: extract method
-                                let tab_page = self.tab_view.append(&page);
+                                let bin = adw::Bin::builder().child(&page).build();
+                                let tab_page = self.tab_view.append(&bin);
 
                                 page.bind_property("display-name", &tab_page, "title")
                                     .sync_create()
@@ -1234,10 +1263,19 @@ mod imp {
                                 let tab_page = self.tab_view.nth_page(0);
                                 self.tab_view.close_page(&tab_page);
 
-                                let page = tab_page
+                                let bin = tab_page
                                     .child()
+                                    .downcast::<adw::Bin>()
+                                    .expect("tab page child has wrong type");
+
+                                let page = bin
+                                    .child()
+                                    .expect("tab page child bin has no child")
                                     .downcast::<Page>()
-                                    .expect("unexpected widget type in tab view");
+                                    .expect("tab page child bin child has wrong type");
+
+                                bin.set_child(None::<&gtk::Widget>);
+
                                 pages.push(page);
                             }
 
@@ -1338,8 +1376,12 @@ mod imp {
                     for i in 0..self.tab_view.n_pages() {
                         let page = self.tab_view.nth_page(i).child();
                         let page = page
+                            .downcast::<adw::Bin>()
+                            .expect("tab page child has wrong type")
+                            .child()
+                            .expect("tab page child bin has no child")
                             .downcast::<Page>()
-                            .expect("unexpected widget type in tab view");
+                            .expect("tab page child bin child has wrong type");
                         page.reset_kinetic_scrolling(except_picture);
                     }
                 }
