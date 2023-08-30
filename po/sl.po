@@ -8,16 +8,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-25 06:16+0000\n"
-"PO-Revision-Date: 2023-08-29 00:02+0200\n"
+"POT-Creation-Date: 2023-08-30 11:48+0000\n"
+"PO-Revision-Date: 2023-08-30 17:46+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups."
+"com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
@@ -57,7 +58,7 @@ msgstr "Datoteke lahko odprete kot zavihke"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Preverite nekatere lastnosti videoposnetka v pogovornem oknu"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:168
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -301,65 +302,129 @@ msgid "Arrange in a Column"
 msgstr "Razporedi v stolpec"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
+#: data/resources/ui/window.blp:158 data/resources/ui/window.blp:207
 msgid "Open"
 msgstr "Odpri"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
+#: data/resources/ui/window.blp:160 data/resources/ui/window.blp:209
 msgid "Select an Image or Video"
 msgstr "Izberite sliko ali videoposnetek"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:178 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Glavni meni"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:187
+msgid "Compare Images and Videos"
+msgstr "Primerjajte slike in videoposnetke"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:190
 msgid "Open videos or images to compare by pressing the Open button."
 msgstr ""
 "Odprite videoposnetke ali slike, ki jih želite primerjati, tako da "
 "pritisnete gumb Odpri."
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Raven povečave"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Izberite raven povečave"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:273 src/window.rs:445 src/window.rs:453 src/window.rs:461
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "N/D"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:336
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr "Martin Srebotnjak <miles@filmsi.net>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:339
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "Prispevajte prevode"
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"V tej izdaji je dodan pikseliziran prikaz za povečane slike in "
+"videoposnetke, izboljšana je podpora za določene vrste zapisa, odpravljenih "
+"pa je tudi več težav."
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr ""
+"Povečane slike in videoposnetki so zdaj pikselizirani in ne zabrisani."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+"Popravljena raba pomnilnika, ki se ni zmanjšala ob zaprtju slik in "
+"videoposnetkov."
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr "Izboljšana odzivnost vmesnika ob številnih odprtih datotekah."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Hitrejše delovanje z videoposnetki AV1."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Dodana podpora za slike WebP."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Popravljen prikaz polprosojnih slik in videoposnetkov."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "Popravljen prikaz 16-bitnih barvnih slik."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "Z geste povečave s ščipom na sledilni plošči je odstranjen zasuk."
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Popravljeno neskončno vrtenje simbola za nalaganje ob odpiranju določenih "
+"datotek namesto napake."
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "Posodobljeno na GNOME 45."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Posodobljeni prevodi."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:512
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Najboljše prileganje"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1483
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Videoposnetki in slike"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1491
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Odprite videoposnetke ali slike za primerjavo"
