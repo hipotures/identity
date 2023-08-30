@@ -146,7 +146,7 @@ mod imp {
         #[template_child]
         page_grid: TemplateChild<PageGrid>,
         #[template_child]
-        controls_revealer: TemplateChild<gtk::Revealer>,
+        content_toolbar_view: TemplateChild<adw::ToolbarView>,
         #[template_child]
         play_pause_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -208,6 +208,9 @@ mod imp {
 
         /// If a tab menu is open for a page, this is that page, otherwise `None`.
         menu_page: RefCell<glib::WeakRef<adw::TabPage>>,
+
+        /// In tabbed display mode, this is the tab bar widget.
+        tab_bar: RefCell<Option<adw::TabBar>>,
 
         last_scale_factor: Cell<i32>,
     }
@@ -377,9 +380,9 @@ mod imp {
 
             self.last_scale_factor.set(obj.scale_factor());
 
-            self.controls_revealer.connect_reveal_child_notify(
-                clone!(@weak obj => move |revealer| {
-                    if revealer.reveals_child() {
+            self.content_toolbar_view.connect_reveal_bottom_bars_notify(
+                clone!(@weak obj => move |view| {
+                    if view.reveals_bottom_bars() {
                         obj.add_css_class("controls-visible");
                     } else {
                         obj.remove_css_class("controls-visible");
@@ -410,6 +413,14 @@ mod imp {
             self.page_grid
                 .bind_property("selected-page", &*obj, "selected-page")
                 .build();
+
+            // Add the tab bar as tabbed is the default display mode.
+            let tab_bar = adw::TabBar::builder()
+                .autohide(false)
+                .view(&self.tab_view)
+                .build();
+            self.content_toolbar_view.add_top_bar(&tab_bar);
+            let _ = self.tab_bar.replace(Some(tab_bar));
 
             // Bind the scale entry text.
             obj.property_expression_weak("selected-page")
@@ -564,7 +575,11 @@ mod imp {
                 .build();
 
             self.player
-                .bind_property("has-duration", &*self.controls_revealer, "reveal-child")
+                .bind_property(
+                    "has-duration",
+                    &*self.content_toolbar_view,
+                    "reveal-bottom-bars",
+                )
                 .sync_create()
                 .build();
 
@@ -1248,6 +1263,14 @@ mod imp {
                                     self.tab_view.set_selected_page(&tab_page);
                                 }
                             }
+
+                            // Add the tab bar.
+                            let tab_bar = adw::TabBar::builder()
+                                .autohide(false)
+                                .view(&self.tab_view)
+                                .build();
+                            self.content_toolbar_view.add_top_bar(&tab_bar);
+                            let _ = self.tab_bar.replace(Some(tab_bar));
                         }
                     }
                 }
@@ -1284,6 +1307,13 @@ mod imp {
                             }
 
                             self.page_grid.set_selected_page_(selected);
+
+                            // Remove the tab bar.
+                            if let Some(tab_bar) = self.tab_bar.take() {
+                                self.content_toolbar_view.remove(&tab_bar);
+                            } else {
+                                warn!("unexpected missing tab bar");
+                            }
                         }
                         DisplayMode::Row | DisplayMode::Column => (),
                     }

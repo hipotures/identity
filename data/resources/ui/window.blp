@@ -149,53 +149,56 @@ template IdWindow : Adw.ApplicationWindow {
 
     StackPage {
       name: "empty";
-        child: Box {
-          orientation: vertical;
+      child: Adw.ToolbarView {
+        top-bar-style: raised_border;
+        
+        [top]
+        Adw.HeaderBar {
+          [start]
+          Button {
+            /* Translators: Open button label. */
+            label: _("Open");
+            /* Translators: Open button tooltip. */
+            tooltip-text: _("Select an Image or Video");
 
-          Adw.HeaderBar {
-            [start]
-            Button {
-              /* Translators: Open button label. */
-              label: _("Open");
-              /* Translators: Open button tooltip. */
-              tooltip-text: _("Select an Image or Video");
+            styles ["suggested-action"]
 
-              styles ["suggested-action"]
-
-              clicked => on_open_clicked() swapped;
-            }
-
-            title-widget: Adw.WindowTitle {
-              title: bind IdWindow.title;
-            };
-
-            [end]
-            MenuButton {
-              icon-name: "open-menu-symbolic";
-              menu-model: primary_menu_empty;
-              primary: true;
-
-              /* Translators: Primary menu tooltip. */
-              tooltip-text: _("Main Menu");
-            }
+            clicked => on_open_clicked() swapped;
           }
 
-          Adw.StatusPage {
-            vexpand: true;
-            icon-name: "identity-symbolic";
+          title-widget: Adw.WindowTitle {
+            title: bind IdWindow.title;
+          };
 
-            /* Translators: Text on the window when no files are open. */
-            description: _("Open videos or images to compare by pressing the Open button.");
+          [end]
+          MenuButton {
+            icon-name: "open-menu-symbolic";
+            menu-model: primary_menu_empty;
+            primary: true;
+
+            /* Translators: Primary menu tooltip. */
+            tooltip-text: _("Main Menu");
           }
+        }
+
+        content: Adw.StatusPage {
+          vexpand: true;
+          icon-name: "identity-symbolic";
+
+          /* Translators: Text on the window when no files are open. */
+          description: _("Open videos or images to compare by pressing the Open button.");
         };
+      };
     }
 
     StackPage {
       name: "content";
 
-      child: Box {
-        orientation: vertical;
+      child: Adw.ToolbarView content_toolbar_view {
+        top-bar-style: raised_border;
+        bottom-bar-style: raised_border;
 
+        [top]
         Adw.HeaderBar {
           [start]
           Button {
@@ -245,7 +248,7 @@ template IdWindow : Adw.ApplicationWindow {
           }
         }
 
-        Stack display_mode_stack {
+        content: Stack display_mode_stack {
           name: "display-mode-stack";
 
           // This stack intentionally has no transition. This is because the way
@@ -259,23 +262,14 @@ template IdWindow : Adw.ApplicationWindow {
           StackPage {
             name: "tabbed";
 
-            child: Box {
-              orientation: vertical;
+            child: Adw.TabView tab_view {
+              vexpand: true;
+              menu-model: tab_menu;
 
-              Adw.TabBar {
-                autohide: false;
-                view: tab_view;
-              }
-
-              Adw.TabView tab_view {
-                vexpand: true;
-                menu-model: tab_menu;
-
-                page-attached => on_tab_page_attached() swapped;
-                /* page-detached => on_tab_page_detached() swapped; */
-                create-window => on_create_window() swapped;
-                setup-menu => on_setup_menu() swapped;
-              }
+              page-attached => on_tab_page_attached() swapped;
+              /* page-detached => on_tab_page_detached() swapped; */
+              create-window => on_create_window() swapped;
+              setup-menu => on_setup_menu() swapped;
             };
           }
 
@@ -284,34 +278,33 @@ template IdWindow : Adw.ApplicationWindow {
 
             child: .IdPageGrid page_grid {};
           }
-        }
+        };
 
-        Revealer controls_revealer {
-          Box {
-            name: "controls";
-            spacing: 6;
+        [bottom]
+        Box {
+          name: "controls";
+          spacing: 6;
 
-            Button play_pause_button {
-              icon-name: "media-playback-start-symbolic";
-              action-name: "win.play-pause";
-            }
+          Button play_pause_button {
+            icon-name: "media-playback-start-symbolic";
+            action-name: "win.play-pause";
+          }
 
-            Label time_label {
-              styles ["numeric"]
-              label: "0:00";
+          Label time_label {
+            styles ["numeric"]
+            label: "0:00";
 
-              margin-start: 6; /* Scale and its extra padding... */
-            }
+            margin-start: 6; /* Scale and its extra padding... */
+          }
 
-            Scale time_scale {
-              hexpand: true;
+          Scale time_scale {
+            hexpand: true;
 
-              adjustment: Adjustment time_adjustment {
-                upper: 1;
-                step-increment: 0.1;
-                page-increment: 0.25;
-              };
-            }
+            adjustment: Adjustment time_adjustment {
+              upper: 1;
+              step-increment: 0.1;
+              page-increment: 0.25;
+            };
           }
         }
       };
