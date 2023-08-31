@@ -8,17 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-30 11:48+0000\n"
-"PO-Revision-Date: 2023-08-30 17:46+0200\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"PO-Revision-Date: 2023-08-31 11:11+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups."
-"com>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
-"n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
@@ -68,52 +67,52 @@ msgid "Properties"
 msgstr "Lastnosti"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Ni odprtega nosilca"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
 msgstr "Odprite videoposnetek ali sliko, da si ogledate njene lastnosti."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Datoteka"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Ime"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Mesto"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Nosilec"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Ločljivost"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Hitrost v sličicah"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Kodek"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Vsebnik"
 
@@ -301,32 +300,35 @@ msgstr "Razporedi v vrstico"
 msgid "Arrange in a Column"
 msgstr "Razporedi v stolpec"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:158 data/resources/ui/window.blp:207
-msgid "Open"
-msgstr "Odpri"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:160 data/resources/ui/window.blp:209
-msgid "Select an Image or Video"
-msgstr "Izberite sliko ali videoposnetek"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:178 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Glavni meni"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:187
-msgid "Compare Images and Videos"
-msgstr "Primerjajte slike in videoposnetke"
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Primerjaj nosilce"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:190
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr ""
-"Odprite videoposnetke ali slike, ki jih želite primerjati, tako da "
-"pritisnete gumb Odpri."
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Povlecite in spustite videoposnetke sem"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Odpri nosilec …"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Izberite sliko ali videoposnetek"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Odpri"
 
 #. Translators: Scale/zoom entry tooltip.
 #: data/resources/ui/window.blp:242
@@ -365,8 +367,7 @@ msgstr ""
 
 #: src/window.rs:351
 msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"Povečane slike in videoposnetki so zdaj pikselizirani in ne zabrisani."
+msgstr "Povečane slike in videoposnetki so zdaj pikselizirani in ne zabrisani."
 
 #: src/window.rs:352
 msgid "Fixed memory usage not decreasing upon closing images and videos."
