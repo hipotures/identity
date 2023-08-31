@@ -5,9 +5,8 @@ template $IdMediaProperties : Adw.Window {
   /* Translators: Title of the media properties window. */
   title: _("Properties");
 
-  content: Box {
-    orientation: vertical;
-
+  content: Adw.ToolbarView {
+    [top]
     Adw.HeaderBar {}
 
     Stack stack {
