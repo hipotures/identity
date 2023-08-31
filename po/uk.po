@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 19:47+0000\n"
-"PO-Revision-Date: 2023-04-13 20:52+0300\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"PO-Revision-Date: 2023-08-31 22:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Ідентичність"
 
@@ -34,8 +34,8 @@ msgstr "Порівняння зображень і відео"
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
 msgid "Movie;Film;Clip;Difference;Frame;Quality;"
 msgstr ""
-"Movie;Film;Clip;Difference;Frame;Quality;відео;фільм;кліп;різниця;кадр;якість"
-";"
+"Movie;Film;Clip;Difference;Frame;Quality;відео;фільм;кліп;різниця;кадр;"
+"якість;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -57,9 +57,7 @@ msgstr "Ви можете відкривати файли у вкладках"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ознайомлення із декількома властивостями відео у діалоговому вікні"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Іван Молодєцкіх"
 
@@ -69,52 +67,52 @@ msgid "Properties"
 msgstr "Властивості"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Немає відкритих мультимедійних даних"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
 msgstr "Відкрийте відео або зображення, щоб переглянути його властивості."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Файл"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Назва"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Розташування"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Мультимедійні дані"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Роздільна здатність"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Частота кадрів"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Кодек"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Контейнер"
 
@@ -133,8 +131,8 @@ msgid ""
 msgstr ""
 "Не вдалося показати файл.\n"
 "\n"
-"Якщо ви працюєте з «Ідентичністю» з Flatpak, зауважте, що відкриття файлів"
-" перетягуванням зі скиданням та вставлянням може не працювати."
+"Якщо ви працюєте з «Ідентичністю» з Flatpak, зауважте, що відкриття файлів "
+"перетягуванням зі скиданням та вставлянням може не працювати."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -302,141 +300,204 @@ msgstr "Упорядкувати у рядок"
 msgid "Arrange in a Column"
 msgstr "Упорядкувати у стовпчик"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Відкрити"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Вибрати зображення або відео"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Головне меню"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr ""
-"Відкрийте відео або зображення для порівняння натисканням кнопки «Відкрити»."
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Порівняння мультимедіа"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Перетягніть і скиньте сюди зображення або відео"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+#, fuzzy
+msgid "Open Media…"
+msgstr "Відкрити мультимедійні дані"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Вибрати зображення або відео"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Відкрити"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Масштабування"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Вибрати масштаб"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "н/д"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-"Додано режими показу мозаїкою у рядок або стовпчик для безпосереднього"
-" порівняння."
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-"Змінено масштабування за гортанням коліщатком миші та клавіатурним"
-" скороченням так, щоб мати однорідну швидкість, незалежно від поточного"
-" рівня масштабування."
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-"Типову дію у відповідь на прокручування коліщатка миші змінено з"
-" панорамування на масштабування, а для панорамування використано гортання з"
-" натиснутою клавішею Ctrl."
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-"Додано панорамування при натиснутій лівій кнопці миші і перетягуванні при"
-" збільшенні."
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "Змінено позицію відтворення для плавного оновлення."
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-"У новій версії ви можете перетягувати і скидати файл з вікна «Ідентичності»,"
-" якщо його не збільшено."
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "Додано Ctrl+C для копіювання поточного файла до буфера обміну даними."
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr "Додано контекстне меню вкладок із декількома типовими діями."
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr ""
-"Оптимізовано швидкодію при відтворенні відео шляхом використання обробки"
-" відео з OpenGL на сумісних конфігураціях."
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "Оновлено до платформи GNOME 44."
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "Оновлено переклади."
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-"У цьому випуску додано режим перегляду у рядок і у стовпчик, перероблено"
-" жести за допомогою миші та додано перетягування зі скиданням з вікна"
-" «Ідентичності»."
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2023"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "Надсилання перекладів"
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"У цьому випуску додано піксельований показ збільшених зображень та відео,"
+" удосконалено підтримку форматів та виправлено декілька вад."
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr ""
+"У новій версії програма виконує пікселювання зображень та відео замість"
+" розмивання зображення."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+"Виправлено помилку, пов'язану із тим, що споживання пам'яті не зменшувалося"
+" після закриття зображень і відео."
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr ""
+"Удосконалено швидкість роботи інтерфейсу, якщо відкрито багато файлів."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Удосконалено швидкодію роботи з відео AV1."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Додано підтримку зображень WebP."
+
+#: src/window.rs:356
+#| msgid "Compare images and videos"
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Виправлено показ напівпрозорих зображень та відео."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "Виправлено показ 16-бітових кольорових зображень."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr ""
+"Вилучено панорамування при виконанні масштабування щипанням на сенсорній"
+" панелі."
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Виправлено появу позначки нескінченного завантаження при відкритті певних"
+" файлів замість повідомлення про помилку."
+
+#: src/window.rs:362
+#| msgid "Updated to the GNOME 44 platform."
+msgid "Updated to the GNOME 45 platform."
+msgstr "Додаток оновлено до платформи GNOME 45."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Оновлено переклади."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Найкраще заповнення"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Відео і зображення"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Відкрийте відео або зображення для порівняння"
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr ""
+#~ "Відкрийте відео або зображення для порівняння натисканням кнопки "
+#~ "«Відкрити»."
+
+#~ msgid ""
+#~ "Added row and column tiled display modes for side-by-side comparison."
+#~ msgstr ""
+#~ "Додано режими показу мозаїкою у рядок або стовпчик для безпосереднього "
+#~ "порівняння."
+
+#~ msgid ""
+#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
+#~ "of the current zoom level."
+#~ msgstr ""
+#~ "Змінено масштабування за гортанням коліщатком миші та клавіатурним "
+#~ "скороченням так, щоб мати однорідну швидкість, незалежно від поточного "
+#~ "рівня масштабування."
+
+#~ msgid ""
+#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
+#~ "when Ctrl is held."
+#~ msgstr ""
+#~ "Типову дію у відповідь на прокручування коліщатка миші змінено з "
+#~ "панорамування на масштабування, а для панорамування використано гортання "
+#~ "з натиснутою клавішею Ctrl."
+
+#~ msgid ""
+#~ "Added panning by holding down the left mouse button and dragging when "
+#~ "zoomed-in."
+#~ msgstr ""
+#~ "Додано панорамування при натиснутій лівій кнопці миші і перетягуванні при "
+#~ "збільшенні."
+
+#~ msgid "Changed the playback position to update smoothly."
+#~ msgstr "Змінено позицію відтворення для плавного оновлення."
+
+#~ msgid ""
+#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
+#~ msgstr ""
+#~ "У новій версії ви можете перетягувати і скидати файл з вікна "
+#~ "«Ідентичності», якщо його не збільшено."
+
+#~ msgid "Added Ctrl+C to copy the current file to clipboard."
+#~ msgstr ""
+#~ "Додано Ctrl+C для копіювання поточного файла до буфера обміну даними."
+
+#~ msgid "Added a context menu to tabs with a few common actions."
+#~ msgstr "Додано контекстне меню вкладок із декількома типовими діями."
+
+#~ msgid ""
+#~ "Optimized video playback performance by enabling OpenGL video processing "
+#~ "on compatible setups."
+#~ msgstr ""
+#~ "Оптимізовано швидкодію при відтворенні відео шляхом використання обробки "
+#~ "відео з OpenGL на сумісних конфігураціях."
+
+#~ msgid ""
+#~ "This release adds row and column display modes, reworks mouse gestures "
+#~ "and adds drag-and-drop from Identity."
+#~ msgstr ""
+#~ "У цьому випуску додано режим перегляду у рядок і у стовпчик, перероблено "
+#~ "жести за допомогою миші та додано перетягування зі скиданням з вікна "
+#~ "«Ідентичності»."
