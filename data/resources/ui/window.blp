@@ -152,18 +152,6 @@ template IdWindow : Adw.ApplicationWindow {
       child: Adw.ToolbarView {
         [top]
         Adw.HeaderBar {
-          [start]
-          Button {
-            /* Translators: Open button label. */
-            label: _("Open");
-            /* Translators: Open button tooltip. */
-            tooltip-text: _("Select an Image or Video");
-
-            styles ["suggested-action"]
-
-            clicked => on_open_clicked() swapped;
-          }
-
           title-widget: Adw.WindowTitle {
             title: bind IdWindow.title;
           };
@@ -184,10 +172,22 @@ template IdWindow : Adw.ApplicationWindow {
           icon-name: "identity-symbolic";
 
           /* Translators: Title text on the window when no files are open. */
-          title: _("Compare Images and Videos");
+          title: _("Compare Media");
 
           /* Translators: Description text on the window when no files are open. */
-          description: _("Open videos or images to compare by pressing the Open button.");
+          description: _("Drag and drop images or videos here");
+
+          child: Button {
+            /* Translators: Open button label when no files are open. */
+            label: _("Open Media…");
+            /* Translators: Open button tooltip. */
+            tooltip-text: _("Select an Image or Video");
+
+            styles ["suggested-action", "pill"]
+            halign: center;
+
+            clicked => on_open_clicked() swapped;
+          };
         };
       };
     }
