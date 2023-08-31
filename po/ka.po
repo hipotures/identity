@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-06-17 04:07+0000\n"
-"PO-Revision-Date: 2023-06-19 20:26+0200\n"
+"POT-Creation-Date: 2023-08-30 11:48+0000\n"
+"PO-Revision-Date: 2023-08-31 06:06+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "იდენტიფიკაცია"
 
@@ -53,9 +53,7 @@ msgstr "ფაილები შეგიძლიათ, ჩანართე
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "შეამოწმეთ ვიდეოს რამდენიმე თვისება დიალოგში"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -299,134 +297,174 @@ msgid "Arrange in a Column"
 msgstr "სვეტად დალაგება"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
+#: data/resources/ui/window.blp:158 data/resources/ui/window.blp:207
 msgid "Open"
 msgstr "გახსნა"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
+#: data/resources/ui/window.blp:160 data/resources/ui/window.blp:209
 msgid "Select an Image or Video"
 msgstr "აირჩიეთ სურათი ან ვიდეო"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:178 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "მთავარი მენიუ"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:187
+msgid "Compare Images and Videos"
+msgstr "გამოსახულებებისა და ვიდეოების შედარება"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:190
 msgid "Open videos or images to compare by pressing the Open button."
 msgstr "გახსენით ვიდეოები ან სურათები შედარებისთვის გახსნის ღილაკის დაჭერით."
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "გადიდების დონე"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "აირჩიეთ გადიდების დონე"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "N/A"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-"გვერდიგვერდ შედარებისთვის დაემატა სვეტი და მწკრივის ტიპის ფილების ჩვენების "
-"რეჟიმი."
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-"შეიცვალა თაგუნას გადახვევა და ცხელი ღილაკით გადიდება, რათა მიმდინარე "
-"გადიდების დონის მიუხედავად, გადიდების ერთი სიჩქარე ჰქონდეთ."
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-"შეიცვალა თაგუნას გადახვევა გადიდებაზე ნაგულისხმევად, პანინგის მაგიერ. "
-"პანინგისთვის Ctrl ღილაკი გეჭიროთ."
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-"დაემატა პანინგი მარცხენა თაგუნას ღილაკის დაჭერითა და გადათრევით, როცა "
-"გადიდებულია."
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "შეიცვალა დაკვრის მდებარეობის განახლების სირბილე."
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr "ახლა შეგიძიათ ფაილი Identity-ზე დააგდოთ, როცა ის დაპატარავებული არაა."
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "დაემატა მიმდინარე ფაილის Ctrl-C-ით კოპირების მხარდაჭერა."
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr "ჩანართებს დაემატა კონტექსტური მენიუ რამდენიმე საერთო ქმედებით."
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr ""
-"თავსებადი კონფიგურაციის შემთხვევაში OpenGL ვიდეო დამუშავებით დაკვრის "
-"წარმადობის ოპტიმიზაცია."
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "განახლდა GNOME 44 პლატფორმისთვის."
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "განახლებული თარგმანები."
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-"ეს რელიზი ამატებს მწკრივულ და სვეტურ ჩვენების რეჟიმებს, თავიდან გადავწერეთ "
-"თაგუნას ჟესტები და გადათრევის-და-დაგდების მხარდაჭერა დავამატეთ."
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr "თარგმანი-შესრულებულია"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "თარგმანების შეწირვა"
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr ""
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr ""
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "გაუმჯობესდა AV1 ვიდეოების წარმადობა."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "დაემატა WebP გამოსახულებების მხარდაჭერა."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "გასწორდა ნახევრადგამჭვირვალე გამოსახულებებისა და ვიდეოების ჩვენება."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "გასწორდა 16-ბიტიანი გამოსახულებების ჩვენება."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr ""
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "განახლდა GNOME 45 პლატფორმისთვის."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "განახლებული თარგმანები."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "საუკეთესოდ ჩატევა"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "ვიდეოები და სურათები"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "გახსენით ვიდეოები ან სურათები შედარებისთვის"
+
+#~ msgid ""
+#~ "Added row and column tiled display modes for side-by-side comparison."
+#~ msgstr ""
+#~ "გვერდიგვერდ შედარებისთვის დაემატა სვეტი და მწკრივის ტიპის ფილების "
+#~ "ჩვენების რეჟიმი."
+
+#~ msgid ""
+#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
+#~ "of the current zoom level."
+#~ msgstr ""
+#~ "შეიცვალა თაგუნას გადახვევა და ცხელი ღილაკით გადიდება, რათა მიმდინარე "
+#~ "გადიდების დონის მიუხედავად, გადიდების ერთი სიჩქარე ჰქონდეთ."
+
+#~ msgid ""
+#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
+#~ "when Ctrl is held."
+#~ msgstr ""
+#~ "შეიცვალა თაგუნას გადახვევა გადიდებაზე ნაგულისხმევად, პანინგის მაგიერ. "
+#~ "პანინგისთვის Ctrl ღილაკი გეჭიროთ."
+
+#~ msgid ""
+#~ "Added panning by holding down the left mouse button and dragging when "
+#~ "zoomed-in."
+#~ msgstr ""
+#~ "დაემატა პანინგი მარცხენა თაგუნას ღილაკის დაჭერითა და გადათრევით, როცა "
+#~ "გადიდებულია."
+
+#~ msgid "Changed the playback position to update smoothly."
+#~ msgstr "შეიცვალა დაკვრის მდებარეობის განახლების სირბილე."
+
+#~ msgid ""
+#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
+#~ msgstr ""
+#~ "ახლა შეგიძიათ ფაილი Identity-ზე დააგდოთ, როცა ის დაპატარავებული არაა."
+
+#~ msgid "Added Ctrl+C to copy the current file to clipboard."
+#~ msgstr "დაემატა მიმდინარე ფაილის Ctrl-C-ით კოპირების მხარდაჭერა."
+
+#~ msgid "Added a context menu to tabs with a few common actions."
+#~ msgstr "ჩანართებს დაემატა კონტექსტური მენიუ რამდენიმე საერთო ქმედებით."
+
+#~ msgid ""
+#~ "Optimized video playback performance by enabling OpenGL video processing "
+#~ "on compatible setups."
+#~ msgstr ""
+#~ "თავსებადი კონფიგურაციის შემთხვევაში OpenGL ვიდეო დამუშავებით დაკვრის "
+#~ "წარმადობის ოპტიმიზაცია."
+
+#~ msgid ""
+#~ "This release adds row and column display modes, reworks mouse gestures "
+#~ "and adds drag-and-drop from Identity."
+#~ msgstr ""
+#~ "ეს რელიზი ამატებს მწკრივულ და სვეტურ ჩვენების რეჟიმებს, თავიდან "
+#~ "გადავწერეთ თაგუნას ჟესტები და გადათრევის-და-დაგდების მხარდაჭერა დავამატეთ."
