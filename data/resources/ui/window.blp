@@ -127,25 +127,25 @@ Box display_mode_selector {
   }
 }
 
-.IdMediaProperties media_properties {
-  transient-for: IdWindow;
+$IdMediaProperties media_properties {
+  transient-for: template;
   destroy-with-parent: true;
   hide-on-close: true;
 }
 
-template IdWindow : Adw.ApplicationWindow {
+template $IdWindow : Adw.ApplicationWindow {
   title: _("Identity");
 
   /* These parameters are chosen to make the default size of the video 640×360. */
   default-width: 640;
   default-height: 504;
 
-  notify::scale-factor => on_scale_factor_notify() swapped;
+  notify::scale-factor => $on_scale_factor_notify() swapped;
 
   content: Stack stack {
     transition-type: crossfade;
 
-    notify::visible-child => on_visible_child_notify() swapped;
+    notify::visible-child => $on_visible_child_notify() swapped;
 
     StackPage {
       name: "empty";
@@ -153,7 +153,7 @@ template IdWindow : Adw.ApplicationWindow {
         [top]
         Adw.HeaderBar {
           title-widget: Adw.WindowTitle {
-            title: bind IdWindow.title;
+            title: bind template.title;
           };
 
           [end]
@@ -186,7 +186,7 @@ template IdWindow : Adw.ApplicationWindow {
             styles ["suggested-action", "pill"]
             halign: center;
 
-            clicked => on_open_clicked() swapped;
+            clicked => $on_open_clicked() swapped;
           };
         };
       };
@@ -210,11 +210,11 @@ template IdWindow : Adw.ApplicationWindow {
 
             styles ["suggested-action"]
 
-            clicked => on_open_clicked() swapped;
+            clicked => $on_open_clicked() swapped;
           }
 
           title-widget: Adw.WindowTitle {
-            title: bind IdWindow.title;
+            title: bind template.title;
           };
 
           [end]
@@ -236,7 +236,7 @@ template IdWindow : Adw.ApplicationWindow {
               max-width-chars: 6;
               width-chars: 6;
 
-              activate => on_scale_entry_activate() swapped;
+              activate => $on_scale_entry_activate() swapped;
 
               /* Translators: Scale/zoom entry tooltip. */
               tooltip-text: _("Zoom Level");
@@ -267,17 +267,17 @@ template IdWindow : Adw.ApplicationWindow {
               vexpand: true;
               menu-model: tab_menu;
 
-              page-attached => on_tab_page_attached() swapped;
-              /* page-detached => on_tab_page_detached() swapped; */
-              create-window => on_create_window() swapped;
-              setup-menu => on_setup_menu() swapped;
+              page-attached => $on_tab_page_attached() swapped;
+              /* page-detached => $on_tab_page_detached() swapped; */
+              create-window => $on_create_window() swapped;
+              setup-menu => $on_setup_menu() swapped;
             };
           }
 
           StackPage {
             name: "grid";
 
-            child: .IdPageGrid page_grid {};
+            child: $IdPageGrid page_grid {};
           }
         };
 

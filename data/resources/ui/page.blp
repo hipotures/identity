@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template IdPage : Adw.Bin {
+template $IdPage : Adw.Bin {
   child: Overlay {
     child: Stack stack {
       transition-type: crossfade;
@@ -19,13 +19,13 @@ template IdPage : Adw.Bin {
         name: "content";
 
         child: ScrolledWindow scrolled_window {
-          child: .IdPicture picture {
-            notify::scale-request => on_scale_request_changed() swapped;
-            notify::scale => on_scale_changed() swapped;
-            notify::h-scroll-pos => on_h_scroll_pos_notify() swapped;
-            notify::v-scroll-pos => on_v_scroll_pos_notify() swapped;
-            stop-kinetic-scrolling => on_stop_kinetic_scrolling() swapped;
-            get-content-provider => get_content_provider() swapped;
+          child: $IdPicture picture {
+            notify::scale-request => $on_scale_request_changed() swapped;
+            notify::scale => $on_scale_changed() swapped;
+            notify::h-scroll-pos => $on_h_scroll_pos_notify() swapped;
+            notify::v-scroll-pos => $on_v_scroll_pos_notify() swapped;
+            stop-kinetic-scrolling => $on_stop_kinetic_scrolling() swapped;
+            get-content-provider => $get_content_provider() swapped;
           };
         };
       }
@@ -50,7 +50,7 @@ template IdPage : Adw.Bin {
       styles ["osd"]
 
       name: "overlay-title";
-      visible: bind IdPage.show-overlay;
+      visible: bind template.show-overlay;
       ellipsize: middle;
       halign: start;
       valign: start;
