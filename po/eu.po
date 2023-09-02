@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 12:37+0000\n"
-"PO-Revision-Date: 2023-04-2 17:00+0100\n"
+"POT-Creation-Date: 2023-08-30 11:48+0000\n"
+"PO-Revision-Date: 2023-08-30 17:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr "Project-Id-Version: Identity\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Identity"
 
@@ -52,9 +52,7 @@ msgstr "Fitxategiak fitxa modura ireki daitezke"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ikuskatu bideo baten propietateak elkarrizketa-koadro batean"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -296,125 +294,180 @@ msgid "Arrange in a Column"
 msgstr "Antolatu zutabe batean"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
+#: data/resources/ui/window.blp:158 data/resources/ui/window.blp:207
 msgid "Open"
 msgstr "Ireki"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
+#: data/resources/ui/window.blp:160 data/resources/ui/window.blp:209
 msgid "Select an Image or Video"
 msgstr "Hautatu irudi edo bideo bat"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:178 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Menu nagusia"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:187
+msgid "Compare Images and Videos"
+msgstr "Konparatu irudiak eta bideoak"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:190
 msgid "Open videos or images to compare by pressing the Open button."
 msgstr "Ireki bideoak edo irudiak haiek konparatzeko, 'Ireki' botoia sakatuz."
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Zoomaren maila"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Hautatu zoomaren maila"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "E/E"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr "Errenkaden eta zutabeen bistaratze modua gehitu da, konparazioak aurrez aurre egin ahal izateko."
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr "Saguaren korritzea eta tekla beroaren zooma aldatu dira, zoom-mailarekiko independentea den abiadura izan dezaten."
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr "Saguaren korritzea aldatu da modu lehenetsian zooma egin dezan, lekuz aldatzearen ordez, eta azken ekintza horretarako Ctrl sakatuta eduki behar dadin."
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr "Saguaren ezkerreko botoia sakatuta dagoen bitartean arrastatzen denean, irudia lekuz aldatzea gehitu da, irudia zoomarenkin handiagotuta dagoenean."
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "Erreprodukzioaren posizioa aldatu da modu leunean eguneratu dadin."
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr "Orain fitxategiak Identity aplikaziotik arrastatu eta jaregin daitezke, ikuspegiaren zooma handiagotuta ez badago."
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "Ctrl+C gehitu da uneko fitxategia arbelean kopiatu ahal izan dadin."
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr "Laster-menua gehitu zaie fitxei, zenbait ekintza arrunt gehitzeko."
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr "Bideo-erreprodukzioaren errendimendua optimizatu da, horretarako OpenGL bideo-prozesatzea gaitu da konfigurazio bateragarrietan."
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "GNOME 44 plataformara eguneratu da."
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "Eguneratutako itzulpenak."
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr "Bertsio honetan errenkaden eta zutabeen bistaratze modua gehitu da, sagu-keinuak berdiseinatu dira eta arrastatzea eta jaregitea gehitu da."
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr "translator-credits"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "Lagundu itzultzen"
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr "Bertsio honek bistaratze pixelatua gehitu du irudi eta bideo handiagotuetarako, formatuen euskarria hobetu du eta zenbait akats konpontu ditu."
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr "Orain, handiagotutako irudi eta bideoak pixelatu egingo dira, ez lausotu."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr "Konpondu da irudiak eta bideoak ixtean memoria-erabilera jaitsi ez izana."
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr "Fitxategi anitz irekita daudenean interfazeak duen erantzuna hobetu da."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Errendimendua honetau da AV1 bideoekin."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "WebP irudien euskarria gehitu da."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Irudi eta bideo erdi gardenen bistaratzea konpondu da."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "16 bit-eko koloreak dituzten irudien bistaratzea konpondu da."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "Ukipen-panelaren atximurkatze eta handiagotzeko keinutik desplazamenduaren ekintza kendu da."
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr "Zenbait fitxategi irekitzean birakaria betiko biraka geratzea konpondu da, orain errore bat ematen da."
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "GNOME 45 plataformarako egokitu da."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Eguneratutako itzulpenak."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Egokiena"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Bideoak eta irudiak"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Ireki eta konparatu bideoak edo irudiak"
+
+#~ msgid ""
+#~ "Added row and column tiled display modes for side-by-side comparison."
+#~ msgstr ""
+#~ "Errenkaden eta zutabeen bistaratze modua gehitu da, konparazioak aurrez "
+#~ "aurre egin ahal izateko."
+
+#~ msgid ""
+#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
+#~ "of the current zoom level."
+#~ msgstr ""
+#~ "Saguaren korritzea eta tekla beroaren zooma aldatu dira, zoom-mailarekiko "
+#~ "independentea den abiadura izan dezaten."
+
+#~ msgid ""
+#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
+#~ "when Ctrl is held."
+#~ msgstr ""
+#~ "Saguaren korritzea aldatu da modu lehenetsian zooma egin dezan, lekuz "
+#~ "aldatzearen ordez, eta azken ekintza horretarako Ctrl sakatuta eduki "
+#~ "behar dadin."
+
+#~ msgid ""
+#~ "Added panning by holding down the left mouse button and dragging when "
+#~ "zoomed-in."
+#~ msgstr ""
+#~ "Saguaren ezkerreko botoia sakatuta dagoen bitartean arrastatzen denean, "
+#~ "irudia lekuz aldatzea gehitu da, irudia zoomarenkin handiagotuta "
+#~ "dagoenean."
+
+#~ msgid "Changed the playback position to update smoothly."
+#~ msgstr "Erreprodukzioaren posizioa aldatu da modu leunean eguneratu dadin."
+
+#~ msgid ""
+#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
+#~ msgstr ""
+#~ "Orain fitxategiak Identity aplikaziotik arrastatu eta jaregin daitezke, "
+#~ "ikuspegiaren zooma handiagotuta ez badago."
+
+#~ msgid "Added Ctrl+C to copy the current file to clipboard."
+#~ msgstr "Ctrl+C gehitu da uneko fitxategia arbelean kopiatu ahal izan dadin."
+
+#~ msgid "Added a context menu to tabs with a few common actions."
+#~ msgstr "Laster-menua gehitu zaie fitxei, zenbait ekintza arrunt gehitzeko."
+
+#~ msgid ""
+#~ "Optimized video playback performance by enabling OpenGL video processing "
+#~ "on compatible setups."
+#~ msgstr ""
+#~ "Bideo-erreprodukzioaren errendimendua optimizatu da, horretarako OpenGL "
+#~ "bideo-prozesatzea gaitu da konfigurazio bateragarrietan."
+
+#~ msgid ""
+#~ "This release adds row and column display modes, reworks mouse gestures "
+#~ "and adds drag-and-drop from Identity."
+#~ msgstr ""
+#~ "Bertsio honetan errenkaden eta zutabeen bistaratze modua gehitu da, sagu-"
+#~ "keinuak berdiseinatu dira eta arrastatzea eta jaregitea gehitu da."
 
 #~ msgid "This release contains translation updates."
 #~ msgstr "Bertsio honek itzulpenen eguneratzeak ditu."
