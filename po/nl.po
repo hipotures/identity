@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-25 06:16+0000\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
@@ -52,7 +52,7 @@ msgstr "U kunt bestanden openen als tabbladen"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspecteer enkele eigenschappen van een video in een dialoogvenster"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:168
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -62,52 +62,52 @@ msgid "Properties"
 msgstr "Eigenschappen"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Niets geopend"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
 msgstr "Open een afbeelding of video om de eigenschappen ervan te bekijken."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Bestand"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Naam"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Locatie"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Media"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Resolutie"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Framesnelheid"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Codec"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Container"
 
@@ -127,7 +127,7 @@ msgstr ""
 "Het bestand kan niet getoond worden.\n"
 "\n"
 "Als u Identiteit als Flatpak opgestart hebt, dan werkt openen middels slepen-"
-"en-neerzetten en plakken mogelijk niet."
+"en-neerzetten, en middels plakken mogelijk niet."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -295,44 +295,54 @@ msgstr "Tonen op rij"
 msgid "Arrange in a Column"
 msgstr "Tonen in kolom"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Openen"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Kies een afbeelding of video"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Klik op ‘Openen’ om afbeeldingen of video’s te openen."
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Media vergelijken"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Sleep afbeeldingen of video’s hierheen"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Media openen…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Kies een afbeelding of video"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Openen"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Zoomniveau"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Kies een zoomniveau"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:273 src/window.rs:445 src/window.rs:453 src/window.rs:461
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "n.v.t."
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:336
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr ""
 "Heimen Stoffels <vistausss@fastmail.com>\n"
@@ -340,25 +350,88 @@ msgstr ""
 "Meer info over GNOME-NL https://nl.gnome.org"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:339
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "Helpen met vertalen"
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"Deze uitgave voegt een korrelige weergave voor ingezoomde afbeeldingen en "
+"video’s toe, levert verbeterde ondersteuning voor bestandsformaten en lost "
+"verschillende problemen op."
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr ""
+"Ingezoomde afbeeldingen en video’s zijn nu korrelig in plaats van wazig."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+"Opgelost: geheugengebruik gaat niet omlaag na sluiten van afbeeldingen en "
+"video’s."
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr ""
+"De gebruikersinterface blijft vlotter draaien met veel geopende bestanden."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Prestaties voor AV1-video’s verbeterd."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Ondersteuning voor WebP-afbeeldingen toegevoegd."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Weergave van semitransparante afbeeldingen en video’s opgelost."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "Weergave van 16-bits kleurenafbeeldingen opgelost."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "Knijp-om-te-zoomen met touchpad verschuift de weergave nu niet meer."
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Eindeloos draaiend laadpictogram (in plaats van foutmelding) bij openen van "
+"bepaalde bestanden opgelost."
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "Bijgewerkt: GNOME-platform naar versie 45."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Bijgewerkt: diverse vertalingen."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:512
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Passend"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1483
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Afbeeldingen en video’s"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1491
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Open te vergelijken afbeeldingen of video’s"
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr "Klik op ‘Openen’ om afbeeldingen of video’s te openen."
 
 #~ msgid "This release contains translation updates."
 #~ msgstr "Deze versie bevat bijgewerkte vertalingen."
@@ -468,9 +541,6 @@ msgstr "Open te vergelijken afbeeldingen of video’s"
 
 #~ msgid "Added Chinese Simplified translation (thanks Garling Liang)."
 #~ msgstr "Nieuw: Chinese vertaling, met dank aan Garling Liang."
-
-#~ msgid "Updated translations."
-#~ msgstr "Bijgewerkt: diverse vertalingen."
 
 #~ msgid "This release adds zoom support."
 #~ msgstr "Nieuw: zoomondersteuning."
@@ -585,6 +655,3 @@ msgstr "Open te vergelijken afbeeldingen of video’s"
 #~ msgstr ""
 #~ "Nieuw: geoptimaliseerde videoweergave met behulp van OpenGL (alleen op "
 #~ "compatibele apparaten)"
-
-#~ msgid "Updated to the GNOME 44 platform."
-#~ msgstr "Bijgewerkt: GNOME-platform naar versie 44"
