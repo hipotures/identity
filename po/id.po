@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-30 06:04+0000\n"
-"PO-Revision-Date: 2023-08-30 14:38+0700\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"PO-Revision-Date: 2023-09-08 11:08+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -63,52 +63,52 @@ msgid "Properties"
 msgstr "Properti"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Tidak Ada Media Terbuka"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
 msgstr "Buka video atau gambar untuk melihat propertinya."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Berkas"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Nama"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Lokasi"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Media"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Resolusi"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Laju Bingkai"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Kodek"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Kontainer"
 
@@ -296,53 +296,63 @@ msgstr "Susun dalam Baris"
 msgid "Arrange in a Column"
 msgstr "Menyusun dalam Kolom"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Buka"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Pilih Gambar atau Video"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Menu Utama"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Buka video atau gambar untuk dibandingkan dengan menekan tombol Buka."
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Bandingkan Media"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Seret dan lepas gambar atau video di sini"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Buka Media…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Pilih Gambar atau Video"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Buka"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Tingkat Zoom"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Pilih Tingkat Zum"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:463 src/window.rs:471 src/window.rs:479
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "T/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:336
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2023."
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:339
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "Kontribusi Terjemahan"
 
-#: src/window.rs:347
+#: src/window.rs:350
 msgid ""
 "This release adds pixelated display for zoomed-in images and videos, "
 "improves format support and fixes several issues."
@@ -350,70 +360,74 @@ msgstr ""
 "Rilis ini menambahkan tampilan piksel untuk gambar dan video yang "
 "diperbesar, meningkatkan dukungan format, dan memperbaiki beberapa masalah."
 
-#: src/window.rs:348
+#: src/window.rs:351
 msgid "Zoomed-in images and videos are now pixelated rather than blurry."
 msgstr "Gambar dan video yang diperbesar kini berbentuk piksel, bukan buram."
 
-#: src/window.rs:349
+#: src/window.rs:352
 msgid "Fixed memory usage not decreasing upon closing images and videos."
 msgstr ""
 "Memperbaiki penggunaan memori yang tidak berkurang saat menutup gambar dan "
 "video."
 
-#: src/window.rs:350
+#: src/window.rs:353
 msgid "Improved UI responsiveness with many open files."
 msgstr "Peningkatan responsif antarmuka dengan banyak berkas terbuka."
 
-#: src/window.rs:351
+#: src/window.rs:354
 msgid "Improved performance on AV1 videos."
 msgstr "Peningkatan kinerja pada video AV1."
 
-#: src/window.rs:352
+#: src/window.rs:355
 msgid "Added support for WebP images."
 msgstr "Menambahkan dukungan untuk gambar WebP."
 
-#: src/window.rs:353
+#: src/window.rs:356
 msgid "Fixed display of semitransparent images and videos."
 msgstr "Memperbaiki tampilan gambar dan video semitransparan."
 
-#: src/window.rs:354
+#: src/window.rs:357
 msgid "Fixed display of 16-bit color images."
 msgstr "Memperbaiki tampilan gambar berwarna 16-bit."
 
-#: src/window.rs:355
+#: src/window.rs:358
 msgid "Removed panning from the touchpad pinch zoom gesture."
 msgstr "Menghapus panning dari gerakan pinch zoom pada touchpad."
 
-#: src/window.rs:357
+#: src/window.rs:360
 msgid ""
 "Fixed infinite loading spinner when opening certain files instead of error."
 msgstr ""
 "Memperbaiki pemintal pemuatan tak terbatas saat membuka berkas tertentu, "
 "alih-alih galat."
 
-#: src/window.rs:359
+#: src/window.rs:362
 msgid "Updated to the GNOME 45 platform."
 msgstr "Dimutakhirkan ke platform GNOME 45."
 
-#: src/window.rs:360
+#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Terjemahan yang diperbarui."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:530
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Pas Terbaik"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1505
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Video dan gambar"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1513
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Buka video atau gambar untuk dibandingkan"
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr ""
+#~ "Buka video atau gambar untuk dibandingkan dengan menekan tombol Buka."
 
 #~ msgid ""
 #~ "Added row and column tiled display modes for side-by-side comparison."
