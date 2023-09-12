@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 14:53+0000\n"
-"PO-Revision-Date: 2023-04-13 19:43+0200\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"PO-Revision-Date: 2023-09-11 17:16+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Identity"
 
@@ -55,9 +55,7 @@ msgstr "Du kan åbne filer som faneblade"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Gennemse nogle få egenskaber af en video i en dialog"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -67,52 +65,52 @@ msgid "Properties"
 msgstr "Egenskaber"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Ingen medier åbne"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
 msgstr "Åbn en video eller et billede for at få vist egenskaberne."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Fil"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Navn"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Sted"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Medie"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Opløsning"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Billedfrekvens"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Codec"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Beholder"
 
@@ -300,119 +298,54 @@ msgstr "Arrangér i en række"
 msgid "Arrange in a Column"
 msgstr "Arrangér i en søjle"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Åbn"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Vælg et billede eller en video"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Hovedmenu"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr ""
-"Åbn videoer eller billeder ved at trykke på Åbn-knappen for at sammenligne "
-"dem."
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Sammenlign medier"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Træk og slip billeder og videoer her"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Åbn medie …"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Vælg et billede eller en video"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Åbn"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Zoomniveau"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Vælg zoomniveau"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "—"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-"Visningstilstande tilføjet for fliselagte rækker og kolonner, så de kan "
-"sammenlignes side om side."
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-"Muserulning og zoom med genvejstast ændret til at have samme hastighed "
-"uanset det aktuelle zoomniveau."
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-"Muserulning ændret til at zoome som standard i stedet for at panorere og til "
-"at panorere, når Ctrl holdes nede."
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-"Panorering ved at holde venstre museknap nede og trække, når der er zoomet "
-"ind, tilføjet."
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "Afspilningspositionen ændret, så den opdateres jævnt."
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-"Du kan nu trække-og-slippe en fil ud af Identity, når der ikke er zoomet ind."
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "Ctrl+C til kopiering af den aktuelle fil til udklipsholderen tilføjet."
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
-"En genvejsmenu til faneblade med nogle få almindelige handlinger tilføjet."
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr ""
-"Optimeret ydeevne ved videoafspilning ved aktivering af OpenGL-"
-"videobehandling på kompatible opsætninger."
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "Opdateret til GNOME 44-platformen."
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "Opdaterede oversættelser."
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-"I denne udgivelse er tilføjet visningstilstande for rækker og kolonner, "
-"musebevægelser er bearbejdet og træk-og-slip fra Identity er tilføjet."
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr ""
 "Alan Mortensen\n"
@@ -421,22 +354,143 @@ msgstr ""
 "Mere info: http://www.dansk-gruppen.dk"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr "Bidrag med oversættelse"
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"Denne udgivelse tilføjer pixeleret visning af forstørrede billeder og "
+"videoer, forbedrer formatunderstøttelsen og løser flere problemer."
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr "Forstørrede billeder og videoer er nu pixelerede i stedet for slørede."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+"Problem med hukommelsesforbrug, som ikke falder efter billeder og videoer er "
+"lukket, er løst."
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr "Forbedret brugerfladerespons med mange åbne filer."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Forbedret ydelse med AV1-videoer."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Understøttelse af WebP-billeder tilføjet."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Løst visning af halvgennemsigtige billeder og videoer."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "Løst problem med visning af 16-bit farvebilleder."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "Fjernet panorering fra pegepladens knib-for-at-zoome-bevægelse."
+
+# Microsoft oversætter spinner med skala
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Løst problem hvorved indlæsningsanimation fortsætter i det uendelige "
+"ved åbning af visse filer i stedet for at give en fejl."
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "Opdateret til GNOME 45-platformen."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Opdaterede oversættelser."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Bedste tilpasning"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Videoer og billeder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Åbn videoer eller billeder for at sammenligne dem"
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr ""
+#~ "Åbn videoer eller billeder ved at trykke på Åbn-knappen for at "
+#~ "sammenligne dem."
+
+#~ msgid ""
+#~ "Added row and column tiled display modes for side-by-side comparison."
+#~ msgstr ""
+#~ "Visningstilstande tilføjet for fliselagte rækker og kolonner, så de kan "
+#~ "sammenlignes side om side."
+
+#~ msgid ""
+#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
+#~ "of the current zoom level."
+#~ msgstr ""
+#~ "Muserulning og zoom med genvejstast ændret til at have samme hastighed "
+#~ "uanset det aktuelle zoomniveau."
+
+#~ msgid ""
+#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
+#~ "when Ctrl is held."
+#~ msgstr ""
+#~ "Muserulning ændret til at zoome som standard i stedet for at panorere og "
+#~ "til at panorere, når Ctrl holdes nede."
+
+#~ msgid ""
+#~ "Added panning by holding down the left mouse button and dragging when "
+#~ "zoomed-in."
+#~ msgstr ""
+#~ "Panorering ved at holde venstre museknap nede og trække, når der er "
+#~ "zoomet ind, tilføjet."
+
+#~ msgid "Changed the playback position to update smoothly."
+#~ msgstr "Afspilningspositionen ændret, så den opdateres jævnt."
+
+#~ msgid ""
+#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
+#~ msgstr ""
+#~ "Du kan nu trække-og-slippe en fil ud af Identity, når der ikke er zoomet "
+#~ "ind."
+
+#~ msgid "Added Ctrl+C to copy the current file to clipboard."
+#~ msgstr ""
+#~ "Ctrl+C til kopiering af den aktuelle fil til udklipsholderen tilføjet."
+
+#~ msgid "Added a context menu to tabs with a few common actions."
+#~ msgstr ""
+#~ "En genvejsmenu til faneblade med nogle få almindelige handlinger tilføjet."
+
+#~ msgid ""
+#~ "Optimized video playback performance by enabling OpenGL video processing "
+#~ "on compatible setups."
+#~ msgstr ""
+#~ "Optimeret ydeevne ved videoafspilning ved aktivering af OpenGL-"
+#~ "videobehandling på kompatible opsætninger."
+
+#~ msgid ""
+#~ "This release adds row and column display modes, reworks mouse gestures "
+#~ "and adds drag-and-drop from Identity."
+#~ msgstr ""
+#~ "I denne udgivelse er tilføjet visningstilstande for rækker og kolonner, "
+#~ "musebevægelser er bearbejdet og træk-og-slip fra Identity er tilføjet."
