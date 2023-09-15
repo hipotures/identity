@@ -1,25 +1,139 @@
+#
+# lumingzh <lumingzh@qq.com>, 2023.
+#
 msgid ""
 msgstr ""
+"Project-Id-Version: Identity\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: Identity\n"
-"Language: zh-Hans\n"
+"X-Generator: Gtranslator 42.0\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
+"Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"PO-Revision-Date: 2023-09-15 10:49+0800\n"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/resources/ui/window.blp:137 src/main.rs:84
+msgid "Identity"
+msgstr "识别"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
 msgid "Compare images and videos"
-msgstr "比较图片和视频"
+msgstr "比较图像和视频"
 
-#: src/window.rs:363
-msgid "translator-credits"
-msgstr "Garling Liang"
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr ""
+"Movie;Film;Clip;Difference;Frame;Quality;电影;视频;片段;剪辑;差别;差异;不同;"
+"帧;质量;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "用来对比图像或视频的多个版本的程序。"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
+msgid "You can arrange videos in a row"
+msgstr "您可以按行排列视频"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:19
+msgid "You can arrange images in a column"
+msgstr "您可以按列排列图像"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:23
+msgid "You can open files as tabs"
+msgstr "您可以作为标签页打开文件"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Inspect a few properties of a video in a dialog"
+msgstr "在对话框中检查视频的一些属性"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: Title of the media properties window.
+#: data/resources/ui/media_properties.blp:6
+msgid "Properties"
+msgstr "属性"
+
+#. Translators: Title text in the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:21
+msgid "No Media Open"
+msgstr "无打开的媒体"
+
+#. Translators: Description on the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:23
+msgid "Open a video or image to view its properties."
+msgstr "打开视频或图像来查看其属性。"
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:43
+msgid "File"
+msgstr "文件"
+
+#. Translators: File-name row in the media properties window.
+#: data/resources/ui/media_properties.blp:49
+msgid "Name"
+msgstr "名称"
+
+#. Translators: File location row in the media properties window.
+#: data/resources/ui/media_properties.blp:57
+msgid "Location"
+msgstr "位置"
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:64
+msgid "Media"
+msgstr "媒体"
+
+#. Translators: Pixel-resolution row in the media properties window.
+#: data/resources/ui/media_properties.blp:70
+msgid "Resolution"
+msgstr "分辨率"
+
+#. Translators: Frame-rate row in the media properties window.
+#: data/resources/ui/media_properties.blp:78
+msgid "Frame Rate"
+msgstr "帧率"
+
+#. Translators: Codec row in the media properties window.
+#: data/resources/ui/media_properties.blp:86
+msgid "Codec"
+msgstr "编解码器"
+
+#. Translators: Container-format row in the media properties window.
+#: data/resources/ui/media_properties.blp:94
+msgid "Container"
+msgstr "容器"
+
+#. Translators: Title that is shown upon video or image loading error.
+#: data/resources/ui/page.blp:40
+msgid "File Failed to Load"
+msgstr "加载文件失败"
+
+#. Translators: Label shown when a video or image has failed to load.
+#: data/resources/ui/page.blp:43
+msgid ""
+"Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-"
+"and-drop and by pasting may not work."
+msgstr ""
+"无法显示文件。\n"
+"\n"
+"如果您在 Flatpak 下运行识别，请注意以拖放和粘贴打开文件的方式可能无效。"
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
 msgid "General"
-msgstr "通用"
+msgstr "常规"
 
 #: data/resources/ui/shortcuts.blp:9
 msgctxt "shortcut window"
@@ -29,22 +143,32 @@ msgstr "在文件间切换"
 #: data/resources/ui/shortcuts.blp:14
 msgctxt "shortcut window"
 msgid "Open videos or images"
-msgstr "打开视频或图片"
+msgstr "打开视频或图像"
 
 #: data/resources/ui/shortcuts.blp:19
 msgctxt "shortcut window"
 msgid "Open file from clipboard"
 msgstr "从剪贴板打开文件"
 
+#: data/resources/ui/shortcuts.blp:24
+msgctxt "shortcut window"
+msgid "Copy selected file to clipboard"
+msgstr "复制选中的文件至剪贴板"
+
 #: data/resources/ui/shortcuts.blp:29
 msgctxt "shortcut window"
 msgid "Close selected file"
-msgstr "关闭已选文件"
+msgstr "关闭选中的文件"
+
+#: data/resources/ui/shortcuts.blp:34
+msgctxt "shortcut window"
+msgid "New window"
+msgstr "新建窗口"
 
 #: data/resources/ui/shortcuts.blp:39
 msgctxt "shortcut window"
 msgid "Show shortcuts"
-msgstr "显示捷径"
+msgstr "显示快捷键"
 
 #: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
@@ -54,7 +178,7 @@ msgstr "退出"
 #: data/resources/ui/shortcuts.blp:50
 msgctxt "shortcut window"
 msgid "Playback"
-msgstr "重放"
+msgstr "回放"
 
 #: data/resources/ui/shortcuts.blp:53
 msgctxt "shortcut window"
@@ -71,490 +195,297 @@ msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "后退一帧"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
-msgid "Identity"
-msgstr "识别"
-
-#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "电影;影片;剪辑;不同;帧;画质;"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
-msgid "A program for comparing multiple versions of an image or video."
-msgstr "一个用来对比一张图片或一个视频的多个版本的程序。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:103
-msgid "This release contains translation updates."
-msgstr "此版本包含翻译更新。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:105
-msgid "Added Dutch translation (thanks Heimen Stoffels)."
-msgstr "增加荷兰语翻译（感谢 Heimen Stoffels）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:106
-msgid "Added French translation (thanks Lapineige)."
-msgstr "增加法语翻译（感谢 Lapineige）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:107
-msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
-msgstr "增加西班牙语翻译（感谢 Óscar Fernández Díaz）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:113
-msgid "This release fixes minor UI issues."
-msgstr "此版本修复几个界面上的小问题。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:115
-msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
-msgstr "现在，当关闭一个文件时，下一个“标签页”会被选中。如果关闭的是最后一个文件，那么前一个“标签页”会被选中。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:116
-msgid "Fixed the application title not showing up upon closing all files."
-msgstr "修复了关闭所有文件时应用程序标题不显示的问题。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:122
-msgid "First release."
-msgstr "第一版。"
-
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:142
-#: src/window.rs:360
-msgid "Ivan Molodetskikh"
-msgstr "Ivan Molodetskikh"
-
-#. Translators: file chooser file filter name.
-#: src/window.rs:1490
-msgid "Videos and images"
-msgstr "视频和图像"
-
-#. Translators: file chooser dialog title.
-#: src/window.rs:1501
-msgid "Open videos or images to compare"
-msgstr "打开视频或图像以比较"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:85
-msgid "This release contains translation updates and minor UI changes."
-msgstr "此版本包含翻译更新和几处界面小更改。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:87
-msgid "Video rotation tag is now respected."
-msgstr "现在更推荐使用视频旋转标签。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:88
-msgid "Added Deutsch translation (thanks Johannes Hayeß)."
-msgstr "增加德国翻译（感谢 Johannes Hayeß）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:89
-msgid "Added Finnish translation (thanks Jiri Grönroos)."
-msgstr "增加芬兰语翻译（感谢 Jiri Grönroos）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:90
-msgid "Added Croatian translation (thanks Milo Ivir)."
-msgstr "增加克罗地亚语翻译（感谢 Milo Ivir）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:91
-msgid "Added Italian translation (thanks Blackcat-917)."
-msgstr "增加意大利语翻译（感谢 Blackcat-917）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:92
-msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
-msgstr "增加巴西葡萄牙语（感谢 Gustavo Costa）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:93
-msgid "Added Slovak translation (thanks Jose Riha)."
-msgstr "增加斯洛伐克语翻译（感谢 Jose Riha）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:94
-msgid "Added Swedish translation (thanks Åke Engelbrektson)."
-msgstr "增加瑞典语翻译（感谢 Åke Engelbrektson）。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:95
-msgid "Added translation contribution link."
-msgstr "增加贡献翻译链接。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:96
-msgid "Specified input device recommendations to improve display in the new GNOME Software."
-msgstr "指定的输入设备建议，以改善新的 GNOME Softwear 中的显示。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:97
-msgid "Label on the main window can now wrap so as not to restrict minimum window size."
-msgstr "为了不限制最小窗口尺寸，主窗口的标签现在能够伸缩啦。"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:69
-msgid "Identity is now a GTK 4 application!"
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
-msgid "Rewrote the application with GTK 4 and libadwaita."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:72
-msgid "Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:73
-msgid "Changed the default style to dark."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:74
-msgid "Added Basque translation (thanks Sergio Varela)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:75
-msgid "Added Galician translation (thanks Fran Diéguez)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:76
-msgid "Added Japanese translation (thanks Kaz Sibuya)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:77
-msgid "Added Polish translation (thanks Rafał Baran)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:78
-msgid "Added Chinese Simplified translation (thanks Garling Liang)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:63
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr ""
-
-#. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:40
-msgid "File Failed to Load"
-msgstr ""
-
-#. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:43
-msgid "Could not display the file.\n"
-"\n"
-"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
-msgstr ""
-
-#: data/resources/ui/shortcuts.blp:34
-msgctxt "shortcut window"
-msgid "New window"
-msgstr ""
-
-#. Translators: Primary menu entry that opens a new window.
-#: data/resources/ui/window.blp:8 data/resources/ui/window.blp:42
-msgid "_New Window"
-msgstr ""
-
-#. Translators: Primary menu entry that opens the keyboard shortcuts window.
-#: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
-msgid "_Keyboard Shortcuts"
-msgstr ""
-
-#. Translators: Primary menu entry that opens the About dialog.
-#: data/resources/ui/window.blp:26 data/resources/ui/window.blp:60
-msgid "_About Identity"
-msgstr ""
-
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr ""
-
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr ""
-
 #: data/resources/ui/shortcuts.blp:69
 msgctxt "shortcut window"
 msgid "Zoom"
-msgstr ""
+msgstr "缩放"
 
 #: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr ""
+msgstr "放大"
 
 #: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr ""
+msgstr "缩小"
 
 #: data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
-msgstr ""
+msgstr "缩放 1:1"
 
 #: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Best fit"
-msgstr ""
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr ""
-
-#. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
-msgid "Main Menu"
-msgstr ""
-
-#. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
-msgid "Zoom Level"
-msgstr ""
-
-#. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
-msgid "Select Zoom Level"
-msgstr ""
-
-#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
-#. always resized to fit the window.
-#: src/window.rs:542
-msgid "Best Fit"
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:59
-msgid "This release adds zoom support."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
-msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
-msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
-msgid "Tab tooltips now show full file paths, which is useful when comparing files with identical names."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:46
-msgid "Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:47
-msgid "Added WebP images to the list of supported file types."
-msgstr ""
-
-#. Translators: link title in the About dialog.
-#: src/window.rs:369
-msgid "Contribute Translations"
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:48
-msgid "Added Occitan translation (thanks Quentin PAGÈS)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:49
-msgid "Added Serbian Cyrillic translation (thanks Јован Здравковић)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:50
-msgid "Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:51
-msgid "Added Turkish translation (thanks Sabri Ünal)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:52
-msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:42
-msgid "This release adds a media properties dialog and updates Identity to the GNOME 43 platform."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:44
-msgid "Added a media properties dialog which will display information about the currently open file."
-msgstr ""
-
-#. Translators: Title of the media properties window.
-#: data/resources/ui/media_properties.blp:6
-msgid "Properties"
-msgstr ""
-
-#. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
-msgid "No Media Open"
-msgstr ""
-
-#. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
-msgid "Open a video or image to view its properties."
-msgstr ""
-
-#. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
-msgid "File"
-msgstr ""
-
-#. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
-msgid "Name"
-msgstr ""
-
-#. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
-msgid "Location"
-msgstr ""
-
-#. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
-msgid "Media"
-msgstr ""
-
-#. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
-msgid "Resolution"
-msgstr ""
-
-#. Translators: Primary menu entry that opens the media properties window.
-#: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
-msgid "_Media Properties"
-msgstr ""
-
-#. Translators: "Not applicable" string for the media properties dialog when a
-#. given property is unknown.
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
-msgid "N/A"
-msgstr ""
-
-#. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
-msgid "Frame Rate"
-msgstr ""
-
-#. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
-msgid "Codec"
-msgstr ""
-
-#. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
-msgid "Container"
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
-#: src/window.rs:348
-msgid "This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
-#: src/window.rs:336
-msgid "Changed mouse scroll and hotkey zoom to have consistent speed regardless of the current zoom level."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
-#: src/window.rs:337
-msgid "Changed mouse scroll to zoom by default instead of panning, and to pan when Ctrl is held."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
-#: src/window.rs:338
-msgid "Added panning by holding down the left mouse button and dragging when zoomed-in."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
-#: src/window.rs:340
-msgid "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
-#: src/window.rs:343
-msgid "Optimized video playback performance by enabling OpenGL video processing on compatible setups."
-msgstr ""
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr ""
-
-#: data/resources/ui/shortcuts.blp:24
-msgctxt "shortcut window"
-msgid "Copy selected file to clipboard"
-msgstr ""
+msgstr "最佳匹配"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
 #: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Display"
-msgstr ""
+msgstr "显示"
 
 #: data/resources/ui/shortcuts.blp:107
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
-msgstr ""
+msgstr "标签页排列"
 
 #: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange in a row"
-msgstr ""
+msgstr "按行排列"
 
 #: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a column"
-msgstr ""
+msgstr "按列排列"
+
+#. Translators: Primary menu entry that opens a new window.
+#: data/resources/ui/window.blp:8 data/resources/ui/window.blp:42
+msgid "_New Window"
+msgstr "新建窗口(_N)"
+
+#. Translators: Primary menu entry that opens the media properties window.
+#: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
+msgid "_Media Properties"
+msgstr "媒体属性(_M)"
+
+#. Translators: Primary menu entry that opens the keyboard shortcuts window.
+#: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
+msgid "_Keyboard Shortcuts"
+msgstr "键盘快捷键(_K)"
+
+#. Translators: Primary menu entry that opens the About dialog.
+#: data/resources/ui/window.blp:26 data/resources/ui/window.blp:60
+msgid "_About Identity"
+msgstr "关于识别(_A)"
 
 #. Translators: Tab menu entry that copies the file to the clipboard.
 #: data/resources/ui/window.blp:70
 msgid "Copy File"
-msgstr ""
+msgstr "复制文件"
 
 #. Translators: Tab menu entry that shows the file in the file manager.
 #: data/resources/ui/window.blp:76
 msgid "Show in Files"
-msgstr ""
+msgstr "在文件管理器中显示"
 
 #. Translators: Tab menu entry that moves it to a new window.
 #: data/resources/ui/window.blp:82
 msgid "Move to New Window"
-msgstr ""
+msgstr "移到新窗口"
 
 #. Translators: Tab menu entry that closes it.
 #: data/resources/ui/window.blp:88
 msgid "Close File"
-msgstr ""
+msgstr "关闭文件"
 
 #. Translators: Tooltip for the primary menu button that selects the tabbed display mode.
 #: data/resources/ui/window.blp:102
 msgid "Arrange as Tabs"
-msgstr ""
+msgstr "标签页排列"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
 #: data/resources/ui/window.blp:112
 msgid "Arrange in a Row"
-msgstr ""
+msgstr "按行排列"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
 #: data/resources/ui/window.blp:122
 msgid "Arrange in a Column"
-msgstr ""
+msgstr "按列排列"
 
+#. Translators: Primary menu tooltip.
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+msgid "Main Menu"
+msgstr "主菜单"
+
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "比较媒体"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "拖放图像或视频到这里"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "打开媒体…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "选择图像或视频"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "打开"
+
+#. Translators: Scale/zoom entry tooltip.
+#: data/resources/ui/window.blp:242
+msgid "Zoom Level"
+msgstr "缩放级别"
+
+#. Translators: Scale/zoom menu button tooltip.
+#: data/resources/ui/window.blp:247
+msgid "Select Zoom Level"
+msgstr "选择缩放级别"
+
+#. Translators: "Not applicable" string for the media properties dialog when a
+#. given property is unknown or missing (e.g. images don't have frame rate).
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+msgid "N/A"
+msgstr "N/A"
+
+#. Translators: shown in the About dialog, put your name here.
+#: src/window.rs:339
+msgid "translator-credits"
+msgstr ""
+"Garling Liang\n"
+"lumingzh <lumingzh@qq.com>"
+
+#. Translators: link title in the About dialog.
+#: src/window.rs:342
+msgid "Contribute Translations"
+msgstr "贡献翻译"
+
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"该发布为放大的图像和视频添加了像素化显示，提升了格式支持和修复了一些问题。"
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr "放大的图像和视频现在像素化显示而不是模糊显示。"
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr "修复了关闭图像和视频后内存占用不会减少的问题。"
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr "提升了打开很多文件时的用户界面响应速度。"
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "提升了播放 AV1 视频的性能。"
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "添加了对 WebP 图像的支持。"
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "修复了半透明图像和视频的显示问题。"
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "修复了 16 位颜色图像的显示问题。"
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "从触摸板缩放手势移除了平移。"
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr "修复了打开特定文件时无限加载动画而不是报错的问题。"
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "更新至 GNOME 45 平台。"
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "更新了翻译。"
+
+#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
+#. always resized to fit the window.
+#: src/window.rs:545
+msgid "Best Fit"
+msgstr "最佳匹配"
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:1577
+msgid "Videos and images"
+msgstr "视频和图像"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:1585
+msgid "Open videos or images to compare"
+msgstr "打开视频或图像以比较"
+
+#~ msgid "This release contains translation updates."
+#~ msgstr "此版本包含翻译更新。"
+
+#~ msgid "Added Dutch translation (thanks Heimen Stoffels)."
+#~ msgstr "增加荷兰语翻译（感谢 Heimen Stoffels）。"
+
+#~ msgid "Added French translation (thanks Lapineige)."
+#~ msgstr "增加法语翻译（感谢 Lapineige）。"
+
+#~ msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+#~ msgstr "增加西班牙语翻译（感谢 Óscar Fernández Díaz）。"
+
+#~ msgid "This release fixes minor UI issues."
+#~ msgstr "此版本修复几个界面上的小问题。"
+
+#~ msgid ""
+#~ "When closing a file, the next “tab” is now selected, or, if closing the "
+#~ "last file, the previous one is selected."
+#~ msgstr ""
+#~ "现在，当关闭一个文件时，下一个“标签页”会被选中。如果关闭的是最后一个文件，"
+#~ "那么前一个“标签页”会被选中。"
+
+#~ msgid "Fixed the application title not showing up upon closing all files."
+#~ msgstr "修复了关闭所有文件时应用程序标题不显示的问题。"
+
+#~ msgid "First release."
+#~ msgstr "第一版。"
+
+#~ msgid "This release contains translation updates and minor UI changes."
+#~ msgstr "此版本包含翻译更新和几处界面小更改。"
+
+#~ msgid "Video rotation tag is now respected."
+#~ msgstr "现在更推荐使用视频旋转标签。"
+
+#~ msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+#~ msgstr "增加德国翻译（感谢 Johannes Hayeß）。"
+
+#~ msgid "Added Finnish translation (thanks Jiri Grönroos)."
+#~ msgstr "增加芬兰语翻译（感谢 Jiri Grönroos）。"
+
+#~ msgid "Added Croatian translation (thanks Milo Ivir)."
+#~ msgstr "增加克罗地亚语翻译（感谢 Milo Ivir）。"
+
+#~ msgid "Added Italian translation (thanks Blackcat-917)."
+#~ msgstr "增加意大利语翻译（感谢 Blackcat-917）。"
+
+#~ msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+#~ msgstr "增加巴西葡萄牙语（感谢 Gustavo Costa）。"
+
+#~ msgid "Added Slovak translation (thanks Jose Riha)."
+#~ msgstr "增加斯洛伐克语翻译（感谢 Jose Riha）。"
+
+#~ msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+#~ msgstr "增加瑞典语翻译（感谢 Åke Engelbrektson）。"
+
+#~ msgid "Added translation contribution link."
+#~ msgstr "增加贡献翻译链接。"
+
+#~ msgid ""
+#~ "Specified input device recommendations to improve display in the new "
+#~ "GNOME Software."
+#~ msgstr "指定的输入设备建议，以改善新的 GNOME Softwear 中的显示。"
+
+#~ msgid ""
+#~ "Label on the main window can now wrap so as not to restrict minimum "
+#~ "window size."
+#~ msgstr "为了不限制最小窗口尺寸，主窗口的标签现在能够伸缩啦。"
