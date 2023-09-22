@@ -18,6 +18,7 @@ dependency('gio-2.0', version: '>= 2.66')
 # So, require v4.12 even though it will "run" on v4.10.
 dependency('gtk4', version: '>= 4.12.0')
 dependency('gstreamer-1.0', version: '>= 1.14.0')
+dependency('gstreamer-video-1.0', version: '>= 1.14.0')
 dependency('libadwaita-1', version: '>= 1.4.0')
 dependency('dav1d', version: '>= 1.0.0')
 dependency('libwebpdemux', version: '>= 0.5')
