@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 12:37+0000\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: \n"
@@ -10,11 +10,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Identiteetti"
 
@@ -35,30 +35,22 @@ msgstr ""
 "Ohjelma joka mahdollistaa kuvien ja videoiden eri versioiden vertailun."
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Arrange in a row"
 msgid "You can arrange videos in a row"
-msgstr "Järjestä riviin"
+msgstr "Voit järjestää videot riviin"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:19
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Arrange in a column"
 msgid "You can arrange images in a column"
-msgstr "Järjestä sarakkeeseen"
+msgstr "Voit järjestää kuvat sarakkeeseen"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:23
 msgid "You can open files as tabs"
-msgstr ""
+msgstr "Voit avata tiedostot välilehtiin"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
 msgid "Inspect a few properties of a video in a dialog"
 msgstr ""
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -68,52 +60,52 @@ msgid "Properties"
 msgstr "Ominaisuudet"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Ei avoinna olevaa mediaa"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
 msgstr "Avaa video tai kuva nähdäksesi sen ominaisuudet."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Tiedosto"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Nimi"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Sijainti"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Media"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Resoluutio"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Kuvanopeus"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Koodekki"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Säilö"
 
@@ -301,126 +293,134 @@ msgstr "Järjestä riviin"
 msgid "Arrange in a Column"
 msgstr "Järjestä sarakkeeseen"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Avaa"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Valitse kuva tai video"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Päävalikko"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Avaa videoita tai kuvia vertailtavaksi napsauttamalla Avaa-painiketta."
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Vertaa mediaa"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Vedä ja pudota kuvat tai videot tähän"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Avaa media…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Valitse kuva tai video"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Avaa"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Suurennuksen taso"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Valitse suurennuksen taso"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "-"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr ""
-
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr ""
-
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
-
-#: src/window.rs:343
-msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
-msgstr ""
-
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr ""
-
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr ""
-
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
+#: src/window.rs:339
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:369
+#: src/window.rs:342
 msgid "Contribute Translations"
 msgstr ""
 
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr ""
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr ""
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "AV1-videoiden paranneltu suorituskyky."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Lisätty tuki WebP-kuville."
+
+#: src/window.rs:356
+#, fuzzy
+#| msgid "Compare images and videos"
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Vertaa kuvia ja videoita"
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr ""
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr ""
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "Päivitetty Gnome 45 -alustaan."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Päivitetyt kielikäännökset."
+
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Paras sovitus"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Videot ja kuvat"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Avaa videoita tai kuvia vertailtavaksi"
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr ""
+#~ "Avaa videoita tai kuvia vertailtavaksi napsauttamalla Avaa-painiketta."
 
 #~ msgid "This release contains translation updates."
 #~ msgstr "Tämä julkaisu sisältää päivityksiä kielikäännöksiin."
