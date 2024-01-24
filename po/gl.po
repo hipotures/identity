@@ -2,19 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-04-12 12:37+0000\n"
+"POT-Creation-Date: 2023-08-31 08:23+0000\n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Fran Dieguez <fran.dieguez@gnome.org>\n"
 "Language-Team: \n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
+#: data/resources/ui/window.blp:137 src/main.rs:84
 msgid "Identity"
 msgstr "Identidade"
 
@@ -48,9 +48,7 @@ msgstr "Pode abrir ficheiros como lapelas"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspeccionar algunhas propiedades dun vídeo nun diálogo"
 
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:155
-#: src/window.rs:360
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -60,52 +58,52 @@ msgid "Properties"
 msgstr "Propiedades"
 
 #. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
+#: data/resources/ui/media_properties.blp:21
 msgid "No Media Open"
 msgstr "Non hai ningún multimedia aberto"
 
 #. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
+#: data/resources/ui/media_properties.blp:23
 msgid "Open a video or image to view its properties."
-msgstr ""
+msgstr "Abra un vídeo ou unha imaxe para ver as súas propiedades."
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
+#: data/resources/ui/media_properties.blp:43
 msgid "File"
 msgstr "Ficheiro"
 
 #. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
+#: data/resources/ui/media_properties.blp:49
 msgid "Name"
 msgstr "Nome"
 
 #. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
+#: data/resources/ui/media_properties.blp:57
 msgid "Location"
 msgstr "Localización"
 
 #. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
+#: data/resources/ui/media_properties.blp:64
 msgid "Media"
 msgstr "Multimedi"
 
 #. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
+#: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
 msgstr "Resolución"
 
 #. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
+#: data/resources/ui/media_properties.blp:78
 msgid "Frame Rate"
 msgstr "Taxa de marcos"
 
 #. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
+#: data/resources/ui/media_properties.blp:86
 msgid "Codec"
 msgstr "Códec"
 
 #. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
+#: data/resources/ui/media_properties.blp:94
 msgid "Container"
 msgstr "Contedor"
 
@@ -150,7 +148,7 @@ msgstr "Abrir ficheiro desde o portapapeis"
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
-msgstr ""
+msgstr "Copiar o ficheiro seleccionado ao portapapeis"
 
 #: data/resources/ui/shortcuts.blp:29
 msgctxt "shortcut window"
@@ -226,17 +224,17 @@ msgstr "Pantalla"
 #: data/resources/ui/shortcuts.blp:107
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
-msgstr ""
+msgstr "Dispor como lapelas"
 
 #: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange in a row"
-msgstr ""
+msgstr "Dispor nunha fila"
 
 #: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a column"
-msgstr ""
+msgstr "Dispor nunha columna"
 
 #. Translators: Primary menu entry that opens a new window.
 #: data/resources/ui/window.blp:8 data/resources/ui/window.blp:42
@@ -246,7 +244,7 @@ msgstr "_Nova xanela"
 #. Translators: Primary menu entry that opens the media properties window.
 #: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
 msgid "_Media Properties"
-msgstr ""
+msgstr "Propiedades _multimedia"
 
 #. Translators: Primary menu entry that opens the keyboard shortcuts window.
 #: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
@@ -293,126 +291,139 @@ msgstr "Dispoñer nunha fila"
 msgid "Arrange in a Column"
 msgstr "Dispoñer nunha columna"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Abrir"
-
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Seleccionar unha imaxe ou vídeo"
-
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
 msgid "Main Menu"
 msgstr "Menú principal"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Abrir vídeos ou imaxes para comparalas premento o botón Abrir."
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Comparar multimedia"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Arrastre e solte imaxes ou vídeos aquí"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Abrir multimedia…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Seleccionar unha imaxe ou vídeo"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Abrir"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
+#: data/resources/ui/window.blp:242
 msgid "Zoom Level"
 msgstr "Nivel de ampliación"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
+#: data/resources/ui/window.blp:247
 msgid "Select Zoom Level"
 msgstr "Seleccione o nivel de ampliación"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
 msgid "N/A"
 msgstr "N/D"
 
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr ""
-
-#: src/window.rs:336
-msgid ""
-"Changed mouse scroll and hotkey zoom to have consistent speed regardless of "
-"the current zoom level."
-msgstr ""
-
-#: src/window.rs:337
-msgid ""
-"Changed mouse scroll to zoom by default instead of panning, and to pan when "
-"Ctrl is held."
-msgstr ""
-
-#: src/window.rs:338
-msgid ""
-"Added panning by holding down the left mouse button and dragging when zoomed-"
-"in."
-msgstr ""
-
+#. Translators: shown in the About dialog, put your name here.
 #: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr ""
+msgid "translator-credits"
+msgstr "Fran Diéguez <frandieguez@gnome.org>, 2021-2024"
 
-#: src/window.rs:340
-msgid ""
-"You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr ""
-
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr ""
-
+#. Translators: link title in the About dialog.
 #: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr ""
+msgid "Contribute Translations"
+msgstr "Contribuír con traducións"
 
-#: src/window.rs:343
+#: src/window.rs:350
 msgid ""
-"Optimized video playback performance by enabling OpenGL video processing on "
-"compatible setups."
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
 msgstr ""
+"Esta publicación engade unha pantalla pixelada para as imaxes e vídeos "
+"ampliados, mellora a compatibilidade de formato e arranxa varios problemas."
 
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr "As imaxes e vídeos ampliados agora pixélanse no lugar de difuminarse."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
 msgstr ""
+"Arranxouse o uso de memoria que non se baixaba incluso despois de pechar as "
+"imaxes e vídeos."
 
-#: src/window.rs:345
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr ""
+"Mellorouse a capacidade de resposta da interface con moitos ficheiros "
+"abertos."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Mellorouse o rendemento en vídeos AV1."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Engadiuse compatibilidade con imaxes WebP."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Arranxouse a visualización de imaxes e vídeos semitransparentes."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "Arranxouse a visualización de imaxes de cor con 16 bit."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr "Eliminouse o movemento desde o xesto de zoom na área táctil."
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Arranxouse o indicador de carga infinito ao abrir varios ficheiros no lugar "
+"dun erro."
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "Actualizouse á plataforma GNOME 45."
+
+#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Traducións actualizadas."
 
-#: src/window.rs:348
-msgid ""
-"This release adds row and column display modes, reworks mouse gestures and "
-"adds drag-and-drop from Identity."
-msgstr ""
-
-#. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:363
-msgid "translator-credits"
-msgstr "Fran Diéguez <frandieguez@gnome.org>, 2021-2023"
-
-#. Translators: link title in the About dialog.
-#: src/window.rs:369
-msgid "Contribute Translations"
-msgstr ""
-
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:542
+#: src/window.rs:545
 msgid "Best Fit"
 msgstr "Mellor axuste"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1490
+#: src/window.rs:1577
 msgid "Videos and images"
 msgstr "Vídeos e imaxes"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1501
+#: src/window.rs:1585
 msgid "Open videos or images to compare"
 msgstr "Abrir vídeos ou imaxes para comparar"
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr "Abrir vídeos ou imaxes para comparalas premento o botón Abrir."
 
 #~ msgid "This release contains translation updates."
 #~ msgstr "Esta publicación contén actualizacións de traducións."
