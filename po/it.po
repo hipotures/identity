@@ -1,26 +1,135 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: Identity\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
+"POT-Creation-Date: 2024-01-26 16:17+0000\n"
+"PO-Revision-Date: 2024-04-09 01:31+0300\n"
+"Last-Translator: Davide Ferracin <davide.ferracin@protonmail.com>\n"
+"Language-Team: Italian <gnome-it-list@gnome.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: Identity\n"
-"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/resources/ui/window.blp:137 src/main.rs:84
+msgid "Identity"
+msgstr "Identity"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
 msgid "Compare images and videos"
 msgstr "Confronta immagini e video"
 
-#: src/window.rs:363
-msgid "translator-credits"
-msgstr "PolpOnline\n"
-"Musiclover382 <musiclover382@protonmail.com>"
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgstr "Movie;Film;Clip;Differenza;Fotogramma;Qualità;Video;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "Un programma per confrontare più versioni di un'immagine o un video."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
+msgid "You can arrange videos in a row"
+msgstr "È possibile sistemare i video su una riga"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:19
+msgid "You can arrange images in a column"
+msgstr "È possibile sistemare le immagini in colonna"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:23
+msgid "You can open files as tabs"
+msgstr "È possibile aprire i file come schede"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Inspect a few properties of a video in a dialog"
+msgstr "Ispezionare proprietà dei video in una finestra di dialogo"
+
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: Title of the media properties window.
+#: data/resources/ui/media_properties.blp:6
+msgid "Properties"
+msgstr "Proprietà"
+
+#. Translators: Title text in the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:21
+msgid "No Media Open"
+msgstr "Nessun file aperto"
+
+#. Translators: Description on the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:23
+msgid "Open a video or image to view its properties."
+msgstr "Aprire un video o un'immagine per visualizzarne le proprietà."
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:43
+msgid "File"
+msgstr "File"
+
+#. Translators: File-name row in the media properties window.
+#: data/resources/ui/media_properties.blp:49
+msgid "Name"
+msgstr "Nome"
+
+#. Translators: File location row in the media properties window.
+#: data/resources/ui/media_properties.blp:57
+msgid "Location"
+msgstr "Posizione"
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:64
+msgid "Media"
+msgstr "Supporto multimediale"
+
+#. Translators: Pixel-resolution row in the media properties window.
+#: data/resources/ui/media_properties.blp:70
+msgid "Resolution"
+msgstr "Risoluzione"
+
+#. Translators: Frame-rate row in the media properties window.
+#: data/resources/ui/media_properties.blp:78
+msgid "Frame Rate"
+msgstr "Fotogrammi al secondo"
+
+#. Translators: Codec row in the media properties window.
+#: data/resources/ui/media_properties.blp:86
+msgid "Codec"
+msgstr "Codec"
+
+#. Translators: Container-format row in the media properties window.
+#: data/resources/ui/media_properties.blp:94
+msgid "Container"
+msgstr "Contenitore"
+
+#. Translators: Title that is shown upon video or image loading error.
+#: data/resources/ui/page.blp:40
+msgid "File Failed to Load"
+msgstr "Caricamento del file non riuscito"
+
+#. Translators: Label shown when a video or image has failed to load.
+#: data/resources/ui/page.blp:43
+msgid ""
+"Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-"
+"and-drop and by pasting may not work."
+msgstr ""
+"Impossibile mostrare il file.\n"
+"\n"
+"Se si sta eseguendo Identity in Flatpak, tenere presente che l'apertura di "
+"file trascinati nella finestra o incollati potrebbe non funzionare."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
 msgid "General"
-msgstr "Generale"
+msgstr "Generali"
 
 #: data/resources/ui/shortcuts.blp:9
 msgctxt "shortcut window"
@@ -30,246 +139,57 @@ msgstr "Passa da un file a un altro"
 #: data/resources/ui/shortcuts.blp:14
 msgctxt "shortcut window"
 msgid "Open videos or images"
-msgstr "Apri video o immagini"
+msgstr "Apre un video o un'immagine"
 
 #: data/resources/ui/shortcuts.blp:19
 msgctxt "shortcut window"
 msgid "Open file from clipboard"
-msgstr "Apri file dagli appunti"
+msgstr "Apre un file dagli appunti"
+
+#: data/resources/ui/shortcuts.blp:24
+msgctxt "shortcut window"
+msgid "Copy selected file to clipboard"
+msgstr "Copia il file selezionato negli appunti"
 
 #: data/resources/ui/shortcuts.blp:29
 msgctxt "shortcut window"
 msgid "Close selected file"
-msgstr "Chiudi i file selezionati"
-
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "Show shortcuts"
-msgstr "Mostra scorciatoie"
-
-#: data/resources/ui/shortcuts.blp:44
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Esci"
-
-#: data/resources/ui/shortcuts.blp:50
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Riproduci"
-
-#: data/resources/ui/shortcuts.blp:53
-msgctxt "shortcut window"
-msgid "Play / Pause"
-msgstr "Riproduci / Metti in pausa"
-
-#: data/resources/ui/shortcuts.blp:58
-msgctxt "shortcut window"
-msgid "Step forward one frame"
-msgstr "Vai avanti di un fotogramma"
-
-#: data/resources/ui/shortcuts.blp:63
-msgctxt "shortcut window"
-msgid "Step back one frame"
-msgstr "Vai indietro di un fotogramma"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:43 src/window.rs:355
-msgid "Identity"
-msgstr "Identity"
-
-#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "Movie;Film;Clip;Difference;Frame;Quality;Video;Differenze;Differenza;Fotogramma;Fotogrammi;Qualità;"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
-msgid "A program for comparing multiple versions of an image or video."
-msgstr "Un programma per confrontare più versioni di un immagine o video."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:103
-msgid "This release contains translation updates."
-msgstr "Questa versione contiene aggiornamenti alle traduzioni."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:105
-msgid "Added Dutch translation (thanks Heimen Stoffels)."
-msgstr "Aggiunta traduzione olandese (di Heimen Stoffels)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:106
-msgid "Added French translation (thanks Lapineige)."
-msgstr "Aggiunta traduzione francese (di Lapineige)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:107
-msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
-msgstr "Aggiunta traduzione spagnola (di Óscar Fernández Díaz)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:113
-msgid "This release fixes minor UI issues."
-msgstr "Questa versione risolve problemi minori dell'interfaccia."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:115
-msgid "When closing a file, the next “tab” is now selected, or, if closing the last file, the previous one is selected."
-msgstr "Quando chiudi un file, viene selezionata la prossima \"scheda\", oppure, se chiudi l'ultimo file, viene selezionato il precedente."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:116
-msgid "Fixed the application title not showing up upon closing all files."
-msgstr "Risolto un problema per cui il titolo dell'applicazione non era mostrato se venivano chiusi tutti i file."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:122
-msgid "First release."
-msgstr "Prima versione."
-
-#. Translators: name of the developer of the application.
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:142
-#: src/window.rs:360
-msgid "Ivan Molodetskikh"
-msgstr "Ivan Molodetskikh"
-
-#. Translators: file chooser file filter name.
-#: src/window.rs:1490
-msgid "Videos and images"
-msgstr "Video e immagini"
-
-#. Translators: file chooser dialog title.
-#: src/window.rs:1501
-msgid "Open videos or images to compare"
-msgstr "Apri video o immagini da confrontare"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:85
-msgid "This release contains translation updates and minor UI changes."
-msgstr "Questa versione contiene aggiornamenti alle traduzioni e piccole modifiche all'interfaccia."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:87
-msgid "Video rotation tag is now respected."
-msgstr "Il tag di rotazione dei video viene ora rispettato."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:88
-msgid "Added Deutsch translation (thanks Johannes Hayeß)."
-msgstr "Aggiunta traduzione tedesca (di Johannes Hayeß)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:89
-msgid "Added Finnish translation (thanks Jiri Grönroos)."
-msgstr "Aggiunta traduzione finlandese (di Jiri Grönroos)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:90
-msgid "Added Croatian translation (thanks Milo Ivir)."
-msgstr "Aggiunta traduzione croata (di Milo Ivir)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:91
-msgid "Added Italian translation (thanks Blackcat-917)."
-msgstr "Aggiunta traduzione italiana (di PolpOnline)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:92
-msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
-msgstr "Aggiunta traduzione brasiliana (di Gustavo Costa)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:93
-msgid "Added Slovak translation (thanks Jose Riha)."
-msgstr "Aggiunta traduzione slovacca (di Jose Riha)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:94
-msgid "Added Swedish translation (thanks Åke Engelbrektson)."
-msgstr "Aggiunta traduzione svedese (di Åke Engelbrektson)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:95
-msgid "Added translation contribution link."
-msgstr "Aggiunto link per contribuire alle traduzioni."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:96
-msgid "Specified input device recommendations to improve display in the new GNOME Software."
-msgstr "Specificati consigli sul dispositivo input per migliorare la visualizzazione nel nuovo GNOME Software."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:97
-msgid "Label on the main window can now wrap so as not to restrict minimum window size."
-msgstr "La scritta nella schermata principale può andare a capo in modo da non limitare la dimensione minima della finestra."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:69
-msgid "Identity is now a GTK 4 application!"
-msgstr "Identity è stata aggiornata a GTK4!"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:71
-msgid "Rewrote the application with GTK 4 and libadwaita."
-msgstr "Conversione a GTK 4 e libadwaita."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:72
-msgid "Added tabs to replace the old file switcher. You can drag tabs to rearrange them, drag a tab to split it into a new window, and drag tabs between windows."
-msgstr "Aggiunte schede in sostituzione del vecchio metodo di cambiare file. È possibile trascinare le schede per riorganizzarle, trascinare una scheda per creare una nuova finestra e trascinare le schede tra le finestre."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:73
-msgid "Changed the default style to dark."
-msgstr "Cambiamento del tema predefinito a scuro."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:74
-msgid "Added Basque translation (thanks Sergio Varela)."
-msgstr "Aggiunta traduzione basca (di Sergio Varela)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:75
-msgid "Added Galician translation (thanks Fran Diéguez)."
-msgstr "Aggiunta traduzione galiziana (di Fran Diéguez)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:76
-msgid "Added Japanese translation (thanks Kaz Sibuya)."
-msgstr "Aggiunta traduzione giapponese (di Kaz Sibuya)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:77
-msgid "Added Polish translation (thanks Rafał Baran)."
-msgstr "Aggiunta traduzione polacca (di Rafał Baran)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:78
-msgid "Added Chinese Simplified translation (thanks Garling Liang)."
-msgstr "Aggiunta traduzione cinese (di Garling Liang)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:36
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:53
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:63
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:79
-#: src/window.rs:345
-msgid "Updated translations."
-msgstr "Traduzioni aggiornate."
-
-#. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:40
-msgid "File Failed to Load"
-msgstr "Impossibile caricare il file"
-
-#. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:43
-msgid "Could not display the file.\n"
-"\n"
-"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
-msgstr "Impossibile mostrare il file.\n"
-"\n"
-"Se stai usando Identity con Flatpak, aprire file trascinandoli e rilasciandoli o incollandoli potrebbe non funzionare."
+msgstr "Chiude il file selezionato"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
 msgid "New window"
 msgstr "Nuova finestra"
 
-#. Translators: Primary menu entry that opens a new window.
-#: data/resources/ui/window.blp:8 data/resources/ui/window.blp:42
-msgid "_New Window"
-msgstr "Nuova finestra"
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Mostra le scorciatoie"
 
-#. Translators: Primary menu entry that opens the keyboard shortcuts window.
-#: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
-msgid "_Keyboard Shortcuts"
-msgstr "Scorciatoie da tastiera"
+#: data/resources/ui/shortcuts.blp:44
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Esce"
 
-#. Translators: Primary menu entry that opens the About dialog.
-#: data/resources/ui/window.blp:26 data/resources/ui/window.blp:60
-msgid "_About Identity"
-msgstr "Informazioni su Identity"
+#: data/resources/ui/shortcuts.blp:50
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Riproduzione"
 
-#. Translators: Open button label.
-#: data/resources/ui/window.blp:159 data/resources/ui/window.blp:203
-msgid "Open"
-msgstr "Apri"
+#: data/resources/ui/shortcuts.blp:53
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "Riproduce/Mette in pausa"
 
-#. Translators: Text on the window when no files are open.
-#: data/resources/ui/window.blp:188
-msgid "Open videos or images to compare by pressing the Open button."
-msgstr "Apri video o immagini da confrontare premendo il pulsante Apri."
+#: data/resources/ui/shortcuts.blp:58
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "Va avanti di un fotogramma"
+
+#: data/resources/ui/shortcuts.blp:63
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "Va indietro di un fotogramma"
 
 #: data/resources/ui/shortcuts.blp:69
 msgctxt "shortcut window"
@@ -279,12 +199,12 @@ msgstr "Ingrandimento"
 #: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
 msgctxt "shortcut window"
 msgid "Zoom in"
-msgstr "Ingrandisci"
+msgstr "Ingrandisce"
 
 #: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr "Rimpicciolisci"
+msgstr "Rimpicciolisce"
 
 #: data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
@@ -296,215 +216,6 @@ msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Adatta alla finestra"
 
-#. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:161 data/resources/ui/window.blp:205
-msgid "Select an Image or Video"
-msgstr "Seleziona un'immagine o un video"
-
-#. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:179 data/resources/ui/window.blp:223
-msgid "Main Menu"
-msgstr "Menu principale"
-
-#. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:238
-msgid "Zoom Level"
-msgstr "Ingrandimento"
-
-#. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:243
-msgid "Select Zoom Level"
-msgstr "Seleziona ingrandimento"
-
-#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
-#. always resized to fit the window.
-#: src/window.rs:542
-msgid "Best Fit"
-msgstr "Automatico"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:59
-msgid "This release adds zoom support."
-msgstr "Questa versione aggiunge la funzionalità di ingrandimento."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:61
-msgid "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, pinch zoom on a touchpad or touchscreen, or input the zoom factor manually. Zoom and view position are synchronized between the open files."
-msgstr "Aggiunta la possibilità di ingrandire e rimpicciolire. È possibile usare le scorciatoie, Ctrl + scorrimento, due dita sul touchpad o su uno schermo touch o inserire la percentuale di ingrandimento. L'ingrandimento e la posizione sono sincronizzati tra i file aperti."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:62
-msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-msgstr "Aggiunta traduzione ceca (di Jaroslav Svoboda)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:45
-msgid "Tab tooltips now show full file paths, which is useful when comparing files with identical names."
-msgstr "Le etichette delle schede mostrano l'intero percorso, utile quando sono comparati file con lo stesso nome."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:46
-msgid "Updated to the GNOME 43 platform, which brings the ability to drag-and-drop from Files on Flatpak and a refreshed About dialog."
-msgstr "Aggiornamento alla piattaforma di GNOME 43, che introduce la possibilità di trascinare da File su Flatpak e una nuova finestra di informazioni."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:47
-msgid "Added WebP images to the list of supported file types."
-msgstr "Supporto per le immagini WebP."
-
-#. Translators: link title in the About dialog.
-#: src/window.rs:369
-msgid "Contribute Translations"
-msgstr "Contribuisci alle traduzioni"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:48
-msgid "Added Occitan translation (thanks Quentin PAGÈS)."
-msgstr "Aggiunta traduzione occitana (di Quentin PAGÉS)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:49
-msgid "Added Serbian Cyrillic translation (thanks Јован Здравковић)."
-msgstr "Aggiunta traduzione serba cirillica (di Јован Здравковић)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:50
-msgid "Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."
-msgstr "Aggiunta traduzione tamil (di க.பா.தருண் கிருஷ்ணா)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:51
-msgid "Added Turkish translation (thanks Sabri Ünal)."
-msgstr "Aggiunta traduzione turca (di Sabri Ünal)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:52
-msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
-msgstr "Aggiunta traduzione cinese tradizionale (di Kisaragi Hiu)."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:42
-msgid "This release adds a media properties dialog and updates Identity to the GNOME 43 platform."
-msgstr "Questa versione aggiunge una finestra con le proprietà multimediali e aggiorna Identity alla piattforma di GNOME 43."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:44
-msgid "Added a media properties dialog which will display information about the currently open file."
-msgstr "Aggiunta una finestra con le proprietà multimediali che mostra informazioni sul file aperto."
-
-#. Translators: Title of the media properties window.
-#: data/resources/ui/media_properties.blp:6
-msgid "Properties"
-msgstr "Proprietà"
-
-#. Translators: Title text in the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:22
-msgid "No Media Open"
-msgstr "Nessun file aperto"
-
-#. Translators: Description on the media properties window when no files are open.
-#: data/resources/ui/media_properties.blp:24
-msgid "Open a video or image to view its properties."
-msgstr "Apri un video o un'immagine per visualizzarne le proprietà."
-
-#. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:44
-msgid "File"
-msgstr "File"
-
-#. Translators: File-name row in the media properties window.
-#: data/resources/ui/media_properties.blp:50
-msgid "Name"
-msgstr "Nome"
-
-#. Translators: File location row in the media properties window.
-#: data/resources/ui/media_properties.blp:58
-msgid "Location"
-msgstr "Posizione"
-
-#. Translators: Section in the media properties window.
-#: data/resources/ui/media_properties.blp:65
-msgid "Media"
-msgstr "Multimedia"
-
-#. Translators: Pixel-resolution row in the media properties window.
-#: data/resources/ui/media_properties.blp:71
-msgid "Resolution"
-msgstr "Dimensione"
-
-#. Translators: Primary menu entry that opens the media properties window.
-#: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
-msgid "_Media Properties"
-msgstr "Proprietà multimediali"
-
-#. Translators: "Not applicable" string for the media properties dialog when a
-#. given property is unknown.
-#: src/page.rs:274 src/window.rs:475 src/window.rs:483 src/window.rs:491
-msgid "N/A"
-msgstr "N/A"
-
-#. Translators: Frame-rate row in the media properties window.
-#: data/resources/ui/media_properties.blp:79
-msgid "Frame Rate"
-msgstr "Fotogrammi al secondo"
-
-#. Translators: Codec row in the media properties window.
-#: data/resources/ui/media_properties.blp:87
-msgid "Codec"
-msgstr "Codec"
-
-#. Translators: Container-format row in the media properties window.
-#: data/resources/ui/media_properties.blp:95
-msgid "Container"
-msgstr "Contenitore"
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:24
-#: src/window.rs:348
-msgid "This release adds row and column display modes, reworks mouse gestures and adds drag-and-drop from Identity."
-msgstr "Questa versione aggiunge modalità di visualizzazione in colonna e in riga e aggiunge la possibilità di trascinare da Identity."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:26
-#: src/window.rs:335
-msgid "Added row and column tiled display modes for side-by-side comparison."
-msgstr "Aggiunte modalità di visualizzazione in colonna e in riga per comparazioni fianco a fianco."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
-#: src/window.rs:336
-msgid "Changed mouse scroll and hotkey zoom to have consistent speed regardless of the current zoom level."
-msgstr "Migliorato lo spostamento dell'immagine mentre l'immagine è ingrandita."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:28
-#: src/window.rs:337
-msgid "Changed mouse scroll to zoom by default instead of panning, and to pan when Ctrl is held."
-msgstr "Se non viene premuto Ctrl, scorrere con il mouse ingrandisce le immagini anziché spostarle."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:29
-#: src/window.rs:338
-msgid "Added panning by holding down the left mouse button and dragging when zoomed-in."
-msgstr "Quando l'immagine è ingrandita, è possibile trascinare con il tasto sinistro del mouse per spostare le immagini."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:30
-#: src/window.rs:339
-msgid "Changed the playback position to update smoothly."
-msgstr "Cambiata la posizione della riproduzione."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:31
-#: src/window.rs:340
-msgid "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-msgstr "È possibile trascinare un'immagine al di fuori di Identity se non è ingrandita."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:32
-#: src/window.rs:341
-msgid "Added Ctrl+C to copy the current file to clipboard."
-msgstr "Aggiunto Ctrl+C per copiare il file attuale negli appunti."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:33
-#: src/window.rs:342
-msgid "Added a context menu to tabs with a few common actions."
-msgstr "Aggiunto un menu contestuale alle schede con alcune azioni comuni."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:34
-#: src/window.rs:343
-msgid "Optimized video playback performance by enabling OpenGL video processing on compatible setups."
-msgstr "Aggiunta la riproduzione OpenGL per maggiori prestazioni."
-
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:35
-#: src/window.rs:344
-msgid "Updated to the GNOME 44 platform."
-msgstr "Aggiornamento alla piattaforma GNOME 44."
-
-#: data/resources/ui/shortcuts.blp:24
-msgctxt "shortcut window"
-msgid "Copy selected file to clipboard"
-msgstr "Copia file selezionato negli appunti"
-
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
 #: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
@@ -514,17 +225,39 @@ msgstr "Visualizzazione"
 #: data/resources/ui/shortcuts.blp:107
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
-msgstr "Sistema come schede"
+msgstr "Disponi in schede"
 
 #: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange in a row"
-msgstr "Sistema in riga"
+msgstr "Disponi in riga"
 
 #: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a column"
-msgstr "Sistema in colonna"
+msgstr "Disponi in colonna"
+
+#. Translators: Primary menu entry that opens a new window.
+#: data/resources/ui/window.blp:8 data/resources/ui/window.blp:42
+msgid "_New Window"
+msgstr "_Nuova finestra"
+
+# [DF] Anche qui piuttosto che “proprietà dei media”, “proprietà
+# multimediali” suona bene e non è troppo lungo per stare nel menù.
+#. Translators: Primary menu entry that opens the media properties window.
+#: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
+msgid "_Media Properties"
+msgstr "Proprietà _multimediali"
+
+#. Translators: Primary menu entry that opens the keyboard shortcuts window.
+#: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
+msgid "_Keyboard Shortcuts"
+msgstr "_Scorciatoie da tastiera"
+
+#. Translators: Primary menu entry that opens the About dialog.
+#: data/resources/ui/window.blp:26 data/resources/ui/window.blp:60
+msgid "_About Identity"
+msgstr "_Informazioni su Identity"
 
 #. Translators: Tab menu entry that copies the file to the clipboard.
 #: data/resources/ui/window.blp:70
@@ -549,15 +282,380 @@ msgstr "Chiudi file"
 #. Translators: Tooltip for the primary menu button that selects the tabbed display mode.
 #: data/resources/ui/window.blp:102
 msgid "Arrange as Tabs"
-msgstr "Sistema come schede"
+msgstr "Disponi in schede"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
 #: data/resources/ui/window.blp:112
 msgid "Arrange in a Row"
-msgstr "Sistema in riga"
+msgstr "Disponi in riga"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
 #: data/resources/ui/window.blp:122
 msgid "Arrange in a Column"
-msgstr "Sistema in colonna"
+msgstr "Disponi in colonna"
 
+#. Translators: Primary menu tooltip.
+#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+msgid "Main Menu"
+msgstr "Menù principale"
+
+# [DF] “confronta dei media” non mi sembra granché in italiano, e
+# “confronta supporti multimediali” mi sembra troppo tecnico.
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:175
+msgid "Compare Media"
+msgstr "Confronta immagini o video"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:178
+msgid "Drag and drop images or videos here"
+msgstr "Trascinare e rilasciare qui immagini o video"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:182
+msgid "Open Media…"
+msgstr "Apri file…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+msgid "Select an Image or Video"
+msgstr "Seleziona un'immagine o un video"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:207
+msgid "Open"
+msgstr "Apri"
+
+#. Translators: Scale/zoom entry tooltip.
+#: data/resources/ui/window.blp:242
+msgid "Zoom Level"
+msgstr "Ingrandimento"
+
+#. Translators: Scale/zoom menu button tooltip.
+#: data/resources/ui/window.blp:247
+msgid "Select Zoom Level"
+msgstr "Seleziona ingrandimento"
+
+#. Translators: "Not applicable" string for the media properties dialog when a
+#. given property is unknown or missing (e.g. images don't have frame rate).
+#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+msgid "N/A"
+msgstr "N/A"
+
+#. Translators: shown in the About dialog, put your name here.
+#: src/window.rs:339
+msgid "translator-credits"
+msgstr ""
+"PolpOnline\n"
+"Musiclover382 <musiclover382@protonmail.com>\n"
+"Davide Ferracin <davide.ferracin@protonmail.com>"
+
+#. Translators: link title in the About dialog.
+#: src/window.rs:342
+msgid "Contribute Translations"
+msgstr "Contribuisci alla traduzione"
+
+#: src/window.rs:350
+msgid ""
+"This release adds pixelated display for zoomed-in images and videos, "
+"improves format support and fixes several issues."
+msgstr ""
+"Questa nuova versione aggiunge una visualizzazione pixelata per immagini e "
+"video ingranditi, migliora il supporto ai vari formati e sistema altri "
+"problemi."
+
+#: src/window.rs:351
+msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+msgstr "Le immagini e i video ingranditi ora sono pixelati anziché sfocati."
+
+#: src/window.rs:352
+msgid "Fixed memory usage not decreasing upon closing images and videos."
+msgstr ""
+"Sistemato l'uso della memoria che non diminuiva alla chiusura di immagini e "
+"video."
+
+#: src/window.rs:353
+msgid "Improved UI responsiveness with many open files."
+msgstr ""
+"Migliorata la reattività dell'interfaccia grafica in presenza di molti file "
+"aperti."
+
+#: src/window.rs:354
+msgid "Improved performance on AV1 videos."
+msgstr "Migliorate le prestazioni con i video AV1."
+
+#: src/window.rs:355
+msgid "Added support for WebP images."
+msgstr "Aggiunto il supporto alle immagini WebP."
+
+#: src/window.rs:356
+msgid "Fixed display of semitransparent images and videos."
+msgstr "Corretta la visualizzazione di immagini e video semitrasparenti."
+
+#: src/window.rs:357
+msgid "Fixed display of 16-bit color images."
+msgstr "Corretta la visualizzazione di immagini con colori a 16 bit."
+
+#: src/window.rs:358
+msgid "Removed panning from the touchpad pinch zoom gesture."
+msgstr ""
+"Il gesto di pizzicare il touchpad per modificare l'ingrandimento "
+"ora non sposta più la visuale."
+
+#: src/window.rs:360
+msgid ""
+"Fixed infinite loading spinner when opening certain files instead of error."
+msgstr ""
+"Sistemato l'indicatore di caricamento interminabile che appariva al "
+"caricamento di certi file, invece di mostrare un errore."
+
+#: src/window.rs:362
+msgid "Updated to the GNOME 45 platform."
+msgstr "Aggiornamento alla piattaforma GNOME 45."
+
+#: src/window.rs:363
+msgid "Updated translations."
+msgstr "Traduzioni aggiornate."
+
+#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
+#. always resized to fit the window.
+#: src/window.rs:545
+msgid "Best Fit"
+msgstr "Automatico"
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:1577
+msgid "Videos and images"
+msgstr "Video e immagini"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:1585
+msgid "Open videos or images to compare"
+msgstr "Aprire video o immagini da confrontare"
+
+#~ msgid "This release contains translation updates."
+#~ msgstr "Questa versione contiene aggiornamenti alle traduzioni."
+
+#~ msgid "Added Dutch translation (thanks Heimen Stoffels)."
+#~ msgstr "Aggiunta traduzione olandese (di Heimen Stoffels)."
+
+#~ msgid "Added French translation (thanks Lapineige)."
+#~ msgstr "Aggiunta traduzione francese (di Lapineige)."
+
+#~ msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
+#~ msgstr "Aggiunta traduzione spagnola (di Óscar Fernández Díaz)."
+
+#~ msgid "This release fixes minor UI issues."
+#~ msgstr "Questa versione risolve problemi minori dell'interfaccia."
+
+#~ msgid ""
+#~ "When closing a file, the next “tab” is now selected, or, if closing the "
+#~ "last file, the previous one is selected."
+#~ msgstr ""
+#~ "Quando chiudi un file, viene selezionata la prossima \"scheda\", oppure, "
+#~ "se chiudi l'ultimo file, viene selezionato il precedente."
+
+#~ msgid "Fixed the application title not showing up upon closing all files."
+#~ msgstr ""
+#~ "Risolto un problema per cui il titolo dell'applicazione non era mostrato "
+#~ "se venivano chiusi tutti i file."
+
+#~ msgid "First release."
+#~ msgstr "Prima versione."
+
+#~ msgid "This release contains translation updates and minor UI changes."
+#~ msgstr ""
+#~ "Questa versione contiene aggiornamenti alle traduzioni e piccole "
+#~ "modifiche all'interfaccia."
+
+#~ msgid "Video rotation tag is now respected."
+#~ msgstr "Il tag di rotazione dei video viene ora rispettato."
+
+#~ msgid "Added Deutsch translation (thanks Johannes Hayeß)."
+#~ msgstr "Aggiunta traduzione tedesca (di Johannes Hayeß)."
+
+#~ msgid "Added Finnish translation (thanks Jiri Grönroos)."
+#~ msgstr "Aggiunta traduzione finlandese (di Jiri Grönroos)."
+
+#~ msgid "Added Croatian translation (thanks Milo Ivir)."
+#~ msgstr "Aggiunta traduzione croata (di Milo Ivir)."
+
+#~ msgid "Added Italian translation (thanks Blackcat-917)."
+#~ msgstr "Aggiunta traduzione italiana (di PolpOnline)."
+
+#~ msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
+#~ msgstr "Aggiunta traduzione brasiliana (di Gustavo Costa)."
+
+#~ msgid "Added Slovak translation (thanks Jose Riha)."
+#~ msgstr "Aggiunta traduzione slovacca (di Jose Riha)."
+
+#~ msgid "Added Swedish translation (thanks Åke Engelbrektson)."
+#~ msgstr "Aggiunta traduzione svedese (di Åke Engelbrektson)."
+
+#~ msgid "Added translation contribution link."
+#~ msgstr "Aggiunto link per contribuire alle traduzioni."
+
+#~ msgid ""
+#~ "Specified input device recommendations to improve display in the new "
+#~ "GNOME Software."
+#~ msgstr ""
+#~ "Specificati consigli sul dispositivo input per migliorare la "
+#~ "visualizzazione nel nuovo GNOME Software."
+
+#~ msgid ""
+#~ "Label on the main window can now wrap so as not to restrict minimum "
+#~ "window size."
+#~ msgstr ""
+#~ "La scritta nella schermata principale può andare a capo in modo da non "
+#~ "limitare la dimensione minima della finestra."
+
+#~ msgid "Identity is now a GTK 4 application!"
+#~ msgstr "Identity è stata aggiornata a GTK4!"
+
+#~ msgid "Rewrote the application with GTK 4 and libadwaita."
+#~ msgstr "Conversione a GTK 4 e libadwaita."
+
+#~ msgid ""
+#~ "Added tabs to replace the old file switcher. You can drag tabs to "
+#~ "rearrange them, drag a tab to split it into a new window, and drag tabs "
+#~ "between windows."
+#~ msgstr ""
+#~ "Aggiunte schede in sostituzione del vecchio metodo di cambiare file. È "
+#~ "possibile trascinare le schede per riorganizzarle, trascinare una scheda "
+#~ "per creare una nuova finestra e trascinare le schede tra le finestre."
+
+#~ msgid "Changed the default style to dark."
+#~ msgstr "Cambiamento del tema predefinito a scuro."
+
+#~ msgid "Added Basque translation (thanks Sergio Varela)."
+#~ msgstr "Aggiunta traduzione basca (di Sergio Varela)."
+
+#~ msgid "Added Galician translation (thanks Fran Diéguez)."
+#~ msgstr "Aggiunta traduzione galiziana (di Fran Diéguez)."
+
+#~ msgid "Added Japanese translation (thanks Kaz Sibuya)."
+#~ msgstr "Aggiunta traduzione giapponese (di Kaz Sibuya)."
+
+#~ msgid "Added Polish translation (thanks Rafał Baran)."
+#~ msgstr "Aggiunta traduzione polacca (di Rafał Baran)."
+
+#~ msgid "Added Chinese Simplified translation (thanks Garling Liang)."
+#~ msgstr "Aggiunta traduzione cinese (di Garling Liang)."
+
+#~ msgid "Open videos or images to compare by pressing the Open button."
+#~ msgstr "Apri video o immagini da confrontare premendo il pulsante Apri."
+
+#~ msgid "This release adds zoom support."
+#~ msgstr "Questa versione aggiunge la funzionalità di ingrandimento."
+
+#~ msgid ""
+#~ "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, "
+#~ "pinch zoom on a touchpad or touchscreen, or input the zoom factor "
+#~ "manually. Zoom and view position are synchronized between the open files."
+#~ msgstr ""
+#~ "Aggiunta la possibilità di ingrandire e rimpicciolire. È possibile usare "
+#~ "le scorciatoie, Ctrl + scorrimento, due dita sul touchpad o su uno "
+#~ "schermo touch o inserire la percentuale di ingrandimento. L'ingrandimento "
+#~ "e la posizione sono sincronizzati tra i file aperti."
+
+#~ msgid "Added Czech translation (thanks Jaroslav Svoboda)."
+#~ msgstr "Aggiunta traduzione ceca (di Jaroslav Svoboda)."
+
+#~ msgid ""
+#~ "Tab tooltips now show full file paths, which is useful when comparing "
+#~ "files with identical names."
+#~ msgstr ""
+#~ "Le etichette delle schede mostrano l'intero percorso, utile quando sono "
+#~ "comparati file con lo stesso nome."
+
+#~ msgid ""
+#~ "Updated to the GNOME 43 platform, which brings the ability to drag-and-"
+#~ "drop from Files on Flatpak and a refreshed About dialog."
+#~ msgstr ""
+#~ "Aggiornamento alla piattaforma di GNOME 43, che introduce la possibilità "
+#~ "di trascinare da File su Flatpak e una nuova finestra di informazioni."
+
+#~ msgid "Added WebP images to the list of supported file types."
+#~ msgstr "Supporto per le immagini WebP."
+
+#~ msgid "Added Occitan translation (thanks Quentin PAGÈS)."
+#~ msgstr "Aggiunta traduzione occitana (di Quentin PAGÉS)."
+
+#~ msgid "Added Serbian Cyrillic translation (thanks Јован Здравковић)."
+#~ msgstr "Aggiunta traduzione serba cirillica (di Јован Здравковић)."
+
+#~ msgid "Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."
+#~ msgstr "Aggiunta traduzione tamil (di க.பா.தருண் கிருஷ்ணா)."
+
+#~ msgid "Added Turkish translation (thanks Sabri Ünal)."
+#~ msgstr "Aggiunta traduzione turca (di Sabri Ünal)."
+
+#~ msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
+#~ msgstr "Aggiunta traduzione cinese tradizionale (di Kisaragi Hiu)."
+
+#~ msgid ""
+#~ "This release adds a media properties dialog and updates Identity to the "
+#~ "GNOME 43 platform."
+#~ msgstr ""
+#~ "Questa versione aggiunge una finestra con le proprietà multimediali e "
+#~ "aggiorna Identity alla piattforma di GNOME 43."
+
+#~ msgid ""
+#~ "Added a media properties dialog which will display information about the "
+#~ "currently open file."
+#~ msgstr ""
+#~ "Aggiunta una finestra con le proprietà multimediali che mostra "
+#~ "informazioni sul file aperto."
+
+#~ msgid ""
+#~ "This release adds row and column display modes, reworks mouse gestures "
+#~ "and adds drag-and-drop from Identity."
+#~ msgstr ""
+#~ "Questa versione aggiunge modalità di visualizzazione in colonna e in riga "
+#~ "e aggiunge la possibilità di trascinare da Identity."
+
+#~ msgid ""
+#~ "Added row and column tiled display modes for side-by-side comparison."
+#~ msgstr ""
+#~ "Aggiunte modalità di visualizzazione in colonna e in riga per "
+#~ "comparazioni fianco a fianco."
+
+#~ msgid ""
+#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
+#~ "of the current zoom level."
+#~ msgstr ""
+#~ "Migliorato lo spostamento dell'immagine mentre l'immagine è ingrandita."
+
+#~ msgid ""
+#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
+#~ "when Ctrl is held."
+#~ msgstr ""
+#~ "Se non viene premuto Ctrl, scorrere con il mouse ingrandisce le immagini "
+#~ "anziché spostarle."
+
+#~ msgid ""
+#~ "Added panning by holding down the left mouse button and dragging when "
+#~ "zoomed-in."
+#~ msgstr ""
+#~ "Quando l'immagine è ingrandita, è possibile trascinare con il tasto "
+#~ "sinistro del mouse per spostare le immagini."
+
+#~ msgid "Changed the playback position to update smoothly."
+#~ msgstr "Cambiata la posizione della riproduzione."
+
+#~ msgid ""
+#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
+#~ msgstr ""
+#~ "È possibile trascinare un'immagine al di fuori di Identity se non è "
+#~ "ingrandita."
+
+#~ msgid "Added Ctrl+C to copy the current file to clipboard."
+#~ msgstr "Aggiunto Ctrl+C per copiare il file attuale negli appunti."
+
+#~ msgid "Added a context menu to tabs with a few common actions."
+#~ msgstr "Aggiunto un menu contestuale alle schede con alcune azioni comuni."
+
+#~ msgid ""
+#~ "Optimized video playback performance by enabling OpenGL video processing "
+#~ "on compatible setups."
+#~ msgstr "Aggiunta la riproduzione OpenGL per maggiori prestazioni."
