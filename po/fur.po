@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2024-01-24 08:06+0000\n"
-"PO-Revision-Date: 2024-01-26 17:16+0100\n"
+"POT-Creation-Date: 2024-01-26 16:17+0000\n"
+"PO-Revision-Date: 2024-05-19 05:22+0200\n"
 "Last-Translator: \n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -128,8 +128,8 @@ msgid ""
 msgstr ""
 "Impussibil visualizâ il file.\n"
 "\n"
-"Se tu stâs eseguint Identitât di un Flatpak, viôt che al podarès no "
-"funzionâ la vierzidure di files cul \"strissine e mole\" e tacantju."
+"Se tu stâs eseguint Identitât di un Flatpak, viôt che al podarès no funzionâ "
+"la vierzidure di files cul \"strissine e mole\" e tacantju."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -351,7 +351,7 @@ msgstr "Fabio Tomat <f.t.public@gmail.com>, 2024"
 #. Translators: link title in the About dialog.
 #: src/window.rs:342
 msgid "Contribute Translations"
-msgstr ""
+msgstr "Partecipe aes traduzions"
 
 #: src/window.rs:350
 msgid ""
@@ -370,6 +370,8 @@ msgstr ""
 #: src/window.rs:352
 msgid "Fixed memory usage not decreasing upon closing images and videos."
 msgstr ""
+"Comedade mancjade diminuzion de utilizazion de memorie al sierâ di imagjins "
+"e videos."
 
 #: src/window.rs:353
 msgid "Improved UI responsiveness with many open files."
@@ -385,20 +387,24 @@ msgstr "Zontât supuart pes imagjins WebP."
 
 #: src/window.rs:356
 msgid "Fixed display of semitransparent images and videos."
-msgstr ""
+msgstr "Comedade visualizazion di imagjins e videos in semi-trasparence."
 
 #: src/window.rs:357
 msgid "Fixed display of 16-bit color images."
-msgstr ""
+msgstr "Comedade visualizazion di imagjins a 16-bit di colôrs."
 
 #: src/window.rs:358
 msgid "Removed panning from the touchpad pinch zoom gesture."
 msgstr ""
+"Al è stât gjavât il spostament contignûts su schermi dal mot pal touchpad "
+"pal zoom cu la piçade."
 
 #: src/window.rs:360
 msgid ""
 "Fixed infinite loading spinner when opening certain files instead of error."
 msgstr ""
+"Comedade animazion infinide di cjariament cuant che a vegnin vierts cierts "
+"files invezit che presentâ erôr."
 
 #: src/window.rs:362
 msgid "Updated to the GNOME 45 platform."
