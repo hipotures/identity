@@ -30,8 +30,6 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
         picture: TemplateChild<Picture>,
         #[template_child]
         scrolled_window: TemplateChild<gtk::ScrolledWindow>,
@@ -264,7 +262,6 @@ mod imp {
             obj.notify_is_error();
 
             self.stack.set_visible_child_name("error");
-            self.spinner.set_spinning(false);
 
             if let Some(playbin) = self.playbin.take() {
                 if let Some(parent) = playbin.parent() {
@@ -522,7 +519,6 @@ mod imp {
                             self.refresh_caps_data(&playbin.property("video-sink"));
 
                             self.stack.set_visible_child_name("content");
-                            self.spinner.set_spinning(false);
                         }
                     }
                 }
