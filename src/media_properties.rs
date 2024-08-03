@@ -56,7 +56,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.add_binding_action(Key::Escape, ModifierType::empty(), "window.close", None);
+            klass.add_binding_action(Key::Escape, ModifierType::empty(), "window.close");
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {

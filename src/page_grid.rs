@@ -79,11 +79,17 @@ mod imp {
             let id = page.connect_local(
                 "activate",
                 false,
-                clone!(@weak self as imp => @default-return None, move |args| {
-                    let page = args[0].get().unwrap();
-                    imp.set_selected_page(Some(page));
-                    None
-                }),
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args| {
+                        let page = args[0].get().unwrap();
+                        imp.set_selected_page(Some(page));
+                        None
+                    }
+                ),
             );
             self.pages.borrow_mut().push((page.clone(), id));
 

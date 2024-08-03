@@ -22,6 +22,7 @@ mod picture;
 mod player;
 mod scale_request;
 mod thumbnail_paintable;
+mod utils;
 mod window;
 
 fn main() -> ExitCode {
@@ -50,7 +51,7 @@ fn main() -> ExitCode {
     };
 
     let tracy_layer = if std::env::var_os("IDENTITY_PROFILE_TRACY").is_some() {
-        Some(tracing_tracy::TracyLayer::new())
+        Some(tracing_tracy::TracyLayer::default())
     } else {
         None
     };

@@ -41,7 +41,7 @@ impl From<ScaleRequest> for glib::Value {
     }
 }
 
-impl glib::ToValue for ScaleRequest {
+impl glib::value::ToValue for ScaleRequest {
     fn to_value(&self) -> glib::Value {
         let value: f64 = (*self).into();
         value.to_value()

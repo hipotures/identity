@@ -6,13 +6,13 @@ mod imp {
     use std::cell::{Cell, RefCell};
     use std::cmp;
     use std::marker::PhantomData;
+    use std::sync::OnceLock;
 
     use glib::subclass::Signal;
     use glib::{clone, Propagation, Properties};
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
     use gtk::{graphene, gsk};
-    use once_cell::sync::Lazy;
 
     use super::*;
     use crate::scale_request::ScaleRequest;
@@ -114,15 +114,27 @@ mod imp {
 
             // Track the cursor position for zooming.
             let motion_controller = gtk::EventControllerMotion::new();
-            motion_controller.connect_enter(clone!(@weak obj => move |_, x, y| {
-                obj.imp().pointer_position.set(Some((x, y)));
-            }));
-            motion_controller.connect_motion(clone!(@weak obj => move |_, x, y| {
-                obj.imp().pointer_position.set(Some((x, y)));
-            }));
-            motion_controller.connect_leave(clone!(@weak obj => move |_| {
-                obj.imp().pointer_position.set(None);
-            }));
+            motion_controller.connect_enter(clone!(
+                #[weak]
+                obj,
+                move |_, x, y| {
+                    obj.imp().pointer_position.set(Some((x, y)));
+                }
+            ));
+            motion_controller.connect_motion(clone!(
+                #[weak]
+                obj,
+                move |_, x, y| {
+                    obj.imp().pointer_position.set(Some((x, y)));
+                }
+            ));
+            motion_controller.connect_leave(clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    obj.imp().pointer_position.set(None);
+                }
+            ));
             obj.add_controller(motion_controller);
 
             // Set up scroll to zoom.
@@ -131,8 +143,12 @@ mod imp {
             // other pages when attemtping a touchpad pan.
             let scroll_controller =
                 gtk::EventControllerScroll::new(gtk::EventControllerScrollFlags::BOTH_AXES);
-            scroll_controller.connect_scroll(
-                clone!(@weak obj => @default-return Propagation::Proceed, move |event, _, delta_y| {
+            scroll_controller.connect_scroll(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                Propagation::Proceed,
+                move |event, _, delta_y| {
                     let scale = obj.scale();
                     if scale == 0. || obj.imp().is_panning() || obj.imp().is_zooming() {
                         // Stop propagation because we don't want the scroll to come through if
@@ -152,8 +168,13 @@ mod imp {
                     }
 
                     // Leave Control and Shift scrolling for the scrolled window.
-                    if event.current_event_state().contains(gdk::ModifierType::CONTROL_MASK)
-                        || event.current_event_state().contains(gdk::ModifierType::SHIFT_MASK) {
+                    if event
+                        .current_event_state()
+                        .contains(gdk::ModifierType::CONTROL_MASK)
+                        || event
+                            .current_event_state()
+                            .contains(gdk::ModifierType::SHIFT_MASK)
+                    {
                         return Propagation::Proceed;
                     }
 
@@ -172,59 +193,75 @@ mod imp {
                     obj.imp().zoom_end();
 
                     Propagation::Stop
-                }),
-            );
+                }
+            ));
             obj.add_controller(scroll_controller);
 
             // Set up the pinch zoom gesture.
             let gesture_zoom = gtk::GestureZoom::new();
-            gesture_zoom.connect_begin(clone!(@weak obj => move |gesture, _| {
-                let scale = obj.scale();
-                if scale == 0. || obj.imp().is_panning() {
-                    gesture.set_state(gtk::EventSequenceState::Denied);
-                    return;
+            gesture_zoom.connect_begin(clone!(
+                #[weak]
+                obj,
+                move |gesture, _| {
+                    let scale = obj.scale();
+                    if scale == 0. || obj.imp().is_panning() {
+                        gesture.set_state(gtk::EventSequenceState::Denied);
+                        return;
+                    }
+
+                    gesture.set_state(gtk::EventSequenceState::Claimed);
+
+                    // Tell Page to stop the kinetic scrolling.
+                    obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
+
+                    obj.imp().zoom_initial_scale.set(Some(scale));
+                    obj.imp()
+                        .zoom_initial_bbox_center
+                        .set(gesture.bounding_box_center());
+                    obj.imp().zoom_begin(gesture.bounding_box_center());
                 }
+            ));
+            gesture_zoom.connect_scale_changed(clone!(
+                #[weak]
+                obj,
+                move |gesture, scale| {
+                    let initial_scale = obj
+                        .imp()
+                        .zoom_initial_scale
+                        .get()
+                        .expect("zoom gesture progressing without initial scale");
 
-                gesture.set_state(gtk::EventSequenceState::Claimed);
+                    // Max with 0.1 here so it doesn't become 0 (fit to allocation).
+                    let new_scale = (initial_scale * scale).max(0.1);
 
-                // Tell Page to stop the kinetic scrolling.
-                obj.emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
+                    // Pan while zooming only on touchscreen and not on touchpad.
+                    let bbox_center = if gesture.device().map(|x| x.source())
+                        == Some(gdk::InputSource::Touchscreen)
+                    {
+                        gesture.bounding_box_center()
+                    } else {
+                        obj.imp().zoom_initial_bbox_center.get()
+                    };
 
-                obj.imp().zoom_initial_scale.set(Some(scale));
-                obj.imp().zoom_initial_bbox_center.set(gesture.bounding_box_center());
-                obj.imp().zoom_begin(gesture.bounding_box_center());
-            }));
-            gesture_zoom.connect_scale_changed(clone!(@weak obj => move |gesture, scale| {
-                let initial_scale = obj
-                    .imp()
-                    .zoom_initial_scale
-                    .get()
-                    .expect("zoom gesture progressing without initial scale");
-
-                // Max with 0.1 here so it doesn't become 0 (fit to allocation).
-                let new_scale = (initial_scale * scale).max(0.1);
-
-                // Pan while zooming only on touchscreen and not on touchpad.
-                let bbox_center = if gesture.device().map(|x| x.source())
-                    == Some(gdk::InputSource::Touchscreen)
-                {
-                    gesture.bounding_box_center()
-                } else {
-                    obj.imp().zoom_initial_bbox_center.get()
-                };
-
-                obj.imp().zoom_update(bbox_center, new_scale);
-            }));
-            gesture_zoom.connect_end(clone!(@weak obj => move |_, _| {
-                obj.imp().zoom_initial_scale.set(None);
-                obj.imp().zoom_initial_bbox_center.set(None);
-                obj.imp().zoom_end();
-            }));
+                    obj.imp().zoom_update(bbox_center, new_scale);
+                }
+            ));
+            gesture_zoom.connect_end(clone!(
+                #[weak]
+                obj,
+                move |_, _| {
+                    obj.imp().zoom_initial_scale.set(None);
+                    obj.imp().zoom_initial_bbox_center.set(None);
+                    obj.imp().zoom_end();
+                }
+            ));
             obj.add_controller(gesture_zoom);
 
             // Set up click and drag to pan.
-            self.gesture_drag.connect_drag_begin(
-                clone!(@weak self as imp => move |gesture, _, _| {
+            self.gesture_drag.connect_drag_begin(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |gesture, _, _| {
                     if imp.is_zooming() || !(imp.is_hscrollable() || imp.is_vscrollable()) {
                         gesture.set_state(gtk::EventSequenceState::Denied);
                         return;
@@ -241,22 +278,31 @@ mod imp {
                         //
                         // We pass this picture to ignore its scrolled window for resetting, because
                         // if we don't, then the touchscreen pan gesture will break.
-                        imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[&*imp.obj()]);
+                        imp.obj()
+                            .emit_by_name::<()>("stop-kinetic-scrolling", &[&*imp.obj()]);
 
                         return;
                     }
 
-                    imp.obj().emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
-                }),
-            );
-            self.gesture_drag.connect_drag_update(
-                clone!(@weak self as imp => move |gesture, offset_x, offset_y| {
+                    imp.obj()
+                        .emit_by_name::<()>("stop-kinetic-scrolling", &[&None::<super::Picture>]);
+                }
+            ));
+            self.gesture_drag.connect_drag_update(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |gesture, offset_x, offset_y| {
                     if imp.is_panning() {
                         if imp.pan_update(offset_x, offset_y).is_none() {
                             imp.pan_end();
                         }
                     } else {
-                        let reached_threshold = imp.obj().drag_check_threshold(0, 0, offset_x.ceil() as i32, offset_y.ceil() as i32);
+                        let reached_threshold = imp.obj().drag_check_threshold(
+                            0,
+                            0,
+                            offset_x.ceil() as i32,
+                            offset_y.ceil() as i32,
+                        );
                         if !reached_threshold {
                             return;
                         }
@@ -275,47 +321,61 @@ mod imp {
 
                         gesture.set_state(gtk::EventSequenceState::Claimed);
                         imp.pan_begin(start_x, start_y);
-                        imp.obj().set_cursor(gdk::Cursor::from_name("grabbing", None).as_ref());
+                        imp.obj()
+                            .set_cursor(gdk::Cursor::from_name("grabbing", None).as_ref());
                     }
-                }),
-            );
-            self.gesture_drag
-                .connect_drag_end(clone!(@weak self as imp => move |_, _, _| {
+                }
+            ));
+            self.gesture_drag.connect_drag_end(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _, _| {
                     imp.pan_end();
 
                     imp.obj().set_cursor(None);
-                }));
+                }
+            ));
             obj.add_controller(self.gesture_drag.clone());
 
             let drag_source = gtk::DragSource::new();
             drag_source.set_exclusive(true);
-            drag_source.connect_prepare(
-                clone!(@weak self as imp => @default-return None, move |source, _, _| {
+            drag_source.connect_prepare(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                #[upgrade_or]
+                None,
+                move |source, _, _| {
                     if imp.is_zooming() || (imp.is_hscrollable() || imp.is_vscrollable()) {
                         source.set_state(gtk::EventSequenceState::Denied);
                         return None;
                     }
 
-                    imp.obj().emit_by_name::<Option<gdk::ContentProvider>>("get-content-provider", &[])
-                }),
-            );
-            drag_source.connect_drag_begin(clone!(@weak self as imp => move |source, drag| {
-                if let Some(paintable) = imp.thumbnail() {
-                    let hot_x = paintable.intrinsic_width() / 2 + 16;
-                    let hot_y = paintable.intrinsic_height() / 2 + 16;
-                    source.set_icon(Some(&paintable), hot_x, hot_y);
-
-                    let icon = gtk::DragIcon::for_drag(drag);
-                    icon.add_css_class("drag-thumbnail");
-                    // So border-radius works.
-                    icon.set_overflow(gtk::Overflow::Hidden);
+                    imp.obj()
+                        .emit_by_name::<Option<gdk::ContentProvider>>("get-content-provider", &[])
                 }
-            }));
+            ));
+            drag_source.connect_drag_begin(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |source, drag| {
+                    if let Some(paintable) = imp.thumbnail() {
+                        let hot_x = paintable.intrinsic_width() / 2 + 16;
+                        let hot_y = paintable.intrinsic_height() / 2 + 16;
+                        source.set_icon(Some(&paintable), hot_x, hot_y);
+
+                        let icon = gtk::DragIcon::for_drag(drag);
+                        icon.add_css_class("drag-thumbnail");
+                        // So border-radius works.
+                        icon.set_overflow(gtk::Overflow::Hidden);
+                    }
+                }
+            ));
             obj.add_controller(drag_source);
         }
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![
                     Signal::builder("stop-kinetic-scrolling")
                         .param_types([super::Picture::static_type()])
@@ -324,8 +384,7 @@ mod imp {
                         .return_type::<gdk::ContentProvider>()
                         .build(),
                 ]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
@@ -478,10 +537,18 @@ mod imp {
             let paintable = paintable.map(|p| p.upcast());
 
             let invalidate_size_id = paintable.as_ref().map(|p| {
-                p.connect_invalidate_size(clone!(@weak obj => move |_| obj.queue_resize()))
+                p.connect_invalidate_size(clone!(
+                    #[weak]
+                    obj,
+                    move |_| obj.queue_resize()
+                ))
             });
             let invalidate_contents_id = paintable.as_ref().map(|p| {
-                p.connect_invalidate_contents(clone!(@weak obj => move |_| obj.queue_draw()))
+                p.connect_invalidate_contents(clone!(
+                    #[weak]
+                    obj,
+                    move |_| obj.queue_draw()
+                ))
             });
 
             let old_invalidate_size_id = self.invalidate_size_id.replace(invalidate_size_id);
@@ -595,9 +662,13 @@ mod imp {
             if let Some(adj) = adj {
                 let obj = self.obj();
 
-                let handler_id = adj.connect_value_changed(clone!(@weak obj => move |adj| {
-                    obj.set_h_scroll_pos(normalized_adjustment_value(adj));
-                }));
+                let handler_id = adj.connect_value_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |adj| {
+                        obj.set_h_scroll_pos(normalized_adjustment_value(adj));
+                    }
+                ));
 
                 self.hadjustment.replace(Some((adj, handler_id)));
             }
@@ -615,9 +686,13 @@ mod imp {
             if let Some(adj) = adj {
                 let obj = self.obj();
 
-                let handler_id = adj.connect_value_changed(clone!(@weak obj => move |adj| {
-                    obj.set_v_scroll_pos(normalized_adjustment_value(adj));
-                }));
+                let handler_id = adj.connect_value_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |adj| {
+                        obj.set_v_scroll_pos(normalized_adjustment_value(adj));
+                    }
+                ));
 
                 self.vadjustment.replace(Some((adj, handler_id)));
             }

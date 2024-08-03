@@ -8,6 +8,7 @@ use crate::scale_request::ScaleRequest;
 mod imp {
     use std::cell::{Cell, OnceCell, RefCell};
     use std::marker::PhantomData;
+    use std::sync::OnceLock;
     use std::time::Instant;
 
     use adw::subclass::prelude::*;
@@ -16,10 +17,8 @@ mod imp {
     use glib::{clone, ControlFlow, Properties};
     use gst::bus::BusWatchGuard;
     use gst::prelude::*;
-    use gst_video::VideoOrientationMethod;
     use gtk::prelude::*;
     use gtk::{gdk, CompositeTemplate};
-    use once_cell::sync::Lazy;
     use tracing::{instrument, Span};
 
     use super::*;
@@ -95,7 +94,7 @@ mod imp {
                 gdk::Key::KP_Enter,
             ];
             for key in ACTIVATE_KEYS {
-                klass.add_binding_signal(key, gdk::ModifierType::empty(), "activate", None);
+                klass.add_binding_signal(key, gdk::ModifierType::empty(), "activate");
             }
 
             klass.bind_template();
@@ -122,15 +121,15 @@ mod imp {
         }
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![
                     Signal::builder("activate").action().build(),
                     Signal::builder("stop-kinetic-scrolling")
                         .param_types([super::Picture::static_type()])
                         .build(),
                 ]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn constructed(&self) {
@@ -143,9 +142,13 @@ mod imp {
 
             self.is_loading.set(true);
 
-            glib::MainContext::default().spawn_local(
-                clone!(@to-owned self as imp => async move { imp.retrieve_display_name().await; }),
-            );
+            glib::MainContext::default().spawn_local(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                async move {
+                    imp.retrieve_display_name().await;
+                }
+            ));
 
             // Bind this here instead of the .blp because the .blp binding seems to happen before
             // `file` is set, and adding manual `file` setter that notifies `display-path` correctly
@@ -164,10 +167,14 @@ mod imp {
 
             // Click to activate.
             let gesture = gtk::GestureClick::new();
-            gesture.connect_released(clone!(@weak obj => move |gesture, _, _, _| {
-                gesture.set_state(gtk::EventSequenceState::Claimed);
-                obj.emit_by_name::<()>("activate", &[]);
-            }));
+            gesture.connect_released(clone!(
+                #[weak]
+                obj,
+                move |gesture, _, _, _| {
+                    gesture.set_state(gtk::EventSequenceState::Claimed);
+                    obj.emit_by_name::<()>("activate", &[]);
+                }
+            ));
             obj.add_controller(gesture);
 
             self.prepare_playbin();
@@ -363,7 +370,6 @@ mod imp {
                 .expect("could not create a `gtk4paintablesink` GStreamer element");
             let paintable = sink.property::<gdk::Paintable>("paintable");
 
-            let mut glvideoflip = None;
             let sink = if paintable
                 .property::<Option<gdk::GLContext>>("gl-context")
                 .is_some()
@@ -374,65 +380,7 @@ mod imp {
                     .property("sink", &sink)
                     .build()
                 {
-                    Ok(glsinkbin) => {
-                        (|| {
-                            let mut filter = match gst::ElementFactory::make("glvideoflip")
-                                .property("video-direction", VideoOrientationMethod::Auto)
-                                .build()
-                            {
-                                Ok(flip) => flip,
-                                Err(err) => {
-                                    warn!(
-                                        "could not create a `glvideoflip` GStreamer element, \
-                                         using regular `videoflip`: {err:?}"
-                                    );
-                                    return;
-                                }
-                            };
-
-                            match gst::ElementFactory::make("glshader")
-                                .property("fragment", include_str!("premultiply.frag"))
-                                .build()
-                            {
-                                Ok(shader) => {
-                                    // Link glvideoflip and glshader together in a bin.
-                                    let bin = gst::Bin::new();
-                                    bin.add_many([&filter, &shader]).unwrap();
-                                    gst::Element::link_many([&filter, &shader]).unwrap();
-
-                                    let sink_pad = gst::GhostPad::with_target(
-                                        &filter.static_pad("sink").unwrap(),
-                                    )
-                                    .unwrap();
-                                    let src_pad = gst::GhostPad::with_target(
-                                        &shader.static_pad("src").unwrap(),
-                                    )
-                                    .unwrap();
-                                    bin.add_pad(&sink_pad).unwrap();
-                                    bin.add_pad(&src_pad).unwrap();
-
-                                    filter = bin.upcast();
-                                }
-                                Err(err) => warn!(
-                                    "could not create a `glshader` GStreamer element, \
-                                     semitransparent media might not display properly: {err:?}"
-                                ),
-                            }
-
-                            match gst::ElementFactory::make("glfilterbin")
-                                .property("filter", filter)
-                                .build()
-                            {
-                                Ok(filter) => glvideoflip = Some(filter),
-                                Err(err) => warn!(
-                                    "could not create a `glfilterbin` GStreamer element, \
-                                     using regular `videoflip`: {err:?}"
-                                ),
-                            }
-                        })();
-
-                        glsinkbin
-                    }
+                    Ok(glsinkbin) => glsinkbin,
                     Err(err) => {
                         warn!(
                             "could not create a `glsinkbin` GStreamer element, \
@@ -447,9 +395,13 @@ mod imp {
                 sink
             };
 
-            paintable.connect_invalidate_size(clone!(@weak obj => move |_| {
-                obj.notify_resolution();
-            }));
+            paintable.connect_invalidate_size(clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    obj.notify_resolution();
+                }
+            ));
             self.picture.set_paintable(Some(paintable));
 
             let playbin = gst::ElementFactory::make("playbin3")
@@ -472,33 +424,22 @@ mod imp {
                 .expect("could not create flags `Value`");
             playbin.set_property("flags", flags);
 
-            // videoflip takes care of applying the rotation tag.
-            let make_videoflip = || match gst::ElementFactory::make("videoflip")
-                .property("video-direction", VideoOrientationMethod::Auto)
-                .build()
-            {
-                Ok(flip) => Some(flip),
-                Err(err) => {
-                    warn!("could not create a `videoflip` GStreamer element: {err:?}");
-                    None
-                }
-            };
-            if let Some(videoflip) = glvideoflip.or_else(make_videoflip) {
-                playbin.set_property("video-filter", &videoflip);
-            }
-
             // Set the playbin property so it can be set to Null on the main thread on dispose.
             assert!(self.playbin.replace(Some(playbin.clone())).is_none());
 
             // Create a bus message stream.
             let bus = playbin.bus().unwrap();
             let guard = bus
-                .add_watch_local(
-                    clone!(@weak self as imp => @default-return ControlFlow::Break, move |_, msg| {
+                .add_watch_local(clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    ControlFlow::Break,
+                    move |_, msg| {
                         imp.on_bus_message(msg);
                         ControlFlow::Continue
-                    }),
-                )
+                    }
+                ))
                 .unwrap();
             assert!(self.bus_watch_guard.replace(Some(guard)).is_none());
 

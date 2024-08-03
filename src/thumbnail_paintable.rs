@@ -45,14 +45,19 @@ mod imp {
             let obj = &*self.obj();
             self.parent_constructed();
 
-            self.paintable().connect_invalidate_contents(
-                clone!(@weak obj => move |_| obj.invalidate_contents()),
-            );
-            self.paintable()
-                .connect_invalidate_size(clone!(@weak obj => move |_| {
+            self.paintable().connect_invalidate_contents(clone!(
+                #[weak]
+                obj,
+                move |_| obj.invalidate_contents()
+            ));
+            self.paintable().connect_invalidate_size(clone!(
+                #[weak]
+                obj,
+                move |_| {
                     obj.imp().recompute_size();
                     obj.invalidate_size();
-                }));
+                }
+            ));
 
             self.recompute_size();
         }

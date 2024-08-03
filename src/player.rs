@@ -8,14 +8,13 @@ mod imp {
     use std::marker::PhantomData;
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::mpsc::{channel, Receiver, Sender};
-    use std::sync::Arc;
+    use std::sync::{Arc, OnceLock};
     use std::thread::JoinHandle;
 
     use glib::subclass::Signal;
     use glib::{clone, ControlFlow, Properties};
     use gst::bus::BusWatchGuard;
     use gst::prelude::*;
-    use once_cell::sync::Lazy;
 
     use super::*;
 
@@ -77,12 +76,16 @@ mod imp {
             // Subscribe to bus messages.
             let bus = self.pipeline.bus().unwrap();
             let watch = bus
-                .add_watch_local(
-                    clone!(@weak self as imp => @default-return ControlFlow::Break, move |_, msg| {
+                .add_watch_local(clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    ControlFlow::Break,
+                    move |_, msg| {
                         imp.on_bus_message(msg);
                         ControlFlow::Continue
-                    }),
-                )
+                    }
+                ))
                 .unwrap();
             self.bus_watch_guard.set(watch).unwrap();
 
@@ -115,12 +118,12 @@ mod imp {
         }
 
         fn signals() -> &'static [Signal] {
-            static SIGNALS: Lazy<Vec<Signal>> = Lazy::new(|| {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
                 vec![Signal::builder("source-error")
                     .param_types([gst::Element::static_type()])
                     .build()]
-            });
-            SIGNALS.as_ref()
+            })
         }
 
         fn properties() -> &'static [glib::ParamSpec] {

@@ -81,8 +81,10 @@ const MIME_TYPES: &[&str] = &[
 mod imp {
     use std::cell::Cell;
     use std::collections::HashMap;
+    use std::fmt;
     use std::fs::File;
     use std::marker::PhantomData;
+    use std::os::fd::AsFd as _;
     use std::str::FromStr;
     use std::time::Duration;
 
@@ -102,6 +104,7 @@ mod imp {
     use crate::picture::Picture;
     use crate::player::Player;
     use crate::scale_request::ScaleRequest;
+    use crate::utils::shortcut_with_arg;
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
     enum DisplayMode {
@@ -111,14 +114,14 @@ mod imp {
         Column,
     }
 
-    impl ToString for DisplayMode {
-        fn to_string(&self) -> String {
-            match self {
+    impl fmt::Display for DisplayMode {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            let s = match self {
                 Self::Tabbed => "tabbed",
                 Self::Row => "row",
                 Self::Column => "column",
-            }
-            .to_string()
+            };
+            f.write_str(s)
         }
     }
 
@@ -248,7 +251,7 @@ mod imp {
 
             klass.install_action(
                 "win.focus-tab",
-                Some(i32::static_variant_type().as_str()),
+                Some(&i32::static_variant_type()),
                 |obj, _, param| {
                     let index = param
                         .expect("missing parameter")
@@ -259,25 +262,25 @@ mod imp {
             );
 
             for i in 0..10 {
-                klass.add_binding_action(
+                klass.add_shortcut(&shortcut_with_arg(
                     Key::from_name(&format!("{i}")).unwrap(),
                     ModifierType::empty(),
                     "win.focus-tab",
-                    Some(&((i + 9) % 10).to_variant()),
-                );
-                klass.add_binding_action(
+                    &((i + 9) % 10).to_variant(),
+                ));
+                klass.add_shortcut(&shortcut_with_arg(
                     Key::from_name(&format!("KP_{i}")).unwrap(),
                     ModifierType::empty(),
                     "win.focus-tab",
-                    Some(&((i + 9) % 10).to_variant()),
-                );
+                    &((i + 9) % 10).to_variant(),
+                ));
             }
 
             klass.install_property_action("win.set-best-fit", "best-fit");
 
             klass.install_action(
                 "win.set-scale-request",
-                Some(f64::static_variant_type().as_str()),
+                Some(&f64::static_variant_type()),
                 |obj, _, param| {
                     let value: f64 = param
                         .expect("missing parameter")
@@ -291,8 +294,8 @@ mod imp {
             klass.install_action("win.zoom-out", None, |obj, _, _| obj.imp().zoom_out());
 
             // Add these two here so they don't show up in the shortcuts window.
-            klass.add_binding_action(Key::equal, ModifierType::empty(), "win.zoom-in", None);
-            klass.add_binding_action(Key::equal, ModifierType::CONTROL_MASK, "win.zoom-in", None);
+            klass.add_binding_action(Key::equal, ModifierType::empty(), "win.zoom-in");
+            klass.add_binding_action(Key::equal, ModifierType::CONTROL_MASK, "win.zoom-in");
 
             klass.install_action("win.media-properties", None, |window, _, _| {
                 window.imp().media_properties.present();
@@ -302,38 +305,37 @@ mod imp {
 
             // Add these here instead of set_accels_for_action so that they don't override typing in
             // the scale entry.
-            klass.add_binding_action(Key::p, ModifierType::empty(), "win.play-pause", None);
-            klass.add_binding_action(Key::v, ModifierType::CONTROL_MASK, "win.paste", None);
-            klass.add_binding_action(Key::c, ModifierType::CONTROL_MASK, "win.copy", None);
-            klass.add_binding_action(Key::period, ModifierType::empty(), "win.step-forward", None);
-            klass.add_binding_action(Key::comma, ModifierType::empty(), "win.step-back", None);
-            klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit", None);
-            klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in", None);
-            klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out", None);
-            klass.add_binding_action(
+            klass.add_binding_action(Key::p, ModifierType::empty(), "win.play-pause");
+            klass.add_binding_action(Key::v, ModifierType::CONTROL_MASK, "win.paste");
+            klass.add_binding_action(Key::c, ModifierType::CONTROL_MASK, "win.copy");
+            klass.add_binding_action(Key::period, ModifierType::empty(), "win.step-forward");
+            klass.add_binding_action(Key::comma, ModifierType::empty(), "win.step-back");
+            klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit");
+            klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in");
+            klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out");
+            klass.add_shortcut(&shortcut_with_arg(
                 Key::t,
                 ModifierType::empty(),
                 "win.set-display-mode",
-                Some(&"tabbed".to_variant()),
-            );
-            klass.add_binding_action(
+                &"tabbed".to_variant(),
+            ));
+            klass.add_shortcut(&shortcut_with_arg(
                 Key::r,
                 ModifierType::empty(),
                 "win.set-display-mode",
-                Some(&"row".to_variant()),
-            );
-            klass.add_binding_action(
+                &"row".to_variant(),
+            ));
+            klass.add_shortcut(&shortcut_with_arg(
                 Key::c,
                 ModifierType::empty(),
                 "win.set-display-mode",
-                Some(&"column".to_variant()),
-            );
+                &"column".to_variant(),
+            ));
 
             klass.install_action("win.about", None, |window, _, _| {
                 let resource_path = "/org/gnome/gitlab/YaLTeR/Identity/\
                                      org.gnome.gitlab.YaLTeR.Identity.metainfo.xml";
-                let about_window = adw::AboutWindow::from_appdata(resource_path, Some("0.6.0"));
-                about_window.set_transient_for(Some(window));
+                let about_window = adw::AboutDialog::from_appdata(resource_path, Some("0.7.0"));
                 about_window.set_version(config::VERSION);
                 // Translators: shown in the About dialog, put your name here.
                 about_window.set_translator_credits(&gettext("translator-credits"));
@@ -342,7 +344,7 @@ mod imp {
                     &gettext("Contribute Translations"),
                     "https://l10n.gnome.org/module/identity/",
                 );
-                about_window.present();
+                about_window.present(Some(window));
 
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
                 // ones shown in the dialog.
@@ -380,20 +382,25 @@ mod imp {
 
             self.last_scale_factor.set(obj.scale_factor());
 
-            self.content_toolbar_view.connect_reveal_bottom_bars_notify(
-                clone!(@weak obj => move |view| {
-                    if view.reveals_bottom_bars() {
-                        obj.add_css_class("controls-visible");
-                    } else {
-                        obj.remove_css_class("controls-visible");
+            self.content_toolbar_view
+                .connect_reveal_bottom_bars_notify(clone!(
+                    #[weak]
+                    obj,
+                    move |view| {
+                        if view.reveals_bottom_bars() {
+                            obj.add_css_class("controls-visible");
+                        } else {
+                            obj.remove_css_class("controls-visible");
+                        }
                     }
-                }),
-            );
+                ));
 
             // FIXME: Remove when https://github.com/gtk-rs/gtk4-rs/issues/934 is fixed.
-            self.tab_view.connect_page_detached(
-                clone!(@weak self as imp => move |_, tab_page, _| imp.on_tab_page_detached(tab_page)),
-            );
+            self.tab_view.connect_page_detached(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, tab_page, _| imp.on_tab_page_detached(tab_page)
+            ));
             self.tab_view
                 .bind_property("selected-page", &*obj, "selected-page")
                 .transform_to(|_, tab_page: Option<adw::TabPage>| {
@@ -499,30 +506,40 @@ mod imp {
             // Set up the drop target.
             let drop_target =
                 gtk::DropTarget::new(gdk::FileList::static_type(), gdk::DragAction::COPY);
-            drop_target.connect_accept(clone!(@weak obj => @default-return false, move |_, drop| {
-                // Checks from the default handler.
-                if !drop.actions().contains(gdk::DragAction::COPY) {
-                    return false;
-                }
+            drop_target.connect_accept(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |_, drop| {
+                    // Checks from the default handler.
+                    if !drop.actions().contains(gdk::DragAction::COPY) {
+                        return false;
+                    }
 
-                if !drop.formats().contains_type(gdk::FileList::static_type()) {
-                    return false;
-                }
+                    if !drop.formats().contains_type(gdk::FileList::static_type()) {
+                        return false;
+                    }
 
-                // Reject the drop if it comes from our own window. Otherwise it's too easy to
-                // accidentally duplicate the files.
-                if let Some(drag) = drop.drag() {
-                    if let Some(native) = obj.native() {
-                        if drag.surface() == native.surface() {
-                            return false;
+                    // Reject the drop if it comes from our own window. Otherwise it's too easy to
+                    // accidentally duplicate the files.
+                    if let Some(drag) = drop.drag() {
+                        if let Some(native) = obj.native() {
+                            if Some(drag.surface()) == native.surface() {
+                                return false;
+                            }
                         }
                     }
-                }
 
-                true
-            }));
-            drop_target.connect_drop(
-                clone!(@weak obj => @default-return false, move |_, data, _, _| {
+                    true
+                }
+            ));
+            drop_target.connect_drop(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                false,
+                move |_, data, _, _| {
                     if let Ok(file_list) = data.get::<gdk::FileList>() {
                         for file in file_list.files().into_iter() {
                             obj.open_file(&file);
@@ -532,8 +549,8 @@ mod imp {
                     }
 
                     false
-                }),
-            );
+                }
+            ));
             self.stack.add_controller(drop_target);
 
             // Set up the scale menu model.
@@ -604,16 +621,22 @@ mod imp {
             self.player.connect_local(
                 "source-error",
                 false,
-                clone!(@weak self as imp => @default-return None, move |args: &[glib::Value]| {
-                    let playbin: gst::Element = args[1].get().unwrap();
-                    if let Some(page) = imp.find_page_for_playbin(&playbin) {
-                        page.set_error();
-                    } else {
-                        error!("couldn't find page for playbin");
-                    }
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args: &[glib::Value]| {
+                        let playbin: gst::Element = args[1].get().unwrap();
+                        if let Some(page) = imp.find_page_for_playbin(&playbin) {
+                            page.set_error();
+                        } else {
+                            error!("couldn't find page for playbin");
+                        }
 
-                    None
-                }),
+                        None
+                    }
+                ),
             );
 
             // Update playback position every frame.
@@ -787,11 +810,17 @@ mod imp {
             let id = page.connect_local(
                 "stop-kinetic-scrolling",
                 false,
-                clone!(@weak self as imp => @default-return None, move |args| {
-                    let except_picture: Option<Picture> = args[1].get().unwrap();
-                    imp.reset_kinetic_scrolling(except_picture.as_ref());
-                    None
-                }),
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args| {
+                        let except_picture: Option<Picture> = args[1].get().unwrap();
+                        imp.reset_kinetic_scrolling(except_picture.as_ref());
+                        None
+                    }
+                ),
             );
             if self
                 .page_stop_kinetic_scrolling_id
@@ -814,7 +843,7 @@ mod imp {
                     error!("page isn't errored or loading, yet there's no playbin");
                 }
             } else {
-                let id = page.connect_is_loading_notify(clone!(@weak self as imp => move |page| {
+                let id = page.connect_is_loading_notify(clone!(#[weak(rename_to = imp)] self, move |page| {
                     if let Some(id) = imp.page_is_loading_notify_id.borrow_mut().remove(page) {
                         page.disconnect(id);
                     } else {
@@ -1033,7 +1062,7 @@ mod imp {
             let identifier = ashpd::WindowIdentifier::from_native(&native).await;
             if let Err(err) = OpenDirectoryRequest::default()
                 .identifier(identifier)
-                .send(&file)
+                .send(&file.as_fd())
                 .await
             {
                 warn!("OpenDirectory returned an error: {:?}", err);
@@ -1106,20 +1135,24 @@ mod imp {
             let obj = self.obj();
             *source_id = Some(glib::timeout_add_local_once(
                 Duration::from_millis(300),
-                clone!(@weak obj => move || {
-                    debug!("switch to content timeout callback");
+                clone!(
+                    #[weak]
+                    obj,
+                    move || {
+                        debug!("switch to content timeout callback");
 
-                    let self_ = obj.imp();
-                    let _ = self_.switch_to_content_source_id.take();
+                        let self_ = obj.imp();
+                        let _ = self_.switch_to_content_source_id.take();
 
-                    // The user could've closed the loading tab before the timeout fired or was
-                    // cancelled. So check again here and only switch if there are open tabs.
-                    if self_.tab_view.n_pages() > 0 || self_.page_grid.n_pages() > 0 {
-                        self_.stack.set_visible_child_name("content");
+                        // The user could've closed the loading tab before the timeout fired or was
+                        // cancelled. So check again here and only switch if there are open tabs.
+                        if self_.tab_view.n_pages() > 0 || self_.page_grid.n_pages() > 0 {
+                            self_.stack.set_visible_child_name("content");
+                        }
+
+                        obj.present_if_not_visible();
                     }
-
-                    obj.present_if_not_visible();
-                }),
+                ),
             ));
         }
 
