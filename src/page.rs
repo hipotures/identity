@@ -2,13 +2,14 @@ use glib::prelude::*;
 use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
+use crate::application::Application;
 use crate::picture::Picture;
 use crate::scale_request::ScaleRequest;
 
 mod imp {
     use std::cell::{Cell, OnceCell, RefCell};
     use std::marker::PhantomData;
-    use std::sync::OnceLock;
+    use std::sync::{Condvar, Mutex, OnceLock};
     use std::time::Instant;
 
     use adw::subclass::prelude::*;
@@ -22,6 +23,9 @@ mod imp {
     use tracing::{instrument, Span};
 
     use super::*;
+    use crate::application::VaDisplayState;
+
+    const VA_CONTEXT_TYPE: &str = "gst.va.display.handle";
 
     #[derive(Debug, Default, CompositeTemplate, Properties)]
     #[template(resource = "/org/gnome/gitlab/YaLTeR/Identity/ui/page.ui")]
@@ -36,6 +40,8 @@ mod imp {
         #[template_child]
         title_label: TemplateChild<gtk::Label>,
 
+        #[property(get, set, construct_only)]
+        application: OnceCell<Application>,
         #[property(get, set, construct_only)]
         file: OnceCell<gio::File>,
         #[property(get = Self::display_path)]
@@ -440,6 +446,10 @@ mod imp {
                 .unwrap();
             assert!(self.bus_watch_guard.replace(Some(guard)).is_none());
 
+            let app = self.application.get().unwrap();
+            let va_state = app.va_state();
+            bus.set_sync_handler(move |_bus, msg| on_context_msg(&va_state, msg));
+
             obj.notify_playbin();
 
             // Pre-roll the playbin by trying to get it to the Paused state.
@@ -602,6 +612,124 @@ mod imp {
             }
         }
     }
+
+    fn on_context_msg(
+        va_state: &(Mutex<VaDisplayState>, Condvar),
+        msg: &gst::Message,
+    ) -> gst::BusSyncReply {
+        use gst::MessageView;
+        match msg.view() {
+            MessageView::NeedContext(need_context) => {
+                let context_type = need_context.context_type();
+
+                if context_type == VA_CONTEXT_TYPE {
+                    let display = {
+                        let (m, c) = va_state;
+                        let mut state = m.lock().unwrap();
+
+                        match &*state {
+                            VaDisplayState::Empty => {
+                                debug!(
+                                    "playbin bus: need VA context; \
+                                     this element will create the context"
+                                );
+
+                                *state = VaDisplayState::Creating {
+                                    creator: msg.src().unwrap().clone(),
+                                };
+                                return gst::BusSyncReply::Drop;
+                            }
+                            VaDisplayState::Creating { .. } => loop {
+                                debug!(
+                                    "playbin bus: need VA context; \
+                                     waiting for the context"
+                                );
+
+                                state = c.wait(state).unwrap();
+                                if let VaDisplayState::Ready { display } = &*state {
+                                    break display.clone();
+                                }
+                            },
+                            VaDisplayState::Ready { display } => {
+                                debug!(
+                                    "playbin bus: need VA context; \
+                                     the context is ready"
+                                );
+
+                                display.clone()
+                            }
+                        }
+                    };
+
+                    if let Some(display) = display {
+                        let mut context = gst::Context::new(context_type, true);
+                        {
+                            let context = context.get_mut().unwrap();
+                            context.structure_mut().set("gst-display", display);
+                        }
+
+                        let element = msg.src().unwrap();
+                        let element = element.downcast_ref::<gst::Element>().unwrap();
+                        element.set_context(&context);
+                    }
+
+                    return gst::BusSyncReply::Drop;
+                }
+            }
+            MessageView::HaveContext(have_context) => {
+                let context = have_context.context();
+                let context_type = context.context_type();
+
+                if context_type == VA_CONTEXT_TYPE {
+                    let display = context
+                        .structure()
+                        .get_optional::<gst::Object>("gst-display")
+                        .unwrap();
+
+                    let name = display.as_ref().map(|d| d.name());
+                    debug!("playbin bus: have VA context: {name:?}");
+
+                    {
+                        let (m, c) = va_state;
+                        let mut state = m.lock().unwrap();
+
+                        if let VaDisplayState::Creating { creator } = &*state {
+                            if Some(creator) == msg.src() {
+                                debug!("this was the creator, notifying others");
+
+                                *state = VaDisplayState::Ready {
+                                    display: display.clone(),
+                                };
+                                c.notify_all();
+                            }
+                        }
+                    }
+
+                    return gst::BusSyncReply::Drop;
+                }
+            }
+            MessageView::Error(error) => {
+                let (m, c) = va_state;
+                let mut state = m.lock().unwrap();
+
+                if let VaDisplayState::Creating { creator } = &*state {
+                    if Some(creator) == msg.src() {
+                        warn!(
+                            "got error from the VA creator element, notifying others: {} ({:?})",
+                            error.error(),
+                            error.debug(),
+                        );
+
+                        *state = VaDisplayState::Ready { display: None };
+                        c.notify_all();
+                    }
+                }
+            }
+            _ => (),
+        }
+
+        gst::BusSyncReply::Pass
+    }
 }
 
 glib::wrapper! {
@@ -610,8 +738,11 @@ glib::wrapper! {
 
 #[gtk::template_callbacks]
 impl Page {
-    pub fn new(file: &gio::File) -> Self {
-        glib::Object::builder().property("file", file).build()
+    pub fn new(application: &Application, file: &gio::File) -> Self {
+        glib::Object::builder()
+            .property("application", application)
+            .property("file", file)
+            .build()
     }
 
     pub fn set_error(&self) {

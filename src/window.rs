@@ -737,7 +737,9 @@ mod imp {
         pub fn open_file(&self, file: &gio::File) {
             debug!("open_file(\"{}\")", file.uri());
 
-            let page = Page::new(file);
+            let application = self.obj().application().unwrap();
+            let application = application.downcast_ref::<Application>().unwrap();
+            let page = Page::new(application, file);
 
             match self.display_mode.get() {
                 DisplayMode::Tabbed => {

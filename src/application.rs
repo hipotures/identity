@@ -1,8 +1,21 @@
+use std::sync::{Arc, Condvar, Mutex};
+
 use gtk::prelude::*;
+use gtk::subclass::prelude::*;
 use gtk::{gio, glib};
 
 use crate::config;
 use crate::window::Window;
+
+#[derive(Default)]
+pub enum VaDisplayState {
+    #[default]
+    Empty,
+    /// An element is attempting to create a VA display.
+    Creating { creator: gst::Object },
+    /// The VA display creation had been attempted.
+    Ready { display: Option<gst::Object> },
+}
 
 mod imp {
     use adw::prelude::AdwApplicationExt;
@@ -11,7 +24,10 @@ mod imp {
     use super::*;
 
     #[derive(Default)]
-    pub struct Application {}
+    pub struct Application {
+        // GstVaDisplay shared among all playbins.
+        va_state: Arc<(Mutex<VaDisplayState>, Condvar)>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Application {
@@ -74,6 +90,12 @@ mod imp {
 
     impl GtkApplicationImpl for Application {}
     impl AdwApplicationImpl for Application {}
+
+    impl Application {
+        pub fn va_state(&self) -> Arc<(Mutex<VaDisplayState>, Condvar)> {
+            self.va_state.clone()
+        }
+    }
 }
 
 glib::wrapper! {
@@ -108,5 +130,9 @@ impl Application {
         window.present();
 
         window
+    }
+
+    pub fn va_state(&self) -> Arc<(Mutex<VaDisplayState>, Condvar)> {
+        self.imp().va_state()
     }
 }
