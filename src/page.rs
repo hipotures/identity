@@ -516,6 +516,22 @@ mod imp {
                             self.is_loading.set(false);
                             obj.notify_is_loading();
 
+                            playbin
+                                .downcast_ref::<gst::Bin>()
+                                .unwrap()
+                                .debug_to_dot_file(
+                                    gst::DebugGraphDetails::ALL,
+                                    format!(
+                                        "identity-{}",
+                                        self.file
+                                            .get()
+                                            .unwrap()
+                                            .basename()
+                                            .unwrap_or_default()
+                                            .to_string_lossy()
+                                    ),
+                                );
+
                             self.refresh_caps_data(&playbin.property("video-sink"));
 
                             self.stack.set_visible_child_name("content");
