@@ -398,6 +398,8 @@ mod imp {
                 sink
             };
 
+            paintable.set_property("use-scaling-filter", true);
+
             paintable.connect_invalidate_size(clone!(
                 #[weak]
                 obj,
