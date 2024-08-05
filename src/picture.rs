@@ -489,6 +489,10 @@ mod imp {
                 ),
             };
 
+            // Round the sizes to avoid artifacts at the sides.
+            let w = w.round();
+            let h = h.round();
+
             // Either center and pixel-align it, or take the scroll position into account.
             let x = if w < widget_width as f64 {
                 ((widget_width as f64 - w) / 2.).floor()
