@@ -1398,6 +1398,13 @@ mod imp {
             self.display_mode_stack
                 .set_visible_child_name(visible_child_name);
 
+            // Set the right CSS class.
+            if matches!(value, DisplayMode::Row | DisplayMode::Column) {
+                self.obj().add_css_class("display-mode-grid");
+            } else {
+                self.obj().remove_css_class("display-mode-grid");
+            }
+
             self.in_display_mode_transition.set(false);
         }
 
