@@ -9,7 +9,7 @@ adw = { version = "0.7.0", package = "libadwaita", features = ["v1_6"] }
 ashpd = { version = "0.9.1", features = ["gtk4"] }
 futures-util = "0.3.30"
 gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
-glib = { version = "0.20.0", features = ["log"] }
+glib = { version = "0.20.0", features = ["log", "v2_74"] }
 gst-plugin-dav1d = "0.13.0"
 gst-plugin-gtk4 = { version = "0.13.0", features = ["wayland", "x11egl", "x11glx", "dmabuf"] }
 gst-plugin-webp = "0.13.0"

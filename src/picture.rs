@@ -3,7 +3,7 @@ use glib::subclass::prelude::*;
 use gtk::{gdk, glib};
 
 mod imp {
-    use std::cell::{Cell, RefCell};
+    use std::cell::{Cell, OnceCell, RefCell};
     use std::cmp;
     use std::marker::PhantomData;
     use std::sync::OnceLock;
@@ -24,6 +24,8 @@ mod imp {
         paintable: RefCell<Option<gdk::Paintable>>,
         invalidate_size_id: RefCell<Option<glib::SignalHandlerId>>,
         invalidate_contents_id: RefCell<Option<glib::SignalHandlerId>>,
+
+        surface_signals: OnceCell<glib::SignalGroup>,
 
         #[property(get, set = Self::set_scale_request, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
@@ -110,7 +112,32 @@ mod imp {
 
             obj.set_overflow(gtk::Overflow::Hidden);
 
-            obj.connect_scale_factor_notify(|obj| obj.queue_resize());
+            let surface_signals = glib::SignalGroup::new::<gdk::Surface>();
+            surface_signals.connect_notify_local(
+                Some("scale"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.queue_resize();
+                    },
+                ),
+            );
+            obj.connect_realize(clone!(
+                #[weak]
+                surface_signals,
+                move |obj| {
+                    surface_signals.set_target(obj.native().and_then(|x| x.surface()).as_ref());
+                },
+            ));
+            obj.connect_unrealize(clone!(
+                #[weak]
+                surface_signals,
+                move |_| {
+                    surface_signals.set_target(gdk::Surface::NONE);
+                },
+            ));
+            self.surface_signals.set(surface_signals).unwrap();
 
             // Track the cursor position for zooming.
             let motion_controller = gtk::EventControllerMotion::new();
@@ -427,19 +454,20 @@ mod imp {
                 return (0, 0, -1, -1);
             }
 
-            let size = (match orientation {
-                gtk::Orientation::Horizontal => (paintable_width as f64 * scale).ceil() as i32,
-                gtk::Orientation::Vertical => (paintable_height as f64 * scale).ceil() as i32,
+            let size = match orientation {
+                gtk::Orientation::Horizontal => paintable_width as f64 * scale,
+                gtk::Orientation::Vertical => paintable_height as f64 * scale,
                 _ => unreachable!(),
-            }) / self.obj().scale_factor();
+            };
+            let size = (size / self.fractional_scale()).ceil() as i32;
 
             (size, size, -1, -1)
         }
 
         fn size_allocate(&self, width: i32, height: i32, _baseline: i32) {
-            let widget = self.obj();
-            self.update_scale(width, height, widget.scale_factor());
-            self.configure_adjustments(width, height, widget.scale_factor());
+            let scale_factor = self.fractional_scale();
+            self.update_scale(width, height, scale_factor);
+            self.configure_adjustments(width, height, scale_factor);
         }
 
         fn snapshot(&self, snapshot: &gtk::Snapshot) {
@@ -483,10 +511,13 @@ mod imp {
                         (widget_height as f64 * paintable_ratio, widget_height as f64)
                     }
                 }
-                ScaleRequest::Set(scale) => (
-                    paintable_width as f64 * scale / widget.scale_factor() as f64,
-                    paintable_height as f64 * scale / widget.scale_factor() as f64,
-                ),
+                ScaleRequest::Set(scale) => {
+                    let scale_factor = self.fractional_scale();
+                    (
+                        paintable_width as f64 * scale / scale_factor,
+                        paintable_height as f64 * scale / scale_factor,
+                    )
+                }
             };
 
             // Round the sizes to avoid artifacts at the sides.
@@ -598,7 +629,7 @@ mod imp {
             }
         }
 
-        fn update_scale(&self, width: i32, height: i32, scale_factor: i32) {
+        fn update_scale(&self, width: i32, height: i32, scale_factor: f64) {
             let scale = self.compute_scale(width, height, scale_factor);
             if self.scale.get() != scale {
                 self.scale.set(scale);
@@ -606,7 +637,7 @@ mod imp {
             }
         }
 
-        fn compute_scale(&self, width: i32, height: i32, scale_factor: i32) -> f64 {
+        fn compute_scale(&self, width: i32, height: i32, scale_factor: f64) -> f64 {
             if let ScaleRequest::Set(scale) = self.scale_request.get() {
                 return scale;
             }
@@ -631,7 +662,17 @@ mod imp {
                 width as f64 / paintable_width as f64
             } else {
                 height as f64 / paintable_height as f64
-            }) * scale_factor as f64
+            }) * scale_factor
+        }
+
+        fn fractional_scale(&self) -> f64 {
+            let obj = self.obj();
+
+            if let Some(surface) = obj.native().and_then(|x| x.surface()) {
+                surface.scale()
+            } else {
+                f64::from(obj.scale_factor())
+            }
         }
 
         pub fn set_h_scroll_pos(&self, mut value: f64) {
@@ -738,7 +779,7 @@ mod imp {
             }
         }
 
-        fn configure_adjustments(&self, width: i32, height: i32, scale_factor: i32) {
+        fn configure_adjustments(&self, width: i32, height: i32, scale_factor: f64) {
             let scale = match self.scale_request.get() {
                 ScaleRequest::FitToAllocation => {
                     self.configure_adjustments_with_values(width, height, width, height);
@@ -768,8 +809,8 @@ mod imp {
             }
 
             // Compute target width and height.
-            let w = (paintable_width as f64 * scale / scale_factor as f64).ceil() as i32;
-            let h = (paintable_height as f64 * scale / scale_factor as f64).ceil() as i32;
+            let w = (paintable_width as f64 * scale / scale_factor).ceil() as i32;
+            let h = (paintable_height as f64 * scale / scale_factor).ceil() as i32;
             self.configure_adjustments_with_values(width, height, w, h);
         }
 
@@ -799,8 +840,9 @@ mod imp {
             }
 
             // Compute the content width and height.
-            let w = paintable_width as f64 * scale / obj.scale_factor() as f64;
-            let h = paintable_height as f64 * scale / obj.scale_factor() as f64;
+            let scale_factor = self.fractional_scale();
+            let w = paintable_width as f64 * scale / scale_factor;
+            let h = paintable_height as f64 * scale / scale_factor;
 
             // Either center and pixel-align it, or take the scroll position into account.
             let content_x = if w < widget_width as f64 {
@@ -888,10 +930,9 @@ mod imp {
             let image_dx_norm = (new_image_x - image_x) / paintable.intrinsic_width() as f64;
             let image_dy_norm = (new_image_y - image_y) / paintable.intrinsic_height() as f64;
 
-            let content_w =
-                paintable.intrinsic_width() as f64 * new_scale / obj.scale_factor() as f64;
-            let content_h =
-                paintable.intrinsic_height() as f64 * new_scale / obj.scale_factor() as f64;
+            let scale_factor = self.fractional_scale();
+            let content_w = paintable.intrinsic_width() as f64 * new_scale / scale_factor;
+            let content_h = paintable.intrinsic_height() as f64 * new_scale / scale_factor;
 
             if (obj.width() as f64) < content_w {
                 let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
@@ -940,8 +981,9 @@ mod imp {
             let image_dx_norm = (new_image_x - image_x) / paintable.intrinsic_width() as f64;
             let image_dy_norm = (new_image_y - image_y) / paintable.intrinsic_height() as f64;
 
-            let content_w = paintable.intrinsic_width() as f64 * scale / obj.scale_factor() as f64;
-            let content_h = paintable.intrinsic_height() as f64 * scale / obj.scale_factor() as f64;
+            let scale_factor = self.fractional_scale();
+            let content_w = paintable.intrinsic_width() as f64 * scale / scale_factor;
+            let content_h = paintable.intrinsic_height() as f64 * scale / scale_factor;
 
             if (obj.width() as f64) < content_w {
                 let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
@@ -982,7 +1024,7 @@ mod imp {
             width: f64,
             height: f64,
         ) {
-            let scale = self.obj().scale_factor();
+            let scale = self.fractional_scale();
             snapshot.scale(1. / scale as f32, 1. / scale as f32);
 
             let filter = if self.scale.get() >= 1. {
@@ -992,7 +1034,7 @@ mod imp {
             };
             paintable.set_property("scaling-filter", filter);
 
-            paintable.snapshot(snapshot, width * scale as f64, height * scale as f64);
+            paintable.snapshot(snapshot, width * scale, height * scale);
         }
     }
 
