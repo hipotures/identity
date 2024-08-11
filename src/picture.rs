@@ -206,12 +206,13 @@ mod imp {
                         return Propagation::Proceed;
                     }
 
+                    // Use exponential scaling since zoom is always multiplicative with the existing
+                    // value. This is the right thing since `exp(n/2)^2 == exp(n)`.
+                    // (two small steps are the same as one larger step)
+                    //
                     // The factor of 1.3× per scroll was copied from Loupe.
-                    let factor = if delta_y > 0. {
-                        1. / (delta_y * 1.3)
-                    } else {
-                        delta_y * -1.3
-                    };
+                    let factor = f64::exp(-delta_y * f64::ln(1.3));
+
                     // Max with 0.1 here so it doesn't become 0 (fit to allocation).
                     let new_scale = (factor * scale).max(0.1);
 
