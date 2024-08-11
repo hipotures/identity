@@ -17,6 +17,7 @@ mod imp {
     use super::*;
     use crate::scale_request::ScaleRequest;
     use crate::thumbnail_paintable::ThumbnailPaintable;
+    use crate::utils::fractional_scale;
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Picture)]
@@ -666,13 +667,7 @@ mod imp {
         }
 
         fn fractional_scale(&self) -> f64 {
-            let obj = self.obj();
-
-            if let Some(surface) = obj.native().and_then(|x| x.surface()) {
-                surface.scale()
-            } else {
-                f64::from(obj.scale_factor())
-            }
+            fractional_scale(&*self.obj())
         }
 
         pub fn set_h_scroll_pos(&self, mut value: f64) {

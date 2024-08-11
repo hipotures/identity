@@ -79,7 +79,7 @@ const MIME_TYPES: &[&str] = &[
 ];
 
 mod imp {
-    use std::cell::Cell;
+    use std::cell::{Cell, OnceCell};
     use std::collections::HashMap;
     use std::fmt;
     use std::fs::File;
@@ -104,7 +104,7 @@ mod imp {
     use crate::picture::Picture;
     use crate::player::Player;
     use crate::scale_request::ScaleRequest;
-    use crate::utils::shortcut_with_arg;
+    use crate::utils::{fractional_scale, shortcut_with_arg};
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
     enum DisplayMode {
@@ -187,6 +187,8 @@ mod imp {
         page_stop_kinetic_scrolling_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
+        surface_signals: OnceCell<glib::SignalGroup>,
+
         #[property(type = String, get = Self::display_mode_str, set = Self::set_display_mode_str, explicit_notify)]
         display_mode: Cell<DisplayMode>,
         // Set to true during a display mode transition, disables on_tab_page_attached/detached
@@ -215,7 +217,7 @@ mod imp {
         /// In tabbed display mode, this is the tab bar widget.
         tab_bar: RefCell<Option<adw::TabBar>>,
 
-        last_scale_factor: Cell<i32>,
+        last_scale_factor: RefCell<Option<f64>>,
     }
 
     #[glib::object_subclass]
@@ -380,7 +382,32 @@ mod imp {
                 obj.add_css_class("devel");
             }
 
-            self.last_scale_factor.set(obj.scale_factor());
+            let surface_signals = glib::SignalGroup::new::<gdk::Surface>();
+            surface_signals.connect_notify_local(
+                Some("scale"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        obj.imp().on_fractional_scale_changed();
+                    },
+                ),
+            );
+            obj.connect_realize(clone!(
+                #[weak]
+                surface_signals,
+                move |obj| {
+                    surface_signals.set_target(obj.native().and_then(|x| x.surface()).as_ref());
+                },
+            ));
+            obj.connect_unrealize(clone!(
+                #[weak]
+                surface_signals,
+                move |_| {
+                    surface_signals.set_target(gdk::Surface::NONE);
+                },
+            ));
+            self.surface_signals.set(surface_signals).unwrap();
 
             self.content_toolbar_view
                 .connect_reveal_bottom_bars_notify(clone!(
@@ -1419,20 +1446,22 @@ mod imp {
             }
         }
 
-        #[template_callback]
-        fn on_scale_factor_notify(&self) {
-            let value = self.obj().scale_factor();
+        fn on_fractional_scale_changed(&self) {
+            let value = fractional_scale(&*self.obj());
 
-            if self.last_scale_factor.get() == value {
+            let mut last = self.last_scale_factor.borrow_mut();
+            let last = last.get_or_insert(value);
+
+            if *last == value {
                 return;
             }
 
             if let ScaleRequest::Set(scale) = self.scale_request.get() {
-                let new_scale = scale / self.last_scale_factor.get() as f64 * value as f64;
+                let new_scale = scale / *last * value;
                 self.set_scale_request(ScaleRequest::Set(new_scale));
             }
 
-            self.last_scale_factor.set(value);
+            *last = value;
         }
 
         fn reset_kinetic_scrolling(&self, except_picture: Option<&Picture>) {

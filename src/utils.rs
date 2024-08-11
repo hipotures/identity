@@ -1,4 +1,5 @@
 use gtk::gdk;
+use gtk::prelude::*;
 
 pub fn shortcut_with_arg(
     keyval: gdk::Key,
@@ -12,4 +13,12 @@ pub fn shortcut_with_arg(
     );
     shortcut.set_arguments(Some(arguments));
     shortcut
+}
+
+pub fn fractional_scale(widget: &impl WidgetExt) -> f64 {
+    if let Some(surface) = widget.native().and_then(|x| x.surface()) {
+        surface.scale()
+    } else {
+        f64::from(widget.scale_factor())
+    }
 }
