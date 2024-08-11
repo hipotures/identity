@@ -351,19 +351,10 @@ mod imp {
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
                 // ones shown in the dialog.
                 let gettext = |_| ();
-                gettext("This release adds pixelated display for zoomed-in images and videos, improves format support and fixes several issues.");
-                gettext("Zoomed-in images and videos are now pixelated rather than blurry.");
-                gettext("Fixed memory usage not decreasing upon closing images and videos.");
-                gettext("Improved UI responsiveness with many open files.");
-                gettext("Improved performance on AV1 videos.");
-                gettext("Added support for WebP images.");
-                gettext("Fixed display of semitransparent images and videos.");
-                gettext("Fixed display of 16-bit color images.");
-                gettext("Removed panning from the touchpad pinch zoom gesture.");
-                gettext(
-                    "Fixed infinite loading spinner when opening certain files instead of error.",
-                );
-                gettext("Updated to the GNOME 45 platform.");
+                gettext("Zoom level now takes into account fractional display scale.");
+                gettext("Fixed unusably fast zoom on mice with high-resolution scroll wheels.");
+                gettext("Fixed slightly blurry image borders on some zoom levels.");
+                gettext("Updated to the GNOME 47 platform.");
                 gettext("Updated translations.");
             });
         }
