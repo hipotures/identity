@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-07-19 06:21+0000\n"
-"PO-Revision-Date: 2024-07-26 16:41+0330\n"
+"POT-Creation-Date: 2024-08-11 19:55+0000\n"
+"PO-Revision-Date: 2024-08-13 11:52+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
 msgstr "هویت"
 
@@ -125,8 +125,8 @@ msgstr "بار کردن پرونده شکست خورد"
 msgid ""
 "Could not display the file.\n"
 "\n"
-"If you're running Identity under Flatpak, note that opening files by drag-"
-"and-drop and by pasting may not work."
+"If you're running Identity under Flatpak, note that opening files by drag-and-"
+"drop and by pasting may not work."
 msgstr ""
 "نتوانست پرونده را نشان دهد.\n"
 "\n"
@@ -300,127 +300,130 @@ msgid "Arrange in a Column"
 msgstr "چینش در ستون"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "فهرست اصلی"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "مقایسهٔ رسانه"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "تصویرها یا ویدیوها را کشید و در این‌جا رها کنید"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "گشودن رسانه…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "گزینش تصویر یا ویدیو"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "گشودن"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "سطح بزرگ‌نمایی"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "گزینش سطح بزرگ‌نمایی"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "نامعلوم"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
 msgstr "دانیال بهزادی <dani.behzi@ubuntu.com>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "مشارکت در ترجمه‌ها"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"این ارائه نمایش پیکسلی برای تصویرها و ویدیوهای بزرگ‌نمایی شده را افزوده؛ "
-"پشتیبانی قالب را بهبود داده و چندین مشکل را رفع کرده."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"تصویرها و ویدیوهای بزرگ‌نمایی شده اکنون به جای محو بودن، پیکسلی هستند."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr "رفع کم نشدن استفادهٔ حافظه هنگام بستن تصویرها و ویدیوها."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "بهبود واکنشگرایی میانای کاربری با پرونده‌های زیاد."
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "بهبود کاراریی روی ویدیوهای AV1."
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "سطح بزرگنمایی اکنون در محاسبات مقیاس نمایش اعشاری حساب می‌شود."
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "افزودن پشتیبانی تصویرهای WebP."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr ""
+"رفع بزرگنمایی سریع غیر قابل استفاده روی موشی‌هایی با چرخ‌های لغزش تفکیک بالا."
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "رفع مشکل نمایش نیمه شفَاف تصویرها و ویدیوها."
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "رفع تاری مختصر حاشیهٔ تصاویر در برخی سطوح بزرگنمایی."
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "رفع مشکل نمایش تصویرهایی با رنگ ۱۶ بیتی."
+msgid "Updated to the GNOME 47 platform."
+msgstr "به‌روز شده به بن‌سازهٔ گنوم ۴۷."
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "برداشتن جابه‌جایی از حرکت بزرگ‌نمایی نیشگونی صفحه‌لمسی."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr "رفع مشکل چرخندهٔ بی‌نهایت جای خطا هنگام گشودن پرونده‌های خاص."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "به‌روز شده به بن‌سازهٔ گنوم ۴۵."
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "ترجمه‌های به‌روز شده."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "بهترین برازش"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "ویدیوها و تصویرها"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "گشودن ویویدها یا تصویرها برای مقایسه"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "این ارائه نمایش پیکسلی برای تصویرها و ویدیوهای بزرگ‌نمایی شده را افزوده؛ "
+#~ "پشتیبانی قالب را بهبود داده و چندین مشکل را رفع کرده."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "تصویرها و ویدیوهای بزرگ‌نمایی شده اکنون به جای محو بودن، پیکسلی هستند."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr "رفع کم نشدن استفادهٔ حافظه هنگام بستن تصویرها و ویدیوها."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr "بهبود واکنشگرایی میانای کاربری با پرونده‌های زیاد."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "بهبود کاراریی روی ویدیوهای AV1."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "افزودن پشتیبانی تصویرهای WebP."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "رفع مشکل نمایش نیمه شفَاف تصویرها و ویدیوها."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "رفع مشکل نمایش تصویرهایی با رنگ ۱۶ بیتی."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr "برداشتن جابه‌جایی از حرکت بزرگ‌نمایی نیشگونی صفحه‌لمسی."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of error."
+#~ msgstr "رفع مشکل چرخندهٔ بی‌نهایت جای خطا هنگام گشودن پرونده‌های خاص."
