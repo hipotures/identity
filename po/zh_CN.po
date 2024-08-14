@@ -1,24 +1,24 @@
 #
-# lumingzh <lumingzh@qq.com>, 2023.
+# lumingzh <lumingzh@qq.com>, 2023-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-11 19:55+0000\n"
+"PO-Revision-Date: 2024-08-14 16:19+0800\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 42.0\n"
-"Last-Translator: lumingzh <lumingzh@qq.com>\n"
-"Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"PO-Revision-Date: 2023-09-15 10:49+0800\n"
+"X-Generator: Gtranslator 46.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
 msgstr "识别"
 
@@ -54,7 +54,8 @@ msgstr "您可以作为标签页打开文件"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "在对话框中检查视频的一些属性"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -297,130 +298,133 @@ msgid "Arrange in a Column"
 msgstr "按列排列"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "主菜单"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "比较媒体"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "拖放图像或视频到这里"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "打开媒体…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "选择图像或视频"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "打开"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "缩放级别"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "选择缩放级别"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
 msgstr ""
 "Garling Liang\n"
 "lumingzh <lumingzh@qq.com>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "贡献翻译"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"该发布为放大的图像和视频添加了像素化显示，提升了格式支持和修复了一些问题。"
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr "放大的图像和视频现在像素化显示而不是模糊显示。"
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr "修复了关闭图像和视频后内存占用不会减少的问题。"
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "提升了打开很多文件时的用户界面响应速度。"
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "提升了播放 AV1 视频的性能。"
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "缩放级别现已将显示器分数缩放纳入考虑。"
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "添加了对 WebP 图像的支持。"
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr "修复了在高分辨率滚轮鼠标上无法使用快速缩放的问题。"
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "修复了半透明图像和视频的显示问题。"
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "修复了在一些缩放级别图像边界轻微模糊的问题。"
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "修复了 16 位颜色图像的显示问题。"
+msgid "Updated to the GNOME 47 platform."
+msgstr "更新至 GNOME 47 平台。"
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "从触摸板缩放手势移除了平移。"
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr "修复了打开特定文件时无限加载动画而不是报错的问题。"
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "更新至 GNOME 45 平台。"
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "更新了翻译。"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "最佳匹配"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "视频和图像"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "打开视频或图像以比较"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "该发布为放大的图像和视频添加了像素化显示，提升了格式支持和修复了一些问题。"
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr "放大的图像和视频现在像素化显示而不是模糊显示。"
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr "修复了关闭图像和视频后内存占用不会减少的问题。"
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr "提升了打开很多文件时的用户界面响应速度。"
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "提升了播放 AV1 视频的性能。"
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "添加了对 WebP 图像的支持。"
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "修复了半透明图像和视频的显示问题。"
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "修复了 16 位颜色图像的显示问题。"
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr "从触摸板缩放手势移除了平移。"
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr "修复了打开特定文件时无限加载动画而不是报错的问题。"
 
 #~ msgid "This release contains translation updates."
 #~ msgstr "此版本包含翻译更新。"
