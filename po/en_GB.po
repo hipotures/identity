@@ -2,25 +2,26 @@
 # Copyright (C) 2023 identity's COPYRIGHT HOLDER
 # This file is distributed under the same license as the identity package.
 # Bruce Cowan <bruce@bcowan.me.uk>, 2023.
+# Andi Chandler <andi@gowling.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-11-25 08:20+0000\n"
-"PO-Revision-Date: 2023-11-27 18:37+0000\n"
-"Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-12 10:32+0000\n"
+"PO-Revision-Date: 2024-08-12 15:32+0100\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: British English <en_GB@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
 msgstr "Identity"
 
@@ -54,7 +55,8 @@ msgstr "You can open files as tabs"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspect a few properties of a video in a dialogue"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:174
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -298,127 +300,133 @@ msgid "Arrange in a Column"
 msgstr "Arrange in a Column"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Main Menu"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Compare Media"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Drag and drop images or videos here"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Open Media…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Select an Image or Video"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Open"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Zoom Level"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Select Zoom Level"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
-msgstr "Bruce Cowan <bruce@bcowan.me.uk>"
+msgstr ""
+"Bruce Cowan <bruce@bcowan.me.uk>\n"
+"Andi Chandler <andi@gowling.com>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "Contribute Translations"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr "Zoomed-in images and videos are now pixelated rather than blurry."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr "Fixed memory usage not decreasing upon closing images and videos."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "Improved UI responsiveness with many open files."
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Improved performance on AV1 videos."
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "Zoom level now takes into account fractional display scale."
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Added support for WebP images."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Fixed display of semitransparent images and videos."
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "Fixed slightly blurry image borders on some zoom levels."
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Fixed display of 16-bit colour images."
+msgid "Updated to the GNOME 47 platform."
+msgstr "Updated to the GNOME 47 platform."
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "Removed panning from the touchpad pinch zoom gesture."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Updated to the GNOME 45 platform."
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Updated translations."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "Best Fit"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "Videos and images"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "Open videos or images to compare"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr "Zoomed-in images and videos are now pixelated rather than blurry."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr "Fixed memory usage not decreasing upon closing images and videos."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr "Improved UI responsiveness with many open files."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Improved performance on AV1 videos."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Added support for WebP images."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Fixed display of semitransparent images and videos."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "Fixed display of 16-bit colour images."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr "Removed panning from the touchpad pinch zoom gesture."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
