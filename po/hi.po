@@ -6,23 +6,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2024-01-26 16:17+0000\n"
-"PO-Revision-Date: 2024-03-30 00:03+0530\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-11 19:55+0000\n"
+"PO-Revision-Date: 2024-08-15 09:01+0530\n"
 "Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
-"Language-Team: Hindi\n"
+"Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 46.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 46.1\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
-msgstr "Identity"
+msgstr "आइडेंटिटी"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
@@ -97,7 +97,7 @@ msgstr "मीडिया"
 #. Translators: Pixel-resolution row in the media properties window.
 #: data/resources/ui/media_properties.blp:70
 msgid "Resolution"
-msgstr "रेज़लूशन"
+msgstr "रिजोल्यूशन"
 
 #. Translators: Frame-rate row in the media properties window.
 #: data/resources/ui/media_properties.blp:78
@@ -129,7 +129,7 @@ msgid ""
 msgstr ""
 "फाइल प्रदर्शित नहीं हो सकी।\n"
 "\n"
-"यदि आप Flatpak के अंतर्गत Identity चला रहे हैं, तो ध्यान दें कि फाइलों को खींचना-और-"
+"यदि आप Flatpak के अंतर्गत आइडेंटिटी चला रहे हैं, तो ध्यान दें कि फाइलों को खींचना-और-"
 "छोड़ना और पेस्ट करके खोलना काम नहीं कर सकता है।"
 
 #: data/resources/ui/shortcuts.blp:6
@@ -145,7 +145,7 @@ msgstr "फाइलों के बीच स्विच करें"
 #: data/resources/ui/shortcuts.blp:14
 msgctxt "shortcut window"
 msgid "Open videos or images"
-msgstr "वीडियो या छवियाँ खोलें"
+msgstr "वीडियो या छवियां खोलें"
 
 #: data/resources/ui/shortcuts.blp:19
 msgctxt "shortcut window"
@@ -170,7 +170,7 @@ msgstr "नई विंडो"
 #: data/resources/ui/shortcuts.blp:39
 msgctxt "shortcut window"
 msgid "Show shortcuts"
-msgstr "शॉर्टकट दिखाएँ"
+msgstr "शॉर्टकट दिखाएं"
 
 #: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
@@ -185,12 +185,12 @@ msgstr "प्लेबैक"
 #: data/resources/ui/shortcuts.blp:53
 msgctxt "shortcut window"
 msgid "Play / Pause"
-msgstr "चलाएँ / रोकें"
+msgstr "चलाएं / रोकें"
 
 #: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Step forward one frame"
-msgstr "एक फ्रेम आगे बढ़ाएँ"
+msgstr "एक फ्रेम आगे बढ़ाएं"
 
 #: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
@@ -261,7 +261,7 @@ msgstr "कीबोर्ड शॉर्टकट (_K)"
 #. Translators: Primary menu entry that opens the About dialog.
 #: data/resources/ui/window.blp:26 data/resources/ui/window.blp:60
 msgid "_About Identity"
-msgstr "Identity के बारे में (_A)"
+msgstr "आइडेंटिटी के बारे में (_A)"
 
 #. Translators: Tab menu entry that copies the file to the clipboard.
 #: data/resources/ui/window.blp:70
@@ -271,12 +271,12 @@ msgstr "फाइल कॉपी करें"
 #. Translators: Tab menu entry that shows the file in the file manager.
 #: data/resources/ui/window.blp:76
 msgid "Show in Files"
-msgstr "फाइलों में दिखाएँ"
+msgstr "फाइलों में दिखाएं"
 
 #. Translators: Tab menu entry that moves it to a new window.
 #: data/resources/ui/window.blp:82
 msgid "Move to New Window"
-msgstr "नई विंडो पर जाएँ"
+msgstr "नई विंडो पर जाएं"
 
 #. Translators: Tab menu entry that closes it.
 #: data/resources/ui/window.blp:88
@@ -299,127 +299,94 @@ msgid "Arrange in a Column"
 msgstr "कॉलम में व्यवस्थित करें"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
-msgstr "मुख्य मेन्यू"
+msgstr "मुख्य मेनू"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "मीडिया की तुलना करें"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "छवियों या वीडियो को यहां खींचें और छोड़ें"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "मीडिया खोलें..."
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "छवि या वीडियो चुनें"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "खोले"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "ज़ूम स्तर"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "ज़ूम स्तर चुनें"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
 msgstr "Scrambled777 <weblate.scrambled777@simplelogin.com>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "अनुवाद में योगदान दें"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"यह रिलीज़ ज़ूम-इन की गई छवियों और वीडियो के लिए पिक्सेलेटेड प्रदर्शन जोड़ता है, प्रारूप "
-"समर्थन में सुधार करता है और कई समस्याओं को ठीक करता है।"
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr "ज़ूम-इन की गई छवियां और वीडियो अब धुंधले होने के बजाय पिक्सेलयुक्त हो गए हैं।"
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-"छवियों और वीडियो को बंद करने पर निश्चित मेमोरी उपयोग में कमी नहीं आने को ठीक किया गया।"
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "कई खुली फाइलों के साथ बेहतर UI प्रतिक्रियाशीलता।"
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "AV1 वीडियो पर बेहतर प्रदर्शन।"
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "ज़ूम स्तर अब फ्रैक्शनल डिस्प्ले स्केल को ध्यान में रखता है।"
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "WebP छवियों के लिए समर्थन जोड़ा गया।"
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr ""
+"उच्च-रिज़ॉल्यूशन स्क्रॉल व्हील वाले माउस पर असामान्य रूप से तेज़ ज़ूम को ठीक किया गया।"
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "अर्धपारदर्शी छवियों और वीडियो का प्रदर्शन ठीक किया।"
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "कुछ ज़ूम स्तरों पर थोड़ी धुंधली छवि सीमाओं को ठीक किया गया।"
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "16-बिट रंगीन छवियों का प्रदर्शन ठीक किया।"
+msgid "Updated to the GNOME 47 platform."
+msgstr "गनोम 47 प्लेटफॉर्म पर अद्यतन किया गया।"
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "टचपैड के चिकोटी ज़ूम इशारे द्वारा पैनिंग को हटा दिया गया।"
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr "कुछ फाइलें खोलते समय त्रुटि के बजाय अनंत लोडिंग स्पिनर को ठीक किया गया।"
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "GNOME 45 प्लेटफॉर्म पर अपडेट किया गया।"
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "अनुवाद अपडेट किये गये।"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "सर्वोत्तम योग्य"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
-msgstr "वीडियो और छवियाँ"
+msgstr "वीडियो और छवियां"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
-msgstr "तुलना करने के लिए वीडियो या छवियाँ खोलें"
+msgstr "तुलना करने के लिए वीडियो या छवियां खोलें"
