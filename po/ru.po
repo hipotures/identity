@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 08:23+0000\n"
-"PO-Revision-Date: 2023-08-31 12:25+0400\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-12 04:20+0000\n"
+"PO-Revision-Date: 2024-08-12 11:22+0300\n"
 "Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
 msgstr "Идентичность"
 
@@ -53,7 +53,8 @@ msgstr "Вы можете открывать файлы в виде вкладо
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Проверка нескольких свойств видео в диалоговом окне"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
 msgid "Ivan Molodetskikh"
 msgstr "Иван Молодецких"
 
@@ -297,140 +298,149 @@ msgid "Arrange in a Column"
 msgstr "Расположить в столбец"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Главное меню"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Сравнение медиафайлов"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Перетащите изображения или видео сюда"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Открыть файл…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Выбрать изображение или видео"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Открыть"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Масштаб"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Выбрать масштаб"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "Н/Д"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
 msgstr ""
 "Иван Молодецких <yalterz@gmail.com>\n"
 "Виктор github.com/viktoron"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "Помочь с переводом"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"В этой версии добавлено отображение увеличенных изображений и видео с "
-"чёткими границами пикселей, улучшена поддержка форматов и исправлен ряд "
-"проблем."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"Увеличенные изображения и видео теперь отображаются без сглаживания, с "
-"чёткими границами пикселей."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-"При закрытии изображений и видео использованная оперативная память теперь "
-"освобождается."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr ""
-"Улучшена производительность интерфейса при большом количестве открытых "
-"файлов."
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Улучшена производительность на видео AV1."
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "Уровень масштабирования теперь учитывает дробный масштаб дисплея."
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Добавлена поддержка изображений WebP."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr ""
+"Исправлено слишком быстрое масштабирование на мышах с колесами прокрутки "
+"высокого разрешения."
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Исправлено отображение полупрозрачных изображений и видео."
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr ""
+"Исправлены слегка размытые границы изображения на некоторых уровнях "
+"масштабирования."
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Исправлено отображение изображений с 16-битным цветом."
+msgid "Updated to the GNOME 47 platform."
+msgstr "Платформа обновлена до версии GNOME 47."
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr ""
-"Отключено одновременное перетаскивание при масштабировании жестом на тачпаде."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr ""
-"Исправлена бесконечная загрузка некоторых файлов вместо сообщения об ошибке."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Платформа обновлена до версии GNOME 45."
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Обновлены переводы."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "По размеру окна"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "Видео и изображения"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "Открыть видео или изображения для сравнения"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "В этой версии добавлено отображение увеличенных изображений и видео с "
+#~ "чёткими границами пикселей, улучшена поддержка форматов и исправлен ряд "
+#~ "проблем."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "Увеличенные изображения и видео теперь отображаются без сглаживания, с "
+#~ "чёткими границами пикселей."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr ""
+#~ "При закрытии изображений и видео использованная оперативная память теперь "
+#~ "освобождается."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr ""
+#~ "Улучшена производительность интерфейса при большом количестве открытых "
+#~ "файлов."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Улучшена производительность на видео AV1."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Добавлена поддержка изображений WebP."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Исправлено отображение полупрозрачных изображений и видео."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "Исправлено отображение изображений с 16-битным цветом."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr ""
+#~ "Отключено одновременное перетаскивание при масштабировании жестом на "
+#~ "тачпаде."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Исправлена бесконечная загрузка некоторых файлов вместо сообщения об "
+#~ "ошибке."
 
 #~ msgid "Compare Images and Videos"
 #~ msgstr "Сравнение изображений и видео"
