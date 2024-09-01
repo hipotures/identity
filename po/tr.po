@@ -1,15 +1,15 @@
 # Turkish translation for Identity.
-# Copyright (C) 2023 Identity's COPYRIGHT HOLDER
+# Copyright (C) 2023-2024 Identity's COPYRIGHT HOLDER
 # This file is distributed under the same license as the Identity package.
 #
-# Sabri Ünal <libreajans@gmail.com>, 2023.
+# Sabri Ünal <yakushabb@gmail.com>, 2023, 2024.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
+"POT-Creation-Date: 2024-08-24 09:06+0000\n"
 "PO-Revision-Date: 2024-08-24 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
@@ -353,7 +353,7 @@ msgstr "Yok"
 #: src/window.rs:343
 msgid "translator-credits"
 msgstr ""
-"Sabri Ünal <libreajans@gmail.com>\n"
+"Sabri Ünal <yakushabb@gmail.com>\n"
 "Emin Tufan Çetin <etcetin@gmail.com>"
 
 #. Translators: link title in the About dialog.
@@ -363,11 +363,15 @@ msgstr "Çeviriye Katkıda Bulun"
 
 #: src/window.rs:354
 msgid "Zoom level now takes into account fractional display scale."
-msgstr "Yakınlaştırma düzeyi artık kesirli ekran ölçeklendirmeyi göz önünde bulunduruyor."
+msgstr ""
+"Yakınlaştırma düzeyi artık kesirli ekran ölçeklendirmeyi göz önünde "
+"bulunduruyor."
 
 #: src/window.rs:355
 msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
-msgstr "Yüksek çözünürlüklü kaydırma tekerli farelerde kullanışsız hızlı yakınlaştırma düzeltildi."
+msgstr ""
+"Yüksek çözünürlüklü kaydırma tekerli farelerde kullanışsız hızlı "
+"yakınlaştırma düzeltildi."
 
 #: src/window.rs:356
 msgid "Fixed slightly blurry image borders on some zoom levels."
@@ -396,109 +400,3 @@ msgstr "Videolar ve görüntüler"
 #: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "Karşılaştırmak için videoları veya görüntüleri aç"
-
-#~ msgid ""
-#~ "This release adds pixelated display for zoomed-in images and videos, "
-#~ "improves format support and fixes several issues."
-#~ msgstr ""
-#~ "Bu sürüm, yakınlaştırılmış görüntüler ve videolar için pikselli ekran "
-#~ "ekler, biçim desteğini iyileştirir ve türlü sorunları düzeltir."
-
-#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-#~ msgstr ""
-#~ "Yakınlaştırılmış görüntüler ve videolar artık bulanık yerine pikselli."
-
-#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
-#~ msgstr ""
-#~ "Görüntüler ve videolar kapatıldığında bellek kullanımının azalmaması "
-#~ "düzeltildi."
-
-#~ msgid "Improved UI responsiveness with many open files."
-#~ msgstr ""
-#~ "Birçok açık dosyayla çalışırken kullanıcı arayüzü duyarlılığı "
-#~ "iyileştirildi."
-
-#~ msgid "Improved performance on AV1 videos."
-#~ msgstr "AV1 videoların başarımı iyileştirildi."
-
-#~ msgid "Added support for WebP images."
-#~ msgstr "WebP görüntü desteği eklendi."
-
-#~ msgid "Fixed display of semitransparent images and videos."
-#~ msgstr "Yarı saydam görüntülerin ve videoların gösterimi düzeldildi."
-
-#~ msgid "Fixed display of 16-bit color images."
-#~ msgstr "16-bit renkli görüntülerin gösterimi düzeltildi."
-
-#~ msgid "Removed panning from the touchpad pinch zoom gesture."
-#~ msgstr ""
-#~ "Dokunmatik yüzey kıstırma yakınlaştırma hareketindeki kaydırma kaldırıldı."
-
-#~ msgid ""
-#~ "Fixed infinite loading spinner when opening certain files instead of "
-#~ "error."
-#~ msgstr ""
-#~ "Belirli dosyaları açarken hata yerine sonsuz yükleme döndürücü düzeltildi."
-
-#~ msgid "Compare Images and Videos"
-#~ msgstr "Görüntüleri ve Videoları karşılaştır"
-
-#~ msgid "Open videos or images to compare by pressing the Open button."
-#~ msgstr ""
-#~ "Aç düğmesine basarak karşılaştırmak için videoları veya görüntüleri açın."
-
-#~ msgid ""
-#~ "Added row and column tiled display modes for side-by-side comparison."
-#~ msgstr ""
-#~ "Yan yana karşılaştırma için satır ve sütun döşemeli görüntüleme kipleri "
-#~ "eklendi."
-
-#~ msgid ""
-#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
-#~ "of the current zoom level."
-#~ msgstr ""
-#~ "Geçerli yakınlaştırma seviyesinden bağımsız olarak tutarlı hıza sahip "
-#~ "olmak için fare kaydırma ve kısayol tuşu yakınlaştırması değiştirildi."
-
-#~ msgid ""
-#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
-#~ "when Ctrl is held."
-#~ msgstr ""
-#~ "Öntanımlı olarak kaydırmak yerine yakınlaştırmak ve Ctrl basılı "
-#~ "tutulduğunda kaydırmak için fare kaydırması değiştirildi."
-
-#~ msgid ""
-#~ "Added panning by holding down the left mouse button and dragging when "
-#~ "zoomed-in."
-#~ msgstr ""
-#~ "Farenin sol düğmesini basılı tutup yakınlaştırdığınızda sürükleyerek "
-#~ "kaydırma eklendi."
-
-#~ msgid "Changed the playback position to update smoothly."
-#~ msgstr "Sorunsuz şekilde güncellemek için oynatma konumu değiştirildi."
-
-#~ msgid ""
-#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-#~ msgstr ""
-#~ "Artık yakınlaştırılmamış bir dosyayı Identity'ten sürükleyip "
-#~ "bırakabilirsiniz."
-
-#~ msgid "Added Ctrl+C to copy the current file to clipboard."
-#~ msgstr "Geçerli dosyayı panoya kopyalamak için Ctrl+C eklendi."
-
-#~ msgid "Added a context menu to tabs with a few common actions."
-#~ msgstr "Birkaç ortak eylem içeren sekmelere bağlam menüsü eklendi."
-
-#~ msgid ""
-#~ "Optimized video playback performance by enabling OpenGL video processing "
-#~ "on compatible setups."
-#~ msgstr ""
-#~ "Uyumlu kurulumlarda OpenGL video işlemeyi etkinleştirerek en iyilenmiş "
-#~ "video oynatma performansı."
-
-#~ msgid ""
-#~ "This release adds row and column display modes, reworks mouse gestures "
-#~ "and adds drag-and-drop from Identity."
-#~ msgstr ""
-#~ "Bu sürüm, satır ve sütun görüntüleme kipleri ekler, fare hareketlerini "
-#~ "yeniden işler ve Identity'den sürükle ve bırak özelliğini ekler."
