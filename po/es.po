@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 08:23+0000\n"
-"PO-Revision-Date: 2024-07-18 22:12+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-24 09:06+0000\n"
+"PO-Revision-Date: 2024-08-30 16:09+0200\n"
 "Last-Translator: Julián Villodre <jvillodrede@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
 msgstr "Identidad"
 
@@ -55,7 +55,8 @@ msgstr "Puede abrir archivos como pestañas"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspeccionar algunas propiedades de un vídeo en un diálogo"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -200,7 +201,7 @@ msgstr "Retroceder un fotograma"
 #: data/resources/ui/shortcuts.blp:69
 msgctxt "shortcut window"
 msgid "Zoom"
-msgstr "Zum"
+msgstr "Ampliación"
 
 #: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
 msgctxt "shortcut window"
@@ -215,7 +216,7 @@ msgstr "Alejar"
 #: data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
-msgstr "Zum 1:1"
+msgstr "Ampliación 1:1"
 
 #: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
@@ -299,379 +300,100 @@ msgid "Arrange in a Column"
 msgstr "Organizar en una columna"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Menú principal"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Comparar multimedia"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Arrastre y suelte imágenes o vídeos aquí"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Abrir multimedia…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Seleccionar imagen o vídeo"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Abrir"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
-msgstr "Nivel de zum"
+msgstr "Nivel de ampliación"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
-msgstr "Seleccionar nivel de zum"
+msgstr "Seleccionar nivel de ampliación"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "N/D"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
 msgstr ""
 "Julián Villodre <jvillodrede@gmail.com>, 2024\n"
 "Óscar Fernández Díaz <oscfdezdz@tuta.io>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "Contribuir a las traducciones"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"Esta versión agrega una visualización pixelada para imágenes y videos "
-"ampliados, mejora la compatibilidad de formatos y soluciona varios problemas."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"Las imágenes y vídeos ampliados ahora están pixelados en lugar de borrosos."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-"Se corrigió un problema que provocaba que el uso de memoria no disminuyera "
-"al cerrar imágenes y videos."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr ""
-"Se mejoró la capacidad de respuesta de la interfaz de usuario cuando hay "
-"muchos archivos abiertos."
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Se mejoró el rendimiento en vídeos AV1."
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "El nivel de ampliación ahora tiene en cuenta el escalado fraccionario."
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Se añadió soporte a las imágenes WebP."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr ""
+"Se solucionó un problema que provocaba que la ampliación fuese inutilizable al ir "
+"demasiado rápido cuando se usaba en ratones con ruedas de desplazamiento de "
+"alta precisión."
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Se corrigió la visualización de imágenes y vídeos semitransparentes."
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr ""
+"Se solucionó un problema que provocaba que los bordes de la imagen quedaran "
+"ligeramente borrosos en algunos niveles de ampliación."
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Se corrigió la visualización de imágenes en color de 16 bits."
+msgid "Updated to the GNOME 47 platform."
+msgstr "Actualizado a la plataforma GNOME 47."
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr ""
-"Se eliminó el movimiento panorámico del gesto de pellizco para hacer zoom "
-"del panel táctil."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr ""
-"Se corrigió un problema que provocaba una carga infinita al abrir ciertos "
-"archivos, en lugar de mostrar un error."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Actualizado a la plataforma GNOME 45."
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Traducciones actualizadas."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "Mejor ajuste"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "Vídeos e imágenes"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "Abrir vídeos o imágenes para comparar"
-
-#~ msgid "Open videos or images to compare by pressing the Open button."
-#~ msgstr "Abra vídeos o imágenes a comparar pulsando el botón Abrir."
-
-#~ msgid ""
-#~ "Added row and column tiled display modes for side-by-side comparison."
-#~ msgstr ""
-#~ "Se han añadido los modos de visualización en mosaico de filas y columnas "
-#~ "para la comparación en paralelo."
-
-#~ msgid ""
-#~ "Changed mouse scroll and hotkey zoom to have consistent speed regardless "
-#~ "of the current zoom level."
-#~ msgstr ""
-#~ "Se ha modificado el desplazamiento del ratón y el zoom con teclas de "
-#~ "acceso rápido para que tengan una velocidad constante independientemente "
-#~ "del nivel de zoom actual."
-
-#~ msgid ""
-#~ "Changed mouse scroll to zoom by default instead of panning, and to pan "
-#~ "when Ctrl is held."
-#~ msgstr ""
-#~ "Cambiado el desplazamiento del ratón para hacer zoom por defecto en lugar "
-#~ "de desplazarse, y para desplazarse cuando se mantiene pulsada la tecla "
-#~ "Ctrl."
-
-#~ msgid ""
-#~ "Added panning by holding down the left mouse button and dragging when "
-#~ "zoomed-in."
-#~ msgstr ""
-#~ "Se ha añadido la posibilidad de hacer panorámicas manteniendo pulsado el "
-#~ "botón izquierdo del ratón y arrastrando cuando se hace zoom."
-
-#~ msgid "Changed the playback position to update smoothly."
-#~ msgstr ""
-#~ "Cambiada la posición de reproducción para que se actualice suavemente."
-
-#~ msgid ""
-#~ "You can now drag-and-drop a file out of Identity when it is not zoomed-in."
-#~ msgstr ""
-#~ "Ahora puede arrastrar y soltar un archivo fuera de Identidad cuando no "
-#~ "está ampliado."
-
-#~ msgid "Added Ctrl+C to copy the current file to clipboard."
-#~ msgstr "Se ha añadido Ctrl+C para copiar el archivo actual al portapapeles."
-
-#~ msgid "Added a context menu to tabs with a few common actions."
-#~ msgstr ""
-#~ "Se ha añadido un menú contextual a las pestañas con algunas acciones "
-#~ "comunes."
-
-#~ msgid ""
-#~ "Optimized video playback performance by enabling OpenGL video processing "
-#~ "on compatible setups."
-#~ msgstr ""
-#~ "Se ha optimizado el rendimiento de la reproducción de vídeo activando el "
-#~ "procesamiento de vídeo OpenGL en configuraciones compatibles."
-
-#~ msgid ""
-#~ "This release adds row and column display modes, reworks mouse gestures "
-#~ "and adds drag-and-drop from Identity."
-#~ msgstr ""
-#~ "Esta versión añade modos de visualización de filas y columnas, modifica "
-#~ "los gestos del ratón y añade la función de arrastrar y soltar desde "
-#~ "Identidad."
-
-#~ msgid "This release contains translation updates."
-#~ msgstr "Esta versión contiene actualizaciones de la traducción."
-
-#~ msgid "Added Dutch translation (thanks Heimen Stoffels)."
-#~ msgstr "Añadida traducción al holandés (gracias Heimen Stoffels)."
-
-#~ msgid "Added French translation (thanks Lapineige)."
-#~ msgstr "Añadida traducción al francés (gracias Lapineige)."
-
-#~ msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
-#~ msgstr "Añadida traducción al español (gracias Óscar Fernández Díaz)."
-
-#~ msgid "This release fixes minor UI issues."
-#~ msgstr "Esta versión corrige problemas menores en la UI."
-
-#~ msgid ""
-#~ "When closing a file, the next “tab” is now selected, or, if closing the "
-#~ "last file, the previous one is selected."
-#~ msgstr ""
-#~ "Al cerrar un archivo, se selecciona la siguiente \"pestaña\" o, si se "
-#~ "cierra el último archivo, se selecciona la anterior."
-
-#~ msgid "Fixed the application title not showing up upon closing all files."
-#~ msgstr ""
-#~ "Corregido el título de la aplicación que no aparece al cerrar todos los "
-#~ "archivos."
-
-#~ msgid "First release."
-#~ msgstr "Primera versión."
-
-#~ msgid "This release contains translation updates and minor UI changes."
-#~ msgstr ""
-#~ "Esta versión contiene actualizaciones de traducción y cambios menores en "
-#~ "la interfaz de usuario."
-
-#~ msgid "Video rotation tag is now respected."
-#~ msgstr "Ahora se respeta la etiqueta de rotación del vídeo."
-
-#~ msgid "Added Deutsch translation (thanks Johannes Hayeß)."
-#~ msgstr "Añadida la traducción al alemán (gracias Johannes Hayeß)."
-
-#~ msgid "Added Finnish translation (thanks Jiri Grönroos)."
-#~ msgstr "Añadida la traducción al finés (gracias Jiri Grönroos)."
-
-#~ msgid "Added Croatian translation (thanks Milo Ivir)."
-#~ msgstr "Añadida la traducción al croata (gracias Milo Ivir)."
-
-#~ msgid "Added Italian translation (thanks Blackcat-917)."
-#~ msgstr "Añadida la traducción al italiano (gracias Blackcat-917)."
-
-#~ msgid "Added Brazilian Portuguese translation (thanks Gustavo Costa)."
-#~ msgstr ""
-#~ "Añadida la traducción al portugués brasileño (gracias Gustavo Costa)."
-
-#~ msgid "Added Slovak translation (thanks Jose Riha)."
-#~ msgstr "Añadida la traducción al eslovaco (gracias Jose Riha)."
-
-#~ msgid "Added Swedish translation (thanks Åke Engelbrektson)."
-#~ msgstr "Añadida la traducción al sueco (gracias Åke Engelbrektson)."
-
-#~ msgid "Added translation contribution link."
-#~ msgstr "Añadido un enlace de contribución a la traducción."
-
-#~ msgid ""
-#~ "Specified input device recommendations to improve display in the new "
-#~ "GNOME Software."
-#~ msgstr ""
-#~ "Recomendaciones sobre dispositivos de entrada para mejorar la "
-#~ "visualización en el nuevo GNOME Software."
-
-#~ msgid ""
-#~ "Label on the main window can now wrap so as not to restrict minimum "
-#~ "window size."
-#~ msgstr ""
-#~ "La etiqueta de la ventana principal puede ahora envolverse para no "
-#~ "restringir el tamaño mínimo de la ventana."
-
-#~ msgid "Identity is now a GTK 4 application!"
-#~ msgstr "¡Identidad es una aplicación GTK 4 ahora!"
-
-#~ msgid "Rewrote the application with GTK 4 and libadwaita."
-#~ msgstr "Aplicación reescrita con GTK 4 y libadwaita."
-
-#~ msgid ""
-#~ "Added tabs to replace the old file switcher. You can drag tabs to "
-#~ "rearrange them, drag a tab to split it into a new window, and drag tabs "
-#~ "between windows."
-#~ msgstr ""
-#~ "Añadidas pestañas para reemplazar el antiguo conmutador de archivos. "
-#~ "Puede arrastrar las pestañas para reorganizarlas, arrastrar una pestaña "
-#~ "para dividirla en una nueva ventana y arrastrar pestañas entre ventanas."
-
-#~ msgid "Changed the default style to dark."
-#~ msgstr "Cambiado el estilo predeterminado a oscuro."
-
-#~ msgid "Added Basque translation (thanks Sergio Varela)."
-#~ msgstr "Añadida la traducción al euskera (gracias a Sergio Varela)."
-
-#~ msgid "Added Galician translation (thanks Fran Diéguez)."
-#~ msgstr "Añadida la traducción al gallego (gracias Fran Diéguez)."
-
-#~ msgid "Added Japanese translation (thanks Kaz Sibuya)."
-#~ msgstr "Añadida la traducción al japonés (gracias a Kaz Sibuya)."
-
-#~ msgid "Added Polish translation (thanks Rafał Baran)."
-#~ msgstr "Añadida la traducción al polaco (gracias Rafał Baran)."
-
-#~ msgid "Added Chinese Simplified translation (thanks Garling Liang)."
-#~ msgstr ""
-#~ "Añadida la traducción al chino simplificado (gracias Garling Liang)."
-
-#~ msgid "This release adds zoom support."
-#~ msgstr "Esta versión añade soporte para el zum."
-
-#~ msgid ""
-#~ "Added the ability to zoom in and out. You can use hotkeys, Ctrl + scroll, "
-#~ "pinch zoom on a touchpad or touchscreen, or input the zoom factor "
-#~ "manually. Zoom and view position are synchronized between the open files."
-#~ msgstr ""
-#~ "Añadida la posibilidad de acercar y alejar el zum. Se pueden usar teclas "
-#~ "de acceso rápido, Ctrl + desplazamiento, pellizcar el zum en un touchpad "
-#~ "o pantalla táctil, o introducir el factor de zum manualmente. El zum y la "
-#~ "posición de la vista se sincronizan entre los archivos abiertos."
-
-#~ msgid "Added Czech translation (thanks Jaroslav Svoboda)."
-#~ msgstr "Añadida la traducción al checo (gracias a Jaroslav Svoboda)."
-
-#~ msgid ""
-#~ "Tab tooltips now show full file paths, which is useful when comparing "
-#~ "files with identical names."
-#~ msgstr ""
-#~ "La información sobre las pestañas ahora muestra las rutas completas de "
-#~ "los archivos, lo que resulta útil cuando se comparan archivos con nombres "
-#~ "idénticos."
-
-#~ msgid ""
-#~ "Updated to the GNOME 43 platform, which brings the ability to drag-and-"
-#~ "drop from Files on Flatpak and a refreshed About dialog."
-#~ msgstr ""
-#~ "Actualizado a la plataforma GNOME 43, que trae la capacidad de arrastrar "
-#~ "y soltar desde Archivos en Flatpak y un renovado diálogo Acerca de."
-
-#~ msgid "Added WebP images to the list of supported file types."
-#~ msgstr ""
-#~ "Se han añadido las imágenes WebP a la lista de tipos de archivo "
-#~ "compatibles."
-
-#~ msgid "Added Occitan translation (thanks Quentin PAGÈS)."
-#~ msgstr "Añadida la traducción al occitano (gracias Quentin PAGÈS)."
-
-#~ msgid "Added Serbian Cyrillic translation (thanks Јован Здравковић)."
-#~ msgstr ""
-#~ "Añadida la traducción al cirílico serbio (gracias a Јован Здравковић)."
-
-#~ msgid "Added Tamil translation (thanks க.பா.தருண் கிருஷ்ணா)."
-#~ msgstr "Añadida la traducción al tamil (gracias க.பா.தருண் கிருஷ்ணா)."
-
-#~ msgid "Added Turkish translation (thanks Sabri Ünal)."
-#~ msgstr "Añadida la traducción al turco (gracias Sabri Ünal)."
-
-#~ msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
-#~ msgstr "Añadida la traducción al chino tradicional (gracias Kisaragi Hiu)."
-
-#~ msgid ""
-#~ "This release adds a media properties dialog and updates Identity to the "
-#~ "GNOME 43 platform."
-#~ msgstr ""
-#~ "Esta versión añade un cuadro de diálogo de propiedades multimedia y "
-#~ "actualiza Identidad a la plataforma GNOME 43."
-
-#~ msgid ""
-#~ "Added a media properties dialog which will display information about the "
-#~ "currently open file."
-#~ msgstr ""
-#~ "Se ha añadido un diálogo de propiedades de los archivos multimedia que "
-#~ "mostrará información sobre el archivo actualmente abierto."
