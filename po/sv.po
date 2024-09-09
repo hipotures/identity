@@ -1,8 +1,10 @@
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2023, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 09:46+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-11 19:55+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -10,11 +12,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
 msgstr "Identity"
 
@@ -48,7 +50,8 @@ msgstr "Du kan öppna filer som flikar"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspektera egenskaper för en video i en dialog"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -293,53 +296,53 @@ msgid "Arrange in a Column"
 msgstr "Ordna i kolumner"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Huvudmeny"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Jämför media"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Dra och släpp bilder eller videoklipp här"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Öppna media…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Välj en bild eller video"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Öppna"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Zoomnivå"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Välj zoomnivå"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
 msgstr ""
 "Åke Engelbrektson <eson@svenskasprakfiler.se>\n"
@@ -347,82 +350,86 @@ msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "Bidra med översättningar"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"Denna utgåva lägger till pixlad visning för inzoomade bilder och videoklipp, "
-"förbättrar formatstödet och fixar flera problem."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"Inzoomade bilder och videoklipp blir nu pixliga snarare än att bli suddiga."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-"Fixade minnesanvändning som inte minskar då bilder och videoklipp stängs."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "Förbättrad svarstid för användargränssnitt med många öppna filer."
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Förbättrad prestanda på AV1-videor."
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "Zoomnivå tar nu fraktionell visningsskala i beaktande."
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Lade till stöd för WebP-bilder."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr "Fixade ovanligt snabb zoom för möss med högupplösningsrullhjul."
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Fixade visning av halvtransparenta bilder och videor."
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "Fixade något suddiga bildkanter på några zoomnivåer."
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Fixade visning av 16-bitars färgbilder."
+msgid "Updated to the GNOME 47 platform."
+msgstr "Uppdaterad till GNOME 47-plattformen."
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "Tog bort panorering från nypzoomgesten för styrplattor."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr ""
-"Fixade oändlig väntesnurra för inläsning vid öppnande av vissa filer i "
-"stället för fel."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Uppdaterad till GNOME 45-plattformen."
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Uppdaterade översättningar."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "Bästa passform"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "Videor och bilder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "Öppna videor eller bilder att jämföra"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "Denna utgåva lägger till pixlad visning för inzoomade bilder och "
+#~ "videoklipp, förbättrar formatstödet och fixar flera problem."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "Inzoomade bilder och videoklipp blir nu pixliga snarare än att bli "
+#~ "suddiga."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr ""
+#~ "Fixade minnesanvändning som inte minskar då bilder och videoklipp stängs."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr "Förbättrad svarstid för användargränssnitt med många öppna filer."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Förbättrad prestanda på AV1-videor."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Lade till stöd för WebP-bilder."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Fixade visning av halvtransparenta bilder och videor."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "Fixade visning av 16-bitars färgbilder."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr "Tog bort panorering från nypzoomgesten för styrplattor."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Fixade oändlig väntesnurra för inläsning vid öppnande av vissa filer i "
+#~ "stället för fel."
 
 #~ msgid "Compare Images and Videos"
 #~ msgstr "Jämför bilder och videor"
