@@ -1,13 +1,13 @@
 # Basque translation for Identity.
 # Copyright (C) 2019 Identity's COPYRIGHT HOLDER
 # This file is distributed under the same license as the Identity package.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2023.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2023, 2024.
 #
 msgid ""
 msgstr "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-09-02 07:56+0000\n"
-"PO-Revision-Date: 2023-09-02 17:00+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-08-11 19:55+0000\n"
+"PO-Revision-Date: 2024-09-14 17:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -18,9 +18,9 @@ msgstr "Project-Id-Version: Identity\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:85
 msgid "Identity"
-msgstr "Identity"
+msgstr "Identitatea"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
@@ -52,7 +52,8 @@ msgstr "Fitxategiak fitxa modura ireki daitezke"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ikuskatu bideo baten propietateak elkarrizketa-koadro batean"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -180,7 +181,7 @@ msgstr "Erreproduzitu"
 #: data/resources/ui/shortcuts.blp:53
 msgctxt "shortcut window"
 msgid "Play / Pause"
-msgstr "Erreproduzitu / Pausatu"
+msgstr "Erreproduzitu / pausarazi"
 
 #: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
@@ -294,127 +295,140 @@ msgid "Arrange in a Column"
 msgstr "Antolatu zutabe batean"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Menu nagusia"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Konparazio multimedia"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Arrastatu eta jaregin irudiak edo bideoak hemen"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Ireki multimedia…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Hautatu irudi edo bideo bat"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Ireki"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Zoomaren maila"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Hautatu zoomaren maila"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
 msgid "N/A"
 msgstr "E/E"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:343
 msgid "translator-credits"
-msgstr "translator-credits"
+msgstr "Asier Sarasua Garmendia <asiersarasua@ni.eus>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:346
 msgid "Contribute Translations"
 msgstr "Lagundu itzultzen"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr "Bertsio honek bistaratze pixelatua gehitu du irudi eta bideo handiagotuetarako, formatuen euskarria hobetu du eta zenbait akats konpontu ditu."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr "Orain, handiagotutako irudi eta bideoak pixelatu egingo dira, ez lausotu."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr "Konpondu da irudiak eta bideoak ixtean memoria-erabilera jaitsi ez izana."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "Fitxategi anitz irekita daudenean interfazeak duen erantzuna hobetu da."
-
 #: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Errendimendua honetau da AV1 bideoekin."
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "Orain, zoom-mailak  bistaratze-eskala frakzionala kontuan hartzen du."
 
 #: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "WebP irudien euskarria gehitu da."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr "Bereizmen handiko korritze-gurpila duten saguetan zoom azkarregia konpondu da"
 
 #: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Irudi eta bideo erdi gardenen bistaratzea konpondu da."
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "Zenbait zoom-mailatan irudi-ertz lausoak konpondu dira"
 
 #: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "16 bit-eko koloreak dituzten irudien bistaratzea konpondu da."
+msgid "Updated to the GNOME 47 platform."
+msgstr "GNOME 47 plataformara eguneratu da."
 
 #: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "Ukipen-panelaren atximurkatze eta handiagotzeko keinutik desplazamenduaren ekintza kendu da."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr "Zenbait fitxategi irekitzean birakaria betiko biraka geratzea konpondu da, orain errore bat ematen da."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "GNOME 45 plataformarako egokitu da."
-
-#: src/window.rs:363
 msgid "Updated translations."
 msgstr "Eguneratutako itzulpenak."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:580
 msgid "Best Fit"
 msgstr "Egokiena"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1639
 msgid "Videos and images"
 msgstr "Bideoak eta irudiak"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1647
 msgid "Open videos or images to compare"
 msgstr "Ireki eta konparatu bideoak edo irudiak"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "Bertsio honek bistaratze pixelatua gehitu du irudi eta bideo "
+#~ "handiagotuetarako, formatuen euskarria hobetu du eta zenbait akats "
+#~ "konpontu ditu."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "Orain, handiagotutako irudi eta bideoak pixelatu egingo dira, ez lausotu."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr ""
+#~ "Konpondu da irudiak eta bideoak ixtean memoria-erabilera jaitsi ez izana."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr ""
+#~ "Fitxategi anitz irekita daudenean interfazeak duen erantzuna hobetu da."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Errendimendua honetau da AV1 bideoekin."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "WebP irudien euskarria gehitu da."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Irudi eta bideo erdi gardenen bistaratzea konpondu da."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "16 bit-eko koloreak dituzten irudien bistaratzea konpondu da."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr ""
+#~ "Ukipen-panelaren atximurkatze eta handiagotzeko keinutik "
+#~ "desplazamenduaren ekintza kendu da."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Zenbait fitxategi irekitzean birakaria betiko biraka geratzea konpondu "
+#~ "da, orain errore bat ematen da."
 
 #~ msgid "Compare Images and Videos"
 #~ msgstr "Konparatu irudiak eta bideoak"
