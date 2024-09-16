@@ -26,6 +26,23 @@ mod utils;
 mod window;
 
 fn main() -> ExitCode {
+    // Prefer ngl renderer, unless the user explicitly asks for something else.
+    // This is because the Vulkan renderer doesn't properly import textures
+    // when using VA-API, which results in constant downloading and uploading
+    // of textures to host memory; moreover 'nearest' filtering is also broken
+    // with Vulkan.
+    //
+    // https://gitlab.freedesktop.org/mesa/mesa/-/issues/11629
+    // https://gitlab.gnome.org/GNOME/gtk/-/issues/6913
+    if env::var_os("GSK_RENDERER").is_none() {
+        // SAFETY: "This function is safe to call in a single-threaded program."
+        // We call this here before we call into any other library, so we can be
+        // quite sure that we're still single-threaded at this point.
+        unsafe {
+            env::set_var("GSK_RENDERER", "ngl");
+        }
+    }
+
     let filter = EnvFilter::builder()
         .with_default_directive(LevelFilter::INFO.into())
         .from_env_lossy();
