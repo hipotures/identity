@@ -412,8 +412,6 @@ mod imp {
                 }
             };
 
-            debug!("glycin load succeeded");
-
             let frame = match image.next_frame().await {
                 Ok(frame) => frame,
                 Err(err) => {
@@ -424,7 +422,7 @@ mod imp {
             };
 
             debug!(
-                "ready in {:?}",
+                "glycin ready in {:?}",
                 self.constructed_at
                     .get()
                     .expect("unexpected unset `constructed_at`")
@@ -607,7 +605,7 @@ mod imp {
                             drop(self.preroll_span.take());
 
                             debug!(
-                                "ready in {:?}",
+                                "playbin ready in {:?}",
                                 self.constructed_at
                                     .get()
                                     .expect("unexpected unset `constructed_at`")
