@@ -265,13 +265,13 @@ mod imp {
 
             for i in 0..10 {
                 klass.add_shortcut(&shortcut_with_arg(
-                    Key::from_name(&format!("{i}")).unwrap(),
+                    Key::from_name(format!("{i}")).unwrap(),
                     ModifierType::empty(),
                     "win.focus-tab",
                     &((i + 9) % 10).to_variant(),
                 ));
                 klass.add_shortcut(&shortcut_with_arg(
-                    Key::from_name(&format!("KP_{i}")).unwrap(),
+                    Key::from_name(format!("KP_{i}")).unwrap(),
                     ModifierType::empty(),
                     "win.focus-tab",
                     &((i + 9) % 10).to_variant(),
