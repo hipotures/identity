@@ -85,6 +85,7 @@ mod imp {
             obj.set_accels_for_action("win.zoom-in", &["<primary>plus"]);
             obj.set_accels_for_action("win.zoom-out", &["<primary>minus"]);
             obj.set_accels_for_action("win.set-scale-request(1.)", &["<primary>0"]);
+            obj.set_accels_for_action("win.media-properties", &["<alt>Return"]);
         }
     }
 

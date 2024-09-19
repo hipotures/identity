@@ -360,6 +360,7 @@ mod imp {
                 gettext("Zoom level now takes into account fractional display scale.");
                 gettext("Fixed unusably fast zoom on mice with high-resolution scroll wheels.");
                 gettext("Fixed slightly blurry image borders on some zoom levels.");
+                gettext("Added an Alt+Enter shortcut to open the media properties dialog.");
                 gettext("Updated to the GNOME 47 platform.");
                 gettext("Updated translations.");
             });
