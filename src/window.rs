@@ -356,6 +356,7 @@ mod imp {
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
                 // ones shown in the dialog.
                 let gettext = |_| ();
+                gettext("This release improves image format support and fixes a few issues with zooming.");
                 gettext("Images are now loaded with glycin, adding support for many more formats like AVIF and JPEG XL, and improving compatibility, like using the correct color space for JPEG images.");
                 gettext("Zoom level now takes into account fractional display scale.");
                 gettext("Fixed unusably fast zoom on mice with high-resolution scroll wheels.");
