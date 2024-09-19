@@ -15,12 +15,14 @@ const MIME_TYPES: &[&str] = &[
     "image/jpg",
     "image/pjpeg",
     "image/png",
+    "image/gif",
     "image/tiff",
     "image/x-bmp",
     "image/x-gray",
     "image/x-icb",
     "image/x-ico",
     "image/x-png",
+    "image/x-tga",
     "image/x-portable-anymap",
     "image/x-portable-bitmap",
     "image/x-portable-graymap",
@@ -33,6 +35,9 @@ const MIME_TYPES: &[&str] = &[
     "image/vnd.wap.wbmp",
     "image/webp",
     "image/x-icns",
+    "image/avif",
+    "image/heic",
+    "image/jxl",
     "video/3gp",
     "video/3gpp",
     "video/3gpp2",
@@ -351,6 +356,7 @@ mod imp {
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
                 // ones shown in the dialog.
                 let gettext = |_| ();
+                gettext("Images are now loaded with glycin, adding support for many more formats like AVIF and JPEG XL, and improving compatibility, like using the correct color space for JPEG images.");
                 gettext("Zoom level now takes into account fractional display scale.");
                 gettext("Fixed unusably fast zoom on mice with high-resolution scroll wheels.");
                 gettext("Fixed slightly blurry image borders on some zoom levels.");
@@ -859,8 +865,11 @@ mod imp {
                     self.player.attach_source(&playbin);
                     self.stack.set_visible_child_name("content");
                     self.obj().present_if_not_visible();
+                } else if page.texture().is_some() {
+                    self.stack.set_visible_child_name("content");
+                    self.obj().present_if_not_visible();
                 } else {
-                    error!("page isn't errored or loading, yet there's no playbin");
+                    error!("page isn't errored or loading, yet there's no playbin or texture");
                 }
             } else {
                 let id = page.connect_is_loading_notify(clone!(#[weak(rename_to = imp)] self, move |page| {

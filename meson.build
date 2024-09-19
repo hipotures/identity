@@ -19,6 +19,9 @@ dependency('gstreamer-video-1.0', version: '>= 1.24.0')
 dependency('libadwaita-1', version: '>= 1.6.0')
 dependency('dav1d', version: '>= 1.0.0')
 dependency('libwebpdemux', version: '>= 0.5')
+# Required by glycin crate
+dependency('lcms2', version: '>= 2.12.0')
+dependency('libseccomp', version: '>= 2.5.0')
 
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)
 desktop_file_validate = find_program('desktop-file-validate', required: false)

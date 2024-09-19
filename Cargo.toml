@@ -8,16 +8,17 @@ edition = "2021"
 adw = { version = "0.7.0", package = "libadwaita", features = ["v1_6"] }
 ashpd = { version = "0.9.1", features = ["gtk4"] }
 futures-util = "0.3.30"
-gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
-glib = { version = "0.20.0", features = ["log", "v2_74"] }
-gst = { version = "0.23.0", package = "gstreamer" }
+gettext-rs = { version = "0.7.1", features = ["gettext-system"] }
+glib = { version = "0.20.3", features = ["log", "v2_74"] }
+glycin = { version = "2.0.1", features = ["gdk4"] }
+gst = { version = "0.23.1", package = "gstreamer" }
 gst-plugin-dav1d = "0.13.0"
-gst-plugin-gtk4 = { version = "0.13.0", features = ["wayland", "x11egl", "x11glx", "dmabuf"] }
+gst-plugin-gtk4 = { version = "0.13.1", features = ["wayland", "x11egl", "x11glx", "dmabuf"] }
 gst-plugin-webp = "0.13.0"
 gst-video = { version = "0.23.0", package = "gstreamer-video" }
-gtk = { version = "0.9.0", package = "gtk4", features = ["v4_16"] }
+gtk = { version = "0.9.1", package = "gtk4", features = ["v4_16"] }
 tracing = "0.1.40"
 tracing-chrome = "0.7.2"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-tracing-tracy = "0.11.1"
+tracing-tracy = "0.11.2"

@@ -21,6 +21,7 @@ mod page_grid;
 mod picture;
 mod player;
 mod scale_request;
+mod texture_paintable;
 mod thumbnail_paintable;
 mod utils;
 mod window;

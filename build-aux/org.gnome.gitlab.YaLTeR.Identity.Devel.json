@@ -51,6 +51,21 @@
             ]
         },
         {
+            "name": "glycin",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dlibglycin=false",
+                "-Dtests=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/sophie-h/glycin.git",
+                    "commit": "ce58882288245c1650a444243e0e90c87e53f835"
+                }
+            ]
+        },
+        {
             "name": "identity",
             "buildsystem": "meson",
             "builddir": true,

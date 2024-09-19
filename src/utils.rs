@@ -1,3 +1,4 @@
+use gettextrs::gettext;
 use gtk::gdk;
 use gtk::prelude::*;
 
@@ -21,4 +22,17 @@ pub fn fractional_scale(widget: &impl WidgetExt) -> f64 {
     } else {
         f64::from(widget.scale_factor())
     }
+}
+
+fn freplace(mut s: String, args: impl IntoIterator<Item = impl AsRef<str>>) -> String {
+    for arg in args {
+        s = s.replacen("{}", arg.as_ref(), 1);
+    }
+
+    s
+}
+
+pub fn gettext_f(format: &str, args: impl IntoIterator<Item = impl AsRef<str>>) -> String {
+    let s = gettext(format);
+    freplace(s, args)
 }

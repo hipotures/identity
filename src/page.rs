@@ -24,6 +24,8 @@ mod imp {
 
     use super::*;
     use crate::application::VaDisplayState;
+    use crate::texture_paintable::TexturePaintable;
+    use crate::utils::gettext_f;
 
     const VA_CONTEXT_TYPE: &str = "gst.va.display.handle";
 
@@ -55,8 +57,15 @@ mod imp {
         h_scroll_pos: PhantomData<f64>,
         #[property(get = Self::v_scroll_pos, set = Self::set_v_scroll_pos, explicit_notify)]
         v_scroll_pos: PhantomData<f64>,
+
+        // Page can be backed either by a GStreamer playbin, or by glycin, in which case it will
+        // have a GdkTexture available. That is to say, either `playbin` or `texture` will be
+        // `Some`, but not both.
         #[property(get)]
         playbin: RefCell<Option<gst::Element>>,
+        #[property(get)]
+        texture: RefCell<Option<gdk::Texture>>,
+
         // This can be a OnceCell<String>, but then #[property] assumes it's not nullable.
         #[property(get = Self::display_name)]
         display_name: RefCell<Option<glib::GString>>,
@@ -181,7 +190,13 @@ mod imp {
             ));
             obj.add_controller(gesture);
 
-            self.prepare_playbin();
+            glib::MainContext::default().spawn_local(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                async move {
+                    imp.load_file().await;
+                }
+            ));
         }
 
         fn dispose(&self) {
@@ -302,7 +317,10 @@ mod imp {
                         // Translators: Pixel-resolution format string for the media properties
                         // window. `{}` are replaced with pixel width and height. For example,
                         // 1920 × 1080.
-                        Some(gettext!("{} × {}", width, height))
+                        Some(gettext_f(
+                            "{} × {}",
+                            [width.to_string(), height.to_string()],
+                        ))
                     } else {
                         None
                     }
@@ -361,12 +379,83 @@ mod imp {
             gdk::ContentProvider::for_value(&file_list.to_value())
         }
 
+        #[instrument("Page::load_file", skip_all)]
+        async fn load_file(&self) {
+            let file = self.file.get().expect("unexpected unset `file`");
+
+            // Try to load the file with glycin first, and only after it fails, try with GStreamer.
+            // This is unfortunate because it means that on network mounts the loading time becomes
+            // much longer. However, due to GStreamer being prone to crashing (e.g. simply loading
+            // a 16-bit PNG crashes the whole application at the time of this writing), we cannot
+            // load the playbin in parallel. Oh well...
+            let image = match glycin::Loader::new(file.clone()).load().await {
+                Ok(image) => image,
+                Err(err) => {
+                    if err.is_out_of_memory() {
+                        warn!("glycin reported out of memory; aborting loading");
+                        self.set_error();
+                        return;
+                    }
+
+                    let elapsed = self
+                        .constructed_at
+                        .get()
+                        .expect("unexpected unset `constructed_at`")
+                        .elapsed();
+                    debug!(
+                        "glycin failed to load format {:?} after {elapsed:?}, trying GStreamer",
+                        err.unsupported_format(),
+                    );
+
+                    self.prepare_playbin(file);
+                    return;
+                }
+            };
+
+            debug!("glycin load succeeded");
+
+            let frame = match image.next_frame().await {
+                Ok(frame) => frame,
+                Err(err) => {
+                    warn!("error loading frame with glycin: {err}");
+                    self.set_error();
+                    return;
+                }
+            };
+
+            debug!(
+                "ready in {:?}",
+                self.constructed_at
+                    .get()
+                    .expect("unexpected unset `constructed_at`")
+                    .elapsed()
+            );
+
+            let obj = self.obj();
+            let _guard = obj.freeze_notify();
+
+            let texture = frame.texture();
+            let paintable = TexturePaintable::new(&texture);
+            self.picture.set_paintable(Some(paintable));
+            assert_eq!(self.texture.replace(Some(texture)), None);
+
+            self.is_loading.set(false);
+            obj.notify_is_loading();
+
+            obj.notify_resolution();
+
+            if let Some(format_name) = image.format_name() {
+                self.container_format.replace(Some(format_name));
+                self.obj().notify_container_format();
+            }
+
+            self.stack.set_visible_child_name("content");
+        }
+
         /// Prepares the playbin for the file.
         #[instrument("Page::prepare_playbin", skip_all)]
-        fn prepare_playbin(&self) {
+        fn prepare_playbin(&self, file: &gio::File) {
             let obj = self.obj();
-
-            let file = self.file.get().expect("unexpected unset `file`");
 
             let sink = gst::ElementFactory::make("gtk4paintablesink")
                 .build()
