@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
-"PO-Revision-Date: 2024-08-12 19:36+0300\n"
+"POT-Creation-Date: 2024-09-19 09:17+0000\n"
+"PO-Revision-Date: 2024-09-20 22:05+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:85
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Ідентичність"
 
@@ -58,7 +58,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ознайомлення із декількома властивостями відео у діалоговому вікні"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
 msgid "Ivan Molodetskikh"
 msgstr "Іван Молодєцкіх"
 
@@ -166,82 +166,88 @@ msgid "Close selected file"
 msgstr "Закрити позначений файл"
 
 #: data/resources/ui/shortcuts.blp:34
+#| msgid "_Media Properties"
+msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Показати властивості мультимедійних даних"
+
+#: data/resources/ui/shortcuts.blp:39
 msgctxt "shortcut window"
 msgid "New window"
 msgstr "Відкрити нове вікно"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти з програми"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Відтворення"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Старт / Пауза"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Далі на один кадр"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Назад на один кадр"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Масштаб"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Збільшити"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Зменшити"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Масштаб 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Якнайкраще влаштувати"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Показ"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Упорядкувати за вкладками"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Упорядкувати у рядок"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Упорядкувати у стовпчик"
@@ -341,61 +347,88 @@ msgstr "Масштабування"
 msgid "Select Zoom Level"
 msgstr "Вибрати масштаб"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
+#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
 msgid "N/A"
 msgstr "н/д"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:343
+#: src/window.rs:348
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2023"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:346
+#: src/window.rs:351
 msgid "Contribute Translations"
 msgstr "Надсилання перекладів"
 
-#: src/window.rs:354
+#: src/window.rs:359
+msgid ""
+"This release improves image format support and fixes a few issues with "
+"zooming."
+msgstr ""
+"У цьому випуску удосконалено підтримку форматів зображень та виправлено"
+" декілька вад із масштабуванням."
+
+#: src/window.rs:360
+msgid ""
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
+msgstr ""
+"У новій версії зображення завантажує glycin, додано підтримку багатьох"
+" додаткових форматів, зокрема AVIF і JPEG XL та удосконалено сумісність,"
+" зокрема використання належного простору кольорів для зображень JPEG."
+
+#: src/window.rs:361
 msgid "Zoom level now takes into account fractional display scale."
 msgstr ""
-"Враховано дробові значення масштабування дисплея при обчисленні коефіцієнта"
-" масштабування."
+"Враховано дробові значення масштабування дисплея при обчисленні коефіцієнта "
+"масштабування."
 
-#: src/window.rs:355
+#: src/window.rs:362
 msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 msgstr ""
-"Виправлено надто швидке масштабування при використанні коліщаток гортання з"
-" високою роздільною здатністю."
+"Виправлено надто швидке масштабування при використанні коліщаток гортання з "
+"високою роздільною здатністю."
 
-#: src/window.rs:356
+#: src/window.rs:363
 msgid "Fixed slightly blurry image borders on some zoom levels."
 msgstr ""
 "Виправлено дещо замилені межі зображення при деяких рівнях масштабування."
 
-#: src/window.rs:357
-#| msgid "Updated to the GNOME 45 platform."
+#: src/window.rs:364
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr ""
+"Додано комбінацію клавіш Alt+Enter для відкриття діалогового вікна"
+" властивостей."
+
+#: src/window.rs:365
 msgid "Updated to the GNOME 47 platform."
 msgstr "Додаток оновлено до платформи GNOME 47."
 
-#: src/window.rs:358
+#: src/window.rs:366
 msgid "Updated translations."
 msgstr "Оновлено переклади."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:580
+#: src/window.rs:588
 msgid "Best Fit"
 msgstr "Найкраще заповнення"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1639
+#: src/window.rs:1650
 msgid "Videos and images"
 msgstr "Відео і зображення"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1647
+#: src/window.rs:1658
 msgid "Open videos or images to compare"
 msgstr "Відкрийте відео або зображення для порівняння"
 
