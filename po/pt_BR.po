@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
-"PO-Revision-Date: 2024-08-20 18:42-0300\n"
+"POT-Creation-Date: 2024-09-19 09:17+0000\n"
+"PO-Revision-Date: 2024-09-20 08:39-0300\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
-"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 "X-DL-Branch: master\n"
 "X-DL-Domain: po\n"
 "X-DL-State: Translating\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:85
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
@@ -62,7 +62,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspecione algumas propriedades de um vídeo em uma caixa de diálogo"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -171,81 +171,86 @@ msgstr "Fecha arquivo selecionado"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Mostra as propriedades da mídia"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Nova janela"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Mostra atalhos"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Sai"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Reproduz"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Reproduz/pausa"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Avança um quadro"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Volta um quadro"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Aproxima"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Diminui"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Zoom 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Melhor ajuste"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Tela"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Organiza como abas"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Organiza em uma linha"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Organiza em uma coluna"
@@ -345,14 +350,18 @@ msgstr "Nível de zoom"
 msgid "Select Zoom Level"
 msgstr "Selecione o nível de zoom"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
+#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:343
+#: src/window.rs:348
 msgid "translator-credits"
 msgstr ""
 "Gabriel Gian <gabrielgian@protonmail.com>\n"
@@ -362,47 +371,70 @@ msgstr ""
 "Juliano de Souza Camargo <julianosc@pm.me>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:346
+#: src/window.rs:351
 msgid "Contribute Translations"
 msgstr "Contribuir com traduções"
 
-#: src/window.rs:354
+#: src/window.rs:359
+msgid ""
+"This release improves image format support and fixes a few issues with "
+"zooming."
+msgstr ""
+"Este lançamento melhora o suporte de formatos de imagens e conserta alguns "
+"problemas com a ampliação"
+
+#: src/window.rs:360
+msgid ""
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
+msgstr ""
+"Imagens são carregadas agora com o glycin, adicionando suporte a vários "
+"formatos como AVIF e JPEG XL, e melhorando a compatibilidade, como usando o "
+"espaço de cor correto para imagens JPEG."
+
+#: src/window.rs:361
 msgid "Zoom level now takes into account fractional display scale."
 msgstr ""
 "O nível de ampliação leva agora em conta uma escala fracionada da tela."
 
-#: src/window.rs:355
+#: src/window.rs:362
 msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 msgstr ""
 "Consertado nível de ampliação rápido inutilizável em mouse com rolagem de "
 "alta resolução."
 
-#: src/window.rs:356
+#: src/window.rs:363
 msgid "Fixed slightly blurry image borders on some zoom levels."
 msgstr ""
 "Consertado bordas de imagem levemente embaçada em alguns níveis de ampliação."
 
-#: src/window.rs:357
+#: src/window.rs:364
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr ""
+"Adicionado um atalho Alt+Enter para abrir o diálogo de propriedades da mídia."
+
+#: src/window.rs:365
 msgid "Updated to the GNOME 47 platform."
 msgstr "Atualizado para a plataforma GNOME 47."
 
-#: src/window.rs:358
+#: src/window.rs:366
 msgid "Updated translations."
 msgstr "Traduções atualizadas."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:580
+#: src/window.rs:588
 msgid "Best Fit"
 msgstr "Melhor ajuste"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1639
+#: src/window.rs:1650
 msgid "Videos and images"
 msgstr "Vídeos e imagens"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1647
+#: src/window.rs:1658
 msgid "Open videos or images to compare"
 msgstr "Abrir vídeos ou imagens para comparar"
 
