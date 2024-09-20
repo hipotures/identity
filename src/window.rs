@@ -874,20 +874,27 @@ mod imp {
                     error!("page isn't errored or loading, yet there's no playbin or texture");
                 }
             } else {
-                let id = page.connect_is_loading_notify(clone!(#[weak(rename_to = imp)] self, move |page| {
-                    if let Some(id) = imp.page_is_loading_notify_id.borrow_mut().remove(page) {
-                        page.disconnect(id);
-                    } else {
-                        error!("`page_is_loading_notify_id` should have had an entry for this page");
-                    }
+                let id = page.connect_is_loading_notify(clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |page| {
+                        if let Some(id) = imp.page_is_loading_notify_id.borrow_mut().remove(page) {
+                            page.disconnect(id);
+                        } else {
+                            error!(
+                                "`page_is_loading_notify_id` should have had \
+                                 an entry for this page"
+                            );
+                        }
 
-                    if let Some(playbin) = page.playbin() {
-                        imp.player.attach_source(&playbin);
-                    }
+                        if let Some(playbin) = page.playbin() {
+                            imp.player.attach_source(&playbin);
+                        }
 
-                    imp.stack.set_visible_child_name("content");
-                    imp.obj().present_if_not_visible();
-                }));
+                        imp.stack.set_visible_child_name("content");
+                        imp.obj().present_if_not_visible();
+                    }
+                ));
 
                 if self
                     .page_is_loading_notify_id
