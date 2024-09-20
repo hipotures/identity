@@ -27,6 +27,10 @@
       <caption>Inspect a few properties of a video in a dialog</caption>
     </screenshot>
   </screenshots>
+  <branding>
+    <color type="primary" scheme_preference="light">#8ff0a4</color>
+    <color type="primary" scheme_preference="dark">#1c6e49</color>
+  </branding>
   <url type="homepage">https://gitlab.gnome.org/YaLTeR/identity</url>
   <url type="bugtracker">https://gitlab.gnome.org/YaLTeR/identity/issues</url>
   <url type="translate">https://l10n.gnome.org/module/identity/</url>
