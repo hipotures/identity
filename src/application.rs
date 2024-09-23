@@ -64,6 +64,8 @@ mod imp {
         fn startup(&self) {
             self.parent_startup();
 
+            gtk::Window::set_default_icon_name(config::APP_ID);
+
             let obj = self.obj();
             obj.style_manager()
                 .set_color_scheme(adw::ColorScheme::PreferDark);
