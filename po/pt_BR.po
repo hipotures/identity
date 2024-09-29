@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-09-19 09:17+0000\n"
+"POT-Creation-Date: 2024-09-20 11:41+0000\n"
 "PO-Revision-Date: 2024-09-20 08:39-0300\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
-"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspecione algumas propriedades de um vídeo em uma caixa de diálogo"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:193
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -429,12 +429,12 @@ msgid "Best Fit"
 msgstr "Melhor ajuste"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1650
+#: src/window.rs:1657
 msgid "Videos and images"
 msgstr "Vídeos e imagens"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1658
+#: src/window.rs:1665
 msgid "Open videos or images to compare"
 msgstr "Abrir vídeos ou imagens para comparar"
 
