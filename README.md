@@ -26,6 +26,8 @@ Use `@@u` instead of `@@` to pass URIs.
 
 Identity uses GStreamer, and therefore your system's or Flatpak GNOME Platform's installed GStreamer plugins. In particular, Identity won't work at all without the `playbin3` element (typically in `gst-plugins-base`).
 
+For showing images, Identity uses [glycin]. When packaging Identity, remember to add runtime dependencies needed by glycin, like glycin-loaders. You can find the full list in [glycin's documentation](https://docs.rs/glycin/latest/glycin/#external-dependencies).
+
 ## Contributing translations
 
 You can help translate Identity: https://l10n.gnome.org/module/identity/. Any help is appreciated!
@@ -39,3 +41,5 @@ Alternatively, you can build it manually:
 meson -Dprofile=development -Dprefix=$PWD/install build
 ninja -C build install
 ```
+
+[glycin]: https://gitlab.gnome.org/sophie-h/glycin
