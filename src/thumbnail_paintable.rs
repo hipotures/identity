@@ -17,6 +17,7 @@ mod imp {
         #[property(get, set, construct_only)]
         paintable: OnceCell<gdk::Paintable>,
 
+        signals: OnceCell<glib::SignalGroup>,
         size: Cell<(i32, i32)>,
     }
 
@@ -45,19 +46,40 @@ mod imp {
             let obj = &*self.obj();
             self.parent_constructed();
 
-            self.paintable().connect_invalidate_contents(clone!(
-                #[weak]
-                obj,
-                move |_| obj.invalidate_contents()
-            ));
-            self.paintable().connect_invalidate_size(clone!(
-                #[weak]
-                obj,
-                move |_| {
-                    obj.imp().recompute_size();
-                    obj.invalidate_size();
-                }
-            ));
+            // Use a signal group so that as it's dropped along with Self, it disconnects the
+            // signals.
+            let signals = glib::SignalGroup::new::<gdk::Paintable>();
+            signals.connect_local(
+                "invalidate-contents",
+                false,
+                clone!(
+                    #[weak]
+                    obj,
+                    #[upgrade_or]
+                    None,
+                    move |_| {
+                        obj.invalidate_contents();
+                        None
+                    }
+                ),
+            );
+            signals.connect_local(
+                "invalidate-size",
+                false,
+                clone!(
+                    #[weak]
+                    obj,
+                    #[upgrade_or]
+                    None,
+                    move |_| {
+                        obj.imp().recompute_size();
+                        obj.invalidate_size();
+                        None
+                    }
+                ),
+            );
+            signals.set_target(Some(self.paintable()));
+            self.signals.set(signals).unwrap();
 
             self.recompute_size();
         }
