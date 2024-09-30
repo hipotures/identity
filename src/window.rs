@@ -223,6 +223,15 @@ mod imp {
         tab_bar: RefCell<Option<adw::TabBar>>,
 
         last_scale_factor: RefCell<Option<f64>>,
+
+        // Track the open file dialog for two reasons:
+        //
+        // 1. Modal portal dialogs don't set themselves as modal for the right GTK window group, so
+        //    track this manually.
+        // 2. To be able to cancel the dialog when this window closes.
+        //
+        // https://gitlab.gnome.org/GNOME/gtk/-/issues/7030
+        pub open_file_dialog: RefCell<Option<glib::JoinHandle<()>>>,
     }
 
     #[glib::object_subclass]
@@ -724,7 +733,15 @@ mod imp {
     }
 
     impl WidgetImpl for Window {}
-    impl WindowImpl for Window {}
+    impl WindowImpl for Window {
+        fn close_request(&self) -> glib::Propagation {
+            if let Some(handle) = self.open_file_dialog.replace(None) {
+                handle.abort();
+            }
+
+            glib::Propagation::Proceed
+        }
+    }
     impl ApplicationWindowImpl for Window {}
     impl AdwApplicationWindowImpl for Window {}
 
@@ -1652,6 +1669,11 @@ impl Window {
 
     #[template_callback]
     fn on_open_clicked(&self) {
+        if self.imp().open_file_dialog.borrow().is_some() {
+            debug!("file dialog is already open, skipping");
+            return;
+        }
+
         let filter = gtk::FileFilter::new();
         // Translators: file chooser file filter name.
         filter.set_name(Some(&gettext("Videos and images")));
@@ -1680,8 +1702,11 @@ impl Window {
                     }
                 }
             }
+
+            obj.imp().open_file_dialog.replace(None);
         };
 
-        glib::MainContext::default().spawn_local(future);
+        let handle = glib::MainContext::default().spawn_local(future);
+        self.imp().open_file_dialog.replace(Some(handle));
     }
 }
