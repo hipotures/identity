@@ -1,22 +1,23 @@
+# Swedish translation of Identity.
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
-"PO-Revision-Date: \n"
+"POT-Creation-Date: 2024-09-30 14:40+0000\n"
+"PO-Revision-Date: 2024-10-07 23:21+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:85
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
@@ -51,7 +52,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspektera egenskaper för en video i en dialog"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:193
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -160,81 +161,86 @@ msgstr "Stäng markerad fil"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Visa medieegenskaper"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Nytt fönster"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Visa genvägar"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Avsluta"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Uppspelning"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Spela / Paus"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Gå framåt en bildruta"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Gå bakåt en bildruta"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Zoom 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Bästa passform"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Visa"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Ordna i flikar"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Ordna i en rad"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Ordna i en kolumn"
@@ -335,14 +341,18 @@ msgstr "Zoomnivå"
 msgid "Select Zoom Level"
 msgstr "Välj zoomnivå"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
+#: src/page.rs:330 src/window.rs:520 src/window.rs:528 src/window.rs:536
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:343
+#: src/window.rs:357
 msgid "translator-credits"
 msgstr ""
 "Åke Engelbrektson <eson@svenskasprakfiler.se>\n"
@@ -350,43 +360,66 @@ msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:346
+#: src/window.rs:360
 msgid "Contribute Translations"
 msgstr "Bidra med översättningar"
 
-#: src/window.rs:354
+#: src/window.rs:368
+msgid ""
+"This release improves image format support and fixes a few issues with "
+"zooming."
+msgstr ""
+"Denna utgåva förbättrar stöd för bildformat och fixar några zoomproblem."
+
+#: src/window.rs:369
+msgid ""
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
+msgstr ""
+"Bilder läses nu in med glycin, vilket ger stöd för många fler format som "
+"AVIF och JPEG XL, och förbättrar kompatibilitet, som att använda rätt "
+"färgrymd för JPEG-bilder."
+
+#: src/window.rs:370
 msgid "Zoom level now takes into account fractional display scale."
 msgstr "Zoomnivå tar nu fraktionell visningsskala i beaktande."
 
-#: src/window.rs:355
+#: src/window.rs:371
 msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 msgstr "Fixade ovanligt snabb zoom för möss med högupplösningsrullhjul."
 
-#: src/window.rs:356
+#: src/window.rs:372
 msgid "Fixed slightly blurry image borders on some zoom levels."
 msgstr "Fixade något suddiga bildkanter på några zoomnivåer."
 
-#: src/window.rs:357
+#: src/window.rs:373
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr ""
+"La till kortkommandot Alt+Retur för att öppna dialogrutan för "
+"medieegenskaper."
+
+#: src/window.rs:374
 msgid "Updated to the GNOME 47 platform."
 msgstr "Uppdaterad till GNOME 47-plattformen."
 
-#: src/window.rs:358
+#: src/window.rs:375
 msgid "Updated translations."
 msgstr "Uppdaterade översättningar."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:580
+#: src/window.rs:597
 msgid "Best Fit"
 msgstr "Bästa passform"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1639
+#: src/window.rs:1679
 msgid "Videos and images"
 msgstr "Videor och bilder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1647
+#: src/window.rs:1687
 msgid "Open videos or images to compare"
 msgstr "Öppna videor eller bilder att jämföra"
 
