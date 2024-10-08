@@ -5,17 +5,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-09-19 09:17+0000\n"
-"PO-Revision-Date: 2024-09-19 12:30+0300\n"
-"Last-Translator: Ivan Molodetskikh <yalterz@gmail.com>\n"
+"POT-Creation-Date: 2024-09-29 11:59+0000\n"
+"PO-Revision-Date: 2024-10-01 22:52+0300\n"
+"Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 46.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -54,7 +54,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Проверка нескольких свойств видео в диалоговом окне"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:193
 msgid "Ivan Molodetskikh"
 msgstr "Иван Молодецких"
 
@@ -162,11 +162,9 @@ msgid "Close selected file"
 msgstr "Закрыть выбранный файл"
 
 #: data/resources/ui/shortcuts.blp:34
-#, fuzzy
-#| msgid "_Media Properties"
 msgctxt "shortcut window"
 msgid "Show media properties"
-msgstr "_Свойства файла"
+msgstr "Показать свойства файла"
 
 #: data/resources/ui/shortcuts.blp:39
 msgctxt "shortcut window"
@@ -420,12 +418,12 @@ msgid "Best Fit"
 msgstr "По размеру окна"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1650
+#: src/window.rs:1657
 msgid "Videos and images"
 msgstr "Видео и изображения"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1658
+#: src/window.rs:1665
 msgid "Open videos or images to compare"
 msgstr "Открыть видео или изображения для сравнения"
 
