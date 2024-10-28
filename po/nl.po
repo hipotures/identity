@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-09-19 09:17+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
@@ -10,11 +10,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Identiteit"
 
@@ -52,7 +52,8 @@ msgstr "U kunt bestanden openen als tabbladen"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspecteer enkele eigenschappen van een video in een dialoogvenster"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -161,81 +162,86 @@ msgstr "Geselecteerd bestand sluiten"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Media-eigenschappen tonen"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Nieuw venster"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Sneltoetsen tonen"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Afspelen"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Afspelen / pauzeren"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Eén frame vooruit"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Eén frame achteruit"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Zoomen"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Inzoomen"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Uitzoomen"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Oorsponkelijk zoomniveau"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Passend"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Weergave"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Tonen op tabbladen"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Tonen op rij"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Tonen in kolom"
@@ -296,53 +302,57 @@ msgid "Arrange in a Column"
 msgstr "Tonen in kolom"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Media vergelijken"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Sleep afbeeldingen of video’s hierheen"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Media openen…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Kies een afbeelding of video"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Openen"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Zoomniveau"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Kies een zoomniveau"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
 msgid "N/A"
 msgstr "n.v.t."
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:348
 msgid "translator-credits"
 msgstr ""
 "Heimen Stoffels <vistausss@fastmail.com>\n"
@@ -350,85 +360,112 @@ msgstr ""
 "Meer info over GNOME-NL https://nl.gnome.org"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:351
 msgid "Contribute Translations"
 msgstr "Helpen met vertalen"
 
-#: src/window.rs:350
+#: src/window.rs:359
 msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
+"This release improves image format support and fixes a few issues with "
+"zooming."
 msgstr ""
-"Deze uitgave voegt een korrelige weergave voor ingezoomde afbeeldingen en "
-"video’s toe, levert verbeterde ondersteuning voor bestandsformaten en lost "
-"verschillende problemen op."
-
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"Ingezoomde afbeeldingen en video’s zijn nu korrelig in plaats van wazig."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-"Opgelost: geheugengebruik gaat niet omlaag na sluiten van afbeeldingen en "
-"video’s."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr ""
-"De gebruikersinterface blijft vlotter draaien met veel geopende bestanden."
-
-#: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Prestaties voor AV1-video’s verbeterd."
-
-#: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Ondersteuning voor WebP-afbeeldingen toegevoegd."
-
-#: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Weergave van semitransparante afbeeldingen en video’s opgelost."
-
-#: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Weergave van 16-bits kleurenafbeeldingen opgelost."
-
-#: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "Knijp-om-te-zoomen met touchpad verschuift de weergave nu niet meer."
+"Deze uitgave bevat verbeterde ondersteuning voor afbeeldingsformaten en lost "
+"een paar probleempjes met zoomen op."
 
 #: src/window.rs:360
 msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
 msgstr ""
-"Eindeloos draaiend laadpictogram (in plaats van foutmelding) bij openen van "
-"bepaalde bestanden opgelost."
+"Afbeeldingen worden nu geladen met glycin, waardoor veel meer formaten "
+"ondersteund worden, zoals AVIF en JPEG XL, en de compatibiliteit verbeterd "
+"wordt, zoals de correcte kleurruimte voor JPEG-afbeeldingen."
+
+#: src/window.rs:361
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "Het zoomniveau houdt nu rekening met de fractionele weergaveschaal."
 
 #: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Bijgewerkt: GNOME-platform naar versie 45."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr ""
+"Oplossing voor onbruikbaar snelle zoom op muizen met hi-res scrolwieltjes."
 
 #: src/window.rs:363
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr "Oplossing voor ietwat wazige afbeeldingsranden op sommige zoomniveaus."
+
+#: src/window.rs:364
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr "De nieuwe sneltoets Alt+Enter opent de media-eigenschappen."
+
+#: src/window.rs:365
+msgid "Updated to the GNOME 47 platform."
+msgstr "Bijgewerkt: GNOME-platform naar versie 47."
+
+#: src/window.rs:366
 msgid "Updated translations."
 msgstr "Bijgewerkt: diverse vertalingen."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:588
 msgid "Best Fit"
 msgstr "Passend"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1650
 msgid "Videos and images"
 msgstr "Afbeeldingen en video’s"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1658
 msgid "Open videos or images to compare"
 msgstr "Open te vergelijken afbeeldingen of video’s"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "Deze uitgave voegt een korrelige weergave voor ingezoomde afbeeldingen en "
+#~ "video’s toe, levert verbeterde ondersteuning voor bestandsformaten en "
+#~ "lost verschillende problemen op."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "Ingezoomde afbeeldingen en video’s zijn nu korrelig in plaats van wazig."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr ""
+#~ "Opgelost: geheugengebruik gaat niet omlaag na sluiten van afbeeldingen en "
+#~ "video’s."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr ""
+#~ "De gebruikersinterface blijft vlotter draaien met veel geopende bestanden."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Prestaties voor AV1-video’s verbeterd."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Ondersteuning voor WebP-afbeeldingen toegevoegd."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Weergave van semitransparante afbeeldingen en video’s opgelost."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "Weergave van 16-bits kleurenafbeeldingen opgelost."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr ""
+#~ "Knijp-om-te-zoomen met touchpad verschuift de weergave nu niet meer."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Eindeloos draaiend laadpictogram (in plaats van foutmelding) bij openen "
+#~ "van bepaalde bestanden opgelost."
 
 #~ msgid "Open videos or images to compare by pressing the Open button."
 #~ msgstr "Klik op ‘Openen’ om afbeeldingen of video’s te openen."
