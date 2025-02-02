@@ -1,20 +1,28 @@
+# German translation for Identity.
+#
+# Johannes Hayeß
+# Jürgen Benvenuti <gastornis@posteo.org>
+# Philipp Kiemle <l10n@prly.mozmail.com>, 2025.
+# Tim Sabsch <tim@sabsch.com>, 2025.
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2025-01-23 13:13+0000\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
@@ -49,7 +57,8 @@ msgstr "Sie können Dateien als Reiter öffnen"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr "Einige Eigenschaften eines Videos in einem Dialogfeld untersuchen"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:193
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -158,81 +167,86 @@ msgstr "Ausgewählte Datei schließen"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Medieneigenschaften anzeigen"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Neues Fenster"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Tastenkürzel anzeigen"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Schließen"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Abspielen"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Wiedergabe / Pause"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Ein Einzelbild vorwärts gehen"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Ein Einzelbild rückwärts gehen"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Ansicht ändern"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Vergrößerung 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Beste Einpassung"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Anzeige"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Als Reiter anordnen"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "In einer Reihe anordnen"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "In einer Spalte anordnen"
@@ -293,140 +307,177 @@ msgid "Arrange in a Column"
 msgstr "In einer Spalte anordnen"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Medien vergleichen"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Bilder oder Videos hierher ziehen und ablegen"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Medien öffnen …"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Ein Bild oder Video auswählen"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Öffnen"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Vergrößerungsstufe"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Vergrößerungsstufe auswählen"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:330 src/window.rs:520 src/window.rs:528 src/window.rs:536
 msgid "N/A"
 msgstr "N/V"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:357
 msgid "translator-credits"
 msgstr ""
 "Johannes Hayeß\n"
-"Philipp Kiemle <philipp.kiemle@gmail.com>\n"
-"Jürgen Benvenuti <gastornis@posteo.org>"
+"Philipp Kiemle <l10n@prly.mozmail.com>\n"
+"Jürgen Benvenuti <gastornis@posteo.org>\n"
+"Tim Sabsch <tim@sabsch.com>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:360
 msgid "Contribute Translations"
 msgstr "Übersetzungen beitragen"
 
-#: src/window.rs:350
+#: src/window.rs:368
 msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
+"This release improves image format support and fixes a few issues with "
+"zooming."
 msgstr ""
-"Diese Veröffentlichung fügt eine verpixelte Anzeige für vergrößerte Bilder "
-"und Videos hinzu, verbessert die Formatunterstützung und behebt mehrere "
-"Probleme."
+"Diese Version verbessert die Bildformatunterstützung und behebt einige "
+"Probleme beim Ändern der Vergrößerungsstufe."
 
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#: src/window.rs:369
+msgid ""
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
 msgstr ""
-"Vergrößerte Bilder und Videos sind nun eher verpixelt denn verschwommen."
+"Bilder werden jetzt mit glycin geladen, was Unterstützung für viel mehr "
+"Formate wie AVIF und JPEG XL ermöglicht und die Kompatibilität verbessert, "
+"wie etwa die Verwendung des richtigen Farbraums für JPEG-Bilder."
 
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
+#: src/window.rs:370
+msgid "Zoom level now takes into account fractional display scale."
+msgstr "Die Vergrößerungsstufe berücksichtigt jetzt das Anzeigeverhältnis."
+
+#: src/window.rs:371
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 msgstr ""
-"Nicht verringerte Speichernutzung beim Schließen von Bildern und Videos "
+"Eine unbrauchbar schnelle Änderung der Vergrößerungsstufe bei Mäusen mit "
+"hochauflösenden Mausrädern wurde behoben."
+
+#: src/window.rs:372
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr ""
+"Leicht verschwommene Bildränder bei manchen Vergrößerungsstufen wurden "
 "behoben."
 
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
+#: src/window.rs:373
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
 msgstr ""
-"Verbessertes Verhalten der Benutzeroberfläche bei vielen geöffneten Dateien."
+"Die Tastenkombination Alt+Eingabe wurde hinzugefügt, um den Dialog für "
+"Medieneigenschaften zu öffnen."
 
-#: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Verbesserte Leistung bei AV1-Videos."
+#: src/window.rs:374
+msgid "Updated to the GNOME 47 platform."
+msgstr "Auf die GNOME 47-Plattform aktualisiert."
 
-#: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Unterstützung für WebP-Bilder hinzugefügt."
-
-#: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Anzeige von halbtransparenten Bildern und Videos behoben."
-
-#: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Anzeige von 16-Bit-Farbbildern behoben."
-
-# Sehr frei übersetzt. Bessere Variante willkommen. - jb
-#: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr "»Verschieben« aus der Tastfeld-Gestensteuerung entfernt."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr ""
-"Unendliche Ladeanzeige statt eines Fehlers beim Öffnen bestimmter Dateien "
-"behoben."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Auf die GNOME 45-Plattform aktualisiert."
-
-#: src/window.rs:363
+#: src/window.rs:375
 msgid "Updated translations."
 msgstr "Übersetzungen wurden aktualisiert."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:597
 msgid "Best Fit"
 msgstr "Beste Einpassung"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1679
 msgid "Videos and images"
 msgstr "Videos und Bilder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1687
 msgid "Open videos or images to compare"
 msgstr "Videos oder Bilder zum Vergleichen öffnen"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "Diese Veröffentlichung fügt eine verpixelte Anzeige für vergrößerte "
+#~ "Bilder und Videos hinzu, verbessert die Formatunterstützung und behebt "
+#~ "mehrere Probleme."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "Vergrößerte Bilder und Videos sind nun eher verpixelt denn verschwommen."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr ""
+#~ "Nicht verringerte Speichernutzung beim Schließen von Bildern und Videos "
+#~ "behoben."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr ""
+#~ "Verbessertes Verhalten der Benutzeroberfläche bei vielen geöffneten "
+#~ "Dateien."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Verbesserte Leistung bei AV1-Videos."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Unterstützung für WebP-Bilder hinzugefügt."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Anzeige von halbtransparenten Bildern und Videos behoben."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "Anzeige von 16-Bit-Farbbildern behoben."
+
+# Sehr frei übersetzt. Bessere Variante willkommen. - jb
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr "»Verschieben« aus der Tastfeld-Gestensteuerung entfernt."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Unendliche Ladeanzeige statt eines Fehlers beim Öffnen bestimmter Dateien "
+#~ "behoben."
 
 #~ msgid "Open videos or images to compare by pressing the Open button."
 #~ msgstr ""
