@@ -1,14 +1,14 @@
 # Danish translation for Identity.
 # Copyright (C) 2023 Identity's COPYRIGHT HOLDER
 # This file is distributed under the same license as the Identity package.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2023-24.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2023-25.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
-"PO-Revision-Date: 2024-08-22 19:36+0200\n"
+"POT-Creation-Date: 2024-09-19 09:17+0000\n"
+"PO-Revision-Date: 2025-02-16 15:48+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:85
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
@@ -56,7 +56,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Gennemse nogle få egenskaber af en video i en dialog"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -165,81 +165,86 @@ msgstr "Luk valgte fil"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Vis medieegenskaber"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Nyt vindue"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Vis genveje"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afslut"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Afspilning"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Afspil / pause"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Gå et billede frem"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Gå et billede tilbage"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zoom ind"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Zoom ud"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Zoom 1∶1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Bedste tilpasning"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Visning"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Arrangér som faneblade"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Arrangér i en række"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Arrangér i en søjle"
@@ -339,14 +344,18 @@ msgstr "Zoomniveau"
 msgid "Select Zoom Level"
 msgstr "Vælg zoomniveau"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
+#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
 msgid "N/A"
 msgstr "—"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:343
+#: src/window.rs:348
 msgid "translator-credits"
 msgstr ""
 "Alan Mortensen\n"
@@ -355,43 +364,65 @@ msgstr ""
 "Mere info: http://www.dansk-gruppen.dk"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:346
+#: src/window.rs:351
 msgid "Contribute Translations"
 msgstr "Bidrag med oversættelse"
 
-#: src/window.rs:354
+#: src/window.rs:359
+msgid ""
+"This release improves image format support and fixes a few issues with "
+"zooming."
+msgstr ""
+"Denne udgave forbedrer understøttelsen af billedformater og løser nogle få "
+"problemer med zoom."
+
+#: src/window.rs:360
+msgid ""
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
+msgstr ""
+"Billeder indlæses nu med glycin, hvilket tilføjer understøttelse af mange "
+"flere formater som AVIF og JPEG XL og forbedrer kompatibiliteten f.eks. ved "
+"at bruge det korrekte farverum til JPEG-billeder."
+
+#: src/window.rs:361
 msgid "Zoom level now takes into account fractional display scale."
 msgstr "Zoomniveauet tager nu højde for procentvis skalering af skærmen."
 
-#: src/window.rs:355
+#: src/window.rs:362
 msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 msgstr "Rettet ubrugelig hurtig zoom på mus med højopløst rullehjul."
 
-#: src/window.rs:356
+#: src/window.rs:363
 msgid "Fixed slightly blurry image borders on some zoom levels."
 msgstr "Rettet lidt slørede billedkanter ved nogle zoomniveauer."
 
-#: src/window.rs:357
+#: src/window.rs:364
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr "Tilføjet en Alt+Enter-genvej til at åbne dialogen med medieegenskaber."
+
+#: src/window.rs:365
 msgid "Updated to the GNOME 47 platform."
 msgstr "Opdateret til GNOME 47-platformen."
 
-#: src/window.rs:358
+#: src/window.rs:366
 msgid "Updated translations."
 msgstr "Opdaterede oversættelser."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:580
+#: src/window.rs:588
 msgid "Best Fit"
 msgstr "Bedste tilpasning"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1639
+#: src/window.rs:1650
 msgid "Videos and images"
 msgstr "Videoer og billeder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1647
+#: src/window.rs:1658
 msgid "Open videos or images to compare"
 msgstr "Åbn videoer eller billeder for at sammenligne dem"
 
