@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2023-08-31 08:23+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2024-09-19 09:17+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: \n"
@@ -10,11 +10,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Identiteetti"
 
@@ -50,7 +50,8 @@ msgstr "Voit avata tiedostot välilehtiin"
 msgid "Inspect a few properties of a video in a dialog"
 msgstr ""
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:173
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -159,81 +160,86 @@ msgstr "Sulje valittu tiedosto"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Näytä median ominaisuudet"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Uusi ikkuna"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Näytä pikanäppäimet"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Toisto"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Toista/keskeytä"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Yksi kuvakehys eteenpäin"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Yksi kuvakehys taaksepäin"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Suurennus"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Lähennä"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Loitonna"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Suurennus 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Paras sovitus"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Näytä"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Järjestä välilehdiksi"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Järjestä riviin"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Järjestä sarakkeeseen"
@@ -294,129 +300,130 @@ msgid "Arrange in a Column"
 msgstr "Järjestä sarakkeeseen"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
 msgid "Main Menu"
 msgstr "Päävalikko"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:173
 msgid "Compare Media"
 msgstr "Vertaa mediaa"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:176
 msgid "Drag and drop images or videos here"
 msgstr "Vedä ja pudota kuvat tai videot tähän"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:180
 msgid "Open Media…"
 msgstr "Avaa media…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
 msgid "Select an Image or Video"
 msgstr "Valitse kuva tai video"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:205
 msgid "Open"
 msgstr "Avaa"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:240
 msgid "Zoom Level"
 msgstr "Suurennuksen taso"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:245
 msgid "Select Zoom Level"
 msgstr "Valitse suurennuksen taso"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
 msgid "N/A"
 msgstr "-"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:348
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
-msgid "Contribute Translations"
-msgstr ""
-
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-
 #: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
+msgid "Contribute Translations"
+msgstr "Osallistu käännöksiin"
 
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr ""
-
-#: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "AV1-videoiden paranneltu suorituskyky."
-
-#: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Lisätty tuki WebP-kuville."
-
-#: src/window.rs:356
-#, fuzzy
-#| msgid "Compare images and videos"
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Vertaa kuvia ja videoita"
-
-#: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr ""
-
-#: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
+#: src/window.rs:359
+msgid ""
+"This release improves image format support and fixes a few issues with "
+"zooming."
 msgstr ""
 
 #: src/window.rs:360
 msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
+msgstr ""
+
+#: src/window.rs:361
+msgid "Zoom level now takes into account fractional display scale."
 msgstr ""
 
 #: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Päivitetty Gnome 45 -alustaan."
+msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+msgstr ""
 
 #: src/window.rs:363
+msgid "Fixed slightly blurry image borders on some zoom levels."
+msgstr ""
+
+#: src/window.rs:364
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr ""
+
+#: src/window.rs:365
+#, fuzzy
+#| msgid "Updated to the GNOME 45 platform."
+msgid "Updated to the GNOME 47 platform."
+msgstr "Päivitetty Gnome 45 -alustaan."
+
+#: src/window.rs:366
 msgid "Updated translations."
 msgstr "Päivitetyt kielikäännökset."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:588
 msgid "Best Fit"
 msgstr "Paras sovitus"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1650
 msgid "Videos and images"
 msgstr "Videot ja kuvat"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1658
 msgid "Open videos or images to compare"
 msgstr "Avaa videoita tai kuvia vertailtavaksi"
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "AV1-videoiden paranneltu suorituskyky."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Lisätty tuki WebP-kuville."
+
+#, fuzzy
+#~| msgid "Compare images and videos"
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Vertaa kuvia ja videoita"
 
 #~ msgid "Open videos or images to compare by pressing the Open button."
 #~ msgstr ""
