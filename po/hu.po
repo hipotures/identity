@@ -1,14 +1,14 @@
 # Hungarian translation for Identity.
-# Copyright (C) 2023, 2024 Free Software Foundation, Inc.
+# Copyright (C) 2023, 2024, 2025 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Identity package.
 #
-# Balázs Úr <ur.balazs at fsf dot hu>, 2023, 2024.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
-"PO-Revision-Date: 2024-08-23 10:36+0200\n"
+"POT-Creation-Date: 2024-09-19 09:17+0000\n"
+"PO-Revision-Date: 2025-03-04 07:55+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:85
+#: data/resources/ui/window.blp:137 src/main.rs:103
 msgid "Identity"
 msgstr "Azonosság"
 
@@ -55,7 +55,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Egy videó néhány tulajdonságának vizsgálata egy párbeszédablakban"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -165,82 +165,88 @@ msgid "Close selected file"
 msgstr "A kijelölt fájl bezárása"
 
 #: data/resources/ui/shortcuts.blp:34
+#| msgid "_Media Properties"
+msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Média tulajdonságainak megjelenítése"
+
+#: data/resources/ui/shortcuts.blp:39
 msgctxt "shortcut window"
 msgid "New window"
 msgstr "Új ablak"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Gyorsbillentyűk megjelenítése"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Kilépés"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Lejátszás"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Lejátszás vagy szüneteltetés"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Előrelépés egy képkockával"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Visszalépés egy képkockával"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Nagyítás"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "1:1 nagyítás"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Legjobb illeszkedés"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Megjelenítés"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Átrendezés laponként"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Átrendezés egy sorban"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Átrendezés egy oszlopban"
@@ -340,58 +346,86 @@ msgstr "Nagyítási szint"
 msgid "Select Zoom Level"
 msgstr "Nagyítási szint kiválasztása"
 
+#: src/page.rs:321
+msgid "{} × {}"
+msgstr "{}×{}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
+#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
 msgid "N/A"
 msgstr "–"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:343
+#: src/window.rs:348
 msgid "translator-credits"
 msgstr "Úr Balázs <ur dot balazs at fsf dot hu>, 2023."
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:346
+#: src/window.rs:351
 msgid "Contribute Translations"
 msgstr "Közreműködés a fordításban"
 
-#: src/window.rs:354
+#: src/window.rs:359
+msgid ""
+"This release improves image format support and fixes a few issues with "
+"zooming."
+msgstr ""
+"Ez a kiadás javítja a képformátum-támogatást és kijavít néhány nagyítással"
+" kapcsolatos problémát."
+
+#: src/window.rs:360
+msgid ""
+"Images are now loaded with glycin, adding support for many more formats like "
+"AVIF and JPEG XL, and improving compatibility, like using the correct color "
+"space for JPEG images."
+msgstr ""
+"A képek betöltése mostantól glycin használatával történik, ami számos további"
+" formátum, például az AVIF és a JPEG XL támogatását adja hozzá, és javítja a"
+" kompatibilitást, például a JPEG-képek megfelelő színterének használatát."
+
+#: src/window.rs:361
 msgid "Zoom level now takes into account fractional display scale."
 msgstr ""
 "A nagyítási szint mostantól figyelembe veszi a szakaszos kijelzőméretezést."
 
-#: src/window.rs:355
+#: src/window.rs:362
 msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
 msgstr ""
-"Javítva a nagy felbontású görgetőkerékkel rendelkező egerek szokatlanul gyors"
-" nagyítása."
+"Javítva a nagy felbontású görgetőkerékkel rendelkező egerek szokatlanul "
+"gyors nagyítása."
 
-#: src/window.rs:356
+#: src/window.rs:363
 msgid "Fixed slightly blurry image borders on some zoom levels."
 msgstr "Javítva a kissé elmosódott képhatárok néhány nagyítási szinten."
 
-#: src/window.rs:357
-#| msgid "Updated to the GNOME 45 platform."
+#: src/window.rs:364
+msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+msgstr ""
+"Hozzáadva az Alt+Enter gyorsbillentyű a médiatulajdonságok párbeszédablak"
+" megnyitásához."
+
+#: src/window.rs:365
 msgid "Updated to the GNOME 47 platform."
 msgstr "Frissítve a GNOME 47 platformhoz."
 
-#: src/window.rs:358
+#: src/window.rs:366
 msgid "Updated translations."
 msgstr "Fordítások frissítve."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:580
+#: src/window.rs:588
 msgid "Best Fit"
 msgstr "Legjobb illeszkedés"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1639
+#: src/window.rs:1650
 msgid "Videos and images"
 msgstr "Videók és képek"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1647
+#: src/window.rs:1658
 msgid "Open videos or images to compare"
 msgstr "Összehasonlítandó videók vagy képek megnyitása"
+
