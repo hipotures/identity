@@ -56,7 +56,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler.git",
-                    "commit": "66b43c36cf1017c878762007373964a096b3d2a5"
+                    "commit": "04ef0944db56ab01307a29aaa7303df6067cb3c0"
                 }
             ]
         },
@@ -69,9 +69,9 @@
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/sophie-h/glycin.git",
-                    "commit": "ce58882288245c1650a444243e0e90c87e53f835"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/glycin/1.2/glycin-1.2.0.tar.xz",
+                    "sha256": "16ab4a48398639ef701c7c3e27a2d31075b30e0dcaf3f1652c907b188f4290d0"
                 }
             ]
         },
