@@ -15,6 +15,7 @@
     <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/tab-symbolic.svg">../icons/tab-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/vertical-symbolic.svg">../icons/vertical-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/actions/identity-symbolic.svg">../icons/org.gnome.gitlab.YaLTeR.Identity-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="icons/scalable/apps/org.gnome.gitlab.YaLTeR.VideoTrimmer.svg">../icons/org.gnome.gitlab.YaLTeR.VideoTrimmer.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="org.gnome.gitlab.YaLTeR.Identity.metainfo.xml">@appdata-file@</file>
   </gresource>
 </gresources>

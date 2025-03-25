@@ -354,6 +354,13 @@ mod imp {
                     &gettext("Contribute Translations"),
                     "https://l10n.gnome.org/module/identity/",
                 );
+                about_window.add_other_app(
+                    "org.gnome.gitlab.YaLTeR.VideoTrimmer",
+                    // Translators: name of https://apps.gnome.org/VideoTrimmer
+                    &gettext("Video Trimmer"),
+                    // Translators: summary of https://apps.gnome.org/VideoTrimmer
+                    &gettext("Trim videos quickly"),
+                );
                 about_window.present(Some(window));
 
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
