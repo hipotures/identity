@@ -6,19 +6,19 @@ edition = "2021"
 
 [dependencies]
 adw = { version = "0.7.2", package = "libadwaita", features = ["v1_7"] }
-ashpd = { version = "0.11.0", default-features = false, features = ["gtk4", "async-std"] }
-futures-util = "0.3.31"
-gettext-rs = { version = "0.7.2", features = ["gettext-system"] }
-glib = { version = "0.20.9", features = ["log", "v2_74"] }
-glycin = { version = "2.1.0", features = ["gdk4"] }
-gst = { version = "0.23.5", package = "gstreamer" }
-gst-plugin-dav1d = "0.13.4"
+ashpd = { version = "0.11", default-features = false, features = ["gtk4", "async-std"] }
+futures-util = "0.3"
+gettext-rs = { version = "0.7", features = ["gettext-system"] }
+glib = { version = "0.20.5", features = ["log", "v2_74"] }
+glycin = { version = "2", features = ["gdk4"] }
+gst = { version = "0.23", package = "gstreamer" }
+gst-plugin-dav1d = "0.13"
 gst-plugin-gtk4 = { version = "0.13.5", features = ["wayland", "x11egl", "x11glx", "dmabuf"] }
-gst-plugin-webp = "0.13.5"
-gst-video = { version = "0.23.5", package = "gstreamer-video" }
-gtk = { version = "0.9.6", package = "gtk4", features = ["v4_16"] }
-tracing = "0.1.41"
-tracing-chrome = "0.7.2"
-tracing-log = "0.2.0"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
-tracing-tracy = { version = "0.11.4", features = ["manual-lifetime"] }
+gst-plugin-webp = "0.13"
+gst-video = { version = "0.23", package = "gstreamer-video" }
+gtk = { version = "0.9", package = "gtk4", features = ["v4_16"] }
+tracing = "0.1.40"
+tracing-chrome = "0.7"
+tracing-log = "0.2"
+tracing-subscriber = { version = "0.3.16", features = ["env-filter"] }
+tracing-tracy = { version = "0.11", features = ["manual-lifetime"] }
