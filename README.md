@@ -42,4 +42,8 @@ meson -Dprofile=development -Dprefix=$PWD/install build
 ninja -C build install
 ```
 
+## Code of Conduct
+
+When interacting with the project, the [GNOME Code of Conduct](https://conduct.gnome.org) applies.
+
 [glycin]: https://gitlab.gnome.org/sophie-h/glycin
