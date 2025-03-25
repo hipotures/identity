@@ -170,15 +170,9 @@ mod imp {
         #[template_child]
         media_properties: TemplateChild<MediaProperties>,
         #[template_child]
-        tabbed_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        row_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        column_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
         display_mode_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        display_mode_selector: TemplateChild<gtk::Widget>,
+        display_mode_selector: TemplateChild<adw::ToggleGroup>,
         #[template_child]
         primary_menu_button_content: TemplateChild<gtk::MenuButton>,
 
@@ -1293,14 +1287,6 @@ mod imp {
 
             // Actually switch the display mode.
             self.in_display_mode_transition.set(true);
-
-            // Activate the correct ToggleButton.
-            let button = match value {
-                DisplayMode::Tabbed => &self.tabbed_button,
-                DisplayMode::Row => &self.row_button,
-                DisplayMode::Column => &self.column_button,
-            };
-            button.set_active(true);
 
             // Transfer the pages between widgets if necessary.
             match value {

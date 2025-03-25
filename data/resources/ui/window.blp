@@ -91,39 +91,30 @@ menu tab_menu {
   }
 }
 
-Box display_mode_selector {
-  styles ["linked"]
-  hexpand: true;
+Adw.ToggleGroup display_mode_selector {
+  styles ["flat"]
   homogeneous: true;
+  active-name: bind template.display-mode bidirectional;
 
-  ToggleButton tabbed_button {
+  Adw.Toggle {
     icon-name: "tab-symbolic";
     /* Translators: Tooltip for the primary menu button that selects the tabbed display mode. */
-    tooltip-text: _("Arrange as Tabs");
-    active: true;
-
-    action-target: "\"tabbed\"";
-    action-name: "win.set-display-mode";
+    tooltip: _("Arrange as Tabs");
+    name: "tabbed";
   }
 
-  ToggleButton row_button {
+  Adw.Toggle {
     icon-name: "horizontal-symbolic";
     /* Translators: Tooltip for the primary menu button that selects the tiled in a row display mode. */
-    tooltip-text: _("Arrange in a Row");
-    group: tabbed_button;
-
-    action-target: "\"row\"";
-    action-name: "win.set-display-mode";
+    tooltip: _("Arrange in a Row");
+    name: "row";
   }
 
-  ToggleButton column_button {
+  Adw.Toggle {
     icon-name: "vertical-symbolic";
     /* Translators: Tooltip for the primary menu button that selects the tiled in a column display mode. */
-    tooltip-text: _("Arrange in a Column");
-    group: tabbed_button;
-
-    action-target: "\"column\"";
-    action-name: "win.set-display-mode";
+    tooltip: _("Arrange in a Column");
+    name: "column";
   }
 }
 
