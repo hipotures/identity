@@ -1,26 +1,26 @@
 # Chinese translation for identity package.
 # Copyright (C) YEAR THE identity'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the identity package.
-# lumingzh <lumingzh@qq.com>, 2023-2024.
+# lumingzh <lumingzh@qq.com>, 2023-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-09-19 09:17+0000\n"
-"PO-Revision-Date: 2024-09-19 20:44+0800\n"
+"POT-Creation-Date: 2025-03-25 15:56+0000\n"
+"PO-Revision-Date: 2025-03-26 18:01+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 46.1\n"
+"X-Generator: Gtranslator 48.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:103
+#: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "识别"
 
@@ -57,7 +57,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "在对话框中检查视频的一些属性"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:189
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:203
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -295,52 +295,52 @@ msgid "Arrange as Tabs"
 msgstr "标签页排列"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
-#: data/resources/ui/window.blp:112
+#: data/resources/ui/window.blp:109
 msgid "Arrange in a Row"
 msgstr "按行排列"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
-#: data/resources/ui/window.blp:122
+#: data/resources/ui/window.blp:116
 msgid "Arrange in a Column"
 msgstr "按列排列"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
+#: data/resources/ui/window.blp:155 data/resources/ui/window.blp:216
 msgid "Main Menu"
 msgstr "主菜单"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:173
+#: data/resources/ui/window.blp:164
 msgid "Compare Media"
 msgstr "比较媒体"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:176
+#: data/resources/ui/window.blp:167
 msgid "Drag and drop images or videos here"
 msgstr "拖放图像或视频到这里"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:180
+#: data/resources/ui/window.blp:171
 msgid "Open Media…"
 msgstr "打开媒体…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:173 data/resources/ui/window.blp:198
 msgid "Select an Image or Video"
 msgstr "选择图像或视频"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:205
+#: data/resources/ui/window.blp:196
 msgid "Open"
 msgstr "打开"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:240
+#: data/resources/ui/window.blp:231
 msgid "Zoom Level"
 msgstr "缩放级别"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:245
+#: data/resources/ui/window.blp:236
 msgid "Select Zoom Level"
 msgstr "选择缩放级别"
 
@@ -350,76 +350,88 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:330 src/window.rs:511 src/window.rs:519 src/window.rs:527
+#: src/page.rs:330 src/window.rs:517 src/window.rs:525 src/window.rs:533
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:348
+#: src/window.rs:351
 msgid "translator-credits"
 msgstr ""
 "Garling Liang\n"
-"lumingzh <lumingzh@qq.com>, 2023-2024."
+"lumingzh <lumingzh@qq.com>, 2023-2025."
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:351
+#: src/window.rs:354
 msgid "Contribute Translations"
 msgstr "贡献翻译"
 
-#: src/window.rs:359
-msgid ""
-"This release improves image format support and fixes a few issues with "
-"zooming."
-msgstr "此次发布提升了图像格式支持并修复了一些缩放问题。"
-
+#. Translators: name of https://apps.gnome.org/VideoTrimmer
 #: src/window.rs:360
-msgid ""
-"Images are now loaded with glycin, adding support for many more formats like "
-"AVIF and JPEG XL, and improving compatibility, like using the correct color "
-"space for JPEG images."
-msgstr ""
-"现在使用 glycin 加载图像，添加了对更多格式如 AVIF 和 JPEG XL 的支持，并提升了"
-"兼容性，如为 JPEG 图像使用正确的色彩空间。"
+msgid "Video Trimmer"
+msgstr "视频剪裁器"
 
-#: src/window.rs:361
-msgid "Zoom level now takes into account fractional display scale."
-msgstr "缩放级别现已将显示器分数缩放纳入考虑。"
-
+#. Translators: summary of https://apps.gnome.org/VideoTrimmer
 #: src/window.rs:362
-msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
-msgstr "修复了在高分辨率滚轮鼠标上无法使用快速缩放的问题。"
+msgid "Trim videos quickly"
+msgstr "快速剪裁视频"
 
-#: src/window.rs:363
-msgid "Fixed slightly blurry image borders on some zoom levels."
-msgstr "修复了在一些缩放级别图像边界轻微模糊的问题。"
+#: src/window.rs:369
+msgid "This release has a minor visual refresh for GNOME 48."
+msgstr "此次发布包含了适用 GNOME 48 的微小视觉更新。"
 
-#: src/window.rs:364
-msgid "Added an Alt+Enter shortcut to open the media properties dialog."
-msgstr "添加了 Alt+Enter 快捷键来打开媒体属性对话框。"
+#: src/window.rs:370
+msgid "Changed the versioning scheme to year.month."
+msgstr "将版本策略更改为“年.月”。"
 
-#: src/window.rs:365
-msgid "Updated to the GNOME 47 platform."
-msgstr "更新至 GNOME 47 平台。"
+#: src/window.rs:371
+msgid "Updated to the GNOME 48 platform."
+msgstr "更新至 GNOME 48 平台。"
 
-#: src/window.rs:366
+#: src/window.rs:372
 msgid "Updated translations."
 msgstr "更新了翻译。"
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:588
+#: src/window.rs:594
 msgid "Best Fit"
 msgstr "最佳匹配"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1650
+#: src/window.rs:1668
 msgid "Videos and images"
 msgstr "视频和图像"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1658
+#: src/window.rs:1676
 msgid "Open videos or images to compare"
 msgstr "打开视频或图像以比较"
+
+#~ msgid ""
+#~ "This release improves image format support and fixes a few issues with "
+#~ "zooming."
+#~ msgstr "此次发布提升了图像格式支持并修复了一些缩放问题。"
+
+#~ msgid ""
+#~ "Images are now loaded with glycin, adding support for many more formats "
+#~ "like AVIF and JPEG XL, and improving compatibility, like using the "
+#~ "correct color space for JPEG images."
+#~ msgstr ""
+#~ "现在使用 glycin 加载图像，添加了对更多格式如 AVIF 和 JPEG XL 的支持，并提"
+#~ "升了兼容性，如为 JPEG 图像使用正确的色彩空间。"
+
+#~ msgid "Zoom level now takes into account fractional display scale."
+#~ msgstr "缩放级别现已将显示器分数缩放纳入考虑。"
+
+#~ msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+#~ msgstr "修复了在高分辨率滚轮鼠标上无法使用快速缩放的问题。"
+
+#~ msgid "Fixed slightly blurry image borders on some zoom levels."
+#~ msgstr "修复了在一些缩放级别图像边界轻微模糊的问题。"
+
+#~ msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+#~ msgstr "添加了 Alt+Enter 快捷键来打开媒体属性对话框。"
 
 #~ msgid ""
 #~ "This release adds pixelated display for zoomed-in images and videos, "
@@ -467,9 +479,6 @@ msgstr "打开视频或图像以比较"
 
 #~ msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
 #~ msgstr "增加西班牙语翻译（感谢 Óscar Fernández Díaz）。"
-
-#~ msgid "This release fixes minor UI issues."
-#~ msgstr "此版本修复几个界面上的小问题。"
 
 #~ msgid ""
 #~ "When closing a file, the next “tab” is now selected, or, if closing the "
