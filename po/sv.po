@@ -1,12 +1,12 @@
 # Swedish translation of Identity.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2023, 2024.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2023, 2024, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-09-30 14:40+0000\n"
-"PO-Revision-Date: 2024-10-07 23:21+0200\n"
+"POT-Creation-Date: 2025-03-25 15:56+0000\n"
+"PO-Revision-Date: 2025-03-25 17:35+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:103
+#: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
@@ -52,7 +52,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Inspektera egenskaper för en video i en dialog"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:193
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:203
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -292,52 +292,52 @@ msgid "Arrange as Tabs"
 msgstr "Ordna i flikar"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
-#: data/resources/ui/window.blp:112
+#: data/resources/ui/window.blp:109
 msgid "Arrange in a Row"
 msgstr "Ordna i rader"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
-#: data/resources/ui/window.blp:122
+#: data/resources/ui/window.blp:116
 msgid "Arrange in a Column"
 msgstr "Ordna i kolumner"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
+#: data/resources/ui/window.blp:155 data/resources/ui/window.blp:216
 msgid "Main Menu"
 msgstr "Huvudmeny"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:173
+#: data/resources/ui/window.blp:164
 msgid "Compare Media"
 msgstr "Jämför media"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:176
+#: data/resources/ui/window.blp:167
 msgid "Drag and drop images or videos here"
 msgstr "Dra och släpp bilder eller videoklipp här"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:180
+#: data/resources/ui/window.blp:171
 msgid "Open Media…"
 msgstr "Öppna media…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:173 data/resources/ui/window.blp:198
 msgid "Select an Image or Video"
 msgstr "Välj en bild eller video"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:205
+#: data/resources/ui/window.blp:196
 msgid "Open"
 msgstr "Öppna"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:240
+#: data/resources/ui/window.blp:231
 msgid "Zoom Level"
 msgstr "Zoomnivå"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:245
+#: data/resources/ui/window.blp:236
 msgid "Select Zoom Level"
 msgstr "Välj zoomnivå"
 
@@ -347,12 +347,12 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:330 src/window.rs:520 src/window.rs:528 src/window.rs:536
+#: src/page.rs:330 src/window.rs:517 src/window.rs:525 src/window.rs:533
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:357
+#: src/window.rs:351
 msgid "translator-credits"
 msgstr ""
 "Åke Engelbrektson <eson@svenskasprakfiler.se>\n"
@@ -360,68 +360,81 @@ msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:360
+#: src/window.rs:354
 msgid "Contribute Translations"
 msgstr "Bidra med översättningar"
 
-#: src/window.rs:368
-msgid ""
-"This release improves image format support and fixes a few issues with "
-"zooming."
-msgstr ""
-"Denna utgåva förbättrar stöd för bildformat och fixar några zoomproblem."
+#. Translators: name of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:360
+#| msgid "Videos and images"
+msgid "Video Trimmer"
+msgstr "Video Trimmer"
+
+#. Translators: summary of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:362
+msgid "Trim videos quickly"
+msgstr "Trimma videoklipp snabbt"
 
 #: src/window.rs:369
-msgid ""
-"Images are now loaded with glycin, adding support for many more formats like "
-"AVIF and JPEG XL, and improving compatibility, like using the correct color "
-"space for JPEG images."
-msgstr ""
-"Bilder läses nu in med glycin, vilket ger stöd för många fler format som "
-"AVIF och JPEG XL, och förbättrar kompatibilitet, som att använda rätt "
-"färgrymd för JPEG-bilder."
+msgid "This release has a minor visual refresh for GNOME 48."
+msgstr "Denna utgåva har en mindre visuell uppfräschning för GNOME 48."
 
 #: src/window.rs:370
-msgid "Zoom level now takes into account fractional display scale."
-msgstr "Zoomnivå tar nu fraktionell visningsskala i beaktande."
+msgid "Changed the versioning scheme to year.month."
+msgstr "Ändrade versionsschemat till år.månad."
 
 #: src/window.rs:371
-msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
-msgstr "Fixade ovanligt snabb zoom för möss med högupplösningsrullhjul."
+msgid "Updated to the GNOME 48 platform."
+msgstr "Uppdaterad till GNOME 48-plattformen."
 
 #: src/window.rs:372
-msgid "Fixed slightly blurry image borders on some zoom levels."
-msgstr "Fixade något suddiga bildkanter på några zoomnivåer."
-
-#: src/window.rs:373
-msgid "Added an Alt+Enter shortcut to open the media properties dialog."
-msgstr ""
-"La till kortkommandot Alt+Retur för att öppna dialogrutan för "
-"medieegenskaper."
-
-#: src/window.rs:374
-msgid "Updated to the GNOME 47 platform."
-msgstr "Uppdaterad till GNOME 47-plattformen."
-
-#: src/window.rs:375
 msgid "Updated translations."
 msgstr "Uppdaterade översättningar."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:597
+#: src/window.rs:594
 msgid "Best Fit"
 msgstr "Bästa passform"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1679
+#: src/window.rs:1668
 msgid "Videos and images"
 msgstr "Videor och bilder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1687
+#: src/window.rs:1676
 msgid "Open videos or images to compare"
 msgstr "Öppna videor eller bilder att jämföra"
+
+#~ msgid ""
+#~ "This release improves image format support and fixes a few issues with "
+#~ "zooming."
+#~ msgstr ""
+#~ "Denna utgåva förbättrar stöd för bildformat och fixar några zoomproblem."
+
+#~ msgid ""
+#~ "Images are now loaded with glycin, adding support for many more formats "
+#~ "like AVIF and JPEG XL, and improving compatibility, like using the "
+#~ "correct color space for JPEG images."
+#~ msgstr ""
+#~ "Bilder läses nu in med glycin, vilket ger stöd för många fler format som "
+#~ "AVIF och JPEG XL, och förbättrar kompatibilitet, som att använda rätt "
+#~ "färgrymd för JPEG-bilder."
+
+#~ msgid "Zoom level now takes into account fractional display scale."
+#~ msgstr "Zoomnivå tar nu fraktionell visningsskala i beaktande."
+
+#~ msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+#~ msgstr "Fixade ovanligt snabb zoom för möss med högupplösningsrullhjul."
+
+#~ msgid "Fixed slightly blurry image borders on some zoom levels."
+#~ msgstr "Fixade något suddiga bildkanter på några zoomnivåer."
+
+#~ msgid "Added an Alt+Enter shortcut to open the media properties dialog."
+#~ msgstr ""
+#~ "La till kortkommandot Alt+Retur för att öppna dialogrutan för "
+#~ "medieegenskaper."
 
 #~ msgid ""
 #~ "This release adds pixelated display for zoomed-in images and videos, "
@@ -536,9 +549,6 @@ msgstr "Öppna videor eller bilder att jämföra"
 
 #~ msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
 #~ msgstr "Lade till spansk översättning (Tack Óscar Fernández Díaz)."
-
-#~ msgid "This release fixes minor UI issues."
-#~ msgstr "Denna utgåva fixar mindre UI-problem."
 
 #~ msgid ""
 #~ "When closing a file, the next “tab” is now selected, or, if closing the "
