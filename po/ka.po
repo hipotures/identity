@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-03-25 15:56+0000\n"
-"PO-Revision-Date: 2025-03-26 03:25+0100\n"
+"POT-Creation-Date: 2025-05-09 07:24+0000\n"
+"PO-Revision-Date: 2025-05-10 03:41+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
@@ -30,7 +30,7 @@ msgstr "გამოსახულებებისა და ვიდეო�
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
 msgstr "Movie;Film;Clip;Difference;Frame;Quality;ფილმი;კლიპი;სხვაობა;ხარისხი;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
@@ -54,7 +54,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "შეამოწმეთ ვიდეოს რამდენიმე თვისება დიალოგში"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:203
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
