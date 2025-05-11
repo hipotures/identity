@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-03-28 13:01+0000\n"
-"PO-Revision-Date: 2025-03-31 15:45+0300\n"
+"POT-Creation-Date: 2025-05-09 07:24+0000\n"
+"PO-Revision-Date: 2025-05-11 08:57+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
 "2 : 3);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -32,8 +32,9 @@ msgstr "השוואת תמונות וסרטים"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "סרט;וידאו;סרט צילום;פילם;קליפ;שוני;הבדל;פריים;מסגרת;איכות;"
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
+msgstr ""
+"סרט;וידאו;סרט צילום;פילם;קליפ;שוני;הבדל;פריים;מסגרת;איכות;השוואה;בדיקה;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
