@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-03-28 13:01+0000\n"
-"PO-Revision-Date: 2025-03-29 08:00+0300\n"
+"POT-Creation-Date: 2025-05-09 07:24+0000\n"
+"PO-Revision-Date: 2025-05-11 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -33,9 +33,10 @@ msgstr "Görüntüleri ve videoları karşılaştır"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
 msgstr ""
-"Movie;Film;Clip;Difference;Frame;Quality;Film;Klip;Fark;Kare;Çerçeve;Kalite;"
+"Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Film;Klip;Fark;Başka;"
+"İmaj;Görsel;Görüntü;Resim;Kare;Çerçeve;Kalite;Nitelik;Denetim;Kontrol;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
