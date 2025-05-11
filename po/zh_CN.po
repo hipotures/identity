@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-03-25 15:56+0000\n"
-"PO-Revision-Date: 2025-03-26 18:01+0800\n"
+"POT-Creation-Date: 2025-05-09 07:24+0000\n"
+"PO-Revision-Date: 2025-05-11 17:39+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -31,10 +31,10 @@ msgstr "比较图像和视频"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
 msgstr ""
-"Movie;Film;Clip;Difference;Frame;Quality;电影;视频;片段;剪辑;差别;差异;不同;"
-"帧;质量;"
+"Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;电影;片段;"
+"剪辑;视频;图像;图片;照片;差别;差异;不同;帧;质量;比较;对比;相比;检查;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -57,7 +57,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "在对话框中检查视频的一些属性"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:203
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
