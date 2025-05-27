@@ -18,15 +18,33 @@ template $IdPage : Adw.Bin {
       StackPage {
         name: "content";
 
-        child: ScrolledWindow scrolled_window {
-          child: $IdPicture picture {
-            notify::scale-request => $on_scale_request_changed() swapped;
-            notify::scale => $on_scale_changed() swapped;
-            notify::h-scroll-pos => $on_h_scroll_pos_notify() swapped;
-            notify::v-scroll-pos => $on_v_scroll_pos_notify() swapped;
-            stop-kinetic-scrolling => $on_stop_kinetic_scrolling() swapped;
-            get-content-provider => $get_content_provider() swapped;
-          };
+        child: Box {
+          ScrolledWindow scrolled_window {
+            hexpand: true;
+            vexpand: true;
+
+            child: $IdPicture picture {
+              notify::scale-request => $on_scale_request_changed() swapped;
+              notify::scale => $on_scale_changed() swapped;
+              notify::h-scroll-pos => $on_h_scroll_pos_notify() swapped;
+              notify::v-scroll-pos => $on_v_scroll_pos_notify() swapped;
+              stop-kinetic-scrolling => $on_stop_kinetic_scrolling() swapped;
+              get-content-provider => $get_content_provider() swapped;
+
+              // Gestures go on IdPicture to avoid conflicts with ScrolledWindow touch pinch zoom.
+              GestureClick click_menu_gesture {
+                button: 0; // All buttons.
+              }
+
+              GestureLongPress press_menu_gesture {
+                touch-only: true;
+              }
+            };
+          }
+
+          PopoverMenu context_menu {
+            has-arrow: false;
+          }
         };
       }
 

@@ -184,6 +184,7 @@ mod imp {
         page_bindings: RefCell<HashMap<Page, Vec<glib::Binding>>>,
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         page_stop_kinetic_scrolling_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        page_setup_menu_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         surface_signals: OnceCell<glib::SignalGroup>,
@@ -839,6 +840,10 @@ mod imp {
                     .bidirectional()
                     .sync_create()
                     .build(),
+                self.tab_view
+                    .bind_property("menu-model", &page, "menu-model")
+                    .sync_create()
+                    .build(),
             ];
             if self
                 .page_bindings
@@ -871,6 +876,35 @@ mod imp {
                 .is_some()
             {
                 error!("`page_stop_kinetic_scrolling_id` already had an entry for this page");
+            };
+
+            let id = page.connect_local(
+                "setup-menu",
+                false,
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args| {
+                        let page = args[0].get().unwrap();
+                        let is_open: bool = args[1].get().unwrap();
+                        if is_open {
+                            imp.setup_menu(Some(&page));
+                        } else {
+                            imp.setup_menu(None);
+                        }
+                        None
+                    }
+                ),
+            );
+            if self
+                .page_setup_menu_id
+                .borrow_mut()
+                .insert(page.clone(), id)
+                .is_some()
+            {
+                error!("`page_setup_menu_id` already had an entry for this page");
             };
 
             if page.is_error() {
@@ -940,6 +974,12 @@ mod imp {
                 page.disconnect(id);
             } else {
                 error!("detached page should have `page_stop_kinetic_scrolling_id` entry");
+            }
+
+            if let Some(id) = self.page_setup_menu_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            } else {
+                error!("detached page should have `page_setup_menu_id` entry");
             }
 
             page.reset_kinetic_scrolling(None);
@@ -1159,17 +1199,41 @@ mod imp {
         }
 
         pub fn move_tab_to_new_window(&self) {
-            if let Some(page) = self.menu_or_selected_tab_page() {
-                let application: Application = self
-                    .obj()
-                    .application()
-                    .expect("application was not set")
-                    .downcast()
-                    .expect("application has wrong type");
-                let new_window = application.create_new_window();
-                self.tab_view
-                    .transfer_page(&page, &new_window.imp().tab_view, 0);
-                new_window.present();
+            let application: Application = self
+                .obj()
+                .application()
+                .expect("application was not set")
+                .downcast()
+                .expect("application has wrong type");
+
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    if let Some(page) = self.menu_or_selected_tab_page() {
+                        let new_window = application.create_new_window();
+                        let new_imp = new_window.imp();
+                        self.tab_view.transfer_page(&page, &new_imp.tab_view, 0);
+                        new_window.present();
+                    }
+                }
+                DisplayMode::Row | DisplayMode::Column => {
+                    if let Some(page) = self.menu_or_selected_page() {
+                        let new_window = application.create_new_window();
+                        let new_imp = new_window.imp();
+                        new_imp.set_display_mode(self.display_mode.get());
+
+                        self.page_grid.close_page(&page);
+                        self.on_page_detached(page.clone());
+
+                        if self.page_grid.n_pages() == 0 {
+                            self.stack.set_visible_child_name("empty");
+                        }
+
+                        new_imp.page_grid.append(page.clone());
+                        new_imp.on_page_attached(page);
+
+                        new_window.present();
+                    }
+                }
             }
         }
 

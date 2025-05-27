@@ -41,6 +41,12 @@ mod imp {
         scrolled_window: TemplateChild<gtk::ScrolledWindow>,
         #[template_child]
         title_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        context_menu: TemplateChild<gtk::PopoverMenu>,
+        #[template_child]
+        click_menu_gesture: TemplateChild<gtk::GestureClick>,
+        #[template_child]
+        press_menu_gesture: TemplateChild<gtk::GestureLongPress>,
 
         #[property(get, set, construct_only)]
         application: OnceCell<Application>,
@@ -83,6 +89,8 @@ mod imp {
         resolution: PhantomData<String>,
         #[property(get, set)]
         show_overlay: Cell<bool>,
+        #[property(set = Self::set_menu_model)]
+        menu_model: PhantomData<Option<gio::MenuModel>>,
 
         constructed_at: OnceCell<Instant>,
         bus_watch_guard: RefCell<Option<BusWatchGuard>>,
@@ -141,6 +149,10 @@ mod imp {
                     Signal::builder("stop-kinetic-scrolling")
                         .param_types([super::Picture::static_type()])
                         .build(),
+                    Signal::builder("setup-menu")
+                        .param_types([bool::static_type()])
+                        .action()
+                        .build(),
                 ]
             })
         }
@@ -189,6 +201,45 @@ mod imp {
                 }
             ));
             obj.add_controller(gesture);
+
+            // Click to open the context menu.
+            self.click_menu_gesture.connect_pressed(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |gesture, _n_clicks, x, y| {
+                    if gesture.current_event().unwrap().triggers_context_menu() {
+                        gesture.set_state(gtk::EventSequenceState::Claimed);
+                        imp.show_context_menu(x as i32, y as i32);
+                    }
+                }
+            ));
+
+            // Touch long press to open the context menu.
+            self.press_menu_gesture.connect_pressed(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |gesture, x, y| {
+                    gesture.set_state(gtk::EventSequenceState::Claimed);
+                    imp.show_context_menu(x as i32, y as i32);
+                }
+            ));
+
+            // Notification that the context menu closed.
+            self.context_menu.connect_notify_local(
+                Some("visible"),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |menu, _| {
+                        if !menu.is_visible() {
+                            // Run in an idle because otherwise it happens before the actual action.
+                            glib::idle_add_local_once(move || {
+                                obj.emit_by_name::<()>("setup-menu", &[&false]);
+                            });
+                        }
+                    }
+                ),
+            );
 
             glib::MainContext::default().spawn_local(clone!(
                 #[weak(rename_to = imp)]
@@ -330,6 +381,10 @@ mod imp {
                 .unwrap_or_else(|| gettext("N/A"))
         }
 
+        fn set_menu_model(&self, val: Option<&gio::MenuModel>) {
+            self.context_menu.set_menu_model(val);
+        }
+
         pub fn reset_kinetic_scrolling(&self, except_picture: Option<&Picture>) {
             if except_picture == Some(&*self.picture) {
                 return;
@@ -341,6 +396,16 @@ mod imp {
             // Resetting kinetic scrolling breaks touchscreen pan gesture starting for horizontal
             // pans. Reallocating the scrolled window seems to fix that. Don't ask me why.
             self.scrolled_window.queue_allocate();
+        }
+
+        fn show_context_menu(&self, x: i32, y: i32) {
+            self.obj().emit_by_name::<()>("setup-menu", &[&true]);
+
+            let context_menu = &self.context_menu;
+            let rect = gdk::Rectangle::new(x, y, 0, 0);
+            context_menu.set_pointing_to(Some(&rect));
+
+            context_menu.popup();
         }
 
         pub fn grab_focus_(&self) {
