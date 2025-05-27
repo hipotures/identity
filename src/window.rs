@@ -210,8 +210,8 @@ mod imp {
         #[property(get, set = Self::set_selected_page, explicit_notify)]
         selected_page: RefCell<Option<Page>>,
 
-        /// If a tab menu is open for a page, this is that page, otherwise `None`.
-        menu_page: RefCell<glib::WeakRef<adw::TabPage>>,
+        /// If a tab/context menu is open for a page, this is that page, otherwise `None`.
+        menu_page: RefCell<glib::WeakRef<Page>>,
 
         /// In tabbed display mode, this is the tab bar widget.
         tab_bar: RefCell<Option<adw::TabBar>>,
@@ -1007,13 +1007,6 @@ mod imp {
 
         #[template_callback]
         fn on_setup_menu(&self, tab_page: Option<&adw::TabPage>) {
-            debug!("setup-menu {tab_page:?}");
-
-            let page = tab_page
-                .map(|tab_page| tab_page.downgrade())
-                .unwrap_or_default();
-            self.menu_page.replace(page);
-
             if let Some(tab_page) = tab_page {
                 let page: Page = tab_page
                     .child()
@@ -1023,7 +1016,19 @@ mod imp {
                     .expect("tab page child bin has no child")
                     .downcast()
                     .expect("tab page child bin child has wrong type");
+                self.setup_menu(Some(&page));
+            } else {
+                self.setup_menu(None);
+            }
+        }
 
+        fn setup_menu(&self, page: Option<&Page>) {
+            debug!("setup_menu {page:?}");
+
+            let weak = page.map(|page| page.downgrade()).unwrap_or_default();
+            self.menu_page.replace(weak);
+
+            if let Some(page) = page {
                 let has_path = page.file().path().is_some();
                 self.obj().action_set_enabled("win.show-in-files", has_path);
             } else {
@@ -1032,26 +1037,33 @@ mod imp {
         }
 
         fn menu_or_selected_tab_page(&self) -> Option<adw::TabPage> {
-            self.menu_page
-                .borrow()
-                .upgrade()
-                .or_else(|| self.tab_view.selected_page())
-        }
-
-        fn menu_or_selected_page(&self) -> Option<Page> {
-            self.menu_page
-                .borrow()
-                .upgrade()
-                .map(|tab_page| {
-                    tab_page
+            if let Some(menu_page) = self.menu_page.borrow().upgrade() {
+                (0..self.tab_view.n_pages()).find_map(|i| {
+                    let tab_page = self.tab_view.nth_page(i);
+                    let page: Page = tab_page
                         .child()
                         .downcast::<adw::Bin>()
                         .expect("tab page child has wrong type")
                         .child()
                         .expect("tab page child bin has no child")
                         .downcast()
-                        .expect("tab page child bin child has wrong type")
+                        .expect("tab page child bin child has wrong type");
+
+                    if page == menu_page {
+                        Some(tab_page)
+                    } else {
+                        None
+                    }
                 })
+            } else {
+                self.tab_view.selected_page()
+            }
+        }
+
+        fn menu_or_selected_page(&self) -> Option<Page> {
+            self.menu_page
+                .borrow()
+                .upgrade()
                 .or_else(|| self.selected_page())
         }
 
