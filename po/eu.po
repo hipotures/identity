@@ -1,14 +1,14 @@
 # Basque translation for Identity.
 # Copyright (C) 2019 Identity's COPYRIGHT HOLDER
 # This file is distributed under the same license as the Identity package.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2023, 2024.
+# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2023, 2024, 2025.
 #
 msgid ""
 msgstr "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2024-08-11 19:55+0000\n"
-"PO-Revision-Date: 2024-09-14 17:00+0100\n"
-"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
+"POT-Creation-Date: 2025-05-28 08:05+0000\n"
+"PO-Revision-Date: 2025-06-30 17:00+0100\n"
+"Last-Translator: Aser Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr "Project-Id-Version: Identity\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:85
+#: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "Identitatea"
 
@@ -29,8 +29,8 @@ msgstr "Konparatu irudiak eta bideoak"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "Filma;Film;Clip;Diferentzia;Fotograma;Kalitatea;"
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
+msgstr "Filma;Film;Klipa;Bideoa;Irudia;Diferentzia;Fotograma;Kalitatea;Konparatu;Egiaztatu;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -53,7 +53,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ikuskatu bideo baten propietateak elkarrizketa-koadro batean"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -113,12 +113,12 @@ msgid "Container"
 msgstr "Edukiontzia"
 
 #. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:40
+#: data/resources/ui/page.blp:58
 msgid "File Failed to Load"
 msgstr "Akatsa gertatu da artxiboa kargatzean"
 
 #. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:43
+#: data/resources/ui/page.blp:61
 msgid ""
 "Could not display the file.\n"
 "\n"
@@ -160,81 +160,86 @@ msgstr "Itxi hautatutako fitxategia"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Erakutsi multimediaren propietateak"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Leiho berria"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Erakutsi lasterbideak"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Irten"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Erreproduzitu"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Erreproduzitu / pausarazi"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Fotograma bat aurrera"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Fotograma bat atzera"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Zooma"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Handiagotu"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Txikiagotu"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Zooma 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Egokiena"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Bistaratzea"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Antolatu fitxa gisa"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Antolatu errenkada batean"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Antolatu zutabe batean"
@@ -285,106 +290,128 @@ msgid "Arrange as Tabs"
 msgstr "Antolatu fitxa gisa"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
-#: data/resources/ui/window.blp:112
+#: data/resources/ui/window.blp:109
 msgid "Arrange in a Row"
 msgstr "Antolatu errenkada batean"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
-#: data/resources/ui/window.blp:122
+#: data/resources/ui/window.blp:116
 msgid "Arrange in a Column"
 msgstr "Antolatu zutabe batean"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:164 data/resources/ui/window.blp:225
+#: data/resources/ui/window.blp:155 data/resources/ui/window.blp:216
 msgid "Main Menu"
 msgstr "Menu nagusia"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:173
+#: data/resources/ui/window.blp:164
 msgid "Compare Media"
 msgstr "Konparazio multimedia"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:176
+#: data/resources/ui/window.blp:167
 msgid "Drag and drop images or videos here"
 msgstr "Arrastatu eta jaregin irudiak edo bideoak hemen"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:180
+#: data/resources/ui/window.blp:171
 msgid "Open Media…"
 msgstr "Ireki multimedia…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:182 data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:173 data/resources/ui/window.blp:198
 msgid "Select an Image or Video"
 msgstr "Hautatu irudi edo bideo bat"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:205
+#: data/resources/ui/window.blp:196
 msgid "Open"
 msgstr "Ireki"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:240
+#: data/resources/ui/window.blp:231
 msgid "Zoom Level"
 msgstr "Zoomaren maila"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:245
+#: data/resources/ui/window.blp:236
 msgid "Select Zoom Level"
 msgstr "Hautatu zoomaren maila"
 
+#: src/page.rs:372
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:312 src/window.rs:503 src/window.rs:511 src/window.rs:519
+#: src/page.rs:381 src/window.rs:518 src/window.rs:526 src/window.rs:534
 msgid "N/A"
 msgstr "E/E"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:343
+#: src/window.rs:352
 msgid "translator-credits"
-msgstr "Asier Sarasua Garmendia <asiersarasua@ni.eus>"
+msgstr "Asier Saratsua Garmendia <asiersarasua@ni.eus>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:346
+#: src/window.rs:355
 msgid "Contribute Translations"
 msgstr "Lagundu itzultzen"
 
-#: src/window.rs:354
-msgid "Zoom level now takes into account fractional display scale."
-msgstr "Orain, zoom-mailak  bistaratze-eskala frakzionala kontuan hartzen du."
+#. Translators: name of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:361
+msgid "Video Trimmer"
+msgstr "Bideo Trimmer"
 
-#: src/window.rs:355
-msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
-msgstr "Bereizmen handiko korritze-gurpila duten saguetan zoom azkarregia konpondu da"
+#. Translators: summary of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:363
+msgid "Trim videos quickly"
+msgstr "Kimatu bideoak azkar"
 
-#: src/window.rs:356
-msgid "Fixed slightly blurry image borders on some zoom levels."
-msgstr "Zenbait zoom-mailatan irudi-ertz lausoak konpondu dira"
+#: src/window.rs:370
+msgid "This release has a minor visual refresh for GNOME 48."
+msgstr "Bertsio honek berritze bisual txiki bat izan du GNOME 48 bertsiorako."
 
-#: src/window.rs:357
-msgid "Updated to the GNOME 47 platform."
-msgstr "GNOME 47 plataformara eguneratu da."
+#: src/window.rs:371
+msgid "Changed the versioning scheme to year.month."
+msgstr "Bertsio-eskema urtea.hilabetea formara aldatu da."
 
-#: src/window.rs:358
+#: src/window.rs:372
+msgid "Updated to the GNOME 48 platform."
+msgstr "GNOME 48 plataformara eguneratu da."
+
+#: src/window.rs:373
 msgid "Updated translations."
 msgstr "Eguneratutako itzulpenak."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:580
+#: src/window.rs:595
 msgid "Best Fit"
 msgstr "Egokiena"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1639
+#: src/window.rs:1744
 msgid "Videos and images"
 msgstr "Bideoak eta irudiak"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1647
+#: src/window.rs:1752
 msgid "Open videos or images to compare"
 msgstr "Ireki eta konparatu bideoak edo irudiak"
+
+#~ msgid "Zoom level now takes into account fractional display scale."
+#~ msgstr ""
+#~ "Orain, zoom-mailak  bistaratze-eskala frakzionala kontuan hartzen du."
+
+#~ msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
+#~ msgstr ""
+#~ "Bereizmen handiko korritze-gurpila duten saguetan zoom azkarregia "
+#~ "konpondu da"
+
+#~ msgid "Fixed slightly blurry image borders on some zoom levels."
+#~ msgstr "Zenbait zoom-mailatan irudi-ertz lausoak konpondu dira"
 
 #~ msgid ""
 #~ "This release adds pixelated display for zoomed-in images and videos, "
@@ -508,10 +535,6 @@ msgstr "Ireki eta konparatu bideoak edo irudiak"
 #~ msgid "Added Spanish translation (thanks Óscar Fernández Díaz)."
 #~ msgstr ""
 #~ "Gaztelaniazko itzulpena gehitu da (eskerrik asko Óscar Fernández Díaz)."
-
-#~ msgid "This release fixes minor UI issues."
-#~ msgstr ""
-#~ "Bertsio horrek erabiltzaile-interfazearen arazo txikiak zuzentzen ditu."
 
 #~ msgid ""
 #~ "When closing a file, the next “tab” is now selected, or, if closing the "
