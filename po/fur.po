@@ -6,20 +6,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/-/issues\n"
-"POT-Creation-Date: 2024-01-26 16:17+0000\n"
-"PO-Revision-Date: 2024-05-19 05:22+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2025-05-28 08:05+0000\n"
+"PO-Revision-Date: 2025-07-10 15:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
-#: data/resources/ui/window.blp:137 src/main.rs:84
+#: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "Identitât"
 
@@ -30,8 +30,8 @@ msgstr "Compare imagjins e videos"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "Film;Filmât;Videoclip;Diference;Fotogram;Cualitât;"
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
+msgstr "Film;Filmât;Videoclip;Video;Imagjin;Diference;Fotogram;Cualitât;Paragone;Comparazion;Control;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -54,7 +54,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ispezione un pocjis di proprietâts di un video intun dialic"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:175
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -114,12 +114,12 @@ msgid "Container"
 msgstr "Contignidôr"
 
 #. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:40
+#: data/resources/ui/page.blp:58
 msgid "File Failed to Load"
 msgstr "Impussibil cjariâ il file"
 
 #. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:43
+#: data/resources/ui/page.blp:61
 msgid ""
 "Could not display the file.\n"
 "\n"
@@ -163,81 +163,86 @@ msgstr "Siere il file selezionât"
 
 #: data/resources/ui/shortcuts.blp:34
 msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Mostre proprietâts multimediâls"
+
+#: data/resources/ui/shortcuts.blp:39
+msgctxt "shortcut window"
 msgid "New window"
 msgstr "Gnûf barcon"
 
-#: data/resources/ui/shortcuts.blp:39
+#: data/resources/ui/shortcuts.blp:44
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Mostre scurtis"
 
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:49
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Jes"
 
-#: data/resources/ui/shortcuts.blp:50
+#: data/resources/ui/shortcuts.blp:55
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Riproduzion"
 
-#: data/resources/ui/shortcuts.blp:53
+#: data/resources/ui/shortcuts.blp:58
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Riprodûs / Pause"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:63
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Va indevant di un fotogram"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:68
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Torne indaûr di un fotogram"
 
-#: data/resources/ui/shortcuts.blp:69
+#: data/resources/ui/shortcuts.blp:74
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Ingrandiment"
 
-#: data/resources/ui/shortcuts.blp:72 data/resources/ui/shortcuts.blp:82
+#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Ingrandìs"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Impiçulìs"
 
-#: data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:97
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Zoom 1:1"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:102
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Adate"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:104
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Visualize"
 
-#: data/resources/ui/shortcuts.blp:107
+#: data/resources/ui/shortcuts.blp:112
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Rangje come schedis"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:117
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Rangje intune rie"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:122
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Rangje intune colone"
@@ -288,144 +293,158 @@ msgid "Arrange as Tabs"
 msgstr "Rangje come schedis"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
-#: data/resources/ui/window.blp:112
+#: data/resources/ui/window.blp:109
 msgid "Arrange in a Row"
 msgstr "Rangje intune rie"
 
 #. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
-#: data/resources/ui/window.blp:122
+#: data/resources/ui/window.blp:116
 msgid "Arrange in a Column"
 msgstr "Rangje intune colone"
 
 #. Translators: Primary menu tooltip.
-#: data/resources/ui/window.blp:166 data/resources/ui/window.blp:227
+#: data/resources/ui/window.blp:155 data/resources/ui/window.blp:216
 msgid "Main Menu"
 msgstr "Menù principâl"
 
 #. Translators: Title text on the window when no files are open.
-#: data/resources/ui/window.blp:175
+#: data/resources/ui/window.blp:164
 msgid "Compare Media"
 msgstr "Compare files multimediâi"
 
 #. Translators: Description text on the window when no files are open.
-#: data/resources/ui/window.blp:178
+#: data/resources/ui/window.blp:167
 msgid "Drag and drop images or videos here"
 msgstr "Strissine e mole achì lis imagjins o i videos"
 
 #. Translators: Open button label when no files are open.
-#: data/resources/ui/window.blp:182
+#: data/resources/ui/window.blp:171
 msgid "Open Media…"
 msgstr "Vierç multimedia…"
 
 #. Translators: Open button tooltip.
-#: data/resources/ui/window.blp:184 data/resources/ui/window.blp:209
+#: data/resources/ui/window.blp:173 data/resources/ui/window.blp:198
 msgid "Select an Image or Video"
 msgstr "Selezione une imagjin o un video"
 
 #. Translators: Open button label.
-#: data/resources/ui/window.blp:207
+#: data/resources/ui/window.blp:196
 msgid "Open"
 msgstr "Vierç"
 
 #. Translators: Scale/zoom entry tooltip.
-#: data/resources/ui/window.blp:242
+#: data/resources/ui/window.blp:231
 msgid "Zoom Level"
 msgstr "Nivel di ingrandiment"
 
 #. Translators: Scale/zoom menu button tooltip.
-#: data/resources/ui/window.blp:247
+#: data/resources/ui/window.blp:236
 msgid "Select Zoom Level"
 msgstr "Selezione il nivel di ingrandiment"
 
+#: src/page.rs:372
+msgid "{} × {}"
+msgstr "{} × {}"
+
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:302 src/window.rs:478 src/window.rs:486 src/window.rs:494
+#: src/page.rs:381 src/window.rs:518 src/window.rs:526 src/window.rs:534
 msgid "N/A"
 msgstr "N/D"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:339
+#: src/window.rs:352
 msgid "translator-credits"
-msgstr "Fabio Tomat <f.t.public@gmail.com>, 2024"
+msgstr "Fabio Tomat <f.t.public@gmail.com>, 2025"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:342
+#: src/window.rs:355
 msgid "Contribute Translations"
 msgstr "Partecipe aes traduzions"
 
-#: src/window.rs:350
-msgid ""
-"This release adds pixelated display for zoomed-in images and videos, "
-"improves format support and fixes several issues."
-msgstr ""
-"Cheste publicazion e zonte la visualizazion a pixels pes imagjins e pai "
-"videos ingrandîts, e miore il supuart ai formâts e al comede diviers "
-"problemis."
+#. Translators: name of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:361
+msgid "Video Trimmer"
+msgstr "Taiarine di Videos"
 
-#: src/window.rs:351
-msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-msgstr ""
-"Lis imagjins e i videos ingrandîts cumò a son a pixels invezit che fûr fûc."
-
-#: src/window.rs:352
-msgid "Fixed memory usage not decreasing upon closing images and videos."
-msgstr ""
-"Comedade mancjade diminuzion de utilizazion de memorie al sierâ di imagjins "
-"e videos."
-
-#: src/window.rs:353
-msgid "Improved UI responsiveness with many open files."
-msgstr "Reativitât miorade de interface grafiche cun tancj files vierts."
-
-#: src/window.rs:354
-msgid "Improved performance on AV1 videos."
-msgstr "Prestazions mioradis sui videos AV1."
-
-#: src/window.rs:355
-msgid "Added support for WebP images."
-msgstr "Zontât supuart pes imagjins WebP."
-
-#: src/window.rs:356
-msgid "Fixed display of semitransparent images and videos."
-msgstr "Comedade visualizazion di imagjins e videos in semi-trasparence."
-
-#: src/window.rs:357
-msgid "Fixed display of 16-bit color images."
-msgstr "Comedade visualizazion di imagjins a 16-bit di colôrs."
-
-#: src/window.rs:358
-msgid "Removed panning from the touchpad pinch zoom gesture."
-msgstr ""
-"Al è stât gjavât il spostament contignûts su schermi dal mot pal touchpad "
-"pal zoom cu la piçade."
-
-#: src/window.rs:360
-msgid ""
-"Fixed infinite loading spinner when opening certain files instead of error."
-msgstr ""
-"Comedade animazion infinide di cjariament cuant che a vegnin vierts cierts "
-"files invezit che presentâ erôr."
-
-#: src/window.rs:362
-msgid "Updated to the GNOME 45 platform."
-msgstr "Inzornât ae plateforme GNOME 45."
-
+#. Translators: summary of https://apps.gnome.org/VideoTrimmer
 #: src/window.rs:363
+msgid "Trim videos quickly"
+msgstr "Taie videos in mût svelt"
+
+#: src/window.rs:370
+msgid "This release has a minor visual refresh for GNOME 48."
+msgstr "Cheste publicazion e à inzornaments grafics minôrs par GNOME 48."
+
+#: src/window.rs:371
+msgid "Changed the versioning scheme to year.month."
+msgstr "Cambiât il scheme di version a an.mês."
+
+#: src/window.rs:372
+msgid "Updated to the GNOME 48 platform."
+msgstr "Inzornât ae plateforme GNOME 48."
+
+#: src/window.rs:373
 msgid "Updated translations."
 msgstr "Traduzions inzornadis."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:545
+#: src/window.rs:595
 msgid "Best Fit"
 msgstr "Adate"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1577
+#: src/window.rs:1744
 msgid "Videos and images"
 msgstr "Videos e imagjins"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1585
+#: src/window.rs:1752
 msgid "Open videos or images to compare"
 msgstr "Vierç videos o imagjins di confrontâ"
+
+#~ msgid ""
+#~ "This release adds pixelated display for zoomed-in images and videos, "
+#~ "improves format support and fixes several issues."
+#~ msgstr ""
+#~ "Cheste publicazion e zonte la visualizazion a pixels pes imagjins e pai "
+#~ "videos ingrandîts, e miore il supuart ai formâts e al comede diviers "
+#~ "problemis."
+
+#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
+#~ msgstr ""
+#~ "Lis imagjins e i videos ingrandîts cumò a son a pixels invezit che fûr "
+#~ "fûc."
+
+#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
+#~ msgstr ""
+#~ "Comedade mancjade diminuzion de utilizazion de memorie al sierâ di "
+#~ "imagjins e videos."
+
+#~ msgid "Improved UI responsiveness with many open files."
+#~ msgstr "Reativitât miorade de interface grafiche cun tancj files vierts."
+
+#~ msgid "Improved performance on AV1 videos."
+#~ msgstr "Prestazions mioradis sui videos AV1."
+
+#~ msgid "Added support for WebP images."
+#~ msgstr "Zontât supuart pes imagjins WebP."
+
+#~ msgid "Fixed display of semitransparent images and videos."
+#~ msgstr "Comedade visualizazion di imagjins e videos in semi-trasparence."
+
+#~ msgid "Fixed display of 16-bit color images."
+#~ msgstr "Comedade visualizazion di imagjins a 16-bit di colôrs."
+
+#~ msgid "Removed panning from the touchpad pinch zoom gesture."
+#~ msgstr ""
+#~ "Al è stât gjavât il spostament contignûts su schermi dal mot pal touchpad "
+#~ "pal zoom cu la piçade."
+
+#~ msgid ""
+#~ "Fixed infinite loading spinner when opening certain files instead of "
+#~ "error."
+#~ msgstr ""
+#~ "Comedade animazion infinide di cjariament cuant che a vegnin vierts "
+#~ "cierts files invezit che presentâ erôr."
