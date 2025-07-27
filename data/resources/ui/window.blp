@@ -278,6 +278,11 @@ template $IdWindow : Adw.ApplicationWindow {
           Button play_pause_button {
             icon-name: "media-playback-start-symbolic";
             action-name: "win.play-pause";
+
+            accessibility {
+              /* Translators: screen reader label on the Play / Pause button. */
+              label: _("Play / Pause");
+            }
           }
 
           Label time_label {
@@ -295,6 +300,11 @@ template $IdWindow : Adw.ApplicationWindow {
               step-increment: 0.1;
               page-increment: 0.25;
             };
+
+            accessibility {
+              /* Translators: screen reader label on the playback position slider. */
+              label: _("Playback position");
+            }
           }
         }
       };
