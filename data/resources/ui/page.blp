@@ -20,6 +20,11 @@ template $IdPage : Adw.Bin {
 
         child: Box {
           ScrolledWindow scrolled_window {
+            accessibility {
+              labelled-by: title_label;
+              has-popup: true;
+            }
+
             hexpand: true;
             vexpand: true;
 
