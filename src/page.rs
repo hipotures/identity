@@ -18,6 +18,7 @@ mod imp {
     use glib::{clone, ControlFlow, Properties};
     use gst::bus::BusWatchGuard;
     use gst::prelude::*;
+    use gtk::gdk::{Key, ModifierType};
     use gtk::prelude::*;
     use gtk::{gdk, CompositeTemplate};
     use tracing::{instrument, Span};
@@ -118,6 +119,11 @@ mod imp {
                 klass.add_binding_signal(key, gdk::ModifierType::empty(), "activate");
             }
 
+            klass.install_action("menu.popup", None, |obj, _, _| {
+                obj.imp().show_context_menu(None);
+            });
+            klass.add_binding_action(Key::F10, ModifierType::SHIFT_MASK, "menu.popup");
+
             klass.bind_template();
             klass.bind_template_callbacks();
             klass.bind_template_instance_callbacks();
@@ -209,7 +215,7 @@ mod imp {
                 move |gesture, _n_clicks, x, y| {
                     if gesture.current_event().unwrap().triggers_context_menu() {
                         gesture.set_state(gtk::EventSequenceState::Claimed);
-                        imp.show_context_menu(x as i32, y as i32);
+                        imp.show_context_menu(Some((x as i32, y as i32)));
                     }
                 }
             ));
@@ -220,7 +226,7 @@ mod imp {
                 self,
                 move |gesture, x, y| {
                     gesture.set_state(gtk::EventSequenceState::Claimed);
-                    imp.show_context_menu(x as i32, y as i32);
+                    imp.show_context_menu(Some((x as i32, y as i32)));
                 }
             ));
 
@@ -398,12 +404,16 @@ mod imp {
             self.scrolled_window.queue_allocate();
         }
 
-        fn show_context_menu(&self, x: i32, y: i32) {
+        fn show_context_menu(&self, xy: Option<(i32, i32)>) {
             self.obj().emit_by_name::<()>("setup-menu", &[&true]);
 
             let context_menu = &self.context_menu;
-            let rect = gdk::Rectangle::new(x, y, 0, 0);
-            context_menu.set_pointing_to(Some(&rect));
+            if let Some((x, y)) = xy {
+                let rect = gdk::Rectangle::new(x, y, 0, 0);
+                context_menu.set_pointing_to(Some(&rect));
+            } else {
+                context_menu.set_pointing_to(None);
+            }
 
             context_menu.popup();
         }
