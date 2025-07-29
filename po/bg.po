@@ -1,38 +1,38 @@
 # Bulgarian translation of identity po-file.
-# Copyright (C) 2024 identity's COPYRIGHT HOLDER
+# Copyright (C) 2024, 2025 twlvnn kraftwerk <kraft_werk@tutanota.com>
 # This file is distributed under the same license as the identity package.
-# twlvnn kraftwerk <kraft_werk@tutanota.com>, 2024.
+# twlvnn kraftwerk <kraft_werk@tutanota.com>, 2024, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-03-30 08:37+0000\n"
-"PO-Revision-Date: 2025-03-30 16:50+0300\n"
+"POT-Creation-Date: 2025-07-29 01:16+0000\n"
+"PO-Revision-Date: 2025-07-29 13:43+0200\n"
 "Last-Translator: twlvnn kraftwerk <kraft_werk@tutanota.com>\n"
 "Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 46.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
 #: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
 msgid "Compare images and videos"
 msgstr "Сравняване на изображения и видеоклипове"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
-msgid "Movie;Film;Clip;Difference;Frame;Quality;"
-msgstr "видео;филм;клип;разлика;кадър;качество;movie;film;clip;difference;frame;quality;"
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:9
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
+msgstr "видео;филм;клип;разлика;кадър;качество;сравняване;проверяване;movie;film;clip;difference;frame;quality;compare;check;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -115,12 +115,12 @@ msgid "Container"
 msgstr "Контейнер"
 
 #. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:40
+#: data/resources/ui/page.blp:63
 msgid "File Failed to Load"
 msgstr "Неуспешно зареждане на файла"
 
 #. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:43
+#: data/resources/ui/page.blp:66
 msgid ""
 "Could not display the file.\n"
 "\n"
@@ -343,18 +343,28 @@ msgstr "Мащаб"
 msgid "Select Zoom Level"
 msgstr "Избиране на мащаб"
 
-#: src/page.rs:321
+#. Translators: screen reader label on the Play / Pause button.
+#: data/resources/ui/window.blp:284
+msgid "Play / Pause"
+msgstr "Изпълнение/Пауза"
+
+#. Translators: screen reader label on the playback position slider.
+#: data/resources/ui/window.blp:306
+msgid "Playback position"
+msgstr "Откъде да се започне"
+
+#: src/page.rs:378
 msgid "{} × {}"
 msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:330 src/window.rs:517 src/window.rs:525 src/window.rs:533
+#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
 msgid "N/A"
 msgstr "Липсва"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:351
+#: src/window.rs:352
 msgid "translator-credits"
 msgstr ""
 "twlvnn kraftwerk &lt;<a "
@@ -368,128 +378,48 @@ msgstr ""
 "newticket'>съответния раздел</a>."
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:354
+#: src/window.rs:355
 msgid "Contribute Translations"
 msgstr "Помагане с превода"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:360
+#: src/window.rs:361
 msgid "Video Trimmer"
 msgstr "Тример на видео клипове"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:362
+#: src/window.rs:363
 msgid "Trim videos quickly"
 msgstr "Бързо редактиране на видео клипове"
 
-#: src/window.rs:369
+#: src/window.rs:370
 msgid "This release has a minor visual refresh for GNOME 48."
 msgstr "Тази версия е леко обновяване на интерфейса за GNOME 48."
 
-#: src/window.rs:370
+#: src/window.rs:371
 msgid "Changed the versioning scheme to year.month."
 msgstr "Схемата за номериране на версиите е сменена на ГОДИНА.МЕСЕЦ."
 
-#: src/window.rs:371
+#: src/window.rs:372
 msgid "Updated to the GNOME 48 platform."
 msgstr "Обновено за GNOME 48."
 
-#: src/window.rs:372
+#: src/window.rs:373
 msgid "Updated translations."
 msgstr "Преводите са обновени."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:594
+#: src/window.rs:595
 msgid "Best Fit"
 msgstr "Напасване"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1668
+#: src/window.rs:1744
 msgid "Videos and images"
 msgstr "Видео клипове и изображения"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1676
+#: src/window.rs:1752
 msgid "Open videos or images to compare"
 msgstr "Отваряне на видео клипове или изображения за сравнение"
-
-#~ msgid ""
-#~ "This release improves image format support and fixes a few issues with "
-#~ "zooming."
-#~ msgstr ""
-#~ "Това издание поддържа повече формати на изображения и коригира някои "
-#~ "проблеми при мащабиране."
-
-#~ msgid ""
-#~ "Images are now loaded with glycin, adding support for many more formats "
-#~ "like AVIF and JPEG XL, and improving compatibility, like using the "
-#~ "correct color space for JPEG images."
-#~ msgstr ""
-#~ "Изображенията се зареждат с glycin, който поддържа много допълнителни "
-#~ "формати като AVIF и JPEG XL. Това подобрява и съвместимостта за JPEG като "
-#~ "спомага за избирането на правилното цветово пространство."
-
-#~ msgid "Zoom level now takes into account fractional display scale."
-#~ msgstr "Нивото на мащабиране вече взема предвид дробния мащаб на екрана."
-
-#~ msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
-#~ msgstr ""
-#~ "Оправено е прекалено бързото мащабиране при мишки с колелца за превъртане "
-#~ "с висока разделителна способност."
-
-#~ msgid "Fixed slightly blurry image borders on some zoom levels."
-#~ msgstr ""
-#~ "Оправени са леко замъглените граници на изображенията при някои нива на "
-#~ "мащабиране."
-
-#~ msgid "Added an Alt+Enter shortcut to open the media properties dialog."
-#~ msgstr ""
-#~ "Добавена е и клавишната комбинация Alt+Enter, която отваря прозорчето със "
-#~ "свойства на медията."
-
-#~ msgid ""
-#~ "This release adds pixelated display for zoomed-in images and videos, "
-#~ "improves format support and fixes several issues."
-#~ msgstr ""
-#~ "Това издание добавя пикселизирано визуализиране за увеличени изображения "
-#~ "и видео клипове, добавя поддръжка на нови формати файлове и коригира "
-#~ "няколко проблема."
-
-#~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-#~ msgstr ""
-#~ "Увеличените изображения и видео клипове сега са пикселизирани, а не "
-#~ "замъглени."
-
-#~ msgid "Fixed memory usage not decreasing upon closing images and videos."
-#~ msgstr ""
-#~ "Коригирано е освобождаването на памет, която не намалява при затваряне на "
-#~ "изображения и видео клипове."
-
-#~ msgid "Improved UI responsiveness with many open files."
-#~ msgstr "Подобрен е потребителският интерфейс при много отворени файлове."
-
-#~ msgid "Improved performance on AV1 videos."
-#~ msgstr "Подобрена производителност със видео клипове AV1."
-
-#~ msgid "Added support for WebP images."
-#~ msgstr "Добавена е способност за обработка на изображения WebP."
-
-#~ msgid "Fixed display of semitransparent images and videos."
-#~ msgstr ""
-#~ "Оправено е визуализирането на полупрозрачни изображения и видео клипове."
-
-#~ msgid "Fixed display of 16-bit color images."
-#~ msgstr "Оправено е визуализирането на цветни 16-битови изображения."
-
-#~ msgid "Removed panning from the touchpad pinch zoom gesture."
-#~ msgstr ""
-#~ "Преустановено е мащабирането със сензорния панел чрез жеста за защипване "
-#~ "и увеличаване."
-
-#~ msgid ""
-#~ "Fixed infinite loading spinner when opening certain files instead of "
-#~ "error."
-#~ msgstr ""
-#~ "Оправено е безкрайното зареждане при отваряне на определени файлове "
-#~ "вместо да се покаже грешка."
