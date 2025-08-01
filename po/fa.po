@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-05-09 07:24+0000\n"
-"PO-Revision-Date: 2025-05-09 11:49+0330\n"
+"POT-Creation-Date: 2025-07-29 11:44+0000\n"
+"PO-Revision-Date: 2025-08-01 14:29+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -17,19 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2 data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
 #: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "هویت"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3 data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
 msgid "Compare images and videos"
 msgstr "مقایسهٔ تصویرها و ویدیوها"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:9
 msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
 msgstr "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;فیلم;ویدیو;کلیپ;تصویر;تفاوت;مقایسه;قاب;کیفیت;مقایسه;بررسی;"
 
@@ -114,22 +112,20 @@ msgid "Container"
 msgstr "بارگنج"
 
 #. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:40
+#: data/resources/ui/page.blp:63
 msgid "File Failed to Load"
 msgstr "بار کردن پرونده شکست خورد"
 
 #. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:43
+#: data/resources/ui/page.blp:66
 msgid ""
 "Could not display the file.\n"
 "\n"
-"If you're running Identity under Flatpak, note that opening files by drag-and-"
-"drop and by pasting may not work."
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
 msgstr ""
 "نتوانست پرونده را نشان دهد.\n"
 "\n"
-"اگر با فلت‌پک اجرا می‌کنید، به یاد داشته باشید که ممکن است گشودن پرونده‌ها با "
-"کشیدن و رها کردن و با جایگذاری کار نکند."
+"اگر با فلت‌پک اجرا می‌کنید، به یاد داشته باشید که ممکن است گشودن پرونده‌ها با کشیدن و رها کردن و با جایگذاری کار نکند."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -342,90 +338,93 @@ msgstr "سطح بزرگ‌نمایی"
 msgid "Select Zoom Level"
 msgstr "گزینش سطح بزرگ‌نمایی"
 
-#: src/page.rs:321
+#. Translators: screen reader label on the Play / Pause button.
+#: data/resources/ui/window.blp:284
+msgid "Play / Pause"
+msgstr "پخش یا مکث"
+
+#. Translators: screen reader label on the playback position slider.
+#: data/resources/ui/window.blp:306
+msgid "Playback position"
+msgstr "موقعیت پخش"
+
+#: src/page.rs:378
 msgid "{} × {}"
 msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:330 src/window.rs:517 src/window.rs:525 src/window.rs:533
+#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
 msgid "N/A"
 msgstr "نامعلوم"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:351
+#: src/window.rs:352
 msgid "translator-credits"
 msgstr "دانیال بهزادی <dani.behzi@ubuntu.com>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:354
+#: src/window.rs:355
 msgid "Contribute Translations"
 msgstr "مشارکت در ترجمه‌ها"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:360
+#: src/window.rs:361
 msgid "Video Trimmer"
 msgstr "ویدیو تراش"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:362
+#: src/window.rs:363
 msgid "Trim videos quickly"
 msgstr "تراشیدن سریع ویدیوها"
 
-#: src/window.rs:369
+#: src/window.rs:370
 msgid "This release has a minor visual refresh for GNOME 48."
 msgstr "این ارائه نوسازی بصری کوچکی برای گنوم ۴۸ دارد."
 
-#: src/window.rs:370
+#: src/window.rs:371
 msgid "Changed the versioning scheme to year.month."
 msgstr "تغییر طرحوارهٔ نگارش به سال.ماه."
 
-#: src/window.rs:371
+#: src/window.rs:372
 msgid "Updated to the GNOME 48 platform."
 msgstr "به‌روز شده به بن‌سازهٔ گنوم ۴۸."
 
-#: src/window.rs:372
+#: src/window.rs:373
 msgid "Updated translations."
 msgstr "ترجمه‌های به‌روز شده."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:594
+#: src/window.rs:595
 msgid "Best Fit"
 msgstr "بهترین برازش"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1668
+#: src/window.rs:1744
 msgid "Videos and images"
 msgstr "ویدیوها و تصویرها"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1676
+#: src/window.rs:1752
 msgid "Open videos or images to compare"
 msgstr "گشودن ویویدها یا تصویرها برای مقایسه"
 
-#~ msgid ""
-#~ "This release improves image format support and fixes a few issues with "
-#~ "zooming."
-#~ msgstr ""
-#~ "این ارائه پشتیبانی قالب تصویر را بهبود داده و چند مشکل با بزرگنمایی را حل "
-#~ "می‌کند."
+#~ msgid "This release improves image format support and fixes a few issues with zooming."
+#~ msgstr "این ارائه پشتیبانی قالب تصویر را بهبود داده و چند مشکل با بزرگنمایی را حل می‌کند."
 
 #~ msgid ""
-#~ "Images are now loaded with glycin, adding support for many more formats "
-#~ "like AVIF and JPEG XL, and improving compatibility, like using the correct "
-#~ "color space for JPEG images."
+#~ "Images are now loaded with glycin, adding support for many more formats like AVIF and JPEG XL, and improving compatibility, like "
+#~ "using the correct color space for JPEG images."
 #~ msgstr ""
-#~ "تصویرها اکنون با گلیسین بار شده که پشتیبانی از قالب‌های بیش‌تری چون AVIF و "
-#~ "JPEG XL را می‌افزاید و سازگاری را افزایش می‌دهد، مثل استفاده از فضای رنگی "
-#~ "درست برای تصویرهای JPEG."
+#~ "تصویرها اکنون با گلیسین بار شده که پشتیبانی از قالب‌های بیش‌تری چون AVIF و JPEG XL را می‌افزاید و سازگاری را افزایش می‌دهد، مثل "
+#~ "استفاده از فضای رنگی درست برای تصویرهای JPEG."
 
 #~ msgid "Zoom level now takes into account fractional display scale."
 #~ msgstr "سطح بزرگنمایی اکنون در محاسبات مقیاس نمایش اعشاری حساب می‌شود."
 
 #~ msgid "Fixed unusably fast zoom on mice with high-resolution scroll wheels."
-#~ msgstr ""
-#~ "رفع بزرگنمایی سریع غیر قابل استفاده روی موشی‌هایی با چرخ‌های لغزش تفکیک بالا."
+#~ msgstr "رفع بزرگنمایی سریع غیر قابل استفاده روی موشی‌هایی با چرخ‌های لغزش تفکیک بالا."
 
 #~ msgid "Fixed slightly blurry image borders on some zoom levels."
 #~ msgstr "رفع تاری مختصر حاشیهٔ تصاویر در برخی سطوح بزرگنمایی."
@@ -433,16 +432,12 @@ msgstr "گشودن ویویدها یا تصویرها برای مقایسه"
 #~ msgid "Added an Alt+Enter shortcut to open the media properties dialog."
 #~ msgstr "میان‌بر دگرساز+ورود برای گشودن گفت‌وگوی ویژگی‌های رسانه افزوده شده."
 
-#~ msgid ""
-#~ "This release adds pixelated display for zoomed-in images and videos, "
-#~ "improves format support and fixes several issues."
+#~ msgid "This release adds pixelated display for zoomed-in images and videos, improves format support and fixes several issues."
 #~ msgstr ""
-#~ "این ارائه نمایش پیکسلی برای تصویرها و ویدیوهای بزرگ‌نمایی شده را افزوده؛ "
-#~ "پشتیبانی قالب را بهبود داده و چندین مشکل را رفع کرده."
+#~ "این ارائه نمایش پیکسلی برای تصویرها و ویدیوهای بزرگ‌نمایی شده را افزوده؛ پشتیبانی قالب را بهبود داده و چندین مشکل را رفع کرده."
 
 #~ msgid "Zoomed-in images and videos are now pixelated rather than blurry."
-#~ msgstr ""
-#~ "تصویرها و ویدیوهای بزرگ‌نمایی شده اکنون به جای محو بودن، پیکسلی هستند."
+#~ msgstr "تصویرها و ویدیوهای بزرگ‌نمایی شده اکنون به جای محو بودن، پیکسلی هستند."
 
 #~ msgid "Fixed memory usage not decreasing upon closing images and videos."
 #~ msgstr "رفع کم نشدن استفادهٔ حافظه هنگام بستن تصویرها و ویدیوها."
@@ -465,6 +460,5 @@ msgstr "گشودن ویویدها یا تصویرها برای مقایسه"
 #~ msgid "Removed panning from the touchpad pinch zoom gesture."
 #~ msgstr "برداشتن جابه‌جایی از حرکت بزرگ‌نمایی نیشگونی صفحه‌لمسی."
 
-#~ msgid ""
-#~ "Fixed infinite loading spinner when opening certain files instead of error."
+#~ msgid "Fixed infinite loading spinner when opening certain files instead of error."
 #~ msgstr "رفع مشکل چرخندهٔ بی‌نهایت جای خطا هنگام گشودن پرونده‌های خاص."
