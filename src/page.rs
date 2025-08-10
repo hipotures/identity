@@ -517,8 +517,8 @@ mod imp {
 
             obj.notify_resolution();
 
-            if let Some(format_name) = image.format_name() {
-                self.container_format.replace(Some(format_name));
+            if let Some(format_name) = image.details().info_format_name() {
+                self.container_format.replace(Some(format_name.to_owned()));
                 self.obj().notify_container_format();
             }
 
