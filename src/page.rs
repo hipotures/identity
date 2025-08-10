@@ -897,7 +897,9 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct Page(ObjectSubclass<imp::Page>) @extends adw::Bin, gtk::Widget;
+    pub struct Page(ObjectSubclass<imp::Page>)
+        @extends adw::Bin, gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 #[gtk::template_callbacks]

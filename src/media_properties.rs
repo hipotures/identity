@@ -1,4 +1,4 @@
-use gtk::{gio, glib};
+use gtk::glib;
 
 mod imp {
     use std::marker::PhantomData;
@@ -153,5 +153,6 @@ mod imp {
 glib::wrapper! {
     pub struct MediaProperties(ObjectSubclass<imp::MediaProperties>)
         @extends adw::Window, gtk::Window, gtk::Widget,
-        @implements gio::ActionGroup, gio::ActionMap;
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget,
+            gtk::Native, gtk::Root, gtk::ShortcutManager;
 }

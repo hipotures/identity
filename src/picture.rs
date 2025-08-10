@@ -1046,7 +1046,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct Picture(ObjectSubclass<imp::Picture>)
-        @extends gtk::Widget, @implements gtk::Scrollable;
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Scrollable;
 }
 
 impl Picture {
