@@ -5,7 +5,7 @@ authors = ["Ivan Molodetskikh <yalterz@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-adw = { version = "0.8", package = "libadwaita", features = ["v1_7"] }
+adw = { version = "0.8", package = "libadwaita", features = ["v1_8"] }
 futures-util = "0.3"
 gdk4-wayland = "0.10"
 gdk4-x11 = "0.10"

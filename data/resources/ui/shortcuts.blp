@@ -1,127 +1,118 @@
 using Gtk 4.0;
+using Adw 1;
 
-ShortcutsWindow help_overlay {
-  ShortcutsSection {
-    ShortcutsGroup {
-      title: C_("shortcut window", "General");
+Adw.ShortcutsDialog shortcuts_dialog {
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "General");
 
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Switch between files");
-        accelerator: "1...9 0";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Open videos or images");
-        action-name: "win.open";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Open file from clipboard");
-        accelerator: "<ctrl>v";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Copy selected file to clipboard");
-        accelerator: "<ctrl>c";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Close selected file");
-        action-name: "win.close-tab";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Show media properties");
-        action-name: "win.media-properties";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "New window");
-        action-name: "app.new-window";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Show shortcuts");
-        action-name: "win.show-help-overlay";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Quit");
-        action-name: "app.quit";
-      }
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Switch between files");
+      accelerator: "1...9 0";
     }
 
-    ShortcutsGroup {
-      title: C_("shortcut window", "Playback");
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Play / Pause");
-        accelerator: "p <ctrl>space";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Step forward one frame");
-        accelerator: "period";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Step back one frame");
-        accelerator: "comma";
-      }
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Open videos or images");
+      action-name: "win.open";
     }
 
-    ShortcutsGroup {
-      title: C_("shortcut window", "Zoom");
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Zoom in");
-        shortcut-type: gesture_stretch;
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Zoom out");
-        shortcut-type: gesture_pinch;
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Zoom in");
-        accelerator: "<ctrl>plus plus";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Zoom out");
-        accelerator: "<ctrl>minus minus";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Zoom 1:1");
-        action-name: "win.set-scale-request(1.)";
-      }
-
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Best fit");
-        accelerator: "f";
-      }
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Open file from clipboard");
+      accelerator: "<ctrl>v";
     }
 
-    ShortcutsGroup {
-      /* Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column). */
-      title: C_("shortcut window", "Display");
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "New window");
+      action-name: "app.new-window";
+    }
+  }
 
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Arrange as tabs");
-        accelerator: "t";
-      }
+  Adw.ShortcutsSection {
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Copy selected file to clipboard");
+      accelerator: "<ctrl>c";
+    }
 
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Arrange in a row");
-        accelerator: "r";
-      }
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Close selected file");
+      action-name: "win.close-tab";
+    }
 
-      ShortcutsShortcut {
-        title: C_("shortcut window", "Arrange in a column");
-        accelerator: "c";
-      }
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Show media properties");
+      action-name: "win.media-properties";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Show shortcuts");
+      action-name: "app.shortcuts";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Quit");
+      action-name: "app.quit";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Playback");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Play / Pause");
+      accelerator: "p <ctrl>space";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Step forward one frame");
+      accelerator: "period";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Step back one frame");
+      accelerator: "comma";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Zoom");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom in");
+      accelerator: "<ctrl>plus plus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom out");
+      accelerator: "<ctrl>minus minus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom 1:1");
+      action-name: "win.set-scale-request(1.)";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Best fit");
+      accelerator: "f";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    /* Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column). */
+    title: C_("shortcut window", "Display");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Arrange as tabs");
+      accelerator: "t";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Arrange in a row");
+      accelerator: "r";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Arrange in a column");
+      accelerator: "c";
     }
   }
 }
