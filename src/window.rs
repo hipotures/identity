@@ -89,13 +89,11 @@ mod imp {
     use std::fmt;
     use std::fs::File;
     use std::marker::PhantomData;
-    use std::os::fd::AsFd as _;
     use std::str::FromStr;
     use std::time::Duration;
 
     use adw::prelude::*;
     use adw::subclass::prelude::*;
-    use ashpd::desktop::open_uri::OpenDirectoryRequest;
     use glib::{clone, closure, ControlFlow, Properties, SignalHandlerId, SourceId};
     use gtk::gdk::{self, Key, ModifierType};
     use gtk::{glib, CompositeTemplate};
@@ -227,6 +225,9 @@ mod imp {
         //
         // https://gitlab.gnome.org/GNOME/gtk/-/issues/7030
         pub open_file_dialog: RefCell<Option<glib::JoinHandle<()>>>,
+
+        /// Window identifier for portals (either Wayland handle or X11 window ID)
+        window_identifier: RefCell<Option<String>>,
     }
 
     #[glib::object_subclass]
@@ -414,6 +415,38 @@ mod imp {
                 },
             ));
             self.surface_signals.set(surface_signals).unwrap();
+
+            obj.connect_realize(move |obj| {
+                let Some(surface) = obj.native().and_then(|x| x.surface()) else {
+                    return;
+                };
+
+                if let Some(toplevel) = surface.downcast_ref::<gdk4_wayland::WaylandToplevel>() {
+                    toplevel.export_handle(clone!(
+                        #[weak]
+                        obj,
+                        move |_, res| {
+                            match res {
+                                Ok(handle) => {
+                                    obj.imp()
+                                        .window_identifier
+                                        .replace(Some(format!("wayland:{handle}")));
+                                }
+                                Err(err) => {
+                                    warn!("failed exporting Wayland handle: {err:?}")
+                                }
+                            }
+                        }
+                    ));
+                } else if let Some(x11_surface) = surface.downcast_ref::<gdk4_x11::X11Surface>() {
+                    obj.imp()
+                        .window_identifier
+                        .replace(Some(format!("x11:{:x}", x11_surface.xid())));
+                }
+            });
+            obj.connect_unrealize(move |obj| {
+                obj.imp().window_identifier.replace(None);
+            });
 
             self.content_toolbar_view
                 .connect_reveal_bottom_bars_notify(clone!(
@@ -1124,6 +1157,11 @@ mod imp {
                 return;
             };
 
+            let Some(window_identifier) = self.window_identifier.borrow().clone() else {
+                warn!("no window identifier available for portal call");
+                return;
+            };
+
             // The OpenDirectory portal wants a file descriptor. There's a way to get it without
             // leaving gio:
             //
@@ -1158,18 +1196,8 @@ mod imp {
                 }
             };
 
-            let Some(native) = self.obj().native() else {
-                warn!("self.obj().native() returned None");
-                return;
-            };
-
-            let identifier = ashpd::WindowIdentifier::from_native(&native).await;
-            if let Err(err) = OpenDirectoryRequest::default()
-                .identifier(identifier)
-                .send(&file.as_fd())
-                .await
-            {
-                warn!("OpenDirectory returned an error: {:?}", err);
+            if let Err(err) = call_open_directory_portal(window_identifier, file).await {
+                warn!("failed to call OpenDirectory: {err:?}");
             }
         }
 
@@ -1651,6 +1679,31 @@ mod imp {
                 scale,
             ))
         }
+    }
+
+    async fn call_open_directory_portal(
+        window_identifier: String,
+        file: File,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let bus = gio::bus_get_future(gio::BusType::Session).await?;
+
+        let fd_list = gio::UnixFDList::from_array([file]);
+        let options: HashMap<String, glib::Variant> = HashMap::new();
+
+        bus.call_with_unix_fd_list_future(
+            Some("org.freedesktop.portal.Desktop"),
+            "/org/freedesktop/portal/desktop",
+            "org.freedesktop.portal.OpenURI",
+            "OpenDirectory",
+            Some(&(window_identifier, glib::variant::Handle(0), options).to_variant()),
+            None,
+            gio::DBusCallFlags::NONE,
+            -1,
+            Some(&fd_list),
+        )
+        .await?;
+
+        Ok(())
     }
 
     #[cfg(test)]
