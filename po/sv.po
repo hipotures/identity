@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-05-28 08:05+0000\n"
-"PO-Revision-Date: 2025-06-18 22:11+0200\n"
+"POT-Creation-Date: 2025-08-10 18:45+0000\n"
+"PO-Revision-Date: 2025-08-12 22:20+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -15,19 +15,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
 #: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:4
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
 msgid "Compare images and videos"
 msgstr "Jämför bilder och videor"
 
 #. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:10
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:9
 msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
 msgstr "Film;Klipp;Video;Bild;Skillnad;Bildruta;Kvalitet;Jämför;Kontrollera;"
 
@@ -112,12 +112,12 @@ msgid "Container"
 msgstr "Behållare"
 
 #. Translators: Title that is shown upon video or image loading error.
-#: data/resources/ui/page.blp:58
+#: data/resources/ui/page.blp:63
 msgid "File Failed to Load"
 msgstr "Filen kunde inte läsas in"
 
 #. Translators: Label shown when a video or image has failed to load.
-#: data/resources/ui/page.blp:61
+#: data/resources/ui/page.blp:66
 msgid ""
 "Could not display the file.\n"
 "\n"
@@ -341,18 +341,28 @@ msgstr "Zoomnivå"
 msgid "Select Zoom Level"
 msgstr "Välj zoomnivå"
 
-#: src/page.rs:372
+#. Translators: screen reader label on the Play / Pause button.
+#: data/resources/ui/window.blp:284
+msgid "Play / Pause"
+msgstr "Spela / Paus"
+
+#. Translators: screen reader label on the playback position slider.
+#: data/resources/ui/window.blp:306
+msgid "Playback position"
+msgstr "Uppspelningsposition"
+
+#: src/page.rs:378
 msgid "{} × {}"
 msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:381 src/window.rs:518 src/window.rs:526 src/window.rs:534
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:352
+#: src/window.rs:353
 msgid "translator-credits"
 msgstr ""
 "Åke Engelbrektson <eson@svenskasprakfiler.se>\n"
@@ -360,49 +370,49 @@ msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:355
+#: src/window.rs:356
 msgid "Contribute Translations"
 msgstr "Bidra med översättningar"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:361
+#: src/window.rs:362
 msgid "Video Trimmer"
 msgstr "Video Trimmer"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:363
+#: src/window.rs:364
 msgid "Trim videos quickly"
 msgstr "Trimma videoklipp snabbt"
 
-#: src/window.rs:370
+#: src/window.rs:371
 msgid "This release has a minor visual refresh for GNOME 48."
 msgstr "Denna utgåva har en mindre visuell uppfräschning för GNOME 48."
 
-#: src/window.rs:371
+#: src/window.rs:372
 msgid "Changed the versioning scheme to year.month."
 msgstr "Ändrade versionsschemat till år.månad."
 
-#: src/window.rs:372
+#: src/window.rs:373
 msgid "Updated to the GNOME 48 platform."
 msgstr "Uppdaterad till GNOME 48-plattformen."
 
-#: src/window.rs:373
+#: src/window.rs:374
 msgid "Updated translations."
 msgstr "Uppdaterade översättningar."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:595
+#: src/window.rs:628
 msgid "Best Fit"
 msgstr "Bästa passform"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1744
+#: src/window.rs:1798
 msgid "Videos and images"
 msgstr "Videor och bilder"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1752
+#: src/window.rs:1806
 msgid "Open videos or images to compare"
 msgstr "Öppna videor eller bilder att jämföra"
 
