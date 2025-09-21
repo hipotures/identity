@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-07-27 11:33+0000\n"
-"PO-Revision-Date: 2025-07-27 13:39+0200\n"
+"POT-Creation-Date: 2025-09-21 06:43+0000\n"
+"PO-Revision-Date: 2025-09-21 13:13+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -55,7 +55,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Preverite nekatere lastnosti videoposnetka v pogovornem oknu"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:205
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -153,96 +153,96 @@ msgstr "Odpre datoteko iz odložišča"
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
+msgid "New window"
+msgstr "Novo okno"
+
+#: data/resources/ui/shortcuts.blp:31
+msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
 msgstr "Kopira izbrano datoteko v odložišče"
 
-#: data/resources/ui/shortcuts.blp:29
+#: data/resources/ui/shortcuts.blp:36
 msgctxt "shortcut window"
 msgid "Close selected file"
 msgstr "Zapre izbrano datoteko"
 
-#: data/resources/ui/shortcuts.blp:34
+#: data/resources/ui/shortcuts.blp:41
 msgctxt "shortcut window"
 msgid "Show media properties"
 msgstr "Pokaži lastnosti nosilca"
 
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "New window"
-msgstr "Novo okno"
-
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:46
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Pokaži tipkovne bližnjice"
 
-#: data/resources/ui/shortcuts.blp:49
+#: data/resources/ui/shortcuts.blp:51
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Izhod"
 
-#: data/resources/ui/shortcuts.blp:55
+#: data/resources/ui/shortcuts.blp:57
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:60
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Predvajaj / Premor"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:65
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Pomik naprej za eno sličico"
 
-#: data/resources/ui/shortcuts.blp:68
+#: data/resources/ui/shortcuts.blp:70
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Pomik nazaj za eno sličico"
 
-#: data/resources/ui/shortcuts.blp:74
+#: data/resources/ui/shortcuts.blp:76
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Povečava"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:79
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Približaj"
 
-#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:84
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Oddalji"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:89
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Približaj na 1:1"
 
-#: data/resources/ui/shortcuts.blp:102
+#: data/resources/ui/shortcuts.blp:94
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Sliko prilagodi oknu"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:109
+#: data/resources/ui/shortcuts.blp:101
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Pokaži"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Razporedi kot zavihke"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Razporedi v vrstico"
 
-#: data/resources/ui/shortcuts.blp:122
+#: data/resources/ui/shortcuts.blp:114
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Razporedi v stolpec"
@@ -358,58 +358,62 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
 msgid "N/A"
 msgstr "N/D"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:352
+#: src/window.rs:353
 msgid "translator-credits"
 msgstr "Martin Srebotnjak <miles@filmsi.net>"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:355
+#: src/window.rs:356
 msgid "Contribute Translations"
 msgstr "Prispevajte prevode"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:361
+#: src/window.rs:362
 msgid "Video Trimmer"
 msgstr "Video obrezovalnik"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:363
+#: src/window.rs:364
 msgid "Trim videos quickly"
 msgstr "Hitro obrežite videoposnetke"
 
-#: src/window.rs:370
-msgid "This release has a minor visual refresh for GNOME 48."
-msgstr "Ta izdaja ima manjšo vizualno osvežitev za GNOME 48."
-
 #: src/window.rs:371
-msgid "Changed the versioning scheme to year.month."
-msgstr "Spremenjena shema shranjevanja različic v letnica.mesec."
+msgid "This release adds a context menu to row and column display modes and updates the platform to GNOME 49."
+msgstr "Ta izdaja dodaja kontekstni meni načinom prikaza vrstic in stolpcev ter posodablja platformo na GNOME 49."
 
 #: src/window.rs:372
-msgid "Updated to the GNOME 48 platform."
-msgstr "Posodobljeno na platformo GNOME 48."
+msgid ""
+"Added a context menu on the images, mirroring the tab context menu. This makes the context menu accessible in "
+"row and column display modes where there are no tabs."
+msgstr ""
+"Slikam je dodan kontekstni meni, ki zrcali kontekstni meni zavihka. Tako je kontekstni meni dostopen v načinih "
+"prikaza vrstic in stolpcev, kjer ni zavihkov."
 
 #: src/window.rs:373
+msgid "Updated to the GNOME 49 platform."
+msgstr "Posodobljeno na platformo GNOME 49."
+
+#: src/window.rs:374
 msgid "Updated translations."
 msgstr "Posodobljeni prevodi."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:595
+#: src/window.rs:628
 msgid "Best Fit"
 msgstr "Najboljše prileganje"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1744
+#: src/window.rs:1798
 msgid "Videos and images"
 msgstr "Videoposnetki in slike"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1752
+#: src/window.rs:1806
 msgid "Open videos or images to compare"
 msgstr "Odprite videoposnetke ali slike za primerjavo"
