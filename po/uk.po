@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-07-27 11:42+0000\n"
-"PO-Revision-Date: 2025-07-27 21:12+0300\n"
+"POT-Creation-Date: 2025-09-21 14:45+0000\n"
+"PO-Revision-Date: 2025-09-21 19:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -34,8 +34,8 @@ msgstr "Порівняння зображень і відео"
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:9
 msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
 msgstr ""
-"Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;відео;фільм"
-";кліп;зображення;різниця;кадр;якість;порівняння;перевірка;"
+"Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;відео;філь"
+"м;кліп;зображення;різниця;кадр;якість;порівняння;перевірка;"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
 msgid "A program for comparing multiple versions of an image or video."
@@ -58,7 +58,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Ознайомлення із декількома властивостями відео у діалоговому вікні"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:205
 msgid "Ivan Molodetskikh"
 msgstr "Іван Молодєцкіх"
 
@@ -157,96 +157,96 @@ msgstr "Відкрити файл з буфера обміну даними"
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
+msgid "New window"
+msgstr "Відкрити нове вікно"
+
+#: data/resources/ui/shortcuts.blp:31
+msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
 msgstr "Скопіювати позначений файл до буфера обміну даними"
 
-#: data/resources/ui/shortcuts.blp:29
+#: data/resources/ui/shortcuts.blp:36
 msgctxt "shortcut window"
 msgid "Close selected file"
 msgstr "Закрити позначений файл"
 
-#: data/resources/ui/shortcuts.blp:34
+#: data/resources/ui/shortcuts.blp:41
 msgctxt "shortcut window"
 msgid "Show media properties"
 msgstr "Показати властивості мультимедійних даних"
 
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "New window"
-msgstr "Відкрити нове вікно"
-
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:46
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
-#: data/resources/ui/shortcuts.blp:49
+#: data/resources/ui/shortcuts.blp:51
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти з програми"
 
-#: data/resources/ui/shortcuts.blp:55
+#: data/resources/ui/shortcuts.blp:57
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Відтворення"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:60
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Старт / Пауза"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:65
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Далі на один кадр"
 
-#: data/resources/ui/shortcuts.blp:68
+#: data/resources/ui/shortcuts.blp:70
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Назад на один кадр"
 
-#: data/resources/ui/shortcuts.blp:74
+#: data/resources/ui/shortcuts.blp:76
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Масштаб"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:79
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Збільшити"
 
-#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:84
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Зменшити"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:89
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Масштаб 1:1"
 
-#: data/resources/ui/shortcuts.blp:102
+#: data/resources/ui/shortcuts.blp:94
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Якнайкраще влаштувати"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:109
+#: data/resources/ui/shortcuts.blp:101
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Показ"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Упорядкувати за вкладками"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Упорядкувати у рядок"
 
-#: data/resources/ui/shortcuts.blp:122
+#: data/resources/ui/shortcuts.blp:114
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Упорядкувати у стовпчик"
@@ -348,15 +348,11 @@ msgstr "Вибрати масштаб"
 
 #. Translators: screen reader label on the Play / Pause button.
 #: data/resources/ui/window.blp:284
-#| msgctxt "shortcut window"
-#| msgid "Play / Pause"
 msgid "Play / Pause"
 msgstr "Старт / Пауза"
 
 #. Translators: screen reader label on the playback position slider.
 #: data/resources/ui/window.blp:306
-#| msgctxt "shortcut window"
-#| msgid "Playback"
 msgid "Playback position"
 msgstr "Позиція відтворення"
 
@@ -366,61 +362,78 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
 msgid "N/A"
 msgstr "н/д"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:352
+#: src/window.rs:353
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2023"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:355
+#: src/window.rs:356
 msgid "Contribute Translations"
 msgstr "Надсилання перекладів"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:361
+#: src/window.rs:362
 msgid "Video Trimmer"
 msgstr "Обрізання відео"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:363
+#: src/window.rs:364
 msgid "Trim videos quickly"
 msgstr "Швидке підрізання відео"
 
-#: src/window.rs:370
-msgid "This release has a minor visual refresh for GNOME 48."
-msgstr "Цей випуск містить незначне візуальне освіження для GNOME 48."
-
 #: src/window.rs:371
-msgid "Changed the versioning scheme to year.month."
-msgstr "Схему нумерування версій змінено на «рік.місяць»."
+msgid ""
+"This release adds a context menu to row and column display modes and updates "
+"the platform to GNOME 49."
+msgstr ""
+"У цьому випуску додано контекстне меню для режимів показу рядків і"
+" стовпчиків та оновлено платформу до версії GNOME 49."
 
 #: src/window.rs:372
-msgid "Updated to the GNOME 48 platform."
-msgstr "Програму оновлено до платформи GNOME 48."
+msgid ""
+"Added a context menu on the images, mirroring the tab context menu. This "
+"makes the context menu accessible in row and column display modes where "
+"there are no tabs."
+msgstr ""
+"Додано контекстне меню для зображень з відтворенням пунктів контекстного"
+" меню вкладок. Це робить контекстне меню доступним у режимах показу рядків і"
+" стовпчиків там, де немає вкладок."
 
 #: src/window.rs:373
+#| msgid "Updated to the GNOME 48 platform."
+msgid "Updated to the GNOME 49 platform."
+msgstr "Програму оновлено до платформи GNOME 49."
+
+#: src/window.rs:374
 msgid "Updated translations."
 msgstr "Оновлено переклади."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:595
+#: src/window.rs:628
 msgid "Best Fit"
 msgstr "Найкраще заповнення"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1744
+#: src/window.rs:1798
 msgid "Videos and images"
 msgstr "Відео і зображення"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1752
+#: src/window.rs:1806
 msgid "Open videos or images to compare"
 msgstr "Відкрийте відео або зображення для порівняння"
+
+#~ msgid "This release has a minor visual refresh for GNOME 48."
+#~ msgstr "Цей випуск містить незначне візуальне освіження для GNOME 48."
+
+#~ msgid "Changed the versioning scheme to year.month."
+#~ msgstr "Схему нумерування версій змінено на «рік.місяць»."
 
 #~ msgid ""
 #~ "This release improves image format support and fixes a few issues with "
