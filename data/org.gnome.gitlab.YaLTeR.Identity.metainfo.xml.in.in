@@ -37,6 +37,16 @@
   <url type="vcs-browser">https://gitlab.gnome.org/YaLTeR/identity</url>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="25.09" date="2025-09-21">
+      <description>
+        <p>This release adds a context menu to row and column display modes and updates the platform to GNOME 49.</p>
+        <ul>
+          <li>Added a context menu on the images, mirroring the tab context menu. This makes the context menu accessible in row and column display modes where there are no tabs.</li>
+          <li>Updated to the GNOME 49 platform.</li>
+          <li>Updated translations.</li>
+        </ul>
+      </description>
+    </release>
     <release version="25.03" date="2025-03-30">
       <description>
         <p>This release has a minor visual refresh for GNOME 48.</p>

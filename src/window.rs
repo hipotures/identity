@@ -347,7 +347,7 @@ mod imp {
             klass.install_action("win.about", None, |window, _, _| {
                 let resource_path = "/org/gnome/gitlab/YaLTeR/Identity/\
                                      org.gnome.gitlab.YaLTeR.Identity.metainfo.xml";
-                let about_window = adw::AboutDialog::from_appdata(resource_path, Some("25.03"));
+                let about_window = adw::AboutDialog::from_appdata(resource_path, Some("25.09"));
                 about_window.set_version(config::VERSION);
                 // Translators: shown in the About dialog, put your name here.
                 about_window.set_translator_credits(&gettext("translator-credits"));
@@ -368,9 +368,9 @@ mod imp {
                 // DL doesn't extract release notes from metainfo, so let's help it out with the
                 // ones shown in the dialog.
                 let gettext = |_| ();
-                gettext("This release has a minor visual refresh for GNOME 48.");
-                gettext("Changed the versioning scheme to year.month.");
-                gettext("Updated to the GNOME 48 platform.");
+                gettext("This release adds a context menu to row and column display modes and updates the platform to GNOME 49.");
+                gettext("Added a context menu on the images, mirroring the tab context menu. This makes the context menu accessible in row and column display modes where there are no tabs.");
+                gettext("Updated to the GNOME 49 platform.");
                 gettext("Updated translations.");
             });
         }
