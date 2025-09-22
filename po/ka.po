@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-08-01 11:00+0000\n"
-"PO-Revision-Date: 2025-08-03 03:11+0200\n"
+"POT-Creation-Date: 2025-09-22 04:56+0000\n"
+"PO-Revision-Date: 2025-09-22 07:57+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -54,7 +54,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "შეამოწმეთ ვიდეოს რამდენიმე თვისება დიალოგში"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:205
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -153,96 +153,96 @@ msgstr "ბუფერში მყოფი ფაილის გახსნ
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
+msgid "New window"
+msgstr "ახალი ფანჯარა"
+
+#: data/resources/ui/shortcuts.blp:31
+msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
 msgstr "მონიშნული ფაილის ბუფერში კოპირება"
 
-#: data/resources/ui/shortcuts.blp:29
+#: data/resources/ui/shortcuts.blp:36
 msgctxt "shortcut window"
 msgid "Close selected file"
 msgstr "მონიშნული ფაილის დახურვა"
 
-#: data/resources/ui/shortcuts.blp:34
+#: data/resources/ui/shortcuts.blp:41
 msgctxt "shortcut window"
 msgid "Show media properties"
 msgstr "მედიის თვისებების ჩვენება"
 
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "New window"
-msgstr "ახალი ფანჯარა"
-
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:46
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "მალსახმობების ჩვენება"
 
-#: data/resources/ui/shortcuts.blp:49
+#: data/resources/ui/shortcuts.blp:51
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "&გასვლა"
 
-#: data/resources/ui/shortcuts.blp:55
+#: data/resources/ui/shortcuts.blp:57
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "დაკვრა"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:60
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "დაკვრა/პაუზა"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:65
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "ერთი კადრით წინ"
 
-#: data/resources/ui/shortcuts.blp:68
+#: data/resources/ui/shortcuts.blp:70
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "ერთი კადრით უკან"
 
-#: data/resources/ui/shortcuts.blp:74
+#: data/resources/ui/shortcuts.blp:76
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "გადიდება"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:79
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "გადიდება"
 
-#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:84
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "დაპატარავება"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:89
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "გადიდება 1:1"
 
-#: data/resources/ui/shortcuts.blp:102
+#: data/resources/ui/shortcuts.blp:94
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "საუკეთესოდ ჩატევა"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:109
+#: data/resources/ui/shortcuts.blp:101
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "ჩვენება"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "ჩანართებად დალაგება"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "მწკრივში დალაგება"
 
-#: data/resources/ui/shortcuts.blp:122
+#: data/resources/ui/shortcuts.blp:114
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "სვეტად დალაგება"
@@ -358,61 +358,77 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
 msgid "N/A"
 msgstr "N/A"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:352
+#: src/window.rs:353
 msgid "translator-credits"
 msgstr "თარგმანი-შესრულებულია"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:355
+#: src/window.rs:356
 msgid "Contribute Translations"
 msgstr "თარგმანების შეწირვა"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:361
+#: src/window.rs:362
 msgid "Video Trimmer"
 msgstr "ვიდეომჭრელი"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:363
+#: src/window.rs:364
 msgid "Trim videos quickly"
 msgstr "ვიდეოს სწრაფი წაკვეთა"
 
-#: src/window.rs:370
-msgid "This release has a minor visual refresh for GNOME 48."
-msgstr "ამ რელიზს აქვს უმნიშვნელო ვიზუალური განახლება GNOME 48-სთვის."
-
 #: src/window.rs:371
-msgid "Changed the versioning scheme to year.month."
-msgstr "შეიცვალა ვერსიის რიცხვების სქემა წელი.თვეზე."
+msgid ""
+"This release adds a context menu to row and column display modes and updates "
+"the platform to GNOME 49."
+msgstr ""
+"ეს რელიზი ამატებს კონტექსტურ მენიუს მწკრივისა და სვეტის ჩვენების "
+"რეჟიმებისთვის და ანახლებს პლატფორმას GNOME 49-მდე."
 
 #: src/window.rs:372
-msgid "Updated to the GNOME 48 platform."
-msgstr "განახლდა GNOME 48 პლატფორმისთვის."
+msgid ""
+"Added a context menu on the images, mirroring the tab context menu. This "
+"makes the context menu accessible in row and column display modes where "
+"there are no tabs."
+msgstr ""
+"დაემატა კონტექსტური მენიუ გამოსახულებებზე, რომელიც ჩანართის კონტექსტურ "
+"მენიუს იმეორებს. ეს კონტექსტურ მენიუს წვდომადს ხდის მწკრივისა და სვეტის "
+"ჩვენების რეჟიმებში, როცა ჩანართები არ არსებობს."
 
 #: src/window.rs:373
+msgid "Updated to the GNOME 49 platform."
+msgstr "განახლდა GNOME 49 პლატფორმისთვის."
+
+#: src/window.rs:374
 msgid "Updated translations."
 msgstr "განახლებული თარგმანები."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:595
+#: src/window.rs:628
 msgid "Best Fit"
 msgstr "საუკეთესოდ ჩატევა"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1744
+#: src/window.rs:1798
 msgid "Videos and images"
 msgstr "ვიდეოები და სურათები"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1752
+#: src/window.rs:1806
 msgid "Open videos or images to compare"
 msgstr "გახსენით ვიდეოები ან სურათები შედარებისთვის"
+
+#~ msgid "This release has a minor visual refresh for GNOME 48."
+#~ msgstr "ამ რელიზს აქვს უმნიშვნელო ვიზუალური განახლება GNOME 48-სთვის."
+
+#~ msgid "Changed the versioning scheme to year.month."
+#~ msgstr "შეიცვალა ვერსიის რიცხვების სქემა წელი.თვეზე."
 
 #~ msgid ""
 #~ "This release improves image format support and fixes a few issues with "
