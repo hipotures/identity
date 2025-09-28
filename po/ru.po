@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Identity\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-07-27 11:33+0000\n"
-"PO-Revision-Date: 2025-07-27 14:40+0300\n"
+"POT-Creation-Date: 2025-09-23 13:13+0000\n"
+"PO-Revision-Date: 2025-09-26 15:16+0300\n"
 "Last-Translator: Artur S0 <arturios2005@mail.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
 "&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2
 #: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
@@ -54,7 +54,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Проверка нескольких свойств видео в диалоговом окне"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:205
 msgid "Ivan Molodetskikh"
 msgstr "Иван Молодецких"
 
@@ -153,96 +153,96 @@ msgstr "Открыть файл из буфера обмена"
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
+msgid "New window"
+msgstr "Новое окно"
+
+#: data/resources/ui/shortcuts.blp:31
+msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
 msgstr "Копировать выбранный файл в буфер обмена"
 
-#: data/resources/ui/shortcuts.blp:29
+#: data/resources/ui/shortcuts.blp:36
 msgctxt "shortcut window"
 msgid "Close selected file"
 msgstr "Закрыть выбранный файл"
 
-#: data/resources/ui/shortcuts.blp:34
+#: data/resources/ui/shortcuts.blp:41
 msgctxt "shortcut window"
 msgid "Show media properties"
 msgstr "Показать свойства файла"
 
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "New window"
-msgstr "Новое окно"
-
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:46
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Показать комбинации клавиш"
 
-#: data/resources/ui/shortcuts.blp:49
+#: data/resources/ui/shortcuts.blp:51
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Закрыть"
 
-#: data/resources/ui/shortcuts.blp:55
+#: data/resources/ui/shortcuts.blp:57
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Воспроизведение"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:60
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Воспроизвести / Приостановить"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:65
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Перейти на следующий кадр"
 
-#: data/resources/ui/shortcuts.blp:68
+#: data/resources/ui/shortcuts.blp:70
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Перейти на предыдущий кадр"
 
-#: data/resources/ui/shortcuts.blp:74
+#: data/resources/ui/shortcuts.blp:76
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Масштабирование"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:79
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Приблизить"
 
-#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:84
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Отдалить"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:89
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Масштаб 1:1"
 
-#: data/resources/ui/shortcuts.blp:102
+#: data/resources/ui/shortcuts.blp:94
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "По размеру окна"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:109
+#: data/resources/ui/shortcuts.blp:101
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Отображение"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Расположить в виде вкладок"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Расположить в ряд"
 
-#: data/resources/ui/shortcuts.blp:122
+#: data/resources/ui/shortcuts.blp:114
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Расположить в столбец"
@@ -358,63 +358,79 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
 msgid "N/A"
 msgstr "Н/Д"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:352
+#: src/window.rs:353
 msgid "translator-credits"
 msgstr ""
 "Иван Молодецких <yalterz@gmail.com>\n"
 "Виктор github.com/viktoron"
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:355
+#: src/window.rs:356
 msgid "Contribute Translations"
 msgstr "Помочь с переводом"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:361
+#: src/window.rs:362
 msgid "Video Trimmer"
 msgstr "Видеотриммер"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:363
+#: src/window.rs:364
 msgid "Trim videos quickly"
-msgstr "Быстрая обрезка видео-файлов"
-
-#: src/window.rs:370
-msgid "This release has a minor visual refresh for GNOME 48."
-msgstr "В этой версии интерфейс приложения слегка обновлён для GNOME 48."
+msgstr "Быстрая обрезка видеофайлов"
 
 #: src/window.rs:371
-msgid "Changed the versioning scheme to year.month."
-msgstr "Версионирование приложения изменено на год.месяц."
+msgid ""
+"This release adds a context menu to row and column display modes and updates the "
+"platform to GNOME 49."
+msgstr ""
+"В этой версии добавлено контекстное меню в режимы отображения строк и столбцов, а "
+"платформа обновлена до версии GNOME 49."
 
 #: src/window.rs:372
-msgid "Updated to the GNOME 48 platform."
-msgstr "Платформа обновлена до версии GNOME 48."
+msgid ""
+"Added a context menu on the images, mirroring the tab context menu. This makes "
+"the context menu accessible in row and column display modes where there are no "
+"tabs."
+msgstr ""
+"Добавлено контекстное меню на изображениях, зеркально отражающее контекстное меню "
+"вкладок. Это делает контекстное меню доступным в режимах отображения строк и "
+"столбцов, где нет вкладок."
 
 #: src/window.rs:373
+msgid "Updated to the GNOME 49 platform."
+msgstr "Платформа обновлена до версии GNOME 49."
+
+#: src/window.rs:374
 msgid "Updated translations."
 msgstr "Обновлены переводы."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:595
+#: src/window.rs:628
 msgid "Best Fit"
 msgstr "По размеру окна"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1744
+#: src/window.rs:1798
 msgid "Videos and images"
 msgstr "Видео и изображения"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1752
+#: src/window.rs:1806
 msgid "Open videos or images to compare"
 msgstr "Открыть видео или изображения для сравнения"
+
+#~ msgid "This release has a minor visual refresh for GNOME 48."
+#~ msgstr "В этой версии интерфейс приложения слегка обновлён для GNOME 48."
+
+#~ msgid "Changed the versioning scheme to year.month."
+#~ msgstr "Версионирование приложения изменено на год.месяц."
 
 #~ msgid ""
 #~ "This release improves image format support and fixes a few issues with zooming."
@@ -701,13 +717,6 @@ msgstr "Открыть видео или изображения для срав�
 
 #~ msgid "Added Chinese Traditional translation (thanks Kisaragi Hiu)."
 #~ msgstr "Добавлен перевод на традиционный китайский (спасибо Kisaragi Hiu)."
-
-#~ msgid ""
-#~ "This release adds a media properties dialog and updates Identity to the GNOME "
-#~ "43 platform."
-#~ msgstr ""
-#~ "В этой версии добавлен диалог свойств файла, а платформа обновлена до версии "
-#~ "GNOME 43."
 
 #~ msgid ""
 #~ "Added a media properties dialog which will display information about the "
