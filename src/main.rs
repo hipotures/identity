@@ -15,6 +15,7 @@ mod application;
 use application::Application;
 #[rustfmt::skip]
 mod config;
+mod glycin;
 mod media_properties;
 mod page;
 mod page_grid;

@@ -25,6 +25,7 @@ mod imp {
 
     use super::*;
     use crate::application::VaDisplayState;
+    use crate::glycin;
     use crate::texture_paintable::TexturePaintable;
     use crate::utils::gettext_f;
 
@@ -463,31 +464,31 @@ mod imp {
             // much longer. However, due to GStreamer being prone to crashing (e.g. simply loading
             // a 16-bit PNG crashes the whole application at the time of this writing), we cannot
             // load the playbin in parallel. Oh well...
-            let image = match glycin::Loader::new(file.clone()).load().await {
+            let loader = glycin::loader_new(&file);
+            let image = match glycin::loader_load_future(&loader).await {
                 Ok(image) => image,
-                Err(err) => {
-                    if err.is_out_of_memory() {
-                        warn!("glycin reported out of memory; aborting loading");
-                        self.set_error();
-                        return;
-                    }
+                Err(_err) => {
+                    // FIXME: Missing from libglycin.
+                    //
+                    // if err.is_out_of_memory() {
+                    //     warn!("glycin reported out of memory; aborting loading");
+                    //     self.set_error();
+                    //     return;
+                    // }
 
                     let elapsed = self
                         .constructed_at
                         .get()
                         .expect("unexpected unset `constructed_at`")
                         .elapsed();
-                    debug!(
-                        "glycin failed to load format {:?} after {elapsed:?}, trying GStreamer",
-                        err.unsupported_format(),
-                    );
+                    debug!("glycin failed to load image after {elapsed:?}, trying GStreamer");
 
                     self.prepare_playbin(file);
                     return;
                 }
             };
 
-            let frame = match image.next_frame().await {
+            let frame = match glycin::image_next_frame_future(&image).await {
                 Ok(frame) => frame,
                 Err(err) => {
                     warn!("error loading frame with glycin: {err}");
@@ -507,7 +508,7 @@ mod imp {
             let obj = self.obj();
             let _guard = obj.freeze_notify();
 
-            let texture = frame.texture();
+            let texture = glycin::frame_get_texture(&frame);
             let paintable = TexturePaintable::new(&texture);
             self.picture.set_paintable(Some(paintable));
             assert_eq!(self.texture.replace(Some(texture)), None);
@@ -517,10 +518,12 @@ mod imp {
 
             obj.notify_resolution();
 
-            if let Some(format_name) = image.details().info_format_name() {
-                self.container_format.replace(Some(format_name.to_owned()));
-                self.obj().notify_container_format();
-            }
+            // FIXME: Missing from libglycin.
+            //
+            // if let Some(format_name) = image.details().info_format_name() {
+            //     self.container_format.replace(Some(format_name.to_owned()));
+            //     self.obj().notify_container_format();
+            // }
 
             self.stack.set_visible_child_name("content");
         }
