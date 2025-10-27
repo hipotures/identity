@@ -37,7 +37,7 @@
   <url type="vcs-browser">https://gitlab.gnome.org/YaLTeR/identity</url>
   <content_rating type="oars-1.1" />
   <releases>
-    <release version="25.09" date="2025-09-21">
+    <release version="25.10" date="2025-10-27">
       <description>
         <p>This release adds a context menu to row and column display modes and updates the platform to GNOME 49.</p>
         <ul>

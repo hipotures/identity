@@ -347,7 +347,7 @@ mod imp {
             klass.install_action("win.about", None, |window, _, _| {
                 let resource_path = "/org/gnome/gitlab/YaLTeR/Identity/\
                                      org.gnome.gitlab.YaLTeR.Identity.metainfo.xml";
-                let about_window = adw::AboutDialog::from_appdata(resource_path, Some("25.09"));
+                let about_window = adw::AboutDialog::from_appdata(resource_path, Some("25.10"));
                 about_window.set_version(config::VERSION);
                 // Translators: shown in the About dialog, put your name here.
                 about_window.set_translator_credits(&gettext("translator-credits"));
