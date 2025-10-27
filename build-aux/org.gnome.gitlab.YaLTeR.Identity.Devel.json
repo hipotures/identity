@@ -5,21 +5,7 @@
     "sdk": "org.gnome.Sdk",
     "sdk-extensions": [
         "org.freedesktop.Sdk.Extension.rust-stable",
-        "org.freedesktop.Sdk.Extension.llvm20"
-    ],
-    "add-extensions": {
-        "org.freedesktop.Platform.ffmpeg-full": {
-            "directory": "lib/ffmpeg",
-            "version": "25.08",
-            "add-ld-path": "."
-        }
-    },
-    "cleanup-commands": [
-        "mkdir -p ${FLATPAK_DEST}/lib/ffmpeg"
-    ],
-    "cleanup": [
-        "/bin/blueprint-compiler",
-        "/lib/pkgconfig"
+        "org.freedesktop.Sdk.Extension.llvm21"
     ],
     "command": "identity",
     "tags": [
@@ -35,7 +21,7 @@
         "--env=RUST_BACKTRACE=1"
     ],
     "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm20/bin",
+        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm21/bin",
         "build-args": [
             "--share=network"
         ],
