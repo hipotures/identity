@@ -416,7 +416,7 @@ mod imp {
             ));
             self.surface_signals.set(surface_signals).unwrap();
 
-            obj.connect_realize(move |obj| {
+            obj.connect_map(move |obj| {
                 let Some(surface) = obj.native().and_then(|x| x.surface()) else {
                     return;
                 };
@@ -444,7 +444,7 @@ mod imp {
                         .replace(Some(format!("x11:{:x}", x11_surface.xid())));
                 }
             });
-            obj.connect_unrealize(move |obj| {
+            obj.connect_unmap(move |obj| {
                 obj.imp().window_identifier.replace(None);
             });
 
