@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identity master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
-"POT-Creation-Date: 2025-07-29 01:16+0000\n"
-"PO-Revision-Date: 2025-07-29 13:43+0200\n"
+"POT-Creation-Date: 2025-10-21 20:45+0000\n"
+"PO-Revision-Date: 2025-10-25 15:49+0200\n"
 "Last-Translator: twlvnn kraftwerk <kraft_werk@tutanota.com>\n"
 "Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
 "Language: bg\n"
@@ -16,16 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2 data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
 #: data/resources/ui/window.blp:128 src/main.rs:103
 msgid "Identity"
 msgstr "Identity"
 
-#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3 data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
 msgid "Compare images and videos"
 msgstr "Сравняване на изображения и видеоклипове"
 
@@ -55,7 +53,7 @@ msgid "Inspect a few properties of a video in a dialog"
 msgstr "Преглед на няколко свойства на един видео клип в прозорец"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:195
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:205
 msgid "Ivan Molodetskikh"
 msgstr "Ivan Molodetskikh"
 
@@ -124,13 +122,11 @@ msgstr "Неуспешно зареждане на файла"
 msgid ""
 "Could not display the file.\n"
 "\n"
-"If you're running Identity under Flatpak, note that opening files by drag-"
-"and-drop and by pasting may not work."
+"If you're running Identity under Flatpak, note that opening files by drag-and-drop and by pasting may not work."
 msgstr ""
 "Неуспешно визуализиране на файла.\n"
 "\n"
-"Ако използвате „Identity“ с „Flatpak“, отварянето на файлове чрез изтегляне "
-"и пускане може да не работи."
+"Ако използвате „Identity“ с „Flatpak“, отварянето на файлове чрез изтегляне и пускане може да не работи."
 
 #: data/resources/ui/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -154,96 +150,96 @@ msgstr "Отваряне на файл от буфера за обмен"
 
 #: data/resources/ui/shortcuts.blp:24
 msgctxt "shortcut window"
+msgid "New window"
+msgstr "Нов прозорец"
+
+#: data/resources/ui/shortcuts.blp:31
+msgctxt "shortcut window"
 msgid "Copy selected file to clipboard"
 msgstr "Копиране на избрания файл към буфера за обмен"
 
-#: data/resources/ui/shortcuts.blp:29
+#: data/resources/ui/shortcuts.blp:36
 msgctxt "shortcut window"
 msgid "Close selected file"
 msgstr "Затваряне на избрания файл"
 
-#: data/resources/ui/shortcuts.blp:34
+#: data/resources/ui/shortcuts.blp:41
 msgctxt "shortcut window"
 msgid "Show media properties"
 msgstr "Свойства на медията"
 
-#: data/resources/ui/shortcuts.blp:39
-msgctxt "shortcut window"
-msgid "New window"
-msgstr "Нов прозорец"
-
-#: data/resources/ui/shortcuts.blp:44
+#: data/resources/ui/shortcuts.blp:46
 msgctxt "shortcut window"
 msgid "Show shortcuts"
 msgstr "Показване на клавишните комбинации"
 
-#: data/resources/ui/shortcuts.blp:49
+#: data/resources/ui/shortcuts.blp:51
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Спиране на програмата"
 
-#: data/resources/ui/shortcuts.blp:55
+#: data/resources/ui/shortcuts.blp:57
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Изпълнение"
 
-#: data/resources/ui/shortcuts.blp:58
+#: data/resources/ui/shortcuts.blp:60
 msgctxt "shortcut window"
 msgid "Play / Pause"
 msgstr "Изпълнение/Пауза"
 
-#: data/resources/ui/shortcuts.blp:63
+#: data/resources/ui/shortcuts.blp:65
 msgctxt "shortcut window"
 msgid "Step forward one frame"
 msgstr "Напред 1 кадър"
 
-#: data/resources/ui/shortcuts.blp:68
+#: data/resources/ui/shortcuts.blp:70
 msgctxt "shortcut window"
 msgid "Step back one frame"
 msgstr "Назад 1 кадър"
 
-#: data/resources/ui/shortcuts.blp:74
+#: data/resources/ui/shortcuts.blp:76
 msgctxt "shortcut window"
 msgid "Zoom"
 msgstr "Мащаб"
 
-#: data/resources/ui/shortcuts.blp:77 data/resources/ui/shortcuts.blp:87
+#: data/resources/ui/shortcuts.blp:79
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Увеличаване"
 
-#: data/resources/ui/shortcuts.blp:82 data/resources/ui/shortcuts.blp:92
+#: data/resources/ui/shortcuts.blp:84
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Намаляване"
 
-#: data/resources/ui/shortcuts.blp:97
+#: data/resources/ui/shortcuts.blp:89
 msgctxt "shortcut window"
 msgid "Zoom 1:1"
 msgstr "Мащаб 1:1"
 
-#: data/resources/ui/shortcuts.blp:102
+#: data/resources/ui/shortcuts.blp:94
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Напасване"
 
 #. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
-#: data/resources/ui/shortcuts.blp:109
+#: data/resources/ui/shortcuts.blp:101
 msgctxt "shortcut window"
 msgid "Display"
 msgstr "Визуализиране"
 
-#: data/resources/ui/shortcuts.blp:112
+#: data/resources/ui/shortcuts.blp:104
 msgctxt "shortcut window"
 msgid "Arrange as tabs"
 msgstr "Подредба като подпрозорци"
 
-#: data/resources/ui/shortcuts.blp:117
+#: data/resources/ui/shortcuts.blp:109
 msgctxt "shortcut window"
 msgid "Arrange in a row"
 msgstr "Подредба в ред"
 
-#: data/resources/ui/shortcuts.blp:122
+#: data/resources/ui/shortcuts.blp:114
 msgctxt "shortcut window"
 msgid "Arrange in a column"
 msgstr "Подредба в колона"
@@ -359,67 +355,74 @@ msgstr "{} × {}"
 
 #. Translators: "Not applicable" string for the media properties dialog when a
 #. given property is unknown or missing (e.g. images don't have frame rate).
-#: src/page.rs:387 src/window.rs:518 src/window.rs:526 src/window.rs:534
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
 msgid "N/A"
 msgstr "Липсва"
 
 #. Translators: shown in the About dialog, put your name here.
-#: src/window.rs:352
+#: src/window.rs:353
 msgid "translator-credits"
 msgstr ""
-"twlvnn kraftwerk &lt;<a "
-"href='mailto:kraft_werk@tutanota.com'>kraft_werk@tutanota.com</a>&gt;\n"
+"twlvnn kraftwerk &lt;<a href='mailto:kraft_werk@tutanota.com'>kraft_werk@tutanota.com</a>&gt;\n"
 "\n"
 "\n"
 "Проектът за превод на GNOME има нужда от подкрепа.\n"
-"Научете повече за нас на <a href='https://fsa-bg.org/project/gtp'>уеб сайта</"
-"a> ни.\n"
-"Докладвайте за грешки в превода в <a href='https://fsa-bg.org/project/gtp/"
-"newticket'>съответния раздел</a>."
+"Научете повече за нас на <a href='https://fsa-bg.org/project/gtp'>уеб сайта</a> ни.\n"
+"Докладвайте за грешки в превода в <a href='https://fsa-bg.org/project/gtp/newticket'>съответния раздел</a>."
 
 #. Translators: link title in the About dialog.
-#: src/window.rs:355
+#: src/window.rs:356
 msgid "Contribute Translations"
 msgstr "Помагане с превода"
 
 #. Translators: name of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:361
+#: src/window.rs:362
 msgid "Video Trimmer"
 msgstr "Тример на видео клипове"
 
 #. Translators: summary of https://apps.gnome.org/VideoTrimmer
-#: src/window.rs:363
+#: src/window.rs:364
 msgid "Trim videos quickly"
 msgstr "Бързо редактиране на видео клипове"
 
-#: src/window.rs:370
-msgid "This release has a minor visual refresh for GNOME 48."
-msgstr "Тази версия е леко обновяване на интерфейса за GNOME 48."
-
 #: src/window.rs:371
-msgid "Changed the versioning scheme to year.month."
-msgstr "Схемата за номериране на версиите е сменена на ГОДИНА.МЕСЕЦ."
+msgid "This release adds a context menu to row and column display modes and updates the platform to GNOME 49."
+msgstr "Тази версия добавя контекстно меню към режимите на показване на редове и колони и обновява програмата за GNOME 49."
 
 #: src/window.rs:372
-msgid "Updated to the GNOME 48 platform."
-msgstr "Обновено за GNOME 48."
+msgid ""
+"Added a context menu on the images, mirroring the tab context menu. This makes the context menu accessible in row and "
+"column display modes where there are no tabs."
+msgstr ""
+"Добавено е контекстно меню към изображенията, подобно на това при разделите. Това прави менюто достъпно и в режимите на "
+"редове и колони, където няма раздели."
 
 #: src/window.rs:373
+msgid "Updated to the GNOME 49 platform."
+msgstr "Обновено за GNOME 49."
+
+#: src/window.rs:374
 msgid "Updated translations."
 msgstr "Преводите са обновени."
 
 #. Translators: Entry in the scale/zoom menu that indicates that the image or video is
 #. always resized to fit the window.
-#: src/window.rs:595
+#: src/window.rs:628
 msgid "Best Fit"
 msgstr "Напасване"
 
 #. Translators: file chooser file filter name.
-#: src/window.rs:1744
+#: src/window.rs:1798
 msgid "Videos and images"
 msgstr "Видео клипове и изображения"
 
 #. Translators: file chooser dialog title.
-#: src/window.rs:1752
+#: src/window.rs:1806
 msgid "Open videos or images to compare"
 msgstr "Отваряне на видео клипове или изображения за сравнение"
+
+#~ msgid "This release has a minor visual refresh for GNOME 48."
+#~ msgstr "Тази версия е леко обновяване на интерфейса за GNOME 48."
+
+#~ msgid "Changed the versioning scheme to year.month."
+#~ msgstr "Схемата за номериране на версиите е сменена на ГОДИНА.МЕСЕЦ."
