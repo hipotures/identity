@@ -1,0 +1,427 @@
+# Catalan translation for identity.
+# Copyright (C) 2025 identity's COPYRIGHT HOLDER
+# This file is distributed under the same license as the identity package.
+# Victor Dargallo <victordargallo@disroot.org>,  2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: identity master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/YaLTeR/identity/issues\n"
+"POT-Creation-Date: 2025-10-21 20:45+0000\n"
+"PO-Revision-Date: 2025-12-12 14:01+0100\n"
+"Last-Translator: \n"
+"Language-Team: Catalan <Catalan>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:2
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:7
+#: data/resources/ui/window.blp:128 src/main.rs:103
+msgid "Identity"
+msgstr "Identitat"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:3
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:8
+msgid "Compare images and videos"
+msgstr "Compareu imatges i vídeos"
+
+#. Translators: search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.gitlab.YaLTeR.Identity.desktop.in.in:9
+msgid "Movie;Film;Clip;Video;Image;Difference;Frame;Quality;Compare;Check;"
+msgstr "Pel·lícula;Film;Clip;Vídeo;Imatge;Diferència;Fotograma;Qualitat;Comparar;Comprovar;"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:10
+msgid "A program for comparing multiple versions of an image or video."
+msgstr "Un programa per comparar múltiples versions d'una imatge o vídeo."
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:15
+msgid "You can arrange videos in a row"
+msgstr "Podeu organitzar vídeos en una fila"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:19
+msgid "You can arrange images in a column"
+msgstr "Podeu organitzar imatges en una columna"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:23
+msgid "You can open files as tabs"
+msgstr "Podeu obrir fitxers en diverses pestanyes"
+
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:27
+msgid "Inspect a few properties of a video in a dialog"
+msgstr "Inspeccioneu algunes propietats d'un vídeo en un diàleg"
+
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.gitlab.YaLTeR.Identity.metainfo.xml.in.in:205
+msgid "Ivan Molodetskikh"
+msgstr "Ivan Molodetskikh"
+
+#. Translators: Title of the media properties window.
+#: data/resources/ui/media_properties.blp:6
+msgid "Properties"
+msgstr "Propietats"
+
+#. Translators: Title text in the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:21
+msgid "No Media Open"
+msgstr "No hi ha cap suport obert"
+
+#. Translators: Description on the media properties window when no files are open.
+#: data/resources/ui/media_properties.blp:23
+msgid "Open a video or image to view its properties."
+msgstr "Obriu un vídeo o una imatge per veure les seves propietats."
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:43
+msgid "File"
+msgstr "Fitxer"
+
+#. Translators: File-name row in the media properties window.
+#: data/resources/ui/media_properties.blp:49
+msgid "Name"
+msgstr "Nom"
+
+#. Translators: File location row in the media properties window.
+#: data/resources/ui/media_properties.blp:57
+msgid "Location"
+msgstr "Ubicació"
+
+#. Translators: Section in the media properties window.
+#: data/resources/ui/media_properties.blp:64
+msgid "Media"
+msgstr "Mèdia"
+
+#. Translators: Pixel-resolution row in the media properties window.
+#: data/resources/ui/media_properties.blp:70
+msgid "Resolution"
+msgstr "Resolució"
+
+#. Translators: Frame-rate row in the media properties window.
+#: data/resources/ui/media_properties.blp:78
+msgid "Frame Rate"
+msgstr "Fotogrames per segon"
+
+#. Translators: Codec row in the media properties window.
+#: data/resources/ui/media_properties.blp:86
+msgid "Codec"
+msgstr "Còdec"
+
+#. Translators: Container-format row in the media properties window.
+#: data/resources/ui/media_properties.blp:94
+msgid "Container"
+msgstr "Contenidor"
+
+#. Translators: Title that is shown upon video or image loading error.
+#: data/resources/ui/page.blp:63
+msgid "File Failed to Load"
+msgstr "Ha fallat la càrrega del fitxer"
+
+#. Translators: Label shown when a video or image has failed to load.
+#: data/resources/ui/page.blp:66
+msgid ""
+"Could not display the file.\n"
+"\n"
+"If you're running Identity under Flatpak, note that opening files by drag-"
+"and-drop and by pasting may not work."
+msgstr ""
+"No s'ha pogut mostrar el fitxer.\n"
+"\n"
+"Si esteu executant l'Identitat com a Flatpak, tingueu en compte que "
+"l'obertura de fitxers arrossegant i deixant anar i enganxant podria no "
+"funcionar."
+
+#: data/resources/ui/shortcuts.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "General"
+
+#: data/resources/ui/shortcuts.blp:9
+msgctxt "shortcut window"
+msgid "Switch between files"
+msgstr "Commuta entre fitxers"
+
+#: data/resources/ui/shortcuts.blp:14
+msgctxt "shortcut window"
+msgid "Open videos or images"
+msgstr "Obre vídeos o imatges"
+
+#: data/resources/ui/shortcuts.blp:19
+msgctxt "shortcut window"
+msgid "Open file from clipboard"
+msgstr "Obre el fitxer des del porta-retalls"
+
+#: data/resources/ui/shortcuts.blp:24
+msgctxt "shortcut window"
+msgid "New window"
+msgstr "Finestra nova"
+
+#: data/resources/ui/shortcuts.blp:31
+msgctxt "shortcut window"
+msgid "Copy selected file to clipboard"
+msgstr "Copia el fitxer seleccionat al porta-retalls"
+
+#: data/resources/ui/shortcuts.blp:36
+msgctxt "shortcut window"
+msgid "Close selected file"
+msgstr "Tanca el fitxer seleccionat"
+
+#: data/resources/ui/shortcuts.blp:41
+msgctxt "shortcut window"
+msgid "Show media properties"
+msgstr "Mostra les propietats dels mèdia"
+
+#: data/resources/ui/shortcuts.blp:46
+msgctxt "shortcut window"
+msgid "Show shortcuts"
+msgstr "Mostra les dreceres de teclat"
+
+#: data/resources/ui/shortcuts.blp:51
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Surt"
+
+#: data/resources/ui/shortcuts.blp:57
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Reproducció"
+
+#: data/resources/ui/shortcuts.blp:60
+msgctxt "shortcut window"
+msgid "Play / Pause"
+msgstr "Reprodueix / Pausa"
+
+#: data/resources/ui/shortcuts.blp:65
+msgctxt "shortcut window"
+msgid "Step forward one frame"
+msgstr "Avança un fotograma"
+
+#: data/resources/ui/shortcuts.blp:70
+msgctxt "shortcut window"
+msgid "Step back one frame"
+msgstr "Retrocedeix un fotograma"
+
+#: data/resources/ui/shortcuts.blp:76
+msgctxt "shortcut window"
+msgid "Zoom"
+msgstr "Ampliació"
+
+#: data/resources/ui/shortcuts.blp:79
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Apropa"
+
+#: data/resources/ui/shortcuts.blp:84
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Allunya"
+
+#: data/resources/ui/shortcuts.blp:89
+msgctxt "shortcut window"
+msgid "Zoom 1:1"
+msgstr "Ampliació 1:1"
+
+#: data/resources/ui/shortcuts.blp:94
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Millor ajust"
+
+#. Translators: Shortcuts window section title for the display mode (arrange as tabs, in a row, in a column).
+#: data/resources/ui/shortcuts.blp:101
+msgctxt "shortcut window"
+msgid "Display"
+msgstr "Disposició"
+
+#: data/resources/ui/shortcuts.blp:104
+msgctxt "shortcut window"
+msgid "Arrange as tabs"
+msgstr "Organitza en pestanyes"
+
+#: data/resources/ui/shortcuts.blp:109
+msgctxt "shortcut window"
+msgid "Arrange in a row"
+msgstr "Organitza en una fila"
+
+#: data/resources/ui/shortcuts.blp:114
+msgctxt "shortcut window"
+msgid "Arrange in a column"
+msgstr "Organitza en una columna"
+
+#. Translators: Primary menu entry that opens a new window.
+#: data/resources/ui/window.blp:8 data/resources/ui/window.blp:42
+msgid "_New Window"
+msgstr "Finestra _nova"
+
+#. Translators: Primary menu entry that opens the media properties window.
+#: data/resources/ui/window.blp:14 data/resources/ui/window.blp:48
+msgid "_Media Properties"
+msgstr "Propietats del _mèdia"
+
+#. Translators: Primary menu entry that opens the keyboard shortcuts window.
+#: data/resources/ui/window.blp:20 data/resources/ui/window.blp:54
+msgid "_Keyboard Shortcuts"
+msgstr "_Dreceres de teclat"
+
+#. Translators: Primary menu entry that opens the About dialog.
+#: data/resources/ui/window.blp:26 data/resources/ui/window.blp:60
+msgid "_About Identity"
+msgstr "_Quant a l'Identitat"
+
+#. Translators: Tab menu entry that copies the file to the clipboard.
+#: data/resources/ui/window.blp:70
+msgid "Copy File"
+msgstr "Copia el fitxer"
+
+#. Translators: Tab menu entry that shows the file in the file manager.
+#: data/resources/ui/window.blp:76
+msgid "Show in Files"
+msgstr "Mostra al Fitxers"
+
+#. Translators: Tab menu entry that moves it to a new window.
+#: data/resources/ui/window.blp:82
+msgid "Move to New Window"
+msgstr "Mou a una finestra nova"
+
+#. Translators: Tab menu entry that closes it.
+#: data/resources/ui/window.blp:88
+msgid "Close File"
+msgstr "Tanca el fitxer"
+
+#. Translators: Tooltip for the primary menu button that selects the tabbed display mode.
+#: data/resources/ui/window.blp:102
+msgid "Arrange as Tabs"
+msgstr "Organitza en pestanyes"
+
+#. Translators: Tooltip for the primary menu button that selects the tiled in a row display mode.
+#: data/resources/ui/window.blp:109
+msgid "Arrange in a Row"
+msgstr "Organitza en una fila"
+
+#. Translators: Tooltip for the primary menu button that selects the tiled in a column display mode.
+#: data/resources/ui/window.blp:116
+msgid "Arrange in a Column"
+msgstr "Organitza en una columna"
+
+#. Translators: Primary menu tooltip.
+#: data/resources/ui/window.blp:155 data/resources/ui/window.blp:216
+msgid "Main Menu"
+msgstr "Menú principal"
+
+#. Translators: Title text on the window when no files are open.
+#: data/resources/ui/window.blp:164
+msgid "Compare Media"
+msgstr "Compara els suports"
+
+#. Translators: Description text on the window when no files are open.
+#: data/resources/ui/window.blp:167
+msgid "Drag and drop images or videos here"
+msgstr "Arrossegueu i deixeu anar imatges o vídeos aquí"
+
+#. Translators: Open button label when no files are open.
+#: data/resources/ui/window.blp:171
+msgid "Open Media…"
+msgstr "Obre un suport…"
+
+#. Translators: Open button tooltip.
+#: data/resources/ui/window.blp:173 data/resources/ui/window.blp:198
+msgid "Select an Image or Video"
+msgstr "Seleccioneu una imatge o vídeo"
+
+#. Translators: Open button label.
+#: data/resources/ui/window.blp:196
+msgid "Open"
+msgstr "Obre"
+
+#. Translators: Scale/zoom entry tooltip.
+#: data/resources/ui/window.blp:231
+msgid "Zoom Level"
+msgstr "Nivell d'amplicació"
+
+#. Translators: Scale/zoom menu button tooltip.
+#: data/resources/ui/window.blp:236
+msgid "Select Zoom Level"
+msgstr "Seleccioneu el nivell d'amplicació"
+
+#. Translators: screen reader label on the Play / Pause button.
+#: data/resources/ui/window.blp:284
+msgid "Play / Pause"
+msgstr "Reprodueix / Pausa"
+
+#. Translators: screen reader label on the playback position slider.
+#: data/resources/ui/window.blp:306
+msgid "Playback position"
+msgstr "Posició de reproducció"
+
+#: src/page.rs:378
+msgid "{} × {}"
+msgstr "{} × {}"
+
+#. Translators: "Not applicable" string for the media properties dialog when a
+#. given property is unknown or missing (e.g. images don't have frame rate).
+#: src/page.rs:387 src/window.rs:551 src/window.rs:559 src/window.rs:567
+msgid "N/A"
+msgstr "N/A"
+
+#. Translators: shown in the About dialog, put your name here.
+#: src/window.rs:353
+msgid "translator-credits"
+msgstr "Victor Dargallo <victordargallo@disroot.org>"
+
+#. Translators: link title in the About dialog.
+#: src/window.rs:356
+msgid "Contribute Translations"
+msgstr "Ajudeu amb la traducció"
+
+#. Translators: name of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:362
+msgid "Video Trimmer"
+msgstr "Retallador de vídeos"
+
+#. Translators: summary of https://apps.gnome.org/VideoTrimmer
+#: src/window.rs:364
+msgid "Trim videos quickly"
+msgstr "Retalleu vídeos ràpidament"
+
+#: src/window.rs:371
+msgid ""
+"This release adds a context menu to row and column display modes and updates "
+"the platform to GNOME 49."
+msgstr ""
+"Aquesta versió afegeix un menú contextual als modes de visualització de "
+"files i columnes i actualitza la plataforma al GNOME 49."
+
+#: src/window.rs:372
+msgid ""
+"Added a context menu on the images, mirroring the tab context menu. This "
+"makes the context menu accessible in row and column display modes where "
+"there are no tabs."
+msgstr ""
+"S'ha afegit un menú contextual a les imatges, que reflecteix el menú "
+"contextual de la pestanya. Això fa que el menú contextual sigui accessible "
+"en els modes de visualització de files i columnes on no hi ha pestanyes."
+
+#: src/window.rs:373
+msgid "Updated to the GNOME 49 platform."
+msgstr "S'ha actualitzat a la plataforma GNOME 49."
+
+#: src/window.rs:374
+msgid "Updated translations."
+msgstr "S'han actualitzat les traduccions."
+
+#. Translators: Entry in the scale/zoom menu that indicates that the image or video is
+#. always resized to fit the window.
+#: src/window.rs:628
+msgid "Best Fit"
+msgstr "Millor ajust"
+
+#. Translators: file chooser file filter name.
+#: src/window.rs:1798
+msgid "Videos and images"
+msgstr "Vídeos i imatges"
+
+#. Translators: file chooser dialog title.
+#: src/window.rs:1806
+msgid "Open videos or images to compare"
+msgstr "Obriu vídeos i imatges a comparar"
