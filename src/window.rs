@@ -201,6 +201,7 @@ mod imp {
         in_display_mode_transition: Cell<bool>,
 
         rotation: Cell<u32>,
+        rotation_toast: RefCell<Option<adw::Toast>>,
 
         #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
@@ -1669,9 +1670,13 @@ mod imp {
                 270 => "270°".to_owned(),
                 _ => unreachable!(),
             };
+            if let Some(old) = self.rotation_toast.borrow().as_ref() {
+                old.dismiss();
+            }
             let toast = adw::Toast::new(&label);
             toast.set_timeout(3);
-            self.toast_overlay.add_toast(toast);
+            self.toast_overlay.add_toast(toast.clone());
+            self.rotation_toast.replace(Some(toast));
         }
 
         fn on_fractional_scale_changed(&self) {
