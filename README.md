@@ -1,4 +1,15 @@
-# Identity
+# Identity (fork)
+
+> **This is a personal fork of [YaLTeR/identity](https://gitlab.gnome.org/YaLTeR/identity) with additional features.**
+>
+> **Changes added in this fork:**
+> - Image rotation button (90°/180°/270°) with toast notification
+> - Playback speed dropdown control (1×, 0.5×, 0.1×, 1 FPS)
+> - Speed button styled consistently with the scale button (linked box)
+> - Fixed rotation toast queuing that was blocking menu popovers
+> - Rotation rendering moved from CSS transform to the Picture widget's snapshot pipeline
+
+---
 
 A program for comparing multiple versions of an image or video.
 
