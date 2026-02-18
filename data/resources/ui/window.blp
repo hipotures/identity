@@ -217,10 +217,14 @@ template $IdWindow : Adw.ApplicationWindow {
           }
 
           [end]
-          MenuButton speed_button {
-            /* Translators: Playback speed menu button tooltip. */
-            tooltip-text: _("Select Playback Speed");
-            label: "1×";
+          Box {
+            styles ["linked"]
+
+            MenuButton speed_button {
+              /* Translators: Playback speed menu button tooltip. */
+              tooltip-text: _("Select Playback Speed");
+              label: "1×";
+            }
           }
 
           [end]
