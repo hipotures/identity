@@ -97,3 +97,15 @@ tabview scrolledwindow
   box-shadow: 0 0 10px rgba(0.4, 0.4, 0.4, 0.8);
   background-color: black;
 }
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.rotate-270 {
+  transform: rotate(270deg);
+}

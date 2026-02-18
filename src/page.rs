@@ -423,6 +423,19 @@ mod imp {
             self.scrolled_window.grab_focus();
         }
 
+        pub fn set_rotation(&self, degrees: u32) {
+            let sw = &*self.scrolled_window;
+            sw.remove_css_class("rotate-90");
+            sw.remove_css_class("rotate-180");
+            sw.remove_css_class("rotate-270");
+            match degrees {
+                90 => sw.add_css_class("rotate-90"),
+                180 => sw.add_css_class("rotate-180"),
+                270 => sw.add_css_class("rotate-270"),
+                _ => (),
+            }
+        }
+
         #[instrument("Page::retrieve_display_name", fields(file = self.display_path().unwrap()), skip_all)]
         async fn retrieve_display_name(&self) {
             let file = self.file.get().expect("unexpected unset `file`");
@@ -949,5 +962,9 @@ impl Page {
 
     pub fn grab_focus_(&self) {
         self.imp().grab_focus_();
+    }
+
+    pub fn set_rotation(&self, degrees: u32) {
+        self.imp().set_rotation(degrees);
     }
 }

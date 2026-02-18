@@ -168,6 +168,10 @@ mod imp {
         #[template_child]
         speed_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        rotation_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        toast_overlay: TemplateChild<adw::ToastOverlay>,
+        #[template_child]
         media_properties: TemplateChild<MediaProperties>,
         #[template_child]
         display_mode_stack: TemplateChild<gtk::Stack>,
@@ -195,6 +199,8 @@ mod imp {
         // handlers, because we're not detaching and attaching pages to the window, but merely
         // moving them from one container to another.
         in_display_mode_transition: Cell<bool>,
+
+        rotation: Cell<u32>,
 
         #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
@@ -314,6 +320,12 @@ mod imp {
             );
             klass.install_action("win.set-playback-speed-1fps", None, |obj, _, _| {
                 obj.imp().apply_playback_speed_1fps();
+            });
+
+            klass.install_action("win.rotate", None, |obj, _, _| {
+                let imp = obj.imp();
+                let new_rotation = (imp.rotation.get() + 90) % 360;
+                imp.apply_rotation(new_rotation);
             });
 
             klass.install_action("win.zoom-in", None, |obj, _, _| obj.imp().zoom_in());
@@ -884,6 +896,7 @@ mod imp {
         }
 
         fn on_page_attached(&self, page: Page) {
+            page.set_rotation(self.rotation.get());
             debug!("page-attached");
 
             self.switch_to_content_after_timeout();
@@ -1621,6 +1634,44 @@ mod imp {
             }
             self.player.set_playback_rate(1.0 / framerate as f64);
             self.speed_button.set_label("1 FPS");
+        }
+
+        fn apply_rotation(&self, degrees: u32) {
+            self.rotation.set(degrees);
+
+            match self.display_mode.get() {
+                DisplayMode::Tabbed => {
+                    for i in 0..self.tab_view.n_pages() {
+                        let page = self
+                            .tab_view
+                            .nth_page(i)
+                            .child()
+                            .downcast::<adw::Bin>()
+                            .unwrap()
+                            .child()
+                            .unwrap()
+                            .downcast::<Page>()
+                            .unwrap();
+                        page.set_rotation(degrees);
+                    }
+                }
+                DisplayMode::Row | DisplayMode::Column => {
+                    for i in 0..self.page_grid.n_pages() {
+                        self.page_grid.nth_page(i).set_rotation(degrees);
+                    }
+                }
+            }
+
+            let label = match degrees {
+                0 => gettext("Original"),
+                90 => "90°".to_owned(),
+                180 => "180°".to_owned(),
+                270 => "270°".to_owned(),
+                _ => unreachable!(),
+            };
+            let toast = adw::Toast::new(&label);
+            toast.set_timeout(3);
+            self.toast_overlay.add_toast(toast);
         }
 
         fn on_fractional_scale_changed(&self) {

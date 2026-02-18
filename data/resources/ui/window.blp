@@ -131,7 +131,8 @@ template $IdWindow : Adw.ApplicationWindow {
   default-width: 640;
   default-height: 504;
 
-  content: Stack stack {
+  content: Adw.ToastOverlay toast_overlay {
+    child: Stack stack {
     transition-type: crossfade;
 
     notify::visible-child => $on_visible_child_notify() swapped;
@@ -247,6 +248,18 @@ template $IdWindow : Adw.ApplicationWindow {
               tooltip-text: _("Select Zoom Level");
             }
           }
+
+          [end]
+          Box {
+            styles ["linked"]
+
+            Button rotation_button {
+              /* Translators: Rotate image/video button tooltip. */
+              tooltip-text: _("Rotate");
+              icon-name: "object-rotate-right-symbolic";
+              action-name: "win.rotate";
+            }
+          }
         }
 
         content: Stack display_mode_stack {
@@ -320,5 +333,6 @@ template $IdWindow : Adw.ApplicationWindow {
         }
       };
     }
+    };
   };
 }
