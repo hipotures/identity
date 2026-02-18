@@ -166,6 +166,8 @@ mod imp {
         #[template_child]
         scale_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
+        speed_button: TemplateChild<gtk::MenuButton>,
+        #[template_child]
         media_properties: TemplateChild<MediaProperties>,
         #[template_child]
         display_mode_stack: TemplateChild<gtk::Stack>,
@@ -301,6 +303,18 @@ mod imp {
                     obj.imp().set_scale_request(ScaleRequest::from(value));
                 },
             );
+
+            klass.install_action(
+                "win.set-playback-speed",
+                Some(&f64::static_variant_type()),
+                |obj, _, param| {
+                    let value: f64 = param.expect("param").get().expect("type");
+                    obj.imp().apply_playback_speed(value);
+                },
+            );
+            klass.install_action("win.set-playback-speed-1fps", None, |obj, _, _| {
+                obj.imp().apply_playback_speed_1fps();
+            });
 
             klass.install_action("win.zoom-in", None, |obj, _, _| obj.imp().zoom_in());
             klass.install_action("win.zoom-out", None, |obj, _, _| obj.imp().zoom_out());
@@ -639,6 +653,17 @@ mod imp {
 
             self.scale_button.set_menu_model(Some(&menu));
 
+            // Set up the speed menu model.
+            let speed_menu = gio::Menu::new();
+            let section = gio::Menu::new();
+            section.append(Some("1×"), Some("win.set-playback-speed(1.0)"));
+            section.append(Some("0.5×"), Some("win.set-playback-speed(0.5)"));
+            section.append(Some("0.1×"), Some("win.set-playback-speed(0.1)"));
+            // Translators: Playback at 1 frame per second.
+            section.append(Some(&gettext("1 FPS")), Some("win.set-playback-speed-1fps"));
+            speed_menu.append_section(None, &section);
+            self.speed_button.set_menu_model(Some(&speed_menu));
+
             // Set up custom widgets in the primary menu.
             let popover = self.primary_menu_button_content.popover().unwrap();
             let popover_menu: gtk::PopoverMenu = popover.downcast().unwrap();
@@ -663,6 +688,11 @@ mod imp {
                     &*self.content_toolbar_view,
                     "reveal-bottom-bars",
                 )
+                .sync_create()
+                .build();
+
+            self.player
+                .bind_property("has-duration", &*self.speed_button, "sensitive")
                 .sync_create()
                 .build();
 
@@ -810,6 +840,7 @@ mod imp {
 
         pub fn open_file(&self, file: &gio::File) {
             debug!("open_file(\"{}\")", file.uri());
+            self.apply_playback_speed(1.0);
 
             let application = self.obj().application().unwrap();
             let application = application.downcast_ref::<Application>().unwrap();
@@ -1570,6 +1601,26 @@ mod imp {
                     self.set_scale_request(ScaleRequest::from(new_scale));
                 }
             }
+        }
+
+        fn apply_playback_speed(&self, rate: f64) {
+            self.player.set_playback_rate(rate);
+            let label = match (rate * 10.).round() as i64 {
+                10 => "1×".to_owned(),
+                5 => "0.5×".to_owned(),
+                1 => "0.1×".to_owned(),
+                _ => format!("{rate}×"),
+            };
+            self.speed_button.set_label(&label);
+        }
+
+        fn apply_playback_speed_1fps(&self) {
+            let framerate = self.selected_page().map(|p| p.framerate()).unwrap_or(0.);
+            if framerate <= 0. {
+                return;
+            }
+            self.player.set_playback_rate(1.0 / framerate as f64);
+            self.speed_button.set_label("1 FPS");
         }
 
         fn on_fractional_scale_changed(&self) {

@@ -23,6 +23,7 @@ mod imp {
         StepForwards,
         StepBack,
         SetPlaying(bool),
+        SetRate(f64),
         Exit,
     }
 
@@ -62,6 +63,9 @@ mod imp {
         join_handle: RefCell<Option<JoinHandle<()>>>,
         /// Number of seeks queued for the processing thread to handle.
         seeks_queued: Arc<AtomicUsize>,
+        /// Playback rate. 1.0 = normal speed.
+        #[property(get, set = Self::set_playback_rate, explicit_notify, minimum = 0.001, maximum = 100., default = 1.0)]
+        playback_rate: Cell<f64>,
     }
 
     #[glib::object_subclass]
@@ -73,6 +77,8 @@ mod imp {
 
     impl ObjectImpl for Player {
         fn constructed(&self) {
+            self.playback_rate.set(1.0);
+
             // Subscribe to bus messages.
             let bus = self.pipeline.bus().unwrap();
             let watch = bus
@@ -371,6 +377,17 @@ mod imp {
         pub fn has_seeks_queued(&self) -> bool {
             self.seeks_queued.load(Ordering::SeqCst) > 0
         }
+
+        pub fn set_playback_rate(&self, rate: f64) {
+            if self.playback_rate.get() == rate {
+                return;
+            }
+            self.playback_rate.set(rate);
+            self.obj().notify_playback_rate();
+            if let Some(sender) = self.sender.get() {
+                let _ = sender.send(Request::SetRate(rate));
+            }
+        }
     }
 
     // Seeking and state changes happen on a thread because, with enough heavy videos in the
@@ -380,13 +397,14 @@ mod imp {
         seeks_queued: Arc<AtomicUsize>,
         receiver: Receiver<Request>,
     ) {
-        let mut is_backwards = false;
+        let mut current_rate: f64 = 1.0;
 
         'outer: loop {
             let mut seek_to = gst::ClockTime::NONE;
             let mut seeks_batched = 0;
             let mut step = 0i64;
             let mut set_playing = None;
+            let mut set_rate: Option<f64> = None;
 
             // Receive all requests thus far. Do one blocking recv and follow up with non-blocking
             // ones to avoid busy-looping.
@@ -404,11 +422,12 @@ mod imp {
                     Request::StepForwards => step += 1,
                     Request::StepBack => step -= 1,
                     Request::SetPlaying(play) => set_playing = Some(play),
+                    Request::SetRate(rate) => set_rate = Some(rate),
                     Request::Exit => break 'outer,
                 }
             }
 
-            if seek_to.is_none() && step == 0 && set_playing.is_none() {
+            if seek_to.is_none() && step == 0 && set_playing.is_none() && set_rate.is_none() {
                 // Either the channel hung up, or the requests cancelled each other.
                 continue;
             }
@@ -418,25 +437,35 @@ mod imp {
                 let _span = info_span!("seek").entered();
                 debug!("seeking to {seek_to:?}");
 
-                if let Err(err) = pipeline.seek_simple(gst::SeekFlags::FLUSH, seek_to) {
+                // Use seek() with the current rate to preserve playback speed.
+                // Seeking always resets direction to forwards.
+                let rate = current_rate.abs();
+                if let Err(err) = pipeline.seek(
+                    rate,
+                    gst::SeekFlags::FLUSH,
+                    gst::SeekType::Set,
+                    seek_to,
+                    gst::SeekType::End,
+                    gst::ClockTime::ZERO,
+                ) {
                     // This can happen if there's a broken playbin in the pipeline that nevertheless
                     // hasn't sent an error to the bus yet.
                     warn!("error seeking: {err:?}");
                 }
-                // We change is_backwards unconditionally because one broken pipeline will cause an
+                // We change current_rate unconditionally because one broken pipeline will cause an
                 // error to return, but for other pipelines the seek will still succeed.
-                is_backwards = false;
+                current_rate = rate;
                 seeks_queued.fetch_sub(seeks_batched, Ordering::SeqCst);
             }
 
             // If a backwards step is requested and we're not playing backwards, reverse direction.
-            if step < 0 && !is_backwards {
+            if step < 0 && current_rate >= 0. {
                 let _span = info_span!("set backwards").entered();
                 if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
                     debug!("changing playback direction to backwards");
 
                     if let Err(err) = pipeline.seek(
-                        -1.,
+                        -current_rate.abs(),
                         gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
                         gst::SeekType::Set,
                         gst::ClockTime::ZERO,
@@ -445,7 +474,7 @@ mod imp {
                     ) {
                         warn!("error seeking: {err:?}");
                     }
-                    is_backwards = true;
+                    current_rate = -current_rate.abs();
 
                     // Reversing playback direction already steps 1 frame in most cases.
                     // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
@@ -455,13 +484,13 @@ mod imp {
 
             // If a forwards step, or playback, is requested and we're not playing forwards, reverse
             // direction.
-            if (step > 0 || set_playing == Some(true)) && is_backwards {
+            if (step > 0 || set_playing == Some(true)) && current_rate < 0. {
                 let _span = info_span!("set forwards").entered();
                 if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
                     debug!("changing playback direction to forwards");
 
                     if let Err(err) = pipeline.seek(
-                        1.,
+                        current_rate.abs(),
                         gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
                         gst::SeekType::Set,
                         position,
@@ -470,7 +499,7 @@ mod imp {
                     ) {
                         warn!("error seeking: {err:?}");
                     }
-                    is_backwards = false;
+                    current_rate = current_rate.abs();
 
                     // Reversing playback direction already steps 1 frame in most cases.
                     // https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/20
@@ -489,6 +518,35 @@ mod imp {
                     true,
                     false,
                 ));
+            }
+
+            // Change playback rate if requested.
+            if let Some(rate) = set_rate {
+                if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
+                    let signed = if current_rate < 0. { -rate } else { rate };
+                    let result = if signed > 0. {
+                        pipeline.seek(
+                            signed,
+                            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                            gst::SeekType::Set,
+                            position,
+                            gst::SeekType::End,
+                            gst::ClockTime::ZERO,
+                        )
+                    } else {
+                        pipeline.seek(
+                            signed,
+                            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                            gst::SeekType::Set,
+                            gst::ClockTime::ZERO,
+                            gst::SeekType::Set,
+                            position,
+                        )
+                    };
+                    if result.is_ok() {
+                        current_rate = signed;
+                    }
+                }
             }
 
             // Play/pause if requested.
