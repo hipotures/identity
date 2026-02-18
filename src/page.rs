@@ -424,16 +424,7 @@ mod imp {
         }
 
         pub fn set_rotation(&self, degrees: u32) {
-            let sw = &*self.scrolled_window;
-            sw.remove_css_class("rotate-90");
-            sw.remove_css_class("rotate-180");
-            sw.remove_css_class("rotate-270");
-            match degrees {
-                90 => sw.add_css_class("rotate-90"),
-                180 => sw.add_css_class("rotate-180"),
-                270 => sw.add_css_class("rotate-270"),
-                _ => (),
-            }
+            self.picture.set_rotation(degrees);
         }
 
         #[instrument("Page::retrieve_display_name", fields(file = self.display_path().unwrap()), skip_all)]

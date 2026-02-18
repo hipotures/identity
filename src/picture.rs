@@ -22,6 +22,8 @@ mod imp {
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::Picture)]
     pub struct Picture {
+        rotation: Cell<u32>,
+
         paintable: RefCell<Option<gdk::Paintable>>,
         invalidate_size_id: RefCell<Option<glib::SignalHandlerId>>,
         invalidate_contents_id: RefCell<Option<glib::SignalHandlerId>>,
@@ -456,9 +458,22 @@ mod imp {
                 return (0, 0, -1, -1);
             }
 
+            let rotation = self.rotation.get();
             let size = match orientation {
-                gtk::Orientation::Horizontal => paintable_width as f64 * scale,
-                gtk::Orientation::Vertical => paintable_height as f64 * scale,
+                gtk::Orientation::Horizontal => {
+                    if rotation == 90 || rotation == 270 {
+                        paintable_height as f64 * scale
+                    } else {
+                        paintable_width as f64 * scale
+                    }
+                }
+                gtk::Orientation::Vertical => {
+                    if rotation == 90 || rotation == 270 {
+                        paintable_width as f64 * scale
+                    } else {
+                        paintable_height as f64 * scale
+                    }
+                }
                 _ => unreachable!(),
             };
             let size = (size / self.fractional_scale()).ceil() as i32;
@@ -481,6 +496,7 @@ mod imp {
                 None => return,
             };
 
+            let rotation = self.rotation.get();
             let widget_width = widget.width();
             let widget_height = widget.height();
             let paintable_width = paintable.intrinsic_width();
@@ -502,15 +518,22 @@ mod imp {
                 return;
             }
 
+            // For 90°/270°, swap effective dimensions for aspect-ratio fitting.
+            let (eff_w, eff_h) = if rotation == 90 || rotation == 270 {
+                (widget_height, widget_width)
+            } else {
+                (widget_width, widget_height)
+            };
+
             // Compute the content width and height.
             let (w, h) = match scale_request {
                 ScaleRequest::FitToAllocation => {
-                    let widget_ratio = widget_width as f64 / widget_height as f64;
+                    let eff_ratio = eff_w as f64 / eff_h as f64;
 
-                    if paintable_ratio > widget_ratio {
-                        (widget_width as f64, widget_width as f64 / paintable_ratio)
+                    if paintable_ratio > eff_ratio {
+                        (eff_w as f64, eff_w as f64 / paintable_ratio)
                     } else {
-                        (widget_height as f64 * paintable_ratio, widget_height as f64)
+                        (eff_h as f64 * paintable_ratio, eff_h as f64)
                     }
                 }
                 ScaleRequest::Set(scale) => {
@@ -526,31 +549,70 @@ mod imp {
             let w = w.round();
             let h = h.round();
 
-            // Either center and pixel-align it, or take the scroll position into account.
-            let x = if w < widget_width as f64 {
-                ((widget_width as f64 - w) / 2.).floor()
-            } else {
-                self.hadjustment
-                    .borrow()
-                    .as_ref()
-                    .map(|(adj, _)| -adj.value())
-                    .unwrap_or(0.)
-                    .round()
-            };
-            let y = if h < widget_height as f64 {
-                ((widget_height as f64 - h) / 2.).floor()
-            } else {
-                self.vadjustment
-                    .borrow()
-                    .as_ref()
-                    .map(|(adj, _)| -adj.value())
-                    .unwrap_or(0.)
-                    .round()
-            };
-
             snapshot.save();
-            snapshot.translate(&graphene::Point::new(x as f32, y as f32));
-            self.snapshot_paintable(snapshot, paintable, w, h);
+
+            if rotation == 0 {
+                // Non-rotated: center or apply scroll offset.
+                let x = if w < widget_width as f64 {
+                    ((widget_width as f64 - w) / 2.).floor()
+                } else {
+                    self.hadjustment
+                        .borrow()
+                        .as_ref()
+                        .map(|(adj, _)| -adj.value())
+                        .unwrap_or(0.)
+                        .round()
+                };
+                let y = if h < widget_height as f64 {
+                    ((widget_height as f64 - h) / 2.).floor()
+                } else {
+                    self.vadjustment
+                        .borrow()
+                        .as_ref()
+                        .map(|(adj, _)| -adj.value())
+                        .unwrap_or(0.)
+                        .round()
+                };
+                snapshot.translate(&graphene::Point::new(x as f32, y as f32));
+                self.snapshot_paintable(snapshot, paintable, w, h);
+            } else {
+                // Rotated: rotate around widget center, then center image in effective space.
+                //
+                // The effective coordinate space (eff_w × eff_h) has its origin at the widget
+                // center after applying the rotation transform. To place the image at position
+                // (x, y) within that space we translate by (x − eff_w/2, y − eff_h/2).
+                let x = if w < eff_w as f64 {
+                    ((eff_w as f64 - w) / 2.).floor()
+                } else {
+                    self.hadjustment
+                        .borrow()
+                        .as_ref()
+                        .map(|(adj, _)| -adj.value())
+                        .unwrap_or(0.)
+                        .round()
+                };
+                let y = if h < eff_h as f64 {
+                    ((eff_h as f64 - h) / 2.).floor()
+                } else {
+                    self.vadjustment
+                        .borrow()
+                        .as_ref()
+                        .map(|(adj, _)| -adj.value())
+                        .unwrap_or(0.)
+                        .round()
+                };
+                snapshot.translate(&graphene::Point::new(
+                    widget_width as f32 / 2.,
+                    widget_height as f32 / 2.,
+                ));
+                snapshot.rotate(rotation as f32);
+                snapshot.translate(&graphene::Point::new(
+                    (x - eff_w as f64 / 2.) as f32,
+                    (y - eff_h as f64 / 2.) as f32,
+                ));
+                self.snapshot_paintable(snapshot, paintable, w, h);
+            }
+
             snapshot.restore();
         }
 
@@ -564,6 +626,14 @@ mod imp {
     impl ScrollableImpl for Picture {}
 
     impl Picture {
+        pub fn set_rotation(&self, degrees: u32) {
+            if self.rotation.get() == degrees {
+                return;
+            }
+            self.rotation.set(degrees);
+            self.obj().queue_resize();
+        }
+
         pub fn paintable(&self) -> Option<gdk::Paintable> {
             self.paintable.borrow().clone()
         }
@@ -659,11 +729,17 @@ mod imp {
                 return 0.;
             }
 
-            let widget_ratio = width as f64 / height as f64;
-            (if paintable_ratio > widget_ratio {
-                width as f64 / paintable_width as f64
+            let rotation = self.rotation.get();
+            let (eff_w, eff_h) = if rotation == 90 || rotation == 270 {
+                (height, width)
             } else {
-                height as f64 / paintable_height as f64
+                (width, height)
+            };
+            let widget_ratio = eff_w as f64 / eff_h as f64;
+            (if paintable_ratio > widget_ratio {
+                eff_w as f64 / paintable_width as f64
+            } else {
+                eff_h as f64 / paintable_height as f64
             }) * scale_factor
         }
 
@@ -807,12 +883,16 @@ mod imp {
             // Compute target width and height.
             let w = (paintable_width as f64 * scale / scale_factor).ceil() as i32;
             let h = (paintable_height as f64 * scale / scale_factor).ceil() as i32;
-            self.configure_adjustments_with_values(width, height, w, h);
+
+            // For 90°/270°, use the effective viewport dimensions so the scroll range is
+            // correct in the rotated coordinate space (eff_w = widget_height, etc.).
+            let (eff_w, eff_h) = self.effective_dimensions();
+            self.configure_adjustments_with_values(eff_w, eff_h, w, h);
         }
 
         fn image_pos_for_pointer_pos(
             &self,
-            (pointer_x, pointer_y): (f64, f64),
+            pointer_pos: (f64, f64),
             scale: f64,
         ) -> Option<(f64, f64)> {
             if scale == 0. {
@@ -822,9 +902,6 @@ mod imp {
             let paintable = self.paintable.borrow();
             let paintable = paintable.as_ref()?;
 
-            let obj = self.obj();
-            let widget_width = obj.width();
-            let widget_height = obj.height();
             let paintable_width = paintable.intrinsic_width();
             let paintable_height = paintable.intrinsic_height();
             let paintable_ratio = paintable.intrinsic_aspect_ratio();
@@ -835,21 +912,25 @@ mod imp {
                 return None;
             }
 
+            // Transform pointer from screen space to the effective (rotated) drawing space.
+            let (eff_w, eff_h) = self.effective_dimensions();
+            let (pointer_x, pointer_y) = self.screen_to_effective(pointer_pos);
+
             // Compute the content width and height.
             let scale_factor = self.fractional_scale();
             let w = paintable_width as f64 * scale / scale_factor;
             let h = paintable_height as f64 * scale / scale_factor;
 
             // Either center and pixel-align it, or take the scroll position into account.
-            let content_x = if w < widget_width as f64 {
-                ((widget_width as f64 - w) / 2.).floor()
+            let content_x = if w < eff_w as f64 {
+                ((eff_w as f64 - w) / 2.).floor()
             } else {
-                -(self.h_scroll_pos.get() * (w.ceil() as i32 - widget_width) as f64)
+                -(self.h_scroll_pos.get() * (w.ceil() as i32 - eff_w) as f64)
             };
-            let content_y = if h < widget_height as f64 {
-                ((widget_height as f64 - h) / 2.).floor()
+            let content_y = if h < eff_h as f64 {
+                ((eff_h as f64 - h) / 2.).floor()
             } else {
-                -(self.v_scroll_pos.get() * (h.ceil() as i32 - widget_height) as f64)
+                -(self.v_scroll_pos.get() * (h.ceil() as i32 - eff_h) as f64)
             };
 
             let x = (pointer_x - content_x) * (paintable_width as f64 / w);
@@ -893,8 +974,6 @@ mod imp {
         }
 
         fn zoom_update(&self, pivot_pointer_pos: Option<(f64, f64)>, new_scale: f64) {
-            let obj = self.obj();
-
             // Convert to ScaleRequest and back to ensure correct clamping.
             let scale_request = ScaleRequest::from(new_scale);
             self.update_scale_request(scale_request);
@@ -930,13 +1009,15 @@ mod imp {
             let content_w = paintable.intrinsic_width() as f64 * new_scale / scale_factor;
             let content_h = paintable.intrinsic_height() as f64 * new_scale / scale_factor;
 
-            if (obj.width() as f64) < content_w {
-                let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
+            let (eff_w, eff_h) = self.effective_dimensions();
+
+            if (eff_w as f64) < content_w {
+                let h_scroll_pos_frac = 1. - eff_w as f64 / content_w;
                 self.set_h_scroll_pos(self.h_scroll_pos.get() - image_dx_norm / h_scroll_pos_frac);
             }
 
-            if (obj.height() as f64) < content_h {
-                let v_scroll_pos_frac = 1. - obj.height() as f64 / content_h;
+            if (eff_h as f64) < content_h {
+                let v_scroll_pos_frac = 1. - eff_h as f64 / content_h;
                 self.set_v_scroll_pos(self.v_scroll_pos.get() - image_dy_norm / v_scroll_pos_frac);
             }
         }
@@ -957,7 +1038,6 @@ mod imp {
         }
 
         fn pan_update(&self, offset_x: f64, offset_y: f64) -> Option<()> {
-            let obj = self.obj();
             let scale = self.scale.get();
 
             let (start_x, start_y) = self.pan_pivot_pointer_pos.get()?;
@@ -981,17 +1061,54 @@ mod imp {
             let content_w = paintable.intrinsic_width() as f64 * scale / scale_factor;
             let content_h = paintable.intrinsic_height() as f64 * scale / scale_factor;
 
-            if (obj.width() as f64) < content_w {
-                let h_scroll_pos_frac = 1. - obj.width() as f64 / content_w;
+            let (eff_w, eff_h) = self.effective_dimensions();
+
+            if (eff_w as f64) < content_w {
+                let h_scroll_pos_frac = 1. - eff_w as f64 / content_w;
                 self.set_h_scroll_pos(self.h_scroll_pos.get() - image_dx_norm / h_scroll_pos_frac);
             }
 
-            if (obj.height() as f64) < content_h {
-                let v_scroll_pos_frac = 1. - obj.height() as f64 / content_h;
+            if (eff_h as f64) < content_h {
+                let v_scroll_pos_frac = 1. - eff_h as f64 / content_h;
                 self.set_v_scroll_pos(self.v_scroll_pos.get() - image_dy_norm / v_scroll_pos_frac);
             }
 
             Some(())
+        }
+
+        /// Returns effective (width, height) in the rotated coordinate space.
+        /// For 90°/270° the widget width and height are swapped.
+        fn effective_dimensions(&self) -> (i32, i32) {
+            let obj = self.obj();
+            let w = obj.width();
+            let h = obj.height();
+            if self.rotation.get() == 90 || self.rotation.get() == 270 {
+                (h, w)
+            } else {
+                (w, h)
+            }
+        }
+
+        /// Transforms a pointer position from widget (screen) space into the effective
+        /// drawing space used after the rotation transform is applied.
+        fn screen_to_effective(&self, (px, py): (f64, f64)) -> (f64, f64) {
+            let rotation = self.rotation.get();
+            if rotation == 0 {
+                return (px, py);
+            }
+            let obj = self.obj();
+            let cx = obj.width() as f64 / 2.;
+            let cy = obj.height() as f64 / 2.;
+            let ox = px - cx;
+            let oy = py - cy;
+            // Inverse rotation: rotate by -R to get from screen back to effective space.
+            let angle = -(rotation as f64).to_radians();
+            let cos_a = angle.cos();
+            let sin_a = angle.sin();
+            let ox_rot = ox * cos_a - oy * sin_a;
+            let oy_rot = ox * sin_a + oy * cos_a;
+            let (eff_w, eff_h) = self.effective_dimensions();
+            (ox_rot + eff_w as f64 / 2., oy_rot + eff_h as f64 / 2.)
         }
 
         fn is_hscrollable(&self) -> bool {
@@ -1053,6 +1170,10 @@ glib::wrapper! {
 impl Picture {
     pub fn new() -> Self {
         glib::Object::builder().build()
+    }
+
+    pub fn set_rotation(&self, degrees: u32) {
+        self.imp().set_rotation(degrees);
     }
 
     pub fn paintable(&self) -> Option<gdk::Paintable> {
