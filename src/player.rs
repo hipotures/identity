@@ -524,10 +524,11 @@ mod imp {
             if let Some(rate) = set_rate {
                 if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
                     let signed = if current_rate < 0. { -rate } else { rate };
+                    let flags = playback_rate_seek_flags(signed);
                     let result = if signed > 0. {
                         pipeline.seek(
                             signed,
-                            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                            flags,
                             gst::SeekType::Set,
                             position,
                             gst::SeekType::End,
@@ -536,7 +537,7 @@ mod imp {
                     } else {
                         pipeline.seek(
                             signed,
-                            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE,
+                            flags,
                             gst::SeekType::Set,
                             gst::ClockTime::ZERO,
                             gst::SeekType::Set,
@@ -545,6 +546,8 @@ mod imp {
                     };
                     if result.is_ok() {
                         current_rate = signed;
+                    } else if let Err(err) = result {
+                        warn!("error changing playback rate to {signed}: {err:?}");
                     }
                 }
             }
@@ -573,6 +576,14 @@ mod imp {
             // I got this to return Err once by opening a file GStreamer couldn't play and a
             // regular video file.
             warn!("error setting pipeline state to Null: {err:?}");
+        }
+    }
+
+    pub(super) fn playback_rate_seek_flags(rate: f64) -> gst::SeekFlags {
+        if rate.abs() > 1.0 {
+            gst::SeekFlags::FLUSH | gst::SeekFlags::TRICKMODE | gst::SeekFlags::KEY_UNIT
+        } else {
+            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
         }
     }
 }
@@ -622,5 +633,31 @@ impl Player {
 impl Default for Player {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn fast_playback_rates_use_trickmode_seek_flags() {
+        assert_eq!(
+            imp::playback_rate_seek_flags(5.0),
+            gst::SeekFlags::FLUSH | gst::SeekFlags::TRICKMODE | gst::SeekFlags::KEY_UNIT
+        );
+        assert_eq!(
+            imp::playback_rate_seek_flags(3.0),
+            gst::SeekFlags::FLUSH | gst::SeekFlags::TRICKMODE | gst::SeekFlags::KEY_UNIT
+        );
+
+        assert_eq!(
+            imp::playback_rate_seek_flags(1.0),
+            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
+        );
+        assert_eq!(
+            imp::playback_rate_seek_flags(0.5),
+            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
+        );
     }
 }
