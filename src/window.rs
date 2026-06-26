@@ -694,6 +694,8 @@ mod imp {
             let speed_menu = gio::Menu::new();
             let section = gio::Menu::new();
             section.append(Some("1×"), Some("win.set-playback-speed(1.0)"));
+            section.append(Some("3×"), Some("win.set-playback-speed(3.0)"));
+            section.append(Some("5×"), Some("win.set-playback-speed(5.0)"));
             section.append(Some("0.5×"), Some("win.set-playback-speed(0.5)"));
             section.append(Some("0.1×"), Some("win.set-playback-speed(0.1)"));
             // Translators: Playback at 1 frame per second.
@@ -1741,13 +1743,7 @@ mod imp {
 
         fn apply_playback_speed(&self, rate: f64) {
             self.player.set_playback_rate(rate);
-            let label = match (rate * 10.).round() as i64 {
-                10 => "1×".to_owned(),
-                5 => "0.5×".to_owned(),
-                1 => "0.1×".to_owned(),
-                _ => format!("{rate}×"),
-            };
-            self.speed_button.set_label(&label);
+            self.speed_button.set_label(&playback_speed_label(rate));
         }
 
         fn apply_playback_speed_1fps(&self) {
@@ -2090,6 +2086,17 @@ mod imp {
         }
     }
 
+    fn playback_speed_label(rate: f64) -> String {
+        match (rate * 10.).round() as i64 {
+            50 => "5×".to_owned(),
+            30 => "3×".to_owned(),
+            10 => "1×".to_owned(),
+            5 => "0.5×".to_owned(),
+            1 => "0.1×".to_owned(),
+            _ => format!("{rate}×"),
+        }
+    }
+
     fn parse_scale(mut text: &str) -> Option<f64> {
         // `g_strtod ()` ignores leading whitespace, so just trim it from both sides.
         text = text.trim();
@@ -2191,6 +2198,15 @@ mod imp {
 
                 check(&format_scale(scale), Some(scale));
             }
+        }
+
+        #[test]
+        fn playback_speed_labels_cover_slow_and_fast_rates() {
+            assert_eq!(playback_speed_label(1.0), "1×");
+            assert_eq!(playback_speed_label(0.5), "0.5×");
+            assert_eq!(playback_speed_label(0.1), "0.1×");
+            assert_eq!(playback_speed_label(3.0), "3×");
+            assert_eq!(playback_speed_label(5.0), "5×");
         }
     }
 }
