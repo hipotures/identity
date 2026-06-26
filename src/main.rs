@@ -19,6 +19,7 @@ mod glycin;
 mod media_properties;
 mod page;
 mod page_grid;
+mod path_recorder;
 mod picture;
 mod player;
 mod scale_request;

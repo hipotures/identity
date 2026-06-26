@@ -939,6 +939,22 @@ mod imp {
             Some((x, y))
         }
 
+        pub fn image_pos_for_widget_pos(&self, x: f64, y: f64) -> Option<(f64, f64)> {
+            self.image_pos_for_pointer_pos((x, y), self.scale.get())
+        }
+
+        pub fn paintable_dimensions(&self) -> Option<(u32, u32)> {
+            let paintable = self.paintable.borrow();
+            let paintable = paintable.as_ref()?;
+            let width = paintable.intrinsic_width();
+            let height = paintable.intrinsic_height();
+            if width <= 0 || height <= 0 {
+                return None;
+            }
+
+            Some((width as u32, height as u32))
+        }
+
         fn is_zooming(&self) -> bool {
             self.zoom_pivot_image_pos.get().is_some()
         }
@@ -1182,6 +1198,14 @@ impl Picture {
 
     pub fn set_paintable(&self, paintable: Option<impl IsA<gdk::Paintable>>) {
         self.imp().set_paintable(paintable);
+    }
+
+    pub fn image_pos_for_widget_pos(&self, x: f64, y: f64) -> Option<(f64, f64)> {
+        self.imp().image_pos_for_widget_pos(x, y)
+    }
+
+    pub fn paintable_dimensions(&self) -> Option<(u32, u32)> {
+        self.imp().paintable_dimensions()
     }
 }
 

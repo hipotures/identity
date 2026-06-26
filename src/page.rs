@@ -26,6 +26,7 @@ mod imp {
     use super::*;
     use crate::application::VaDisplayState;
     use crate::glycin;
+    use crate::path_recorder;
     use crate::texture_paintable::TexturePaintable;
     use crate::utils::gettext_f;
 
@@ -160,6 +161,14 @@ mod imp {
                         .param_types([bool::static_type()])
                         .action()
                         .build(),
+                    Signal::builder("path-clicked")
+                        .param_types([
+                            f64::static_type(),
+                            f64::static_type(),
+                            u32::static_type(),
+                            u32::static_type(),
+                        ])
+                        .build(),
                 ]
             })
         }
@@ -208,6 +217,36 @@ mod imp {
                 }
             ));
             obj.add_controller(gesture);
+
+            // Clicks in path mode are handled by Window. Page only converts widget coordinates
+            // into source-image coordinates and emits them.
+            let gesture = gtk::GestureClick::new();
+            gesture.set_button(path_recorder::PRIMARY_BUTTON);
+            gesture.connect_released(clone!(
+                #[weak]
+                obj,
+                move |gesture, _, x, y| {
+                    let modifiers = gesture
+                        .current_event()
+                        .map(|event| event.modifier_state())
+                        .unwrap_or_else(gdk::ModifierType::empty);
+                    if !path_recorder::should_record_click(path_recorder::PRIMARY_BUTTON, modifiers)
+                    {
+                        return;
+                    }
+
+                    let Some((width, height)) = obj.imp().picture.paintable_dimensions() else {
+                        return;
+                    };
+                    let Some((image_x, image_y)) = obj.imp().picture.image_pos_for_widget_pos(x, y)
+                    else {
+                        return;
+                    };
+
+                    obj.emit_by_name::<()>("path-clicked", &[&image_x, &image_y, &width, &height]);
+                }
+            ));
+            self.picture.add_controller(gesture);
 
             // Click to open the context menu.
             self.click_menu_gesture.connect_pressed(clone!(
@@ -782,6 +821,10 @@ mod imp {
                 Err(err) => warn!("error getting framerate cap: {err:?}"),
             }
         }
+
+        pub fn paintable_dimensions(&self) -> Option<(u32, u32)> {
+            self.picture.paintable_dimensions()
+        }
     }
 
     fn on_context_msg(
@@ -957,5 +1000,9 @@ impl Page {
 
     pub fn set_rotation(&self, degrees: u32) {
         self.imp().set_rotation(degrees);
+    }
+
+    pub fn paintable_dimensions(&self) -> Option<(u32, u32)> {
+        self.imp().paintable_dimensions()
     }
 }

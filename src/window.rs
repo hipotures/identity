@@ -104,6 +104,7 @@ mod imp {
     use crate::media_properties::MediaProperties;
     use crate::page::Page;
     use crate::page_grid::PageGrid;
+    use crate::path_recorder::{self, PathDocument, PathPoint, PathSource};
     use crate::picture::Picture;
     use crate::player::Player;
     use crate::scale_request::ScaleRequest;
@@ -126,6 +127,14 @@ mod imp {
             };
             f.write_str(s)
         }
+    }
+
+    #[derive(Debug)]
+    struct PathSession {
+        created_at_unix_ms: u64,
+        source_page: Option<Page>,
+        source: Option<PathSource>,
+        points: Vec<PathPoint>,
     }
 
     impl FromStr for DisplayMode {
@@ -189,6 +198,7 @@ mod imp {
         page_is_loading_notify_id: RefCell<HashMap<Page, SignalHandlerId>>,
         page_stop_kinetic_scrolling_id: RefCell<HashMap<Page, SignalHandlerId>>,
         page_setup_menu_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        page_path_clicked_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         surface_signals: OnceCell<glib::SignalGroup>,
@@ -202,6 +212,7 @@ mod imp {
 
         rotation: Cell<u32>,
         rotation_toast: RefCell<Option<adw::Toast>>,
+        path_session: RefCell<Option<PathSession>>,
 
         #[property(get, set = Self::set_scale_request, explicit_notify, minimum = 0., maximum = 10.)]
         scale_request: Cell<ScaleRequest>,
@@ -328,6 +339,9 @@ mod imp {
                 let new_rotation = (imp.rotation.get() + 90) % 360;
                 imp.apply_rotation(new_rotation);
             });
+            klass.install_action("win.toggle-path-mode", None, |obj, _, _| {
+                obj.imp().toggle_path_mode();
+            });
 
             klass.install_action("win.zoom-in", None, |obj, _, _| obj.imp().zoom_in());
             klass.install_action("win.zoom-out", None, |obj, _, _| obj.imp().zoom_out());
@@ -352,6 +366,7 @@ mod imp {
             klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit");
             klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in");
             klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out");
+            klass.add_binding_action(Key::x, ModifierType::empty(), "win.toggle-path-mode");
             klass.add_shortcut(&shortcut_with_arg(
                 Key::t,
                 ModifierType::empty(),
@@ -985,6 +1000,34 @@ mod imp {
                 error!("`page_setup_menu_id` already had an entry for this page");
             };
 
+            let id = page.connect_local(
+                "path-clicked",
+                false,
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args| {
+                        let page: Page = args[0].get().unwrap();
+                        let image_x: f64 = args[1].get().unwrap();
+                        let image_y: f64 = args[2].get().unwrap();
+                        let width: u32 = args[3].get().unwrap();
+                        let height: u32 = args[4].get().unwrap();
+                        imp.record_path_click(&page, image_x, image_y, width, height);
+                        None
+                    }
+                ),
+            );
+            if self
+                .page_path_clicked_id
+                .borrow_mut()
+                .insert(page.clone(), id)
+                .is_some()
+            {
+                error!("`page_path_clicked_id` already had an entry for this page");
+            };
+
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
                 self.obj().present_if_not_visible();
@@ -1058,6 +1101,12 @@ mod imp {
                 page.disconnect(id);
             } else {
                 error!("detached page should have `page_setup_menu_id` entry");
+            }
+
+            if let Some(id) = self.page_path_clicked_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            } else {
+                error!("detached page should have `page_path_clicked_id` entry");
             }
 
             page.reset_kinetic_scrolling(None);
@@ -1635,6 +1684,131 @@ mod imp {
             }
             self.player.set_playback_rate(1.0 / framerate as f64);
             self.speed_button.set_label("1 FPS");
+        }
+
+        fn toggle_path_mode(&self) {
+            if self.path_session.borrow().is_some() {
+                self.finish_path_mode();
+            } else {
+                self.start_path_mode();
+            }
+        }
+
+        fn start_path_mode(&self) {
+            self.path_session.replace(Some(PathSession {
+                created_at_unix_ms: path_recorder::unix_timestamp_ms(),
+                source_page: None,
+                source: None,
+                points: vec![],
+            }));
+
+            self.add_toast("Path recording started".to_owned());
+        }
+
+        fn finish_path_mode(&self) {
+            let Some(mut session) = self.path_session.take() else {
+                return;
+            };
+
+            if session.source.is_none() {
+                session.source = self.selected_page().and_then(|page| {
+                    let (width, height) = page.paintable_dimensions()?;
+                    Some(self.path_source_for_page(&page, width, height))
+                });
+            }
+
+            let source = session.source.unwrap_or_else(|| PathSource {
+                uri: String::new(),
+                display_name: String::new(),
+                width: 0,
+                height: 0,
+            });
+            let point_count = session.points.len();
+            let document = PathDocument::new(session.created_at_unix_ms, source, session.points);
+            let path = path_recorder::output_path(session.created_at_unix_ms);
+
+            match document.write_to_path(&path) {
+                Ok(()) => {
+                    self.add_toast(format!(
+                        "Saved {point_count} path point(s) to {}",
+                        path.display()
+                    ));
+                }
+                Err(err) => {
+                    warn!("failed to write path file {}: {err}", path.display());
+                    self.add_toast("Failed to save path file".to_owned());
+                }
+            }
+        }
+
+        fn record_path_click(
+            &self,
+            page: &Page,
+            image_x: f64,
+            image_y: f64,
+            width: u32,
+            height: u32,
+        ) {
+            let t = self.current_path_time_seconds();
+            let Some(point) =
+                path_recorder::point_from_image_pos((image_x, image_y), width, height, t)
+            else {
+                return;
+            };
+
+            let source = self.path_source_for_page(page, width, height);
+            let mut session = self.path_session.borrow_mut();
+            let Some(session) = session.as_mut() else {
+                return;
+            };
+
+            if let Some(source_page) = &session.source_page {
+                if source_page != page {
+                    return;
+                }
+            } else {
+                session.source_page = Some(page.clone());
+                session.source = Some(source);
+            }
+
+            session.points.push(point);
+        }
+
+        fn current_path_time_seconds(&self) -> f64 {
+            if !self.player.has_duration() {
+                return 0.;
+            }
+
+            if !self.player.has_seeks_queued() {
+                self.player.query_and_update_position();
+            }
+
+            self.player.position().nseconds() as f64 / 1_000_000_000.
+        }
+
+        fn path_source_for_page(&self, page: &Page, width: u32, height: u32) -> PathSource {
+            let file = page.file();
+            let display_name = page
+                .display_name()
+                .map(|name| name.to_string())
+                .or_else(|| {
+                    file.basename()
+                        .map(|path| path.to_string_lossy().into_owned())
+                })
+                .unwrap_or_else(|| file.uri().to_string());
+
+            PathSource {
+                uri: file.uri().to_string(),
+                display_name,
+                width,
+                height,
+            }
+        }
+
+        fn add_toast(&self, label: String) {
+            let toast = adw::Toast::new(&label);
+            toast.set_timeout(3);
+            self.toast_overlay.add_toast(toast);
         }
 
         fn apply_rotation(&self, degrees: u32) {
