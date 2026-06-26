@@ -1808,10 +1808,7 @@ mod imp {
 
             match document.write_to_path(&path) {
                 Ok(()) => {
-                    self.add_toast(format!(
-                        "Saved {point_count} path point(s) to {}",
-                        path.display()
-                    ));
+                    self.add_path_saved_toast(point_count, path.display().to_string());
                 }
                 Err(err) => {
                     warn!("failed to write path file {}: {err}", path.display());
@@ -1935,6 +1932,29 @@ mod imp {
             let toast = adw::Toast::new(&label);
             toast.set_timeout(3);
             self.toast_overlay.add_toast(toast);
+        }
+
+        fn add_path_saved_toast(&self, point_count: usize, path: String) {
+            let toast = adw::Toast::new(&format!("Saved {point_count} path point(s) to {path}"));
+            toast.set_timeout(0);
+            toast.set_button_label(Some("Copy"));
+            toast.connect_button_clicked(clone!(
+                #[weak(rename_to = imp)]
+                self,
+                #[strong]
+                path,
+                move |_| {
+                    imp.copy_text_to_clipboard(&path);
+                }
+            ));
+            self.toast_overlay.add_toast(toast);
+        }
+
+        fn copy_text_to_clipboard(&self, text: &str) {
+            let content_provider = gdk::ContentProvider::for_value(&text.to_value());
+            if let Err(err) = self.obj().clipboard().set_content(Some(&content_provider)) {
+                error!("error copying path: {err:?}");
+            }
         }
 
         fn update_path_overlay(&self) {
