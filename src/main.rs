@@ -2,6 +2,7 @@
 extern crate tracing;
 
 use std::env;
+use std::path::{Path, PathBuf};
 
 use gettextrs::*;
 use glib::ExitCode;
@@ -104,21 +105,18 @@ fn main() -> ExitCode {
 
     glib::set_application_name(&format!("{}{}", gettext("Identity"), config::NAME_SUFFIX));
 
-    let res = match env::var("MESON_DEVENV") {
-        Err(_) => {
-            gio::Resource::load(config::RESOURCES_FILE).expect("could not load the gresource file")
-        }
-        Ok(_) => {
-            let mut resource_path = env::current_exe().expect("unable to get executable path");
-            resource_path.pop();
-            resource_path.pop();
-            resource_path.push("data");
-            resource_path.push("resources");
-            resource_path.push("resources.gresource");
-            gio::Resource::load(&resource_path)
-                .expect("unable to load resources.gresource from build dir")
-        }
-    };
+    let current_exe = env::current_exe().expect("unable to get executable path");
+    let resource_path = resources_file_path(
+        env::var_os("MESON_DEVENV").is_some(),
+        &current_exe,
+        config::RESOURCES_FILE,
+    );
+    let res = gio::Resource::load(&resource_path).unwrap_or_else(|_| {
+        panic!(
+            "could not load the gresource file from {}",
+            resource_path.display()
+        )
+    });
     gio::resources_register(&res);
 
     gst::init().unwrap();
@@ -127,4 +125,57 @@ fn main() -> ExitCode {
     gstrswebp::plugin_register_static().expect("could not initialize gst-plugin-webp");
 
     Application::new().run()
+}
+
+fn build_dir_resources_file(exe_path: &Path) -> PathBuf {
+    let mut resource_path = exe_path.to_owned();
+    resource_path.pop();
+    resource_path.pop();
+    resource_path.push("data");
+    resource_path.push("resources");
+    resource_path.push("resources.gresource");
+    resource_path
+}
+
+fn resources_file_path(
+    meson_devenv: bool,
+    exe_path: &Path,
+    installed_resources_file: &str,
+) -> PathBuf {
+    let build_resources_file = build_dir_resources_file(exe_path);
+    if meson_devenv || build_resources_file.is_file() {
+        build_resources_file
+    } else {
+        PathBuf::from(installed_resources_file)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::fs;
+
+    use super::*;
+
+    #[test]
+    fn direct_build_binary_uses_build_dir_resources_when_available() {
+        let root = env::temp_dir().join(format!(
+            "identity-resource-path-test-{}",
+            std::process::id()
+        ));
+        let exe = root.join("_build").join("src").join("identity");
+        let resources = root
+            .join("_build")
+            .join("data")
+            .join("resources")
+            .join("resources.gresource");
+        fs::create_dir_all(resources.parent().unwrap()).unwrap();
+        fs::write(&resources, []).unwrap();
+
+        assert_eq!(
+            resources_file_path(false, &exe, "/usr/local/share/identity/resources.gresource"),
+            resources
+        );
+
+        fs::remove_dir_all(root).unwrap();
+    }
 }
