@@ -61,13 +61,12 @@ pub fn should_record_click(button: u32, modifiers: ModifierType) -> bool {
     button == PRIMARY_BUTTON && !modifiers.contains(ModifierType::SHIFT_MASK)
 }
 
-pub fn point_from_image_pos(
+pub fn source_pixel_from_image_pos(
     (x, y): (f64, f64),
     width: u32,
     height: u32,
-    t: f64,
-) -> Option<PathPoint> {
-    if !x.is_finite() || !y.is_finite() || !t.is_finite() {
+) -> Option<(u32, u32)> {
+    if !x.is_finite() || !y.is_finite() {
         return None;
     }
 
@@ -75,11 +74,22 @@ pub fn point_from_image_pos(
         return None;
     }
 
-    Some(PathPoint {
-        x: x.floor() as u32,
-        y: y.floor() as u32,
-        t,
-    })
+    Some((x.floor() as u32, y.floor() as u32))
+}
+
+pub fn point_from_image_pos(
+    (x, y): (f64, f64),
+    width: u32,
+    height: u32,
+    t: f64,
+) -> Option<PathPoint> {
+    if !t.is_finite() {
+        return None;
+    }
+
+    let (x, y) = source_pixel_from_image_pos((x, y), width, height)?;
+
+    Some(PathPoint { x, y, t })
 }
 
 pub fn unix_timestamp_ms() -> u64 {
@@ -109,6 +119,20 @@ mod tests {
 
     #[test]
     fn image_positions_become_top_left_source_pixel_indices() {
+        assert_eq!(
+            source_pixel_from_image_pos((4.37, 12.33), 7680, 4320),
+            Some((4, 12))
+        );
+        assert_eq!(
+            source_pixel_from_image_pos((7679.999, 4319.999), 7680, 4320),
+            Some((7679, 4319))
+        );
+        assert_eq!(
+            source_pixel_from_image_pos((7680.0, 12.0), 7680, 4320),
+            None
+        );
+        assert_eq!(source_pixel_from_image_pos((-0.1, 12.0), 7680, 4320), None);
+
         assert_eq!(
             point_from_image_pos((4.37, 12.33), 7680, 4320, 1.25),
             Some(PathPoint {

@@ -82,6 +82,19 @@ tabview scrolledwindow
   padding-bottom: 3px;
 }
 
+#path_overlay {
+  border-radius: 6px;
+  padding: 8px;
+}
+
+#path-cursor-label {
+  border-radius: 6px;
+  margin-left: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  background-color: color-mix(in srgb, var(--accent-bg-color) 18%, transparent);
+}
+
 #controls {
   padding: 12px;
 }

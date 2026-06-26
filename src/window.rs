@@ -99,7 +99,7 @@ mod imp {
     use gtk::{glib, CompositeTemplate};
 
     use super::*;
-    use crate::application::Application;
+    use crate::application::{Application, PATH_MODE_ACCELS};
     use crate::config;
     use crate::media_properties::MediaProperties;
     use crate::page::Page;
@@ -188,6 +188,14 @@ mod imp {
         display_mode_selector: TemplateChild<adw::ToggleGroup>,
         #[template_child]
         primary_menu_button_content: TemplateChild<gtk::MenuButton>,
+        #[template_child]
+        path_overlay: TemplateChild<gtk::Box>,
+        #[template_child]
+        path_cursor_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        path_status_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        path_points_label: TemplateChild<gtk::Label>,
 
         #[property(get, set)]
         is_playing: Cell<bool>,
@@ -199,6 +207,8 @@ mod imp {
         page_stop_kinetic_scrolling_id: RefCell<HashMap<Page, SignalHandlerId>>,
         page_setup_menu_id: RefCell<HashMap<Page, SignalHandlerId>>,
         page_path_clicked_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        page_path_pointer_moved_id: RefCell<HashMap<Page, SignalHandlerId>>,
+        page_path_pointer_left_id: RefCell<HashMap<Page, SignalHandlerId>>,
         switch_to_content_source_id: RefCell<Option<SourceId>>,
 
         surface_signals: OnceCell<glib::SignalGroup>,
@@ -366,7 +376,6 @@ mod imp {
             klass.add_binding_action(Key::f, ModifierType::empty(), "win.set-best-fit");
             klass.add_binding_action(Key::plus, ModifierType::empty(), "win.zoom-in");
             klass.add_binding_action(Key::minus, ModifierType::empty(), "win.zoom-out");
-            klass.add_binding_action(Key::x, ModifierType::empty(), "win.toggle-path-mode");
             klass.add_shortcut(&shortcut_with_arg(
                 Key::t,
                 ModifierType::empty(),
@@ -1028,6 +1037,58 @@ mod imp {
                 error!("`page_path_clicked_id` already had an entry for this page");
             };
 
+            let id = page.connect_local(
+                "path-pointer-moved",
+                false,
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args| {
+                        let page: Page = args[0].get().unwrap();
+                        let image_x: f64 = args[1].get().unwrap();
+                        let image_y: f64 = args[2].get().unwrap();
+                        let width: u32 = args[3].get().unwrap();
+                        let height: u32 = args[4].get().unwrap();
+                        imp.update_path_cursor(&page, image_x, image_y, width, height);
+                        None
+                    }
+                ),
+            );
+            if self
+                .page_path_pointer_moved_id
+                .borrow_mut()
+                .insert(page.clone(), id)
+                .is_some()
+            {
+                error!("`page_path_pointer_moved_id` already had an entry for this page");
+            };
+
+            let id = page.connect_local(
+                "path-pointer-left",
+                false,
+                clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or]
+                    None,
+                    move |args| {
+                        let page: Page = args[0].get().unwrap();
+                        imp.clear_path_cursor(&page);
+                        None
+                    }
+                ),
+            );
+            if self
+                .page_path_pointer_left_id
+                .borrow_mut()
+                .insert(page.clone(), id)
+                .is_some()
+            {
+                error!("`page_path_pointer_left_id` already had an entry for this page");
+            };
+
             if page.is_error() {
                 self.stack.set_visible_child_name("content");
                 self.obj().present_if_not_visible();
@@ -1107,6 +1168,18 @@ mod imp {
                 page.disconnect(id);
             } else {
                 error!("detached page should have `page_path_clicked_id` entry");
+            }
+
+            if let Some(id) = self.page_path_pointer_moved_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            } else {
+                error!("detached page should have `page_path_pointer_moved_id` entry");
+            }
+
+            if let Some(id) = self.page_path_pointer_left_id.borrow_mut().remove(&page) {
+                page.disconnect(id);
+            } else {
+                error!("detached page should have `page_path_pointer_left_id` entry");
             }
 
             page.reset_kinetic_scrolling(None);
@@ -1702,6 +1775,10 @@ mod imp {
                 points: vec![],
             }));
 
+            self.update_path_overlay();
+            self.path_overlay.set_visible(true);
+            self.path_cursor_label.set_label("x=- y=-");
+            self.path_cursor_label.set_visible(true);
             self.add_toast("Path recording started".to_owned());
         }
 
@@ -1709,6 +1786,8 @@ mod imp {
             let Some(mut session) = self.path_session.take() else {
                 return;
             };
+            self.path_overlay.set_visible(false);
+            self.path_cursor_label.set_visible(false);
 
             if session.source.is_none() {
                 session.source = self.selected_page().and_then(|page| {
@@ -1757,8 +1836,36 @@ mod imp {
             };
 
             let source = self.path_source_for_page(page, width, height);
-            let mut session = self.path_session.borrow_mut();
-            let Some(session) = session.as_mut() else {
+            {
+                let mut session = self.path_session.borrow_mut();
+                let Some(session) = session.as_mut() else {
+                    return;
+                };
+
+                if let Some(source_page) = &session.source_page {
+                    if source_page != page {
+                        return;
+                    }
+                } else {
+                    session.source_page = Some(page.clone());
+                    session.source = Some(source);
+                }
+
+                session.points.push(point);
+            }
+            self.update_path_overlay();
+        }
+
+        fn update_path_cursor(
+            &self,
+            page: &Page,
+            image_x: f64,
+            image_y: f64,
+            width: u32,
+            height: u32,
+        ) {
+            let session = self.path_session.borrow();
+            let Some(session) = session.as_ref() else {
                 return;
             };
 
@@ -1766,12 +1873,31 @@ mod imp {
                 if source_page != page {
                     return;
                 }
-            } else {
-                session.source_page = Some(page.clone());
-                session.source = Some(source);
             }
 
-            session.points.push(point);
+            let Some((x, y)) =
+                path_recorder::source_pixel_from_image_pos((image_x, image_y), width, height)
+            else {
+                self.path_cursor_label.set_label("x=- y=-");
+                return;
+            };
+
+            self.path_cursor_label.set_label(&format!("x={x} y={y}"));
+        }
+
+        fn clear_path_cursor(&self, page: &Page) {
+            let session = self.path_session.borrow();
+            let Some(session) = session.as_ref() else {
+                return;
+            };
+
+            if let Some(source_page) = &session.source_page {
+                if source_page != page {
+                    return;
+                }
+            }
+
+            self.path_cursor_label.set_label("x=- y=-");
         }
 
         fn current_path_time_seconds(&self) -> f64 {
@@ -1809,6 +1935,39 @@ mod imp {
             let toast = adw::Toast::new(&label);
             toast.set_timeout(3);
             self.toast_overlay.add_toast(toast);
+        }
+
+        fn update_path_overlay(&self) {
+            let session = self.path_session.borrow();
+            let Some(session) = session.as_ref() else {
+                self.path_overlay.set_visible(false);
+                return;
+            };
+
+            self.path_status_label.set_label(&format!(
+                "Path recording - {} point(s) - press {} to save",
+                session.points.len(),
+                PATH_MODE_ACCELS[0],
+            ));
+
+            if session.points.is_empty() {
+                self.path_points_label
+                    .set_label("No points yet. Click the media to record source pixels.");
+                return;
+            }
+
+            let mut lines = Vec::new();
+            for (index, point) in session.points.iter().enumerate().rev().take(5) {
+                lines.push(format!(
+                    "#{:03}  x={}  y={}  t={:.3}s",
+                    index + 1,
+                    point.x,
+                    point.y,
+                    point.t,
+                ));
+            }
+            lines.reverse();
+            self.path_points_label.set_label(&lines.join("\n"));
         }
 
         fn apply_rotation(&self, degrees: u32) {

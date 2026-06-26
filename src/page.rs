@@ -169,6 +169,15 @@ mod imp {
                             u32::static_type(),
                         ])
                         .build(),
+                    Signal::builder("path-pointer-moved")
+                        .param_types([
+                            f64::static_type(),
+                            f64::static_type(),
+                            u32::static_type(),
+                            u32::static_type(),
+                        ])
+                        .build(),
+                    Signal::builder("path-pointer-left").build(),
                 ]
             })
         }
@@ -247,6 +256,34 @@ mod imp {
                 }
             ));
             self.picture.add_controller(gesture);
+
+            let motion_controller = gtk::EventControllerMotion::new();
+            motion_controller.connect_motion(clone!(
+                #[weak]
+                obj,
+                move |_, x, y| {
+                    let Some((width, height)) = obj.imp().picture.paintable_dimensions() else {
+                        return;
+                    };
+                    let Some((image_x, image_y)) = obj.imp().picture.image_pos_for_widget_pos(x, y)
+                    else {
+                        return;
+                    };
+
+                    obj.emit_by_name::<()>(
+                        "path-pointer-moved",
+                        &[&image_x, &image_y, &width, &height],
+                    );
+                }
+            ));
+            motion_controller.connect_leave(clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    obj.emit_by_name::<()>("path-pointer-left", &[]);
+                }
+            ));
+            self.picture.add_controller(motion_controller);
 
             // Click to open the context menu.
             self.click_menu_gesture.connect_pressed(clone!(

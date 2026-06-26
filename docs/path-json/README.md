@@ -4,6 +4,10 @@ Identity can record a path of clicked points in the displayed image or video.
 Press `x` to start recording, click points in the media, then press `x` again
 to write a JSON file to `/tmp/identity-path-[timestamp].json`.
 
+While recording, the header bar shows the current cursor position as source
+pixels (`x=... y=...`). The window overlay shows the number of recorded points
+and the most recent clicked points.
+
 Holding `Shift` while clicking is ignored by the recorder. This leaves
 Shift-assisted panning workflows available without creating unwanted points.
 

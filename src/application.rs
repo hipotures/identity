@@ -7,6 +7,8 @@ use gtk::{gio, glib};
 use crate::config;
 use crate::window::Window;
 
+pub(crate) const PATH_MODE_ACCELS: [&str; 1] = ["x"];
+
 #[derive(Default)]
 pub enum VaDisplayState {
     #[default]
@@ -88,6 +90,7 @@ mod imp {
             obj.set_accels_for_action("win.zoom-out", &["<primary>minus"]);
             obj.set_accels_for_action("win.set-scale-request(1.)", &["<primary>0"]);
             obj.set_accels_for_action("win.media-properties", &["<alt>Return"]);
+            obj.set_accels_for_action("win.toggle-path-mode", &PATH_MODE_ACCELS);
         }
     }
 
@@ -137,5 +140,15 @@ impl Application {
 
     pub fn va_state(&self) -> Arc<(Mutex<VaDisplayState>, Condvar)> {
         self.imp().va_state()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn path_mode_uses_plain_x_accelerator() {
+        assert_eq!(PATH_MODE_ACCELS, ["x"]);
     }
 }
