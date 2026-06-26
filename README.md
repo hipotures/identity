@@ -4,7 +4,7 @@
 >
 > **Changes added in this fork:**
 > - Image rotation button (90°/180°/270°) with toast notification
-> - Playback speed dropdown control (1×, 3×, 5×, 0.5×, 0.1×, 1 FPS)
+> - Playback speed dropdown control (1×, 0.5×, 0.1×, 1 FPS)
 > - Path recording mode that exports clicked source-pixel coordinates as JSON; see [`docs/path-json/README.md`](docs/path-json/README.md)
 
 ---
