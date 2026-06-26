@@ -525,6 +525,10 @@ mod imp {
                 if let Some(position) = pipeline.query_position::<gst::ClockTime>() {
                     let signed = if current_rate < 0. { -rate } else { rate };
                     let flags = playback_rate_seek_flags(signed);
+                    let restore_playing = should_restore_playing_after_rate_change(
+                        pipeline.current_state(),
+                        set_playing,
+                    );
                     let result = if signed > 0. {
                         pipeline.seek(
                             signed,
@@ -546,6 +550,12 @@ mod imp {
                     };
                     if result.is_ok() {
                         current_rate = signed;
+                        if restore_playing {
+                            debug!("restoring Playing state after playback rate change");
+                            if let Err(err) = pipeline.set_state(gst::State::Playing) {
+                                warn!("error restoring Playing state after rate change: {err:?}");
+                            }
+                        }
                     } else if let Err(err) = result {
                         warn!("error changing playback rate to {signed}: {err:?}");
                     }
@@ -579,12 +589,15 @@ mod imp {
         }
     }
 
-    pub(super) fn playback_rate_seek_flags(rate: f64) -> gst::SeekFlags {
-        if rate.abs() > 1.0 {
-            gst::SeekFlags::FLUSH | gst::SeekFlags::TRICKMODE | gst::SeekFlags::KEY_UNIT
-        } else {
-            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
-        }
+    pub(super) fn playback_rate_seek_flags(_rate: f64) -> gst::SeekFlags {
+        gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
+    }
+
+    pub(super) fn should_restore_playing_after_rate_change(
+        current_state: gst::State,
+        set_playing: Option<bool>,
+    ) -> bool {
+        current_state == gst::State::Playing && set_playing.is_none()
     }
 }
 
@@ -641,14 +654,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn fast_playback_rates_use_trickmode_seek_flags() {
+    fn fast_playback_rates_use_smooth_seek_flags() {
         assert_eq!(
             imp::playback_rate_seek_flags(5.0),
-            gst::SeekFlags::FLUSH | gst::SeekFlags::TRICKMODE | gst::SeekFlags::KEY_UNIT
+            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
         );
         assert_eq!(
             imp::playback_rate_seek_flags(3.0),
-            gst::SeekFlags::FLUSH | gst::SeekFlags::TRICKMODE | gst::SeekFlags::KEY_UNIT
+            gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
         );
 
         assert_eq!(
@@ -659,5 +672,25 @@ mod tests {
             imp::playback_rate_seek_flags(0.5),
             gst::SeekFlags::FLUSH | gst::SeekFlags::ACCURATE
         );
+    }
+
+    #[test]
+    fn rate_change_restores_playing_only_when_it_was_playing() {
+        assert!(imp::should_restore_playing_after_rate_change(
+            gst::State::Playing,
+            None
+        ));
+        assert!(!imp::should_restore_playing_after_rate_change(
+            gst::State::Paused,
+            None
+        ));
+        assert!(!imp::should_restore_playing_after_rate_change(
+            gst::State::Playing,
+            Some(false)
+        ));
+        assert!(!imp::should_restore_playing_after_rate_change(
+            gst::State::Paused,
+            Some(true)
+        ));
     }
 }
