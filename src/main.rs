@@ -128,9 +128,17 @@ fn main() -> ExitCode {
 }
 
 fn build_dir_resources_file(exe_path: &Path) -> PathBuf {
-    let mut resource_path = exe_path.to_owned();
-    resource_path.pop();
-    resource_path.pop();
+    let build_dir = exe_path
+        .ancestors()
+        .find(|path| path.file_name().is_some_and(|name| name == "_build"))
+        .unwrap_or_else(|| {
+            exe_path
+                .parent()
+                .and_then(Path::parent)
+                .unwrap_or_else(|| Path::new(""))
+        });
+
+    let mut resource_path = build_dir.to_owned();
     resource_path.push("data");
     resource_path.push("resources");
     resource_path.push("resources.gresource");
@@ -163,6 +171,33 @@ mod tests {
             std::process::id()
         ));
         let exe = root.join("_build").join("src").join("identity");
+        let resources = root
+            .join("_build")
+            .join("data")
+            .join("resources")
+            .join("resources.gresource");
+        fs::create_dir_all(resources.parent().unwrap()).unwrap();
+        fs::write(&resources, []).unwrap();
+
+        assert_eq!(
+            resources_file_path(false, &exe, "/usr/local/share/identity/resources.gresource"),
+            resources
+        );
+
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn cargo_release_binary_uses_build_dir_resources_when_available() {
+        let root = env::temp_dir().join(format!(
+            "identity-resource-path-test-release-{}",
+            std::process::id()
+        ));
+        let exe = root
+            .join("_build")
+            .join("src")
+            .join("release")
+            .join("identity");
         let resources = root
             .join("_build")
             .join("data")
